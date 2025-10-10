@@ -54,11 +54,7 @@ export function ActivityTimeline({ activities, projects, users, limit = 6, title
                 {actor?.full_name ?? "System"}
                 {project ? ` → ${project.title}` : ""}
               </p>
-              {activity.metadata ? (
-                <pre className="rounded-xl bg-foreground/5 p-3 text-[11px] leading-relaxed text-foreground/70">
-                  {JSON.stringify(activity.metadata, null, 2)}
-                </pre>
-              ) : null}
+              {renderMetadata(activity)}
             </li>
           );
         })}
