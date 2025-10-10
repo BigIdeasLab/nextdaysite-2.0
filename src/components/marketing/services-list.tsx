@@ -87,16 +87,16 @@ export function ServicesList() {
               <Image
                 src={service.image1}
                 alt={`${service.title} preview 1`}
-                width={247}
-                height={185}
-                className='absolute left-0 top-2 -rotate-12 rounded border-8 border-[#393939] shadow-[6px_4px_15px_0_rgba(0,0,0,0.25)]'
+                width={287}
+                height={205}
+                className='absolute -left-10 top-2 z-20'
               />
               <Image
                 src={service.image2}
                 alt={`${service.title} preview 2`}
-                width={247}
-                height={185}
-                className='absolute right-0 top-0 rotate-[14deg] rounded border-8 border-[#393939] shadow-[0_4px_34px_0_rgba(0,0,0,0.15)]'
+                width={307}
+                height={225}
+                className='absolute right-0 -top-4 z-10'
               />
             </div>
 

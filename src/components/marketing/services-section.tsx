@@ -44,11 +44,12 @@ const services = [
       'https://api.builder.io/api/v1/image/assets/TEMP/bd519a768c9545511ccef3b4019d1595dc849ddc?width=312',
   },
 ]
+
 export function ServicesSection() {
   return (
-    <section className='w-full px-5 py-0 md:px-12 md:py-16 lg:px-52'>
+    <section className='w-full px-5 py-[106px] md:px-12 md:py-26 lg:px-52'>
       <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-16'>
-        <h2 className='text-center text-[28px] font-medium leading-[35px] text-[#F7F6FF] md:text-[40px] md:leading-[50px]'>
+        <h2 className='text-center font-medium text-[#F7F6FF] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
           Our Services
         </h2>
         <div className='w-full overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
@@ -62,13 +63,19 @@ export function ServicesSection() {
     </section>
   )
 }
+
 function ServiceCard({ service }: { service: (typeof services)[0] }) {
   return (
     <div className='flex flex-col items-center gap-4 bg-[#161616] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
       <div className='relative w-full max-w-[276px] aspect-[276/152]'>
         <div
-          className='absolute -rotate-[12.233deg] border-4 sm:border-8 border-[#393939] shadow-[6px_4px_15px_0_rgba(0,0,0,0.25)] z-20'
-          style={{ width: '56.5%', height: '77%', left: '0%', top: '3.3%' }}
+          className='absolute -rotate-[8.233deg] z-20'
+          style={{
+            width: '62.3%',
+            height: '87.4%',
+            left: '-2.9%',
+            top: '-1.9%',
+          }}
         >
           <Image
             src={service.image1}
@@ -78,8 +85,13 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           />
         </div>
         <div
-          className='absolute rotate-[14.114deg] border-4 sm:border-8 border-[#393939] shadow-[0_4px_34px_0_rgba(0,0,0,0.15)] z-10'
-          style={{ width: '56.5%', height: '77%', left: '35.1%', top: '0%' }}
+          className='absolute rotate-[10.114deg] z-10'
+          style={{
+            width: '72.3%',
+            height: '97.4%',
+            left: '32.2%',
+            top: '-5.2%',
+          }}
         >
           <Image
             src={service.image2}
@@ -89,7 +101,7 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           />
         </div>
       </div>
-      <h3 className='text-center text-[20px] font-medium leading-[24px] text-white md:text-[23px]'>
+      <h3 className='text-center font-medium leading-[24px] text-white text-[clamp(1.25rem,5vw,1.4375rem)]'>
         {service.title}
       </h3>
     </div>

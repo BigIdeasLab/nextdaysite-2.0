@@ -37,30 +37,30 @@ const footerSections = [
 
 export function RedesignedFooter() {
   return (
-    <footer className='w-full bg-[#0a0a0a] px-6 py-12 md:px-12 lg:px-52'>
-      <div className='mx-auto flex w-full max-w-7xl flex-col gap-12 md:flex-row md:items-start md:gap-24'>
+    <footer className='w-full bg-[#0a0a0a] px-4 py-8 sm:px-6 md:px-8 lg:px-12'>
+      <div className='mx-auto flex w-full max-w-7xl flex-col gap-8 md:flex-row md:items-start md:gap-16 lg:gap-24'>
         <Link href='/' className='flex-shrink-0'>
           <Image
             src='https://api.builder.io/api/v1/image/assets/TEMP/6164a0033f06e2201d7b9b69ec859e1f37431dee?width=534'
             alt='NextDaySite Logo'
             width={267}
             height={71}
-            className='h-auto w-64'
+            className='h-auto w-48 md:w-56 lg:w-64'
           />
         </Link>
 
-        <div className='flex flex-1 flex-col gap-12 md:flex-row md:gap-20'>
+        <div className='grid flex-1 grid-cols-2 gap-8 sm:grid-cols-3 md:gap-12 lg:gap-16'>
           {footerSections.map((section) => (
             <div key={section.title} className='flex flex-col gap-4'>
-              <h3 className='text-xl font-medium leading-[50px] tracking-tight text-[#B5A29F]'>
+              <h3 className='text-base font-medium tracking-tight text-[#B5A29F] md:text-lg lg:text-xl'>
                 {section.title}
               </h3>
-              <div className='flex flex-col gap-4'>
+              <div className='flex flex-col gap-3'>
                 {section.links.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`text-xl leading-6 text-white transition-colors hover:text-white/80 ${
+                    className={`text-sm text-white transition-colors hover:text-white/80 md:text-base lg:text-lg ${
                       link.underline ? 'underline' : ''
                     }`}
                   >
