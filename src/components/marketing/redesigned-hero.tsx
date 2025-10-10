@@ -8,7 +8,7 @@ export function RedesignedHero() {
           <h1 className='max-w-[369px] text-balance text-[42px] font-medium leading-[45px] text-[#F7F6FF] md:max-w-none md:text-5xl md:leading-tight lg:text-6xl lg:leading-[1.08]'>
             Own a Stunning Website Without Lifting a Finger
           </h1>
-          <p className='max-w-[324px] text-balance text-sm leading-[19.5px] text-[#B5A29F] md:max-w-xl md:text-xl md:leading-7'>
+          <p className='max-w-[324px] text-balance text-sm leading-[19.5px] text-[#B5A29F] md:max-w-2xl md:text-xl md:leading-7'>
             NextDaySite builds, hosts, and manages your business website for a
             simple monthly fee. No hidden costs. No stress. Just results.
           </p>

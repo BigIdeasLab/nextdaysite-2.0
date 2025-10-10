@@ -60,7 +60,7 @@ const projects = [
 
 export function FeaturedWorksSection() {
   return (
-    <section className='w-full rounded-t-[20px] bg-[#131313] px-5 py-[106px] md:rounded-t-[50px] md:px-12 md:py-16 lg:px-52'>
+    <section className='w-full rounded-t-[20px] bg-[#131313] px-5 py-[106px] md:rounded-t-[50px] md:px-12 md:py-26 lg:px-52'>
       <div className='mx-auto flex w-full max-w-5xl flex-col items-center gap-10 md:gap-20'>
         <h2 className='text-center text-xl font-medium leading-[45px] text-[#F7F6FF] md:text-4xl md:leading-[1.25]'>
           Our Featured Work

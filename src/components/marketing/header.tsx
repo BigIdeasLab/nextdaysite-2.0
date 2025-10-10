@@ -61,7 +61,7 @@ export function Header() {
 
         {/* Desktop Header */}
         <div className='hidden lg:block'>
-          <div className='mx-auto flex max-w-7xl items-center justify-between gap-8 px-12 py-8'>
+          <div className='mx-auto flex max-w-6xl items-center justify-between gap-8 py-8'>
             <Link href='/' className='flex-shrink-0'>
               <Image
                 src='https://api.builder.io/api/v1/image/assets/TEMP/e4cb6b0baf53dfff22d686bf7774e439e4c3f8f7?width=338'
