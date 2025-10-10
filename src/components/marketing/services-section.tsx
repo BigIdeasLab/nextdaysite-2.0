@@ -65,21 +65,29 @@ export function ServicesSection() {
 function ServiceCard({ service }: { service: (typeof services)[0] }) {
   return (
     <div className='flex flex-col items-center gap-4 bg-[#161616] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
-      <div className='relative h-[152px] w-[276px] transform scale-75 sm:scale-100'>
-        <Image
-          src={service.image1}
-          alt={`${service.title} preview 1`}
-          width={156}
-          height={117}
-          className='absolute left-0 top-[5px] -rotate-[12.233deg] border-8 border-[#393939] shadow-[6px_4px_15px_0_rgba(0,0,0,0.25)] z-20'
-        />
-        <Image
-          src={service.image2}
-          alt={`${service.title} preview 2`}
-          width={156}
-          height={117}
-          className='absolute left-[97px] top-0 rotate-[14.114deg] border-8 border-[#393939] shadow-[0_4px_34px_0_rgba(0,0,0,0.15)] z-10'
-        />
+      <div className='relative w-full max-w-[276px] aspect-[276/152]'>
+        <div
+          className='absolute -rotate-[12.233deg] border-4 sm:border-8 border-[#393939] shadow-[6px_4px_15px_0_rgba(0,0,0,0.25)] z-20'
+          style={{ width: '56.5%', height: '77%', left: '0%', top: '3.3%' }}
+        >
+          <Image
+            src={service.image1}
+            alt={`${service.title} preview 1`}
+            layout='fill'
+            objectFit='cover'
+          />
+        </div>
+        <div
+          className='absolute rotate-[14.114deg] border-4 sm:border-8 border-[#393939] shadow-[0_4px_34px_0_rgba(0,0,0,0.15)] z-10'
+          style={{ width: '56.5%', height: '77%', left: '35.1%', top: '0%' }}
+        >
+          <Image
+            src={service.image2}
+            alt={`${service.title} preview 2`}
+            layout='fill'
+            objectFit='cover'
+          />
+        </div>
       </div>
       <h3 className='text-center text-[20px] font-medium leading-[24px] text-white md:text-[23px]'>
         {service.title}
