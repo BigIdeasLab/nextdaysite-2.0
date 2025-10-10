@@ -1,7 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.builder.io",
+        pathname: "/api/v1/image/assets/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.builder.io",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
