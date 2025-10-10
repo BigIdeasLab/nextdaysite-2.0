@@ -44,38 +44,41 @@ const services = [
       'https://api.builder.io/api/v1/image/assets/TEMP/bd519a768c9545511ccef3b4019d1595dc849ddc?width=312',
   },
 ]
-
 export function ServicesSection() {
   return (
     <section className='w-full px-5 py-0 md:px-12 md:py-16 lg:px-52'>
-      <div className='mx-auto w-full max-w-[1022px] overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
-        <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-3'>
-          {services.map((service) => (
-            <ServiceCard key={service.title} service={service} />
-          ))}
+      <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-16'>
+        <h2 className='text-center text-[28px] font-medium leading-[35px] text-[#F7F6FF] md:text-[40px] md:leading-[50px]'>
+          Our Services
+        </h2>
+        <div className='w-full overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
+          <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-2 lg:grid-cols-3'>
+            {services.map((service) => (
+              <ServiceCard key={service.title} service={service} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   )
 }
-
 function ServiceCard({ service }: { service: (typeof services)[0] }) {
   return (
-    <div className='flex flex-col items-center gap-[36px] bg-[#161616] px-8 py-[50px]'>
-      <div className='relative h-[152px] w-[276px]'>
+    <div className='flex flex-col items-center gap-4 bg-[#161616] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
+      <div className='relative h-[152px] w-[276px] transform scale-75 sm:scale-100'>
         <Image
           src={service.image1}
           alt={`${service.title} preview 1`}
           width={156}
           height={117}
-          className='absolute left-0 top-[5px] -rotate-[12.233deg] border-8 border-[#393939] shadow-[6px_4px_15px_0_rgba(0,0,0,0.25)]'
+          className='absolute left-0 top-[5px] -rotate-[12.233deg] border-8 border-[#393939] shadow-[6px_4px_15px_0_rgba(0,0,0,0.25)] z-20'
         />
         <Image
           src={service.image2}
           alt={`${service.title} preview 2`}
           width={156}
           height={117}
-          className='absolute left-[97px] top-0 rotate-[14.114deg] border-8 border-[#393939] shadow-[0_4px_34px_0_rgba(0,0,0,0.15)]'
+          className='absolute left-[97px] top-0 rotate-[14.114deg] border-8 border-[#393939] shadow-[0_4px_34px_0_rgba(0,0,0,0.15)] z-10'
         />
       </div>
       <h3 className='text-center text-[20px] font-medium leading-[24px] text-white md:text-[23px]'>

@@ -80,7 +80,7 @@ function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
       className={`relative flex h-auto w-full max-w-[331px] flex-col rounded-[20px] border bg-[#161616] md:h-[771px] ${plan.borderColor}`}
     >
       {/* Main Content */}
-      <div className='flex flex-col gap-[30px] p-5'>
+      <div className='flex flex-grow flex-col gap-[30px] p-5'>
         {/* Header */}
         <div className='flex w-full max-w-[238px] flex-col gap-2'>
           <div className='flex items-center gap-2'>
@@ -184,34 +184,36 @@ function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
       </div>
 
       {/* First Divider */}
-      <div className='h-px w-full bg-white/10' />
+      {plan.id !== 2 && <div className='h-px w-full bg-white/10' />}
 
       {/* Add Managed Hosting Section */}
-      <div className='flex items-center gap-[10px] p-5'>
-        <div className='h-6 w-6 rounded-md border-2 border-[#2D2D2D]' />
-        <div className='flex flex-col gap-[7px]'>
-          <div className='flex items-center gap-[5px]'>
-            <span className='text-[16px] font-medium leading-[24px] text-white'>
-              Add Managed Hosting
+      {plan.id !== 2 && (
+        <div className='flex items-center gap-[10px] p-5'>
+          <div className='h-6 w-6 rounded-md border-2 border-[#2D2D2D]' />
+          <div className='flex flex-col gap-[7px]'>
+            <div className='flex items-center gap-[5px]'>
+              <span className='text-[16px] font-medium leading-[24px] text-white'>
+                Add Managed Hosting
+              </span>
+              <svg
+                width='17'
+                height='17'
+                viewBox='0 0 18 17'
+                fill='none'
+                className='h-[17px] w-[17px]'
+              >
+                <path
+                  d='M8.29199 12.042H9.70866V7.79199H8.29199V12.042ZM9.00033 6.37533C9.20102 6.37533 9.36937 6.30733 9.50537 6.17133C9.64137 6.03533 9.70913 5.86721 9.70866 5.66699C9.70819 5.46677 9.64019 5.29866 9.50466 5.16266C9.36913 5.02666 9.20102 4.95866 9.00033 4.95866C8.79963 4.95866 8.63152 5.02666 8.49599 5.16266C8.36047 5.29866 8.29246 5.46677 8.29199 5.66699C8.29152 5.86721 8.35952 6.03556 8.49599 6.17203C8.63246 6.30851 8.80058 6.37627 9.00033 6.37533ZM9.00033 15.5837C8.02046 15.5837 7.09963 15.3976 6.23783 15.0255C5.37602 14.6534 4.62637 14.1488 3.98887 13.5118C3.35137 12.8748 2.8468 12.1251 2.47516 11.2628C2.10352 10.4005 1.91747 9.47971 1.91699 8.50033C1.91652 7.52094 2.10258 6.6001 2.47516 5.73783C2.84774 4.87555 3.35231 4.1259 3.98887 3.48887C4.62542 2.85184 5.37508 2.34727 6.23783 1.97516C7.10058 1.60305 8.02141 1.41699 9.00033 1.41699C9.97924 1.41699 10.9001 1.60305 11.7628 1.97516C12.6256 2.34727 13.3752 2.85184 14.0118 3.48887C14.6483 4.1259 15.1531 4.87555 15.5262 5.73783C15.8993 6.6001 16.0851 7.52094 16.0837 8.50033C16.0822 9.47971 15.8962 10.4005 15.5255 11.2628C15.1548 12.1251 14.6502 12.8748 14.0118 13.5118C13.3733 14.1488 12.6237 14.6536 11.7628 15.0262C10.902 15.3988 9.98113 15.5846 9.00033 15.5837Z'
+                  fill='#8A8A8A'
+                />
+              </svg>
+            </div>
+            <span className='text-[14px] font-light leading-[24px] text-white/50'>
+              Modern 3–5 page website, fast.
             </span>
-            <svg
-              width='17'
-              height='17'
-              viewBox='0 0 18 17'
-              fill='none'
-              className='h-[17px] w-[17px]'
-            >
-              <path
-                d='M8.29199 12.042H9.70866V7.79199H8.29199V12.042ZM9.00033 6.37533C9.20102 6.37533 9.36937 6.30733 9.50537 6.17133C9.64137 6.03533 9.70913 5.86721 9.70866 5.66699C9.70819 5.46677 9.64019 5.29866 9.50466 5.16266C9.36913 5.02666 9.20102 4.95866 9.00033 4.95866C8.79963 4.95866 8.63152 5.02666 8.49599 5.16266C8.36047 5.29866 8.29246 5.46677 8.29199 5.66699C8.29152 5.86721 8.35952 6.03556 8.49599 6.17203C8.63246 6.30851 8.80058 6.37627 9.00033 6.37533ZM9.00033 15.5837C8.02046 15.5837 7.09963 15.3976 6.23783 15.0255C5.37602 14.6534 4.62637 14.1488 3.98887 13.5118C3.35137 12.8748 2.8468 12.1251 2.47516 11.2628C2.10352 10.4005 1.91747 9.47971 1.91699 8.50033C1.91652 7.52094 2.10258 6.6001 2.47516 5.73783C2.84774 4.87555 3.35231 4.1259 3.98887 3.48887C4.62542 2.85184 5.37508 2.34727 6.23783 1.97516C7.10058 1.60305 8.02141 1.41699 9.00033 1.41699C9.97924 1.41699 10.9001 1.60305 11.7628 1.97516C12.6256 2.34727 13.3752 2.85184 14.0118 3.48887C14.6483 4.1259 15.1531 4.87555 15.5262 5.73783C15.8993 6.6001 16.0851 7.52094 16.0837 8.50033C16.0822 9.47971 15.8962 10.4005 15.5255 11.2628C15.1548 12.1251 14.6502 12.8748 14.0118 13.5118C13.3733 14.1488 12.6237 14.6536 11.7628 15.0262C10.902 15.3988 9.98113 15.5846 9.00033 15.5837Z'
-                fill='#8A8A8A'
-              />
-            </svg>
           </div>
-          <span className='text-[14px] font-light leading-[24px] text-white/50'>
-            Modern 3–5 page website, fast.
-          </span>
         </div>
-      </div>
+      )}
 
       {/* Second Divider */}
       <div className='h-px w-full bg-white/10' />
