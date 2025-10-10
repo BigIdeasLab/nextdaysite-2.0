@@ -27,29 +27,29 @@ type PipelineChartProps = {
   data: PipelinePoint[]
 }
 
-function PipelineTooltip({
-  active,
-  payload,
-}: {
-  active?: boolean
-  payload?: any[]
-}) {
-  if (!active || !payload?.length) {
-    return null
+export function PipelineChart({ data }: PipelineChartProps) {
+  function PipelineTooltip({
+    active,
+    payload,
+  }: {
+    active?: boolean
+    payload?: { value: string | number; payload: PipelinePoint }[]
+  }) {
+    if (!active || !payload?.length) {
+      return null
+    }
+
+    const [entry] = payload
+    const label = STATUS_LABELS[entry.payload.status] ?? entry.payload.status
+
+    return (
+      <div className='rounded-xl border border-foreground/10 bg-background/95 p-3 text-xs shadow-lg shadow-foreground/10'>
+        <p className='font-semibold text-foreground'>{label}</p>
+        <p className='text-foreground/70'>{entry.value} projects</p>
+      </div>
+    )
   }
 
-  const [entry] = payload
-  const label = STATUS_LABELS[entry.payload.status] ?? entry.payload.status
-
-  return (
-    <div className='rounded-xl border border-foreground/10 bg-background/95 p-3 text-xs shadow-lg shadow-foreground/10'>
-      <p className='font-semibold text-foreground'>{label}</p>
-      <p className='text-foreground/70'>{entry.value} projects</p>
-    </div>
-  )
-}
-
-export function PipelineChart({ data }: PipelineChartProps) {
   return (
     <ResponsiveContainer width='100%' height={240}>
       <BarChart data={data} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
@@ -70,7 +70,7 @@ export function PipelineChart({ data }: PipelineChartProps) {
           axisLine={false}
         />
         <Tooltip
-          content={<PipelineTooltip />}
+          content={(props) => <PipelineTooltip {...props} />}
           cursor={{ fill: 'rgba(148, 163, 184, 0.08)' }}
         />
         <Bar dataKey='count' radius={[12, 12, 0, 0]} fill='var(--foreground)' />

@@ -19,29 +19,29 @@ const COLORS = [
   'rgb(99 102 241)',
 ]
 
-function PlanTooltip({
-  active,
-  payload,
-}: {
-  active?: boolean
-  payload?: any[]
-}) {
-  if (!active || !payload?.length) {
-    return null
-  }
-
-  const [entry] = payload
-
-  return (
-    <div className='rounded-xl border border-foreground/10 bg-background/95 p-3 text-xs shadow-lg shadow-foreground/10'>
-      <p className='font-semibold text-foreground'>{entry.name}</p>
-      <p className='text-foreground/70'>{entry.value} customers</p>
-    </div>
-  )
-}
-
 export function PlanDistributionChart({ data }: PlanDistributionChartProps) {
   const total = data.reduce((sum, slice) => sum + slice.value, 0)
+
+  function PlanTooltip({
+    active,
+    payload,
+  }: {
+    active?: boolean
+    payload?: PlanSlice[]
+  }) {
+    if (!active || !payload?.length) {
+      return null
+    }
+
+    const [entry] = payload
+
+    return (
+      <div className='rounded-xl border border-foreground/10 bg-background/95 p-3 text-xs shadow-lg shadow-foreground/10'>
+        <p className='font-semibold text-foreground'>{entry.name}</p>
+        <p className='text-foreground/70'>{entry.value} customers</p>
+      </div>
+    )
+  }
 
   return (
     <ResponsiveContainer width='100%' height={280}>
@@ -58,7 +58,7 @@ export function PlanDistributionChart({ data }: PlanDistributionChartProps) {
             <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Tooltip content={<PlanTooltip />} />
+        <Tooltip content={(props) => <PlanTooltip {...props} />} />
         {total > 0 ? (
           <text
             x='50%'

@@ -20,8 +20,8 @@ export function AboutIntro() {
           <p className='text-lg leading-relaxed text-[#9BA1A6]'>
             Nextsaysite was founded in 1999 with a mission to empower brands
             with functional websites that add significant value to any project.
-            In today's digital age, this is needed to set apart any brand from
-            its rivals, while solidifying their digital footprints.
+            In today&apos;s digital age, this is needed to set apart any brand
+            from its rivals, while solidifying their digital footprints.
           </p>
         </div>
       </div>

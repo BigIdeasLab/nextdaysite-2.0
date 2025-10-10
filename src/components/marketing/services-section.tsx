@@ -50,7 +50,7 @@ export function ServicesSection() {
     <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
       <div className='mx-auto w-full max-w-5xl overflow-hidden rounded-[50px] bg-[#161616]'>
         <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-2 lg:grid-cols-3'>
-          {services.map((service, index) => (
+          {services.map((service) => (
             <div
               key={service.title}
               className='flex flex-col items-center gap-8 bg-[#161616] p-8 md:p-12'
