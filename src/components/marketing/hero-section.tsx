@@ -1,7 +1,6 @@
 type CtaAction = {
   label: string;
   href: string;
-  variant?: "primary" | "secondary";
 };
 
 type HeroSectionProps = {
