@@ -24,6 +24,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let isMounted = true;
 
+    if (!client) {
+      setSession(null);
+      setUser(null);
+      setLoading(false);
+      return () => {
+        isMounted = false;
+      };
+    }
+
     async function syncSession() {
       setLoading(true);
       const { data, error } = await client.auth.getSession();
@@ -64,10 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       user,
       loading,
-      signInWithPassword: (params) => client.auth.signInWithPassword(params),
-      signInWithOtp: (params) => client.auth.signInWithOtp({ email: params.email }),
-      signUp: (params) => client.auth.signUp(params),
-      signOut: () => client.auth.signOut(),
+      isConfigured: Boolean(client),
     }),
     [client, loading, session, user]
   );
