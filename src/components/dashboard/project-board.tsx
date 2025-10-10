@@ -69,12 +69,11 @@ export function ProjectBoard({ projects, users }: ProjectBoardProps) {
                             <p className="text-xs text-foreground/60">{project.summary}</p>
                           ) : null}
                         </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-background">
-                          <div
-                            className="h-full rounded-full bg-foreground"
-                            style={{ width: `${Math.min(Math.max(project.progress, 0), 100)}%` }}
-                          />
-                        </div>
+                        <progress
+                          value={Math.min(Math.max(project.progress, 0), 100)}
+                          max={100}
+                          className="project-progress h-2 w-full"
+                        />
                         <div className="flex flex-wrap items-center gap-2">
                           {project.tags.map((tag) => (
                             <span
