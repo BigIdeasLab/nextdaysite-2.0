@@ -25,9 +25,9 @@ export function AboutPromise() {
               solutions is guaranteed to create an exceptional website or mobile
               app that suits your brand and business needs. You can also be
               assured of innovations that stand out from the norm. This is
-              because we don't create plain platforms at NDS. We create online
-              experiences that keep our clients satisfied and their customers
-              coming back for more.
+              because we don&apos;t create plain platforms at NDS. We create
+              online experiences that keep our clients satisfied and their
+              customers coming back for more.
             </p>
           </div>
 

@@ -49,12 +49,6 @@ export function CustomerDashboard() {
         label: 'Active projects',
         value: String(activeProjects.length),
         caption: `${projects.length} total in workspace`,
-        trend: recentUpdates
-          ? {
-              direction: 'up' as const,
-              label: `${recentUpdates} updates this week`,
-            }
-          : undefined,
       },
       {
         label: 'In review',
@@ -65,16 +59,6 @@ export function CustomerDashboard() {
         label: 'Open invoices',
         value: formatCurrency(openInvoiceTotal),
         caption: `${openInvoices.length} outstanding`,
-        trend:
-          openInvoiceTotal > 0
-            ? {
-                direction: 'down' as const,
-                label: 'Collect payment',
-              }
-            : {
-                direction: 'up' as const,
-                label: 'All paid',
-              },
       },
       {
         label: 'Storage usage',

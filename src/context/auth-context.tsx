@@ -45,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     async function syncSession() {
+      if (!client) return
       setLoading(true)
       const { data, error } = await client.auth.getSession()
       if (!isMounted) return

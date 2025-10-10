@@ -1,3 +1,5 @@
+import { TrendIcon } from './trend-icon'
+
 type Trend = {
   direction: 'up' | 'down'
   label: string
@@ -37,15 +39,7 @@ export function KpiGrid({ items }: KpiGridProps) {
                   : 'text-rose-500'
               }`}
             >
-              <span
-                className={`inline-flex h-5 w-5 items-center justify-center rounded-full ${
-                  item.trend.direction === 'up'
-                    ? 'bg-emerald-500/10'
-                    : 'bg-rose-500/10'
-                }`}
-              >
-                {item.trend.direction === 'up' ? '↑' : '↓'}
-              </span>
+              <TrendIcon direction={item.trend.direction} />
               {item.trend.label}
             </span>
           ) : null}

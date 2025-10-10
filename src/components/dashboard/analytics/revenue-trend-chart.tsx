@@ -27,7 +27,7 @@ function RevenueTooltip({
   payload,
 }: {
   active?: boolean
-  payload?: any[]
+  payload?: { dataKey: string; value: number; payload: RevenuePoint }[]
 }) {
   if (!active || !payload?.length) {
     return null
