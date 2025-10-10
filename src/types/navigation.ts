@@ -1,3 +1,5 @@
+import type { ComponentType, SVGProps } from "react";
+
 export type NavSection = {
   label: string;
   items: NavigationItem[];
@@ -6,7 +8,7 @@ export type NavSection = {
 export type NavigationItem = {
   label: string;
   href: string;
-  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
   badge?: string;
   isExternal?: boolean;
 };
