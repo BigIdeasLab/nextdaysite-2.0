@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  type AuthOtpParams,
   type AuthResponse,
   type AuthTokenResponsePassword,
   type Session,
   type SupabaseClient,
   type User,
+  type AuthError,
 } from "@supabase/supabase-js";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { createBrowserSupabaseClient } from "@/lib/api/supabase-browser";
 
@@ -18,14 +18,14 @@ type AuthContextValue = {
   user: User | null;
   loading: boolean;
   signInWithPassword: (params: { email: string; password: string }) => Promise<AuthTokenResponsePassword>;
-  signInWithOtp: (params: AuthOtpParams["email"] & { email: string }) => Promise<AuthResponse>;
+  signInWithOtp: (params: { email: string }) => Promise<AuthResponse>;
   signUp: (params: { email: string; password: string }) => Promise<AuthResponse>;
-  signOut: () => Promise<{ error: Error | null }>;
+  signOut: () => Promise<{ error: AuthError | null }>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [client] = useState(() => createBrowserSupabaseClient());
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
