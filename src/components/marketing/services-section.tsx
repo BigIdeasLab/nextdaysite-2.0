@@ -54,7 +54,9 @@ export function ServicesSection() {
             <div
               key={service.title}
               className={`flex flex-col items-center gap-6 bg-[#161616] px-6 py-11 md:gap-8 md:p-12 ${
-                index !== services.length - 1 ? 'border-b border-[#2A2A2A] md:border-b-0' : ''
+                index !== services.length - 1
+                  ? 'border-b border-[#2A2A2A] md:border-b-0'
+                  : ''
               }`}
             >
               <div className='relative flex h-[126px] w-[228px] items-center justify-center md:h-38 md:w-full'>
