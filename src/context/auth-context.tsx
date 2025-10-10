@@ -1,26 +1,16 @@
 "use client";
 
-import {
-  type AuthResponse,
-  type AuthTokenResponsePassword,
-  type Session,
-  type SupabaseClient,
-  type User,
-  type AuthError,
-} from "@supabase/supabase-js";
+import { type Session, type SupabaseClient, type User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { createBrowserSupabaseClient } from "@/lib/api/supabase-browser";
 
 type AuthContextValue = {
-  client: SupabaseClient;
+  client: SupabaseClient | null;
   session: Session | null;
   user: User | null;
   loading: boolean;
-  signInWithPassword: (params: { email: string; password: string }) => Promise<AuthTokenResponsePassword>;
-  signInWithOtp: (params: { email: string }) => Promise<AuthResponse>;
-  signUp: (params: { email: string; password: string }) => Promise<AuthResponse>;
-  signOut: () => Promise<{ error: AuthError | null }>;
+  isConfigured: boolean;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
