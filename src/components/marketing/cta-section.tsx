@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 export function CtaSection() {
   return (
-    <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
-      <div className='relative mx-auto flex h-[555px] w-full max-w-5xl items-center justify-center overflow-hidden rounded-[50px] bg-[#161616]'>
+    <section className='w-full px-3 py-16 md:px-12 lg:px-52'>
+      <div className='relative mx-auto flex min-h-[400px] w-full max-w-5xl items-center justify-center overflow-hidden rounded-[30px] bg-[#161616] py-12 md:h-[555px] md:rounded-[50px]'>
         <svg
           width='1022'
           height='526'
@@ -48,27 +48,27 @@ export function CtaSection() {
           </g>
         </svg>
 
-        <div className='relative z-10 flex w-full max-w-3xl flex-col items-center justify-center gap-12 px-6'>
-          <div className='flex flex-col items-center justify-center gap-5 text-center'>
-            <h2 className='text-balance text-5xl font-medium capitalize leading-[1.08] text-[#F7F6FF] md:text-6xl'>
+        <div className='relative z-10 flex w-full max-w-3xl flex-col items-center justify-center gap-8 px-6 md:gap-12'>
+          <div className='flex flex-col items-center justify-center gap-4 text-center md:gap-5'>
+            <h2 className='text-balance text-3xl font-medium capitalize leading-tight text-[#F7F6FF] md:text-5xl md:leading-[1.08] lg:text-6xl'>
               From Concept to Clicks Your product Live in Days, Not Months
             </h2>
-            <p className='max-w-xl text-balance text-center text-xl leading-7 text-[#B9B9B9]'>
+            <p className='max-w-xl text-balance text-center text-base leading-6 text-[#B9B9B9] md:text-xl md:leading-7'>
               Start your subscription today and let our team design, host, and
               manage your website.
             </p>
           </div>
 
-          <div className='flex items-center gap-2.5'>
+          <div className='flex flex-wrap items-center justify-center gap-2.5'>
             <Link
               href='/checkout'
-              className='flex h-14 items-center justify-center rounded-full border border-[#FF8C00] bg-[#FF8C00] px-8 text-lg font-medium text-white transition-transform hover:scale-105'
+              className='flex h-12 items-center justify-center rounded-full border border-[#FF8C00] bg-[#FF8C00] px-6 text-base font-medium text-white transition-transform hover:scale-105 md:h-14 md:px-8 md:text-lg'
             >
               Get Started
             </Link>
             <Link
               href='#portfolio'
-              className='flex h-14 items-center justify-center rounded-full bg-[#090808] px-7 text-lg font-medium text-white transition-transform hover:scale-105'
+              className='flex h-12 items-center justify-center rounded-full bg-[#090808] px-5 text-base font-medium text-white transition-transform hover:scale-105 md:h-14 md:px-7 md:text-lg'
             >
               View Our Work
             </Link>
