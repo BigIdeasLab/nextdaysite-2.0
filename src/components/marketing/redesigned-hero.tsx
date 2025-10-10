@@ -3,7 +3,15 @@ import Link from 'next/link'
 export function RedesignedHero() {
   return (
     <section className='relative flex min-h-[500px] w-full flex-col items-center gap-9 px-3 py-16 md:min-h-[600px] md:gap-24 md:px-12 lg:px-52'>
-      <div className='flex w-full max-w-3xl flex-col items-center gap-9 md:gap-12'>
+      {/* Grid Lines for Hero */}
+      <div className='pointer-events-none absolute inset-0 hidden lg:block'>
+        <div className='absolute left-[12.5%] top-0 h-full w-px bg-[#3A3A3A]' />
+        <div className='absolute right-[12.5%] top-0 h-full w-px bg-[#3A3A3A]' />
+        <div className='absolute left-0 top-[108px] h-px w-full bg-[#3A3A3A]' />
+        <div className='absolute bottom-[108px] left-0 h-px w-full bg-[#3A3A3A]' />
+      </div>
+
+      <div className='relative z-10 flex w-full max-w-3xl flex-col items-center gap-9 md:gap-12'>
         <div className='flex flex-col items-center gap-[14px] text-center md:gap-5'>
           <h1 className='max-w-[369px] text-balance text-[42px] font-medium leading-[45px] text-[#F7F6FF] md:max-w-none md:text-5xl md:leading-tight lg:text-6xl lg:leading-[1.08]'>
             Own a Stunning Website Without Lifting a Finger
@@ -30,7 +38,7 @@ export function RedesignedHero() {
         </div>
       </div>
 
-      <div className='h-[300px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[500px]' />
+      <div className='relative z-10 h-[300px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[500px]' />
     </section>
   )
 }

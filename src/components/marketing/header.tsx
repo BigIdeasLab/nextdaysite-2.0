@@ -60,8 +60,14 @@ export function Header() {
         </div>
 
         {/* Desktop Header */}
-        <div className='hidden lg:block'>
-          <div className='mx-auto flex max-w-7xl items-center justify-between gap-8 px-12 py-8'>
+        <div className='relative hidden lg:block'>
+          {/* Grid Lines for Header */}
+          <div className='pointer-events-none absolute inset-0'>
+            <div className='absolute left-[12.5%] top-0 h-full w-px bg-[#3A3A3A]' />
+            <div className='absolute right-[12.5%] top-0 h-full w-px bg-[#3A3A3A]' />
+          </div>
+
+          <div className='relative z-10 mx-auto flex max-w-7xl items-center justify-between gap-8 px-12 py-8'>
             <Link href='/' className='flex-shrink-0'>
               <Image
                 src='https://api.builder.io/api/v1/image/assets/TEMP/e4cb6b0baf53dfff22d686bf7774e439e4c3f8f7?width=338'
