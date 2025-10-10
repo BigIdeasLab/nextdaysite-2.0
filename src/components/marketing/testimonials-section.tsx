@@ -28,7 +28,8 @@ const testimonials = [
   {
     id: 3,
     name: 'Marcus Rodriguez',
-    quote: 'From concept to launch in one day. Our sales increased 40% with the new desig',
+    quote:
+      'From concept to launch in one day. Our sales increased 40% with the new desig',
     avatar:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_508?width=100',
     bgColor: '#FF8C00',
@@ -53,7 +54,8 @@ const testimonials = [
   {
     id: 5,
     name: 'Eddie Patel',
-    quote: 'Revamping our UX strategy cut down customer support queries by 25%.',
+    quote:
+      'Revamping our UX strategy cut down customer support queries by 25%.',
     avatar:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_546?width=100',
     bgColor: '#1A1A1A',
