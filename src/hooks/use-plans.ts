@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query'
 
-import { fetchPlans } from "@/lib/api/data-service";
-import { useAuth } from "@/context/auth-context";
-import type { PlansRow } from "@/data/mock-data";
+import { fetchPlans } from '@/lib/api/data-service'
+import { useAuth } from '@/context/auth-context'
+import type { PlansRow } from '@/data/mock-data'
 
 export function usePlans(options: { enabled?: boolean } = {}) {
-  const { client } = useAuth();
+  const { client } = useAuth()
 
   return useQuery<PlansRow[]>({
-    queryKey: ["plans"],
+    queryKey: ['plans'],
     queryFn: () => fetchPlans(client),
     enabled: options.enabled ?? true,
     staleTime: 1000 * 60 * 30,
-  });
+  })
 }

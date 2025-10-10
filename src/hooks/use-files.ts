@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query'
 
-import { fetchFiles } from "@/lib/api/data-service";
-import { useAuth } from "@/context/auth-context";
-import type { FilesRow } from "@/data/mock-data";
+import { fetchFiles } from '@/lib/api/data-service'
+import { useAuth } from '@/context/auth-context'
+import type { FilesRow } from '@/data/mock-data'
 
 export function useFiles(options: { enabled?: boolean } = {}) {
-  const { client } = useAuth();
+  const { client } = useAuth()
 
   return useQuery<FilesRow[]>({
-    queryKey: ["files"],
+    queryKey: ['files'],
     queryFn: () => fetchFiles(client),
     enabled: options.enabled ?? true,
-  });
+  })
 }

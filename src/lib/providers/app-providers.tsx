@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react'
 
-import { AuthProvider } from "@/context/auth-context";
-import { QueryProvider } from "@/lib/providers/query-provider";
-import { ThemeProvider } from "@/lib/providers/theme-provider";
+import { AuthProvider } from '@/context/auth-context'
+import { QueryProvider } from '@/lib/providers/query-provider'
+import { ThemeProvider } from '@/lib/providers/theme-provider'
 
 type AppProvidersProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export function AppProviders({ children }: AppProvidersProps) {
   return (
@@ -17,5 +17,5 @@ export function AppProviders({ children }: AppProvidersProps) {
         <AuthProvider>{children}</AuthProvider>
       </QueryProvider>
     </ThemeProvider>
-  );
+  )
 }

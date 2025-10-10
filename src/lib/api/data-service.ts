@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 import {
   getMockProjectById,
@@ -10,221 +10,251 @@ import {
   mockPlans,
   mockProjects,
   mockUsers,
-} from "@/data";
-import { createBrowserSupabaseClient } from "@/lib/api/supabase-browser";
-import { isSupabaseConfigured } from "@/lib/api/supabase-config";
-import type { Database } from "@/types/database";
+} from '@/data'
+import { createBrowserSupabaseClient } from '@/lib/api/supabase-browser'
+import { isSupabaseConfigured } from '@/lib/api/supabase-config'
+import type { Database } from '@/types/database'
 
-type Client = SupabaseClient<Database>;
+type Client = SupabaseClient<Database>
 
 function resolveClient(provided?: Client | null) {
   if (provided) {
-    return provided;
+    return provided
   }
 
-  return createBrowserSupabaseClient();
+  return createBrowserSupabaseClient()
 }
 
 function handleError(context: string, error: unknown) {
-  if (process.env.NODE_ENV !== "production") {
-    console.error(`[supabase:${context}]`, error);
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(`[supabase:${context}]`, error)
   }
 }
 
 export async function fetchPlans(client?: Client | null) {
   if (!isSupabaseConfigured()) {
-    return mockPlans;
+    return mockPlans
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return mockPlans;
+    return mockPlans
   }
 
-  const { data, error } = await supabase.from("plans").select("*").order("monthly_price", { ascending: true });
+  const { data, error } = await supabase
+    .from('plans')
+    .select('*')
+    .order('monthly_price', { ascending: true })
   if (error || !data) {
-    handleError("fetchPlans", error);
-    return mockPlans;
+    handleError('fetchPlans', error)
+    return mockPlans
   }
 
-  return data;
+  return data
 }
 
 export async function fetchUsers(client?: Client | null) {
   if (!isSupabaseConfigured()) {
-    return mockUsers;
+    return mockUsers
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return mockUsers;
+    return mockUsers
   }
 
-  const { data, error } = await supabase.from("users").select("*").order("created_at", { ascending: true });
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .order('created_at', { ascending: true })
   if (error || !data) {
-    handleError("fetchUsers", error);
-    return mockUsers;
+    handleError('fetchUsers', error)
+    return mockUsers
   }
 
-  return data;
+  return data
 }
 
 export async function fetchProjects(client?: Client | null) {
   if (!isSupabaseConfigured()) {
-    return mockProjects;
+    return mockProjects
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return mockProjects;
+    return mockProjects
   }
 
   const { data, error } = await supabase
-    .from("projects")
-    .select("*")
-    .order("updated_at", { ascending: false });
+    .from('projects')
+    .select('*')
+    .order('updated_at', { ascending: false })
   if (error || !data) {
-    handleError("fetchProjects", error);
-    return mockProjects;
+    handleError('fetchProjects', error)
+    return mockProjects
   }
 
-  return data;
+  return data
 }
 
-export async function fetchProjectById(projectId: string, client?: Client | null) {
+export async function fetchProjectById(
+  projectId: string,
+  client?: Client | null,
+) {
   if (!isSupabaseConfigured()) {
-    return getMockProjectById(projectId);
+    return getMockProjectById(projectId)
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return getMockProjectById(projectId);
+    return getMockProjectById(projectId)
   }
 
   const { data, error } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("id", projectId)
-    .single();
+    .from('projects')
+    .select('*')
+    .eq('id', projectId)
+    .single()
 
   if (error || !data) {
-    handleError("fetchProjectById", error);
-    return getMockProjectById(projectId);
+    handleError('fetchProjectById', error)
+    return getMockProjectById(projectId)
   }
 
-  return data;
+  return data
 }
 
 export async function fetchInvoices(client?: Client | null) {
   if (!isSupabaseConfigured()) {
-    return mockInvoices;
+    return mockInvoices
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return mockInvoices;
+    return mockInvoices
   }
 
   const { data, error } = await supabase
-    .from("invoices")
-    .select("*")
-    .order("issued_at", { ascending: false });
+    .from('invoices')
+    .select('*')
+    .order('issued_at', { ascending: false })
   if (error || !data) {
-    handleError("fetchInvoices", error);
-    return mockInvoices;
+    handleError('fetchInvoices', error)
+    return mockInvoices
   }
 
-  return data;
+  return data
 }
 
 export async function fetchFiles(client?: Client | null) {
   if (!isSupabaseConfigured()) {
-    return mockFiles;
+    return mockFiles
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return mockFiles;
+    return mockFiles
   }
 
   const { data, error } = await supabase
-    .from("files")
-    .select("*")
-    .order("updated_at", { ascending: false });
+    .from('files')
+    .select('*')
+    .order('updated_at', { ascending: false })
   if (error || !data) {
-    handleError("fetchFiles", error);
-    return mockFiles;
+    handleError('fetchFiles', error)
+    return mockFiles
   }
 
-  return data;
+  return data
 }
 
-export async function fetchChatMessages(projectId: string, client?: Client | null) {
+export async function fetchChatMessages(
+  projectId: string,
+  client?: Client | null,
+) {
   if (!isSupabaseConfigured()) {
-    return mockChatMessages.filter((message) => message.project_id === projectId);
+    return mockChatMessages.filter(
+      (message) => message.project_id === projectId,
+    )
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return mockChatMessages.filter((message) => message.project_id === projectId);
+    return mockChatMessages.filter(
+      (message) => message.project_id === projectId,
+    )
   }
 
   const { data, error } = await supabase
-    .from("chat_messages")
-    .select("*")
-    .eq("project_id", projectId)
-    .order("created_at", { ascending: true });
+    .from('chat_messages')
+    .select('*')
+    .eq('project_id', projectId)
+    .order('created_at', { ascending: true })
   if (error || !data) {
-    handleError("fetchChatMessages", error);
-    return mockChatMessages.filter((message) => message.project_id === projectId);
+    handleError('fetchChatMessages', error)
+    return mockChatMessages.filter(
+      (message) => message.project_id === projectId,
+    )
   }
 
-  return data;
+  return data
 }
 
-export async function fetchActivities(projectId?: string, client?: Client | null) {
+export async function fetchActivities(
+  projectId?: string,
+  client?: Client | null,
+) {
   if (!isSupabaseConfigured()) {
     return projectId
       ? mockActivities.filter((activity) => activity.project_id === projectId)
-      : mockActivities;
+      : mockActivities
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
     return projectId
       ? mockActivities.filter((activity) => activity.project_id === projectId)
-      : mockActivities;
+      : mockActivities
   }
 
-  const query = supabase.from("activities").select("*").order("created_at", { ascending: false });
+  const query = supabase
+    .from('activities')
+    .select('*')
+    .order('created_at', { ascending: false })
 
-  const { data, error } = projectId ? await query.eq("project_id", projectId) : await query;
+  const { data, error } = projectId
+    ? await query.eq('project_id', projectId)
+    : await query
 
   if (error || !data) {
-    handleError("fetchActivities", error);
+    handleError('fetchActivities', error)
     return projectId
       ? mockActivities.filter((activity) => activity.project_id === projectId)
-      : mockActivities;
+      : mockActivities
   }
 
-  return data;
+  return data
 }
 
 export async function fetchUserById(userId: string, client?: Client | null) {
   if (!isSupabaseConfigured()) {
-    return getMockUserById(userId);
+    return getMockUserById(userId)
   }
 
-  const supabase = resolveClient(client);
+  const supabase = resolveClient(client)
   if (!supabase) {
-    return getMockUserById(userId);
+    return getMockUserById(userId)
   }
 
-  const { data, error } = await supabase.from("users").select("*").eq("id", userId).single();
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userId)
+    .single()
   if (error || !data) {
-    handleError("fetchUserById", error);
-    return getMockUserById(userId);
+    handleError('fetchUserById', error)
+    return getMockUserById(userId)
   }
 
-  return data;
+  return data
 }
