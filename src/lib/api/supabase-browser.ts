@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
+import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/api/supabase-config";
 import type { Database } from "@/types/database";
-import { getEnvVar } from "@/lib/utils/env";
 
 let browserClient: SupabaseClient<Database> | null = null;
 
@@ -10,8 +10,8 @@ export function createBrowserSupabaseClient(): SupabaseClient<Database> | null {
     return browserClient;
   }
 
-  const supabaseUrl = getEnvVar("NEXT_PUBLIC_SUPABASE_URL");
-  const supabaseAnonKey = getEnvVar("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseAnonKey = getSupabaseAnonKey();
 
   if (!supabaseUrl || !supabaseAnonKey) {
     if (process.env.NODE_ENV === "development") {
