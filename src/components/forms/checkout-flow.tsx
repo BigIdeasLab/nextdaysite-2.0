@@ -89,6 +89,16 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
       return
     }
 
+    if (trimmedEmail !== email) {
+      setEmail(trimmedEmail)
+    }
+    if (trimmedCompany !== company) {
+      setCompany(trimmedCompany)
+    }
+    if (trimmedNotes !== notes) {
+      setNotes(trimmedNotes)
+    }
+
     if (!client) {
       setSubmissionState('error')
       setErrorMessage(
