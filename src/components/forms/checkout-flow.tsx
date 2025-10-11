@@ -75,8 +75,13 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
 
     setSubmissionState('submitting')
     setErrorMessage(null)
+    setCheckoutResult(null)
 
-    if (!email) {
+    const trimmedEmail = email.trim()
+    const trimmedCompany = company.trim()
+    const trimmedNotes = notes.trim()
+
+    if (!trimmedEmail) {
       setSubmissionState('error')
       setErrorMessage(
         'Please provide a contact email so we can share your payment link.',
@@ -84,15 +89,43 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
       return
     }
 
+    if (!client) {
+      setSubmissionState('error')
+      setErrorMessage(
+        'Supabase is not configured. Please refresh and try again.',
+      )
+      return
+    }
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1200))
+      const { data, error } = await client.rpc('start_checkout', {
+        p_email: trimmedEmail,
+        p_company_name: trimmedCompany || null,
+        p_plan_id: selectedPlan.id,
+        p_billing_cycle: billingCycle,
+        p_include_hosting: includeHosting,
+        p_notes: trimmedNotes ? trimmedNotes : null,
+      })
+
+      if (error) {
+        throw error
+      }
+
+      const [result] = data ?? []
+      if (!result) {
+        throw new Error('Checkout did not return a confirmation.')
+      }
+
+      setCheckoutResult(result)
       setSubmissionState('success')
     } catch (error) {
       console.error(error)
-      setErrorMessage(
-        'We were unable to start the checkout session. Please try again.',
-      )
       setSubmissionState('error')
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'We were unable to start the checkout session. Please try again.',
+      )
     }
   }
 
