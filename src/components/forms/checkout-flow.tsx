@@ -374,12 +374,17 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
           </ul>
         </div>
       </aside>
-      {submissionState === 'success' ? (
+      {submissionState === 'success' && checkoutResult ? (
         <div className='lg:col-span-2'>
           <div className='rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-600'>
-            A secure payment link is on its way to{' '}
-            <span className='font-semibold'>{email}</span>. We’ll start prepping
-            your launch assets immediately.
+            Invoice{' '}
+            <span className='font-semibold'>{checkoutResult.invoice_id}</span>{' '}
+            totaling{' '}
+            <span className='font-semibold'>
+              {formatCurrency(checkoutResult.total)}
+            </span>{' '}
+            is on its way to <span className='font-semibold'>{email}</span>.
+            We’ll start prepping your launch assets immediately.
           </div>
         </div>
       ) : null}
