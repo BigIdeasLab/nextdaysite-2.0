@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 
-import type { PlansRow } from '@/data/mock-data'
+import type { PlansRow, StartCheckoutResult } from '@/types/models'
 import { formatCurrency } from '@/lib/utils/format'
 
 const HOSTING_MONTHLY = 39
