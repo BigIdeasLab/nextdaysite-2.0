@@ -7,29 +7,6 @@ export function AboutHero() {
           conversion features
         </h1>
       </div>
-
-      <div className='showcase-gallery'>
-        <div className='showcase-container'>
-          <div className='showcase-card'>
-            <div className='image-frame'>
-              <img
-                src="https://api.builder.io/api/v1/image/assets/TEMP/ac3209e0688c18ff1cd1f55a0893cd0bbb2fee0f?width=1576"
-                alt="Portfolio showcase 1"
-                className='showcase-image'
-              />
-            </div>
-          </div>
-          <div className='showcase-card showcase-card-offset'>
-            <div className='image-frame'>
-              <img
-                src="https://api.builder.io/api/v1/image/assets/TEMP/87db368f0daa9ea1c6460cc1f5c4aa2bb51158b1?width=1598"
-                alt="Portfolio showcase 2"
-                className='showcase-image'
-              />
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
   )
 }
