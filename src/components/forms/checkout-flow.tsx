@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from 'react'
 
-import type { PlansRow } from '@/data/mock-data'
+import { useAuth } from '@/context/auth-context'
+import type { PlansRow, StartCheckoutResult } from '@/types/models'
 import { formatCurrency } from '@/lib/utils/format'
 
 const HOSTING_MONTHLY = 39
@@ -19,6 +20,7 @@ type BillingCycle = 'monthly' | 'yearly'
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
 export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
+  const { client } = useAuth()
   const [selectedPlanId, setSelectedPlanId] = useState(
     defaultPlanId ?? plans[0]?.id ?? '',
   )
@@ -30,6 +32,8 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [checkoutResult, setCheckoutResult] =
+    useState<StartCheckoutResult | null>(null)
 
   const selectedPlan = useMemo(
     () => plans.find((plan) => plan.id === selectedPlanId) ?? plans[0],
@@ -71,8 +75,13 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
 
     setSubmissionState('submitting')
     setErrorMessage(null)
+    setCheckoutResult(null)
 
-    if (!email) {
+    const trimmedEmail = email.trim()
+    const trimmedCompany = company.trim()
+    const trimmedNotes = notes.trim()
+
+    if (!trimmedEmail) {
       setSubmissionState('error')
       setErrorMessage(
         'Please provide a contact email so we can share your payment link.',
@@ -80,15 +89,53 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
       return
     }
 
+    if (trimmedEmail !== email) {
+      setEmail(trimmedEmail)
+    }
+    if (trimmedCompany !== company) {
+      setCompany(trimmedCompany)
+    }
+    if (trimmedNotes !== notes) {
+      setNotes(trimmedNotes)
+    }
+
+    if (!client) {
+      setSubmissionState('error')
+      setErrorMessage(
+        'Supabase is not configured. Please refresh and try again.',
+      )
+      return
+    }
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1200))
+      const { data, error } = await client.rpc('start_checkout', {
+        p_email: trimmedEmail,
+        p_company_name: trimmedCompany || null,
+        p_plan_id: selectedPlan.id,
+        p_billing_cycle: billingCycle,
+        p_include_hosting: includeHosting,
+        p_notes: trimmedNotes ? trimmedNotes : null,
+      })
+
+      if (error) {
+        throw error
+      }
+
+      const [result] = data ?? []
+      if (!result) {
+        throw new Error('Checkout did not return a confirmation.')
+      }
+
+      setCheckoutResult(result)
       setSubmissionState('success')
     } catch (error) {
       console.error(error)
-      setErrorMessage(
-        'We were unable to start the checkout session. Please try again.',
-      )
       setSubmissionState('error')
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'We were unable to start the checkout session. Please try again.',
+      )
     }
   }
 
@@ -327,12 +374,17 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
           </ul>
         </div>
       </aside>
-      {submissionState === 'success' ? (
+      {submissionState === 'success' && checkoutResult ? (
         <div className='lg:col-span-2'>
           <div className='rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-600'>
-            A secure payment link is on its way to{' '}
-            <span className='font-semibold'>{email}</span>. We’ll start prepping
-            your launch assets immediately.
+            Invoice{' '}
+            <span className='font-semibold'>{checkoutResult.invoice_id}</span>{' '}
+            totaling{' '}
+            <span className='font-semibold'>
+              {formatCurrency(checkoutResult.total)}
+            </span>{' '}
+            is on its way to <span className='font-semibold'>{email}</span>.
+            We’ll start prepping your launch assets immediately.
           </div>
         </div>
       ) : null}

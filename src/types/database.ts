@@ -357,6 +357,88 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          base_amount: number
+          billing_cycle: string
+          cancel_at_period_end: boolean
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          currency: string
+          hosting_amount: number
+          id: string
+          include_hosting: boolean
+          metadata: Json | null
+          notes: string | null
+          plan_id: string
+          status: Database['public']['Enums']['subscription_status']
+          stripe_subscription_id: string | null
+          subtotal: number
+          tax: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          base_amount: number
+          billing_cycle: string
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          currency?: string
+          hosting_amount?: number
+          id?: string
+          include_hosting?: boolean
+          metadata?: Json | null
+          notes?: string | null
+          plan_id: string
+          status?: Database['public']['Enums']['subscription_status']
+          stripe_subscription_id?: string | null
+          subtotal: number
+          tax: number
+          total: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          base_amount?: number
+          billing_cycle?: string
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          currency?: string
+          hosting_amount?: number
+          id?: string
+          include_hosting?: boolean
+          metadata?: Json | null
+          notes?: string | null
+          plan_id?: string
+          status?: Database['public']['Enums']['subscription_status']
+          stripe_subscription_id?: string | null
+          subtotal?: number
+          tax?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'subscriptions_plan_id_fkey'
+            columns: ['plan_id']
+            referencedRelation: 'plans'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'subscriptions_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -420,7 +502,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      start_checkout: {
+        Args: {
+          p_email: string
+          p_company_name: string | null
+          p_plan_id: string
+          p_billing_cycle: string
+          p_include_hosting: boolean
+          p_notes?: string | null
+        }
+        Returns: {
+          subscription_id: string
+          invoice_id: string
+          subtotal: number
+          tax: number
+          total: number
+        }[]
+      }
     }
     Enums: {
       activity_type:
@@ -438,6 +536,7 @@ export type Database = {
         | 'review'
         | 'ready_to_ship'
         | 'shipped'
+      subscription_status: 'trialing' | 'active' | 'past_due' | 'canceled'
       user_role: 'customer' | 'admin' | 'collaborator'
     }
     CompositeTypes: {

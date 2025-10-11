@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchFiles } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import type { FilesRow } from '@/data/mock-data'
+import type { FilesRow } from '@/types/models'
 
 export function useFiles(options: { enabled?: boolean } = {}) {
   const { client } = useAuth()

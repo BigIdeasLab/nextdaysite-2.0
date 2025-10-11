@@ -1,4 +1,4 @@
-import type { FilesRow, UsersRow } from '@/data/mock-data'
+import type { FilesRow, UsersRow } from '@/types/models'
 import { formatDate } from '@/lib/utils/format'
 
 type FileGalleryProps = {

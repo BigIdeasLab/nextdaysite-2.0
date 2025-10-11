@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchActivities } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import type { ActivitiesRow } from '@/data/mock-data'
+import type { ActivitiesRow } from '@/types/models'
 
 export function useActivities(
   projectId?: string,

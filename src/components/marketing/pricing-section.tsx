@@ -1,4 +1,4 @@
-import type { PlansRow } from '@/data/mock-data'
+import type { PlansRow } from '@/types/models'
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat('en-US', {

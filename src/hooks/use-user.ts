@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useAuth } from '@/context/auth-context'
 import { fetchUserById } from '@/lib/api/data-service'
-import type { UsersRow } from '@/data/mock-data'
+import type { UsersRow } from '@/types/models'
 
 export function useUser(targetUserId?: string) {
   const { user, client } = useAuth()

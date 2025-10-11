@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchChatMessages } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import type { ChatMessagesRow } from '@/data/mock-data'
+import type { ChatMessagesRow } from '@/types/models'
 
 export function useChatMessages(
   projectId: string | null,
