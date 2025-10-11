@@ -12,7 +12,7 @@ const navItems = [
   { label: 'Logo', href: '/logo' },
   { label: 'Service', href: '/services' },
   { label: 'About', href: '/about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export function Header() {

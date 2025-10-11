@@ -4,6 +4,7 @@ import { AboutIntro } from '@/components/marketing/about-intro'
 import { AboutPromise } from '@/components/marketing/about-promise'
 import { AboutSolution } from '@/components/marketing/about-solution'
 import { AboutProcess } from '@/components/marketing/about-process'
+import { CtaSection } from '@/components/marketing/cta-section'
 import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 
 export default function AboutPage() {
@@ -16,6 +17,7 @@ export default function AboutPage() {
         <AboutPromise />
         <AboutSolution />
         <AboutProcess />
+        <CtaSection />
       </main>
       <RedesignedFooter />
     </div>
