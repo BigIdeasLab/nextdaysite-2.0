@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchInvoices } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import type { InvoicesRow } from '@/data/mock-data'
+import type { InvoicesRow } from '@/types/models'
 
 export function useInvoices(options: { enabled?: boolean } = {}) {
   const { client } = useAuth()
