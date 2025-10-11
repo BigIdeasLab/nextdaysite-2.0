@@ -1,4 +1,4 @@
-import type { InvoicesRow } from '@/data/mock-data'
+import type { InvoicesRow } from '@/types/models'
 import { formatCurrency, formatDate } from '@/lib/utils/format'
 
 type InvoiceSummaryProps = {
