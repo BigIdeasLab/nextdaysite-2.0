@@ -20,6 +20,7 @@ type BillingCycle = 'monthly' | 'yearly'
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
 export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
+  const { client } = useAuth()
   const [selectedPlanId, setSelectedPlanId] = useState(
     defaultPlanId ?? plans[0]?.id ?? '',
   )
@@ -31,6 +32,8 @@ export function CheckoutFlow({ plans, defaultPlanId }: CheckoutFlowProps) {
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [checkoutResult, setCheckoutResult] =
+    useState<StartCheckoutResult | null>(null)
 
   const selectedPlan = useMemo(
     () => plans.find((plan) => plan.id === selectedPlanId) ?? plans[0],
