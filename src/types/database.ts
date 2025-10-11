@@ -502,7 +502,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      start_checkout: {
+        Args: {
+          p_email: string
+          p_company_name: string | null
+          p_plan_id: string
+          p_billing_cycle: string
+          p_include_hosting: boolean
+          p_notes?: string | null
+        }
+        Returns: {
+          subscription_id: string
+          invoice_id: string
+          subtotal: number
+          tax: number
+          total: number
+        }[]
+      }
     }
     Enums: {
       activity_type:
