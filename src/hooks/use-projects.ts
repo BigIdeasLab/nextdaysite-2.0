@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchProjects } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import type { ProjectsRow } from '@/data/mock-data'
+import type { ProjectsRow } from '@/types/models'
 
 export function useProjects(options: { enabled?: boolean } = {}) {
   const { client } = useAuth()
