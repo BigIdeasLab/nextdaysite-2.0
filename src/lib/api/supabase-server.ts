@@ -1,5 +1,7 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+
 import {
   getSupabaseAnonKey,
   getSupabaseServiceRoleKey,
