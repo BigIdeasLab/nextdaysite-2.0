@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchPlans } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import type { PlansRow } from '@/data/mock-data'
+import type { PlansRow } from '@/types/models'
 
 export function usePlans(options: { enabled?: boolean } = {}) {
   const { client } = useAuth()
