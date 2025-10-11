@@ -19,7 +19,7 @@ export function ContactForm() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({
       ...formData,
@@ -132,7 +132,10 @@ export function ContactForm() {
             </h2>
             <div className='flex flex-col gap-4 md:w-[382px] md:gap-[30px]'>
               {contactInfo.map((item, index) => (
-                <div key={index} className='flex items-center gap-3 md:gap-[15px]'>
+                <div
+                  key={index}
+                  className='flex items-center gap-3 md:gap-[15px]'
+                >
                   {item.icon}
                   <div className='text-xs leading-[20.4px] text-white md:text-lg md:leading-6'>
                     {item.text}
@@ -144,7 +147,10 @@ export function ContactForm() {
 
           {/* Contact Form */}
           <div className='flex w-full flex-col gap-[34px] md:w-[482px] md:gap-[50px]'>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-[27px] md:gap-10'>
+            <form
+              onSubmit={handleSubmit}
+              className='flex flex-col gap-[27px] md:gap-10'
+            >
               {/* First Name & Last Name */}
               <div className='flex gap-[10px] md:gap-[15px]'>
                 <div className='contact-input-wrapper'>
@@ -215,7 +221,9 @@ export function ContactForm() {
 
               {/* Project Description */}
               <div className='contact-input-wrapper'>
-                <label className='contact-input-label'>Project Description</label>
+                <label className='contact-input-label'>
+                  Project Description
+                </label>
                 <input
                   type='text'
                   name='description'
