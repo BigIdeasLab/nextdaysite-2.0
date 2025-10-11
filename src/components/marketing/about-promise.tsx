@@ -48,22 +48,22 @@ export function AboutPromise() {
           </div>
         </div>
 
-        <div className='promise-showcase-gallery'>
-          <div className='promise-showcase-card'>
-            <div className='promise-image-frame'>
+        <div className='flex flex-col items-center gap-5 md:flex-row md:items-start md:gap-[21px]'>
+          <div className='flex w-full max-w-[501px] flex-col items-center gap-5'>
+            <div className='flex h-[384px] w-full items-center justify-center overflow-hidden rounded-[20px] bg-[#545454] md:h-[575px] md:rounded-[50px]'>
               <img
                 src='https://api.builder.io/api/v1/image/assets/TEMP/ac3209e0688c18ff1cd1f55a0893cd0bbb2fee0f?width=1576'
                 alt='Portfolio showcase 1'
-                className='promise-showcase-image'
+                className='h-auto w-[130%] max-w-none object-cover md:w-[162%]'
               />
             </div>
           </div>
-          <div className='promise-showcase-card promise-showcase-offset'>
-            <div className='promise-image-frame'>
+          <div className='flex w-full max-w-[501px] flex-col items-center gap-5 md:mt-[130px]'>
+            <div className='flex h-[384px] w-full items-center justify-center overflow-hidden rounded-[20px] bg-[#545454] md:h-[575px] md:rounded-[50px]'>
               <img
                 src='https://api.builder.io/api/v1/image/assets/TEMP/87db368f0daa9ea1c6460cc1f5c4aa2bb51158b1?width=1598'
                 alt='Portfolio showcase 2'
-                className='promise-showcase-image'
+                className='h-auto w-[130%] max-w-none object-cover md:w-[160%]'
               />
             </div>
           </div>
