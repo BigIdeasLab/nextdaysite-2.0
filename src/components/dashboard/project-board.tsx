@@ -1,4 +1,4 @@
-import type { ProjectsRow, UsersRow } from '@/data/mock-data'
+import type { ProjectsRow, UsersRow } from '@/types/models'
 import { formatDate } from '@/lib/utils/format'
 
 const statusColumns: { key: ProjectsRow['status']; label: string }[] = [
