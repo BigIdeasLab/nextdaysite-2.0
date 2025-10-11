@@ -4,7 +4,7 @@ export function AboutIntro() {
   return (
     <section className='relative w-full border-y border-[#3A3A3A] px-6 py-20 md:px-12 lg:px-52'>
       <div className='mx-auto flex max-w-5xl flex-col items-start gap-8 md:flex-row md:items-center md:justify-between'>
-        <div className='relative flex items-center justify-center md:w-1/3'>
+        <div className='relative hidden items-center justify-center md:flex md:w-1/3'>
           <Image
             src='https://api.builder.io/api/v1/image/assets/TEMP/e36e2b43c3d28ca7d538dff4c6098a33ca0bf71e'
             alt='About NextDaySite'

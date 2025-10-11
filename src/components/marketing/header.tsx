@@ -54,7 +54,7 @@ export function Header() {
 
         <div className='flex items-center gap-2'>
           <Link
-            href='#pricing'
+            href='/#pricing'
             className='flex h-[34px] items-center justify-center rounded-[21px] bg-[#FF8C00] px-[14px] text-[11px] font-medium text-white transition-transform hover:scale-105 lg:h-12 lg:rounded-full lg:px-5 lg:text-base'
           >
             See Pricing

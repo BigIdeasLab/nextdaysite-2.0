@@ -31,7 +31,7 @@ export function ContactForm() {
     {
       icon: (
         <svg
-          className='h-[18px] w-[18px] md:h-6 md:w-6'
+          className='h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6'
           viewBox='0 0 24 24'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
@@ -57,7 +57,7 @@ export function ContactForm() {
     {
       icon: (
         <svg
-          className='h-[18px] w-[18px] md:h-6 md:w-6'
+          className='h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6'
           viewBox='0 0 24 24'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
@@ -94,7 +94,7 @@ export function ContactForm() {
     {
       icon: (
         <svg
-          className='h-[18px] w-[18px] md:h-6 md:w-6'
+          className='h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6'
           viewBox='0 0 24 24'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
@@ -122,22 +122,22 @@ export function ContactForm() {
   ]
 
   return (
-    <section className='w-full px-6 py-8 md:px-12 md:py-16 lg:px-52'>
+    <section className='w-full px-6 pb-8 md:px-12 md:py-16 lg:px-52'>
       <div className='mx-auto max-w-[1002px]'>
-        <div className='flex flex-col gap-10 md:flex-row md:items-start md:gap-[109px]'>
+        <div className='flex flex-col gap-10 md:flex-row md:items-start md:gap-16 lg:gap-16'>
           {/* Contact Info */}
-          <div className='flex w-full flex-col gap-8 md:w-[411px] md:gap-[60px]'>
-            <h2 className='text-xl font-medium leading-[22.4px] text-[#F7F6FF] md:text-[32px] md:leading-[31.5px]'>
+          <div className='flex w-full flex-col gap-8 md:gap-12 lg:w-1/2 lg:gap-[60px]'>
+            <h2 className='text-xl font-medium text-[#F7F6FF] md:text-xl lg:text-2xl xl:text-[32px]'>
               We&apos;d Love to Hear From You
             </h2>
-            <div className='flex flex-col gap-4 md:w-[382px] md:gap-[30px]'>
+            <div className='flex flex-col gap-4 md:gap-6 lg:gap-[30px]'>
               {contactInfo.map((item, index) => (
                 <div
                   key={index}
-                  className='flex items-center gap-3 md:gap-[15px]'
+                  className='flex items-center gap-3 md:gap-4 lg:gap-[15px]'
                 >
                   {item.icon}
-                  <div className='text-xs leading-[20.4px] text-white md:text-lg md:leading-6'>
+                  <div className='text-sm leading-5 text-white md:text-sm lg:text-base xl:text-lg'>
                     {item.text}
                   </div>
                 </div>
@@ -146,55 +146,63 @@ export function ContactForm() {
           </div>
 
           {/* Contact Form */}
-          <div className='flex w-full flex-col gap-[34px] md:w-[482px] md:gap-[50px]'>
+          <div className='flex w-full flex-col gap-8 md:gap-10 lg:w-1/2 lg:gap-[50px]'>
             <form
               onSubmit={handleSubmit}
-              className='flex flex-col gap-[27px] md:gap-10'
+              className='flex flex-col gap-6 md:gap-8 lg:gap-10'
             >
               {/* First Name & Last Name */}
-              <div className='flex gap-[10px] md:gap-[15px]'>
-                <div className='contact-input-wrapper'>
-                  <label className='contact-input-label'>First Name</label>
+              <div className='flex flex-row gap-4'>
+                <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
+                  <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
+                    First Name
+                  </label>
                   <input
                     type='text'
                     name='firstName'
                     value={formData.firstName}
                     onChange={handleChange}
-                    className='contact-input'
+                    className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                   />
                 </div>
-                <div className='contact-input-wrapper'>
-                  <label className='contact-input-label'>Last Name</label>
+                <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
+                  <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
+                    Last Name
+                  </label>
                   <input
                     type='text'
                     name='lastName'
                     value={formData.lastName}
                     onChange={handleChange}
-                    className='contact-input'
+                    className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                   />
                 </div>
               </div>
 
               {/* Email Address */}
-              <div className='contact-input-wrapper'>
-                <label className='contact-input-label'>Email Address</label>
+              <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
+                <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
+                  Email Address
+                </label>
                 <input
                   type='email'
                   name='email'
                   value={formData.email}
                   onChange={handleChange}
-                  className='contact-input'
+                  className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 />
               </div>
 
               {/* Services Dropdown */}
-              <div className='contact-input-wrapper contact-select-wrapper'>
-                <label className='contact-input-label'>Services</label>
+              <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
+                <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
+                  Services
+                </label>
                 <select
                   name='service'
                   value={formData.service}
                   onChange={handleChange}
-                  className='contact-input'
+                  className='h-full w-full cursor-pointer appearance-none border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 >
                   <option value=''></option>
                   <option value='web-design'>Web Design</option>
@@ -203,7 +211,7 @@ export function ContactForm() {
                   <option value='cms-integration'>CMS Integration</option>
                 </select>
                 <svg
-                  className='contact-dropdown-icon'
+                  className='pointer-events-none absolute right-0 top-6 h-4 w-4 md:top-8 lg:top-9 md:h-5 md:w-5 lg:h-6 lg:w-6'
                   viewBox='0 0 24 24'
                   fill='none'
                   xmlns='http://www.w3.org/2000/svg'
@@ -220,8 +228,8 @@ export function ContactForm() {
               </div>
 
               {/* Project Description */}
-              <div className='contact-input-wrapper'>
-                <label className='contact-input-label'>
+              <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
+                <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
                   Project Description
                 </label>
                 <input
@@ -229,7 +237,7 @@ export function ContactForm() {
                   name='description'
                   value={formData.description}
                   onChange={handleChange}
-                  className='contact-input'
+                  className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 />
               </div>
             </form>
@@ -238,7 +246,7 @@ export function ContactForm() {
             <button
               type='submit'
               onClick={handleSubmit}
-              className='contact-submit-button'
+              className='flex h-10 items-center justify-center rounded-full border border-[#FF8C00] bg-[#FF8C00] px-5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 md:h-12 md:px-6 md:text-base lg:h-14 lg:px-7 lg:text-lg xl:h-[54px] xl:rounded-[30px] xl:px-[26px] xl:text-[23px]'
             >
               Submit
             </button>
