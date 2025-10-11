@@ -536,6 +536,7 @@ export type Database = {
         | 'review'
         | 'ready_to_ship'
         | 'shipped'
+      subscription_status: 'trialing' | 'active' | 'past_due' | 'canceled'
       user_role: 'customer' | 'admin' | 'collaborator'
     }
     CompositeTypes: {
