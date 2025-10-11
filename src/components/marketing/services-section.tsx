@@ -80,7 +80,8 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           <Image
             src={service.image1}
             alt={`${service.title} preview 1`}
-            layout='fill'
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             objectFit='cover'
           />
         </div>
@@ -96,7 +97,8 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           <Image
             src={service.image2}
             alt={`${service.title} preview 2`}
-            layout='fill'
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             objectFit='cover'
           />
         </div>
