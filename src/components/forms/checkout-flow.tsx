@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 
+import { useAuth } from '@/context/auth-context'
 import type { PlansRow, StartCheckoutResult } from '@/types/models'
 import { formatCurrency } from '@/lib/utils/format'
 
