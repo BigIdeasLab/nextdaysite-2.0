@@ -1,6 +1,7 @@
 import { Header } from '@/components/marketing/header'
 import { ContactHero } from '@/components/marketing/contact-hero'
 import { ContactForm } from '@/components/marketing/contact-form'
+import { CtaSection } from '@/components/marketing/cta-section'
 import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 
 export default function ContactPage() {
@@ -10,6 +11,7 @@ export default function ContactPage() {
       <main>
         <ContactHero />
         <ContactForm />
+        <CtaSection />
       </main>
       <RedesignedFooter />
     </div>
