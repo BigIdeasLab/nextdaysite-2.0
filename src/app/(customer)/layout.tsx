@@ -1,8 +1,10 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { type ReactNode, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { LayoutDashboard } from 'lucide-react'
 
+import { useAuth } from '@/context/auth-context'
 import { DashboardShell } from '@/components/layout/dashboard-shell'
 import type { NavSection } from '@/types/navigation'
 
@@ -24,6 +26,19 @@ type CustomerLayoutProps = {
 }
 
 export default function CustomerLayout({ children }: CustomerLayoutProps) {
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login')
+    }
+  }, [user, loading, router])
+
+  if (loading || !user) {
+    return null // Or a loading spinner
+  }
+
   return (
     <DashboardShell
       sections={customerSections}

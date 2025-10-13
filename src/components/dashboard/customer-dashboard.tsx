@@ -51,6 +51,11 @@ export function CustomerDashboard() {
         caption: `${projects.length} total in workspace`,
       },
       {
+        label: 'Recent updates',
+        value: String(recentUpdates),
+        caption: 'In the last 7 days',
+      },
+      {
         label: 'In review',
         value: String(inReview.length),
         caption: inReview.length ? 'Awaiting approvals' : 'Everything on track',
