@@ -1,59 +1,20 @@
-import Link from 'next/link'
+'use client'
 
-const plans = [
-  {
-    id: 1,
-    title: 'Website Development',
-    description: 'Modern 3–5 page website, fast.',
-    price: '$1500',
-    period: '/ Month',
-    features: [
-      '3–5 pages',
-      'Responsive + basic SEO',
-      '1 concept + 2 revisions',
-      '5 stock images + icons',
-      'Performance & accessibility pass',
-      'Staging preview',
-      'Delivery: 3–5 business days',
-    ],
-    borderColor: 'border-transparent',
-  },
-  {
-    id: 2,
-    title: 'Brand Idnetity',
-    description: 'Logo suite, brand kit, and templates.',
-    price: '$2500',
-    period: '/ Year',
-    features: [
-      'Logo suite',
-      'Color + type system',
-      'Social kit',
-      'Business card + letterhead',
-      '3 flyer/post templates',
-      'Mini brand guide (PDF)',
-    ],
-    borderColor: 'border-transparent',
-  },
-  {
-    id: 3,
-    title: 'Complete',
-    description: 'Website + branding handled end‑to‑end.',
-    price: '$5100',
-    period: '/ Year',
-    features: [
-      'Everything in Web + Identity',
-      '6–10 pages',
-      'AI copy draft for key pages',
-      'SEO essentials',
-      'Launch checklist',
-      '7‑day post‑launch tweaks',
-    ],
-    borderColor: 'border-[#FF8C00]',
-    featured: true,
-  },
-]
+import { useState } from 'react'
+import { CheckoutFlow } from '@/components/forms/checkout-flow'
+import { usePlans } from '@/hooks'
+import type { PlansRow } from '@/types/models'
+
+// ... (keep the existing plans array)
 
 export function RedesignedPricing() {
+  const { data: plans = [], isLoading } = usePlans()
+  const [selectedPlan, setSelectedPlan] = useState<PlansRow | null>(null)
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <section
       id='pricing'
@@ -66,18 +27,30 @@ export function RedesignedPricing() {
 
         <div className='flex w-full flex-col items-center justify-center gap-4 md:flex-row md:items-start md:gap-[15px]'>
           {plans.map((plan) => (
-            <PricingCard key={plan.id} plan={plan} />
+            <button
+              key={plan.id}
+              onClick={() => setSelectedPlan(plan)}
+              className='text-left'
+            >
+              <PricingCard plan={plan} />
+            </button>
           ))}
         </div>
       </div>
+      {selectedPlan && (
+        <CheckoutFlow
+          plan={selectedPlan}
+          onClose={() => setSelectedPlan(null)}
+        />
+      )}
     </section>
   )
 }
 
-function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
+function PricingCard({ plan }: { plan: PlansRow }) {
   return (
     <div
-      className={`relative flex h-auto w-full max-w-[331px] flex-col rounded-[20px] border bg-[#161616] md:h-[771px] ${plan.borderColor}`}
+      className={`relative flex h-auto w-full max-w-[331px] flex-col rounded-[20px] border bg-[#161616] md:h-[771px] ${plan.is_featured ? 'border-orange-500' : 'border-gray-700'}`}
     >
       {/* Main Content */}
       <div className='flex flex-grow flex-col gap-[30px] p-5'>
@@ -119,32 +92,29 @@ function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
               </g>
             </svg>
             <h3 className='text-[20px] font-medium leading-[24px] text-white'>
-              {plan.title}
+              {plan.name}
             </h3>
           </div>
           <p className='text-[16px] font-light leading-[24px] text-white/50'>
-            {plan.description}
+            {plan.summary}
           </p>
         </div>
 
         {/* Price */}
         <div className='flex items-center gap-[5px]'>
           <span className='text-[45px] font-medium leading-[24px] text-white'>
-            {plan.price}
+            ${plan.monthly_price}
           </span>
           <span className='text-[21px] font-normal leading-[24px] text-white/50'>
-            {plan.period}
+            /month
           </span>
         </div>
 
         {/* Subscribe Button */}
         <div className='flex flex-col gap-3'>
-          <Link
-            href='/checkout'
-            className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 text-[18px] font-medium leading-[24px] text-white transition-transform hover:scale-105'
-          >
+          <div className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 text-[18px] font-medium leading-[24px] text-white transition-transform hover:scale-105'>
             Subscribe
-          </Link>
+          </div>
         </div>
 
         {/* Features List */}
@@ -184,10 +154,10 @@ function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
       </div>
 
       {/* First Divider */}
-      {plan.id !== 2 && <div className='h-px w-full bg-white/10' />}
+      {plan.id !== '2' && <div className='h-px w-full bg-white/10' />}
 
       {/* Add Managed Hosting Section */}
-      {plan.id !== 2 && (
+      {plan.id !== '2' && (
         <div className='flex items-center gap-[10px] p-5'>
           <div className='h-6 w-6 rounded-md border-2 border-[#2D2D2D]' />
           <div className='flex flex-col gap-[7px]'>

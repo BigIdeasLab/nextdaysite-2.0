@@ -2,10 +2,8 @@
 
 import { type ReactNode, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BarChart3 } from 'lucide-react'
-
+import { BarChart3, Folder, Users, CreditCard, Settings } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
-import { useUser } from '@/hooks/use-user'
 import { DashboardShell } from '@/components/layout/dashboard-shell'
 import type { NavSection } from '@/types/navigation'
 
@@ -18,6 +16,26 @@ const adminSections: NavSection[] = [
         href: '/admin/overview',
         icon: BarChart3,
       },
+      {
+        label: 'Projects',
+        href: '/admin/projects',
+        icon: Folder,
+      },
+      {
+        label: 'Customers',
+        href: '/admin/customers',
+        icon: Users,
+      },
+      {
+        label: 'Billing',
+        href: '/admin/billing',
+        icon: CreditCard,
+      },
+      {
+        label: 'Settings',
+        href: '/admin/settings',
+        icon: Settings,
+      },
     ],
   },
 ]
@@ -27,30 +45,20 @@ type AdminLayoutProps = {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const { user, loading: authLoading } = useAuth()
-  const { data: userProfile, isLoading: userLoading } = useUser(user?.id)
+  const { user, loading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    const isAuth = !authLoading && user
-    const isAuthz = !userLoading && userProfile?.role === 'admin'
+    if (loading) return
 
-    if (!authLoading && !user) {
+    if (!user) {
       router.push('/login')
-      return
-    }
-
-    if (isAuth && !userLoading && !isAuthz) {
+    } else if (user.user_metadata.role !== 'admin') {
       router.push('/dashboard')
     }
-  }, [user, userProfile, authLoading, userLoading, router])
+  }, [user, loading, router])
 
-  if (
-    authLoading ||
-    userLoading ||
-    !userProfile ||
-    userProfile.role !== 'admin'
-  ) {
+  if (loading || !user || user.user_metadata.role !== 'admin') {
     return null // Or a loading spinner
   }
 

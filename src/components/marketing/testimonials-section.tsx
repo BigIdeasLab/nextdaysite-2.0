@@ -151,7 +151,7 @@ function TestimonialCard({
         {testimonial.quote}
       </p>
 
-      <div className='mt-auto flex items-center justify-center'>
+      <div className='mt-auto flex items-center justify-center border'>
         <ApolloLogo />
       </div>
     </div>

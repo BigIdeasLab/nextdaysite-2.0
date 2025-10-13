@@ -7,6 +7,7 @@ type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
 export function SignupForm() {
   const { client } = useAuth()
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -39,6 +40,12 @@ export function SignupForm() {
       const { error } = await client.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            full_name: fullName,
+            role: 'customer',
+          },
+        },
       })
 
       if (error) {
@@ -60,6 +67,17 @@ export function SignupForm() {
     <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
       <section className='flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
         <div className='grid gap-4'>
+          <label className='flex flex-col gap-2 text-sm text-foreground/70'>
+            Full Name
+            <input
+              type='text'
+              className='rounded-xl border border-foreground/15 bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-foreground'
+              placeholder='Jane Doe'
+              value={fullName}
+              onChange={(event) => setFullName(event.target.value)}
+              required
+            />
+          </label>
           <label className='flex flex-col gap-2 text-sm text-foreground/70'>
             Email
             <input
