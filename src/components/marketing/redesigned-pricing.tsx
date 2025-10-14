@@ -5,8 +5,6 @@ import { CheckoutFlow } from '@/components/forms/checkout-flow'
 import { usePlans } from '@/hooks'
 import type { PlansRow } from '@/types/models'
 
-// ... (keep the existing plans array)
-
 export function RedesignedPricing() {
   const { data: plans = [], isLoading } = usePlans()
   const [selectedPlan, setSelectedPlan] = useState<PlansRow | null>(null)

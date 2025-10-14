@@ -226,6 +226,9 @@ export type Database = {
           slug: string
           updated_at: string
           yearly_price: number
+          yearly_discount: number
+          hosting_monthly_price: number
+          hosting_yearly_price: number
         }
         Insert: {
           created_at?: string
@@ -238,6 +241,9 @@ export type Database = {
           slug: string
           updated_at?: string
           yearly_price: number
+          yearly_discount: number
+          hosting_monthly_price: number
+          hosting_yearly_price: number
         }
         Update: {
           created_at?: string
@@ -250,6 +256,9 @@ export type Database = {
           slug?: string
           updated_at?: string
           yearly_price?: number
+          yearly_discount?: number
+          hosting_monthly_price?: number
+          hosting_yearly_price?: number
         }
         Relationships: []
       }
