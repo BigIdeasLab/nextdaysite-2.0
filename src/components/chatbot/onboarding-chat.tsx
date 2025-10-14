@@ -66,7 +66,7 @@ export function OnboardingChat() {
     <div className='flex h-full w-full flex-col bg-gradient-to-b from-[#FF8C00] to-black'>
       {/* Header */}
       <div className='flex items-center justify-between rounded-t-[30px] px-5 py-2 '>
-        <h2 className='text-[22px] font-medium leading-[31.471px] text-[#F7F6FF]'>
+        <h2 className='text-[20px] font-medium leading-[31.471px] text-[#F7F6FF]'>
           Your AI Assitant
         </h2>
         <button
@@ -88,7 +88,7 @@ export function OnboardingChat() {
               strokeLinejoin='round'
             />
           </svg>
-          <span className='text-[22px] font-medium leading-[31.471px] text-[#F7F6FF]'>
+          <span className='text-[20px] font-medium leading-[31.471px] text-[#F7F6FF]'>
             Expand Chat
           </span>
         </button>
