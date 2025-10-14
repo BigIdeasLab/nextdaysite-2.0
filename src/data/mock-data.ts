@@ -9,57 +9,6 @@ export type ChatMessagesRow =
   Database['public']['Tables']['chat_messages']['Row']
 export type ActivitiesRow = Database['public']['Tables']['activities']['Row']
 
-export const mockPlans: PlansRow[] = [
-  {
-    id: 'plan-web-launch',
-    name: 'Web Launch',
-    slug: 'web-launch',
-    summary: 'AI-guided single-page site, brand guide, and launch checklist.',
-    monthly_price: 499,
-    yearly_price: 4990,
-    is_featured: false,
-    features: [
-      '24-hour delivery',
-      'Single-page responsive site',
-      'AI-optimized copy',
-    ],
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-11-18T09:00:00Z',
-  },
-  {
-    id: 'plan-identity-suite',
-    name: 'Identity Suite',
-    slug: 'identity-suite',
-    summary: 'Multi-page site, full visual identity, and asset library.',
-    monthly_price: 1499,
-    yearly_price: 14990,
-    is_featured: true,
-    features: [
-      '48-hour delivery',
-      'Logos + brand system',
-      'Supabase customer portal',
-    ],
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-11-18T09:00:00Z',
-  },
-  {
-    id: 'plan-complete-launch',
-    name: 'Complete Launch',
-    slug: 'complete-launch',
-    summary: 'Full-stack automations, analytics, and admin dashboards.',
-    monthly_price: 2999,
-    yearly_price: 29990,
-    is_featured: false,
-    features: [
-      'AI workflows',
-      'Team collaboration hub',
-      'Admin analytics + reporting',
-    ],
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-11-18T09:00:00Z',
-  },
-]
-
 export const mockUsers: UsersRow[] = [
   {
     id: 'user-b0d5f934-47f1-43dc-9a5a-14f6a9640aa1',

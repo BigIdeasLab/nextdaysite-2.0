@@ -10,6 +10,8 @@ import type { PlansRow } from '@/types/models'
 export function RedesignedPricing() {
   const { data: plans = [], isLoading } = usePlans()
   const [selectedPlan, setSelectedPlan] = useState<PlansRow | null>(null)
+  const [billingCycle, setBillingCycle] = useState('monthly')
+  const [addHosting, setAddHosting] = useState(false)
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -25,6 +27,24 @@ export function RedesignedPricing() {
           Our Pricing plan
         </h2>
 
+        <div className='flex justify-center items-center my-8'>
+          <span className='mr-2 text-white'>Monthly</span>
+          <label className='relative inline-flex items-center cursor-pointer'>
+            <input
+              type='checkbox'
+              value=''
+              className='sr-only peer'
+              onChange={() =>
+                setBillingCycle(
+                  billingCycle === 'monthly' ? 'yearly' : 'monthly',
+                )
+              }
+            />
+            <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-orange-500"></div>
+          </label>
+          <span className='ml-2 text-white'>Yearly</span>
+        </div>
+
         <div className='flex w-full flex-col items-center justify-center gap-4 md:flex-row md:items-start md:gap-[15px]'>
           {plans.map((plan) => (
             <button
@@ -32,7 +52,12 @@ export function RedesignedPricing() {
               onClick={() => setSelectedPlan(plan)}
               className='text-left'
             >
-              <PricingCard plan={plan} />
+              <PricingCard
+                plan={plan}
+                billingCycle={billingCycle}
+                addHosting={addHosting}
+                setAddHosting={setAddHosting}
+              />
             </button>
           ))}
         </div>
@@ -47,7 +72,29 @@ export function RedesignedPricing() {
   )
 }
 
-function PricingCard({ plan }: { plan: PlansRow }) {
+function PricingCard({
+  plan,
+  billingCycle,
+  addHosting,
+  setAddHosting,
+}: {
+  plan: PlansRow
+  billingCycle: string
+  addHosting: boolean
+  setAddHosting: (value: boolean) => void
+}) {
+  const price =
+    (billingCycle === 'monthly' ? plan.monthly_price : plan.yearly_price) +
+    (addHosting
+      ? billingCycle === 'monthly'
+        ? plan.hosting_monthly_price
+        : plan.hosting_yearly_price
+      : 0)
+  const period = billingCycle === 'monthly' ? '/month' : '/year'
+  const savings = plan.yearly_price
+    ? plan.monthly_price * 12 - plan.yearly_price
+    : 0
+
   return (
     <div
       className={`relative flex h-auto w-full max-w-[331px] flex-col rounded-[20px] border bg-[#161616] md:h-[771px] ${plan.is_featured ? 'border-orange-500' : 'border-gray-700'}`}
@@ -103,12 +150,15 @@ function PricingCard({ plan }: { plan: PlansRow }) {
         {/* Price */}
         <div className='flex items-center gap-[5px]'>
           <span className='text-[45px] font-medium leading-[24px] text-white'>
-            ${plan.monthly_price}
+            ${price}
           </span>
           <span className='text-[21px] font-normal leading-[24px] text-white/50'>
-            /month
+            {period}
           </span>
         </div>
+        {billingCycle === 'yearly' && savings > 0 && (
+          <div className='text-sm text-green-500'>Save ${savings} per year</div>
+        )}
 
         {/* Subscribe Button */}
         <div className='flex flex-col gap-3'>
@@ -159,7 +209,12 @@ function PricingCard({ plan }: { plan: PlansRow }) {
       {/* Add Managed Hosting Section */}
       {plan.id !== '2' && (
         <div className='flex items-center gap-[10px] p-5'>
-          <div className='h-6 w-6 rounded-md border-2 border-[#2D2D2D]' />
+          <input
+            type='checkbox'
+            checked={addHosting}
+            onChange={(e) => setAddHosting(e.target.checked)}
+            className='h-6 w-6 rounded-md border-2 border-[#2D2D2D]'
+          />
           <div className='flex flex-col gap-[7px]'>
             <div className='flex items-center gap-[5px]'>
               <span className='text-[16px] font-medium leading-[24px] text-white'>
@@ -209,7 +264,7 @@ function PricingCard({ plan }: { plan: PlansRow }) {
             fill='#FF8C00'
           />
           <path
-            d='M12.9997 5L15.4997 7.5M11.333 16.6667H17.9997'
+            d='M11.333 16.6667H17.9997'
             stroke='#FF8C00'
             strokeWidth='2'
             strokeLinecap='round'
