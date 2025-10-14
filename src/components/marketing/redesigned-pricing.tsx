@@ -195,7 +195,10 @@ function PricingCard({
         </div>
 
         {/* Subscribe Button */}
-        <button className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 transition-transform hover:scale-105'>
+        <button
+          type='button'
+          className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 transition-transform hover:scale-105'
+        >
           <span className='text-lg font-medium leading-6 text-[#F7F6FF]'>
             Subscribe
           </span>
