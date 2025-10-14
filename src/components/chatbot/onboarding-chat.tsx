@@ -187,7 +187,10 @@ export function OnboardingChat() {
             />
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-5'>
-                <button type='button' className='transition-opacity hover:opacity-80'>
+                <button
+                  type='button'
+                  className='transition-opacity hover:opacity-80'
+                >
                   <svg
                     width='24'
                     height='24'
@@ -201,7 +204,10 @@ export function OnboardingChat() {
                     />
                   </svg>
                 </button>
-                <button type='button' className='transition-opacity hover:opacity-80'>
+                <button
+                  type='button'
+                  className='transition-opacity hover:opacity-80'
+                >
                   <svg
                     width='24'
                     height='24'
@@ -218,7 +224,10 @@ export function OnboardingChat() {
                     />
                   </svg>
                 </button>
-                <button type='button' className='transition-opacity hover:opacity-80'>
+                <button
+                  type='button'
+                  className='transition-opacity hover:opacity-80'
+                >
                   <svg
                     width='24'
                     height='24'
@@ -232,7 +241,10 @@ export function OnboardingChat() {
                     />
                   </svg>
                 </button>
-                <button type='button' className='transition-opacity hover:opacity-80'>
+                <button
+                  type='button'
+                  className='transition-opacity hover:opacity-80'
+                >
                   <svg
                     width='24'
                     height='24'

@@ -8,7 +8,9 @@ import type { PlansRow } from '@/types/models'
 export function RedesignedPricing() {
   const { data: plans = [], isLoading } = usePlans()
   const [selectedPlan, setSelectedPlan] = useState<PlansRow | null>(null)
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>(
+    'monthly',
+  )
   const [addHosting, setAddHosting] = useState(false)
 
   if (isLoading) {
@@ -297,9 +299,7 @@ function PricingCard({
             strokeLinejoin='round'
           />
         </svg>
-        <span className='text-lg leading-6 text-[#FF8C00]'>
-          Customize plan
-        </span>
+        <span className='text-lg leading-6 text-[#FF8C00]'>Customize plan</span>
       </div>
     </div>
   )
