@@ -31,7 +31,7 @@ export function OnboardingChat() {
     ) {
       askNextQuestion()
     }
-  }, [messages])
+  }, [messages, askNextQuestion])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -63,9 +63,9 @@ export function OnboardingChat() {
   }
 
   return (
-    <div className='flex h-full w-full flex-col'>
+    <div className='flex h-full w-full flex-col bg-gradient-to-b from-[#FF8C00] to-black'>
       {/* Header */}
-      <div className='flex items-center justify-between rounded-t-[30px] bg-[#FF8C00] px-5 py-2 shadow-[0_4px_4px_rgba(0,0,0,0.25)]'>
+      <div className='flex items-center justify-between rounded-t-[30px] px-5 py-2 '>
         <h2 className='text-[22px] font-medium leading-[31.471px] text-[#F7F6FF]'>
           Your AI Assitant
         </h2>
@@ -95,7 +95,7 @@ export function OnboardingChat() {
       </div>
 
       {/* Main Content Area */}
-      <div className='flex flex-1 flex-col overflow-hidden rounded-b-[30px] bg-[#131313] p-5'>
+      <div className='flex flex-1 flex-col overflow-hidden rounded-[30px] bg-[#131313] p-5'>
         {!hasStartedChat ? (
           <div className='flex flex-1 flex-col items-center justify-between gap-8 pb-5 pt-[60px] md:gap-[45px]'>
             {/* Logo and Title Section */}
@@ -124,7 +124,7 @@ export function OnboardingChat() {
                     Your AI Assitant
                   </h3>
                   <p className='text-center text-[22px] font-normal leading-6 text-[#9BA1A6]'>
-                    Describe your site and I'll help bring it to life.
+                    Describe your site and I&apos;ll help bring it to life.
                   </p>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export function OnboardingChat() {
                   <button
                     key={action}
                     onClick={() => handleQuickAction(action)}
-                    className='flex items-center justify-center gap-2.5 rounded-[30px] bg-[#202020] px-[15px] py-[18px] transition-colors hover:bg-[#2A2A2A]'
+                    className='flex items-center justify-center gap-2.5 rounded-[30px] bg-[#202020] px-[15px] py-[16px] transition-colors hover:bg-[#2A2A2A]'
                   >
                     <span className='text-[21px] font-normal leading-5 text-[#F7F6FF]'>
                       {action}
@@ -178,7 +178,7 @@ export function OnboardingChat() {
 
         {/* Input Area */}
         <div className='w-full rounded-[30px] bg-[#202020] p-5'>
-          <form onSubmit={handleSubmit} className='flex flex-col gap-[60px]'>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-[48px]'>
             <input
               type='text'
               name='message'

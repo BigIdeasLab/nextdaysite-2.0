@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Menu, X } from 'lucide-react'
 
 const navItems = [
@@ -18,10 +18,34 @@ const navItems = [
 export function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [show, setShow] = useState(true)
+  const [addBackground, setAddBackground] = useState(false)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > 100 && currentScrollY > lastScrollY.current) {
+        setShow(false)
+      } else {
+        setShow(true)
+      }
+      lastScrollY.current = currentScrollY
+
+      setAddBackground(currentScrollY > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b border-black bg-black shadow-[0_2px_2px_0_rgba(167,167,167,0.12)]'>
-      <div className='mx-auto flex max-w-6xl items-center justify-between gap-8 px-5 py-4 lg:py-8'>
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        show ? 'translate-y-0' : '-translate-y-full'
+      } ${addBackground ? 'bg-[#131313]' : 'bg-transparent'}`}
+    >
+      <div className='mx-auto flex max-w-5xl items-center justify-between gap-8 py-4 lg:py-8'>
         <Link href='/' className='flex-shrink-0'>
           <Image
             src='https://api.builder.io/api/v1/image/assets/TEMP/7f4ba7b6782f45a1cb95f9f41afb7ed3c8358a89?width=256'

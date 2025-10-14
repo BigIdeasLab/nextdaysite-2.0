@@ -6,7 +6,7 @@ import { OnboardingChat } from '@/components/chatbot/onboarding-chat'
 
 export function RedesignedHero() {
   return (
-    <section className='relative flex min-h-[500px] w-full flex-col items-center gap-9 px-3 py-16 md:min-h-[600px] md:gap-[50px] md:px-12 lg:px-52'>
+    <section className='relative flex min-h-[700px] w-full flex-col items-center gap-9 px-3 py-16 md:min-h-[1200px] md:gap-[80px] md:px-12 lg:px-52'>
       <div className='flex w-full max-w-[684px] flex-col items-center gap-[30px] md:gap-[50px]'>
         <div className='flex w-full flex-col items-center gap-5'>
           <Image
@@ -34,7 +34,7 @@ export function RedesignedHero() {
         </div>
       </div>
 
-      <div className='h-[500px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[500px] flex flex-col'>
+      <div className='h-[500px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[642px] flex flex-col'>
         <OnboardingChat />
       </div>
     </section>

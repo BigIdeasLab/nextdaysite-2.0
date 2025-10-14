@@ -1,10 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import {
-  conversationFlow,
-  Question,
-} from '@/components/chatbot/conversation-flow'
+import { useCallback, useState } from 'react'
+import { conversationFlow } from '@/components/chatbot/conversation-flow'
 
 export interface Message {
   text: string
@@ -23,7 +20,13 @@ export function useOnboardingChat() {
     setMessages((prev) => [...prev, { text, sender }])
   }
 
-  const askNextQuestion = () => {
+  const handleAnswer = useCallback((key: string, answer: string) => {
+    setAnswers((prev) => ({ ...prev, [key]: answer }))
+    addMessage(answer, 'user')
+    setCurrentQuestionIndex((prev) => prev + 1)
+  }, [])
+
+  const askNextQuestion = useCallback(() => {
     const currentPhase = conversationFlow[currentPhaseIndex]
     if (!currentPhase) return
 
@@ -39,28 +42,24 @@ export function useOnboardingChat() {
       setMessages((prev) => [...prev, message])
     } else {
       if (currentPhaseIndex < conversationFlow.length - 1) {
-        setCurrentPhaseIndex(currentPhaseIndex + 1)
+        setCurrentPhaseIndex((prev) => prev + 1)
         setCurrentQuestionIndex(0)
       } else {
-        // End of conversation
-        addMessage("Thanks for all the info! I'll be in touch shortly.", 'ai')
+        addMessage(
+          'Thanks for all the info! I&apos;ll be in touch shortly.',
+          'ai',
+        )
       }
     }
-  }
+  }, [currentPhaseIndex, currentQuestionIndex, handleAnswer])
 
-  const handleAnswer = (key: string, answer: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: answer }))
-    addMessage(answer, 'user')
-    setCurrentQuestionIndex(currentQuestionIndex + 1)
-  }
-
-  const startChat = () => {
+  const startChat = useCallback(() => {
     setMessages([])
     setCurrentPhaseIndex(0)
     setCurrentQuestionIndex(0)
     setAnswers({})
     askNextQuestion()
-  }
+  }, [askNextQuestion])
 
   return { messages, startChat, askNextQuestion, handleAnswer, answers }
 }

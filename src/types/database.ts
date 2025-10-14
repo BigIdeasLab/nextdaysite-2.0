@@ -229,6 +229,7 @@ export type Database = {
           yearly_discount: number
           hosting_monthly_price: number
           hosting_yearly_price: number
+          hosting: boolean
         }
         Insert: {
           created_at?: string
@@ -239,11 +240,8 @@ export type Database = {
           summary: string
           features?: string[]
           slug: string
-          updated_at?: string
-          yearly_price: number
-          yearly_discount: number
-          hosting_monthly_price: number
           hosting_yearly_price: number
+          hosting?: boolean
         }
         Update: {
           created_at?: string
@@ -259,6 +257,7 @@ export type Database = {
           yearly_discount?: number
           hosting_monthly_price?: number
           hosting_yearly_price?: number
+          hosting?: boolean
         }
         Relationships: []
       }
@@ -296,7 +295,6 @@ export type Database = {
           status?: Database['public']['Enums']['project_status']
           summary?: string | null
           tags?: string[]
-          title: string
           updated_at?: string
         }
         Update: {
