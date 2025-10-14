@@ -66,9 +66,17 @@ export function RedesignedPricing() {
                     </span>
                   </div>
                 )}
-                <button
+                <div
+                  role='button'
+                  tabIndex={0}
                   onClick={() => setSelectedPlan(plan)}
-                  className='w-full text-left'
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      setSelectedPlan(plan)
+                    }
+                  }}
+                  className='w-full text-left rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8C00] focus-visible:ring-offset-2 focus-visible:ring-offset-black'
                 >
                   <PricingCard
                     plan={plan}
@@ -76,7 +84,7 @@ export function RedesignedPricing() {
                     addHosting={addHosting}
                     setAddHosting={setAddHosting}
                   />
-                </button>
+                </div>
               </div>
             ))}
           </div>
