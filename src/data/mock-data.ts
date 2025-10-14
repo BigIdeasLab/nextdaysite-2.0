@@ -9,57 +9,6 @@ export type ChatMessagesRow =
   Database['public']['Tables']['chat_messages']['Row']
 export type ActivitiesRow = Database['public']['Tables']['activities']['Row']
 
-export const mockPlans: PlansRow[] = [
-  {
-    id: 'plan-web-launch',
-    name: 'Web Launch',
-    slug: 'web-launch',
-    summary: 'AI-guided single-page site, brand guide, and launch checklist.',
-    monthly_price: 499,
-    yearly_price: 4990,
-    is_featured: false,
-    features: [
-      '24-hour delivery',
-      'Single-page responsive site',
-      'AI-optimized copy',
-    ],
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-11-18T09:00:00Z',
-  },
-  {
-    id: 'plan-identity-suite',
-    name: 'Identity Suite',
-    slug: 'identity-suite',
-    summary: 'Multi-page site, full visual identity, and asset library.',
-    monthly_price: 1499,
-    yearly_price: 14990,
-    is_featured: true,
-    features: [
-      '48-hour delivery',
-      'Logos + brand system',
-      'Supabase customer portal',
-    ],
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-11-18T09:00:00Z',
-  },
-  {
-    id: 'plan-complete-launch',
-    name: 'Complete Launch',
-    slug: 'complete-launch',
-    summary: 'Full-stack automations, analytics, and admin dashboards.',
-    monthly_price: 2999,
-    yearly_price: 29990,
-    is_featured: false,
-    features: [
-      'AI workflows',
-      'Team collaboration hub',
-      'Admin analytics + reporting',
-    ],
-    created_at: '2024-01-04T10:00:00Z',
-    updated_at: '2024-11-18T09:00:00Z',
-  },
-]
-
 export const mockUsers: UsersRow[] = [
   {
     id: 'user-b0d5f934-47f1-43dc-9a5a-14f6a9640aa1',
@@ -331,10 +280,84 @@ export const mockActivities: ActivitiesRow[] = [
   },
 ]
 
+export const mockPlans: PlansRow[] = [
+  {
+    id: 'plan-web',
+    name: 'Website Development',
+    slug: 'web',
+    summary: 'Modern 3–5 page website, fast.',
+    monthly_price: 150,
+    yearly_price: 1800,
+    yearly_discount: 300,
+    hosting_monthly_price: 10,
+    hosting_yearly_price: 100,
+    is_featured: false,
+    features: [
+      '3–5 pages',
+      'Responsive + basic SEO',
+      '1 concept + 2 revisions',
+      '5 stock images + icons',
+      'Performance & accessibility pass',
+      'Staging preview',
+      'Delivery: 3–5 business days',
+    ],
+    created_at: '2024-01-04T10:00:00Z',
+    updated_at: '2024-11-18T09:00:00Z',
+  },
+  {
+    id: 'plan-identity',
+    name: 'Brand Idnetity',
+    slug: 'identity',
+    summary: 'Logo suite, brand kit, and templates.',
+    monthly_price: 250,
+    yearly_price: 3000,
+    yearly_discount: 500,
+    hosting_monthly_price: 10,
+    hosting_yearly_price: 100,
+    is_featured: true,
+    features: [
+      ' Logo suite',
+      'Color + type system',
+      'Social kit',
+      'Business card + letterhead',
+      '3 flyer/post templates',
+      'Mini brand guide (PDF)',
+    ],
+    created_at: '2024-01-04T10:00:00Z',
+    updated_at: '2024-11-18T09:00:00Z',
+  },
+  {
+    id: 'plan-complete',
+    name: 'Complete',
+    slug: 'complete',
+    summary: 'Full-stack automations, analytics, and admin dashboards.',
+    monthly_price: 500,
+    yearly_price: 6000,
+    yearly_discount: 1000,
+    hosting_monthly_price: 10,
+    hosting_yearly_price: 100,
+    is_featured: false,
+    features: [
+      'Everything in Web + Identity',
+      '6–10 pages',
+      'AI copy draft for key pages',
+      'SEO essentials',
+      'Launch checklist',
+      '7‑day post‑launch tweaks',
+    ],
+    created_at: '2024-01-04T10:00:00Z',
+    updated_at: '2024-11-18T09:00:00Z',
+  },
+]
+
 export function getMockUserById(userId: string) {
   return mockUsers.find((user) => user.id === userId) ?? null
 }
 
 export function getMockProjectById(projectId: string) {
   return mockProjects.find((project) => project.id === projectId) ?? null
+}
+
+export function getMockPlanById(planId: string) {
+  return mockPlans.find((plan) => plan.id === planId) ?? null
 }

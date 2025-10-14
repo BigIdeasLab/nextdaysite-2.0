@@ -1,28 +1,22 @@
-import { CheckoutFlow } from '@/components/forms/checkout-flow'
-import { createServerSupabaseClient, fetchPlans } from '@/lib/api'
+import Link from 'next/link'
 
-export default async function CheckoutPage() {
-  const supabase = createServerSupabaseClient()
-  const plans = await fetchPlans(supabase)
-  const defaultPlanId =
-    plans.find((plan) => plan.is_featured)?.id ?? plans[0]?.id
-
+export default function CheckoutPage() {
   return (
-    <div className='mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-10 px-6 py-16'>
-      <header className='flex flex-col gap-2 text-center'>
+    <div className='mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 py-16 text-center'>
+      <header className='flex flex-col gap-2'>
         <h1 className='text-3xl font-semibold tracking-tight sm:text-4xl'>
-          Complete your NextDaySite launch
+          Start Your Checkout
         </h1>
         <p className='text-sm text-foreground/70 sm:text-base'>
-          Secure checkout powered by Stripe. Choose your plan, add managed
-          hosting, and confirm payment to start production within 24 hours.
+          Please select a plan from our pricing page to begin the checkout
+          process.
         </p>
       </header>
-      {plans.length ? (
-        <CheckoutFlow plans={plans} defaultPlanId={defaultPlanId} />
-      ) : (
-        <p>No plans available.</p>
-      )}
+      <Link href='/#pricing'>
+        <a className='inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:bg-foreground/90'>
+          View Pricing
+        </a>
+      </Link>
     </div>
   )
 }

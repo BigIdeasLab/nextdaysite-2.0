@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { OnboardingChat } from '@/components/chatbot/onboarding-chat'
 
 export function RedesignedHero() {
   return (
@@ -31,7 +34,9 @@ export function RedesignedHero() {
         </div>
       </div>
 
-      <div className='h-[300px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[500px]' />
+      <div className='h-[500px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[500px] flex flex-col'>
+        <OnboardingChat />
+      </div>
     </section>
   )
 }

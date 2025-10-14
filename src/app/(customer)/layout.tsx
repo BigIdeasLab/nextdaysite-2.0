@@ -1,8 +1,15 @@
 'use client'
 
-import type { ReactNode } from 'react'
-import { LayoutDashboard } from 'lucide-react'
-
+import { type ReactNode, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import {
+  LayoutDashboard,
+  Folder,
+  Lightbulb,
+  CreditCard,
+  User,
+} from 'lucide-react'
+import { useAuth } from '@/context/auth-context'
 import { DashboardShell } from '@/components/layout/dashboard-shell'
 import type { NavSection } from '@/types/navigation'
 
@@ -15,6 +22,26 @@ const customerSections: NavSection[] = [
         href: '/dashboard',
         icon: LayoutDashboard,
       },
+      {
+        label: 'Projects',
+        href: '/project',
+        icon: Folder,
+      },
+      {
+        label: 'Idea Vault',
+        href: '/idea-vault',
+        icon: Lightbulb,
+      },
+      {
+        label: 'Billing',
+        href: '/billing',
+        icon: CreditCard,
+      },
+      {
+        label: 'Account',
+        href: '/account',
+        icon: User,
+      },
     ],
   },
 ]
@@ -24,6 +51,25 @@ type CustomerLayoutProps = {
 }
 
 export default function CustomerLayout({ children }: CustomerLayoutProps) {
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (loading) return
+
+    if (!user) {
+      router.push('/login')
+    } else if (user.user_metadata.role === 'admin') {
+      router.push('/admin/overview')
+    } else if (user.user_metadata.role !== 'customer') {
+      router.push('/login')
+    }
+  }, [user, loading, router])
+
+  if (loading || !user || user.user_metadata.role !== 'customer') {
+    return null // Or a loading spinner
+  }
+
   return (
     <DashboardShell
       sections={customerSections}

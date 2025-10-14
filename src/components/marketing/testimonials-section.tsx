@@ -151,7 +151,7 @@ function TestimonialCard({
         {testimonial.quote}
       </p>
 
-      <div className='mt-auto flex items-center justify-center'>
+      <div className='mt-auto flex items-center justify-center rotate-[6deg]'>
         <ApolloLogo />
       </div>
     </div>
@@ -216,12 +216,7 @@ function ApolloLogo() {
       </g>
       <defs>
         <clipPath id='clip0_apollo'>
-          <rect
-            width='106.731'
-            height='26.6828'
-            fill='white'
-            transform='translate(0.59668 12.0342) rotate(-6)'
-          />
+          <rect width='106.731' height='26.6828' fill='white' />
         </clipPath>
       </defs>
     </svg>

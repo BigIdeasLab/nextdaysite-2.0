@@ -1,17 +1,20 @@
-import { getEnvVar } from '@/lib/utils/env'
-
 export function getSupabaseUrl() {
-  return getEnvVar('NEXT_PUBLIC_SUPABASE_URL')
+  return process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
 }
 
 export function getSupabaseAnonKey() {
-  return getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+  return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
 }
 
 export function getSupabaseServiceRoleKey() {
-  return getEnvVar('SUPABASE_SERVICE_ROLE_KEY')
+  return process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
 }
 
 export function isSupabaseConfigured() {
-  return Boolean(getSupabaseUrl() && getSupabaseAnonKey())
+  return (
+    typeof process.env.NEXT_PUBLIC_SUPABASE_URL === 'string' &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL.length > 0 &&
+    typeof process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY === 'string' &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY.length > 0
+  )
 }

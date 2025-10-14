@@ -221,3 +221,28 @@ export async function fetchUserById(
 
   return data ?? null
 }
+
+export async function updateUser(
+  userId: string,
+  payload: { full_name: string },
+  client?: Client | null,
+): Promise<UsersRow | null> {
+  const supabase = resolveClient(client)
+  if (!supabase) {
+    return null
+  }
+
+  const { data, error } = await supabase
+    .from('users')
+    .update(payload)
+    .eq('id', userId)
+    .select()
+    .single()
+
+  if (error) {
+    handleError('updateUser', error)
+    return null
+  }
+
+  return data
+}
