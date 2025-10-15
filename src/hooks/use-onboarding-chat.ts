@@ -1,65 +1,75 @@
 'use client'
 
 import { useCallback, useState } from 'react'
-import { conversationFlow } from '@/components/chatbot/conversation-flow'
+import { useAuth } from '@/context/auth-context'
 
 export interface Message {
-  text: string
-  sender: 'ai' | 'user'
-  options?: string[]
-  onOptionClick?: (option: string) => void
+  role: 'user' | 'assistant'
+  content: string
 }
 
 export function useOnboardingChat() {
+  const { client } = useAuth()
   const [messages, setMessages] = useState<Message[]>([])
-  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [isLoading, setIsLoading] = useState(false)
 
-  const addMessage = (text: string, sender: 'ai' | 'user') => {
-    setMessages((prev) => [...prev, { text, sender }])
+  const addMessage = (role: 'user' | 'assistant', content: string) => {
+    setMessages((prev) => [...prev, { role, content }])
   }
 
-  const handleAnswer = useCallback((key: string, answer: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: answer }))
-    addMessage(answer, 'user')
-    setCurrentQuestionIndex((prev) => prev + 1)
-  }, [])
+  const getAIResponse = useCallback(
+    async (userMessage: string) => {
+      addMessage('user', userMessage)
+      setIsLoading(true)
 
-  const askNextQuestion = useCallback(() => {
-    const currentPhase = conversationFlow[currentPhaseIndex]
-    if (!currentPhase) return
-
-    const nextQuestion = currentPhase.questions[currentQuestionIndex]
-    if (nextQuestion) {
-      const message: Message = {
-        text: nextQuestion.text,
-        sender: 'ai',
-        options: nextQuestion.options,
-        onOptionClick: (option: string) =>
-          handleAnswer(nextQuestion.key, option),
-      }
-      setMessages((prev) => [...prev, message])
-    } else {
-      if (currentPhaseIndex < conversationFlow.length - 1) {
-        setCurrentPhaseIndex((prev) => prev + 1)
-        setCurrentQuestionIndex(0)
-      } else {
+      if (!client) {
         addMessage(
-          'Thanks for all the info! I&apos;ll be in touch shortly.',
-          'ai',
+          'assistant',
+          'Auth client is not available. Please try again later.',
         )
+        setIsLoading(false)
+        return
       }
-    }
-  }, [currentPhaseIndex, currentQuestionIndex, handleAnswer])
+
+      const newMessages: Message[] = [
+        ...messages,
+        { role: 'user', content: userMessage },
+      ]
+
+      try {
+        const { data, error } = await client.functions.invoke('deepseek-chat', {
+          body: { messages: newMessages },
+        })
+
+        if (error) {
+          throw new Error(`Function invocation error: ${error.message}`)
+        }
+
+        if (data.choices && data.choices.length > 0) {
+          const aiMessage = data.choices[0].message.content
+          addMessage('assistant', aiMessage)
+        } else {
+          addMessage('assistant', 'Sorry, I could not generate a response.')
+        }
+      } catch (e: unknown) {
+        const error = e as Error
+        addMessage('assistant', `Sorry, something went wrong: ${error.message}`)
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [client, messages],
+  )
 
   const startChat = useCallback(() => {
-    setMessages([])
-    setCurrentPhaseIndex(0)
-    setCurrentQuestionIndex(0)
-    setAnswers({})
-    askNextQuestion()
-  }, [askNextQuestion])
+    setMessages([
+      {
+        role: 'assistant',
+        content:
+          "Hi! I'm here to help you plan your new website. To start, what type of site are you thinking about building?",
+      },
+    ])
+  }, [])
 
-  return { messages, startChat, askNextQuestion, handleAnswer, answers }
+  return { messages, startChat, getAIResponse, isLoading }
 }

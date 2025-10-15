@@ -4,51 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 import { useOnboardingChat } from '@/hooks/use-onboarding-chat'
 import Image from 'next/image'
 
-const quickActions = [
-  'Brand identity design',
-  'Mobile app prototype',
-  'Social media ad campaign',
-  'UI/UX audit report',
-  'Responsive website redesign',
-  'Digital marketing strategy',
-]
-
 export function OnboardingChat() {
-  const { messages, startChat, askNextQuestion, handleAnswer } =
-    useOnboardingChat()
+  const { messages, startChat, getAIResponse, isLoading } = useOnboardingChat()
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const [isExpanded, setIsExpanded] = useState(false)
-  const [hasStartedChat, setHasStartedChat] = useState(false)
 
   useEffect(() => {
     startChat()
-  }, [])
-
-  useEffect(() => {
-    if (
-      messages.length > 0 &&
-      messages[messages.length - 1].sender === 'user'
-    ) {
-      askNextQuestion()
-    }
-  }, [messages, askNextQuestion])
+  }, [startChat])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
-
-  const onOptionClick = (option: string) => {
-    setHasStartedChat(true)
-    const lastMessage = messages[messages.length - 1]
-    if (lastMessage && lastMessage.onOptionClick) {
-      lastMessage.onOptionClick(option)
-    }
-  }
-
-  const handleQuickAction = (action: string) => {
-    setHasStartedChat(true)
-    handleAnswer('quick_action', action)
-  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,8 +23,7 @@ export function OnboardingChat() {
       'message',
     ) as HTMLInputElement
     if (input.value) {
-      setHasStartedChat(true)
-      handleAnswer('text_input', input.value)
+      getAIResponse(input.value)
       input.value = ''
     }
   }
@@ -96,7 +62,7 @@ export function OnboardingChat() {
 
       {/* Main Content Area */}
       <div className='flex flex-1 flex-col overflow-hidden rounded-[30px] bg-[#131313] p-5'>
-        {!hasStartedChat ? (
+        {messages.length === 0 ? (
           <div className='flex flex-1 flex-col items-center justify-between gap-8 pb-5 pt-[60px] md:gap-[45px]'>
             {/* Logo and Title Section */}
             <div className='flex flex-col items-center gap-[45px]'>
@@ -128,21 +94,6 @@ export function OnboardingChat() {
                   </p>
                 </div>
               </div>
-
-              {/* Quick Action Buttons */}
-              <div className='flex flex-wrap items-center justify-center gap-2'>
-                {quickActions.map((action) => (
-                  <button
-                    key={action}
-                    onClick={() => handleQuickAction(action)}
-                    className='flex items-center justify-center gap-2.5 rounded-[30px] bg-[#202020] px-[15px] py-[16px] transition-colors hover:bg-[#2A2A2A]'
-                  >
-                    <span className='text-[21px] font-normal leading-5 text-[#F7F6FF]'>
-                      {action}
-                    </span>
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         ) : (
@@ -150,26 +101,20 @@ export function OnboardingChat() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex gap-3 ${message.sender === 'ai' ? 'justify-start' : 'justify-end'}`}
+                className={`flex gap-3 ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${message.sender === 'user' ? 'bg-[#FF8C00] text-white' : 'bg-[#2D2D2D] text-white'}`}
+                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${message.role === 'user' ? 'bg-[#FF8C00] text-white' : 'bg-[#2D2D2D] text-white'}`}
                 >
-                  {message.text}
+                  {message.content}
                 </div>
               </div>
             ))}
-            {messages[messages.length - 1]?.options && (
-              <div className='flex flex-wrap gap-2'>
-                {messages[messages.length - 1].options?.map((option) => (
-                  <button
-                    key={option}
-                    onClick={() => onOptionClick(option)}
-                    className='rounded-full bg-[#2D2D2D] px-3 py-1 text-sm text-white/80 transition hover:bg-white/20'
-                  >
-                    {option}
-                  </button>
-                ))}
+            {isLoading && (
+              <div className='flex justify-start'>
+                <div className='max-w-[80%] rounded-2xl bg-[#2D2D2D] px-4 py-2 text-white'>
+                  Typing...
+                </div>
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -184,6 +129,7 @@ export function OnboardingChat() {
               name='message'
               placeholder='Ask Anything'
               className='w-full bg-transparent text-[22px] font-normal leading-5 text-white/70 outline-none placeholder:text-white/70'
+              disabled={isLoading}
             />
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-5'>
@@ -264,6 +210,7 @@ export function OnboardingChat() {
               <button
                 type='submit'
                 className='flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-full bg-[#FF8C00] transition-opacity hover:opacity-90'
+                disabled={isLoading}
               >
                 <svg
                   width='30'
