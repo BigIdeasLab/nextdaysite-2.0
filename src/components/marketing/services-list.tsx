@@ -89,14 +89,14 @@ export function ServicesList() {
                 alt={`${service.title} preview 1`}
                 width={287}
                 height={205}
-                className='absolute -left-10 top-2 z-20'
+                className='absolute -left-3 top-2 z-20'
               />
               <Image
                 src={service.image2}
                 alt={`${service.title} preview 2`}
                 width={307}
                 height={225}
-                className='absolute right-0 -top-4 z-10'
+                className='absolute -right-8 -top-4 z-10'
               />
             </div>
 
