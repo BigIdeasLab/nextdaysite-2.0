@@ -74,7 +74,6 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
     <DashboardShell
       sections={customerSections}
       topbar={<p className='text-sm text-foreground/60'>Welcome back</p>}
-      sidebarFooter={<p>Need help? Email support@nextdaysite.com</p>}
     >
       {children}
     </DashboardShell>
