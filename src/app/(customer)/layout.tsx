@@ -71,10 +71,7 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
   }
 
   return (
-    <DashboardShell
-      sections={customerSections}
-      topbar={<p className='text-sm text-foreground/60'>Welcome back</p>}
-    >
+    <DashboardShell sections={customerSections}>
       {children}
     </DashboardShell>
   )
