@@ -15,7 +15,7 @@ import type { NavSection } from '@/types/navigation'
 
 const customerSections: NavSection[] = [
   {
-    label: 'Workspace',
+    label: 'MAIN',
     items: [
       {
         label: 'Dashboard',
@@ -70,13 +70,5 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
     return null // Or a loading spinner
   }
 
-  return (
-    <DashboardShell
-      sections={customerSections}
-      topbar={<p className='text-sm text-foreground/60'>Welcome back</p>}
-      sidebarFooter={<p>Need help? Email support@nextdaysite.com</p>}
-    >
-      {children}
-    </DashboardShell>
-  )
+  return <DashboardShell sections={customerSections}>{children}</DashboardShell>
 }
