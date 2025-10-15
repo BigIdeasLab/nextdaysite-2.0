@@ -15,7 +15,7 @@ import type { NavSection } from '@/types/navigation'
 
 const customerSections: NavSection[] = [
   {
-    label: 'Workspace',
+    label: 'MAIN',
     items: [
       {
         label: 'Dashboard',
