@@ -42,17 +42,14 @@ export function DashboardShell({
           <SidebarNav sections={sections} />
         </div>
       </aside>
-      <div className='flex min-h-screen flex-col'>
-        <header
-          className={clsx(
-            'flex h-16 items-center border-b border-foreground/10 bg-background/90 px-6 backdrop-blur',
-            topbar ? 'justify-between' : 'justify-end',
-          )}
-        >
-          {topbar ?? null}
-        </header>
-        <main className='flex-1 overflow-y-auto bg-foreground/[0.02] px-6 py-10'>
-          <div className='mx-auto flex w-full max-w-6xl flex-col gap-8'>
+      <div className='flex min-h-screen flex-col bg-black'>
+        {topbar ? (
+          <header className='flex h-16 items-center justify-between border-b border-foreground/10 bg-background/90 px-6 backdrop-blur'>
+            {topbar}
+          </header>
+        ) : null}
+        <main className='flex-1 overflow-y-auto px-12 py-[37px]'>
+          <div className='mx-auto flex w-full max-w-[1199px] flex-col gap-8'>
             {children}
           </div>
         </main>
