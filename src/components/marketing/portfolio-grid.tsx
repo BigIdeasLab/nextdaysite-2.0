@@ -59,7 +59,7 @@ const projects = [
 
 export function PortfolioGrid() {
   return (
-    <section className='w-full bg-[#0a0a0a] px-6 py-16 md:px-12 lg:px-52'>
+    <section className='w-full px-6 pt-16 pb-50 md:px-12 lg:px-52'>
       <div className='mx-auto grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-5 md:gap-y-12'>
         {projects.map((project, index) => (
           <div

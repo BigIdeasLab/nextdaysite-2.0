@@ -37,7 +37,7 @@ const footerSections = [
 
 export function RedesignedFooter() {
   return (
-    <footer className='w-full bg-[#0a0a0a] px-4 py-8 sm:px-6 md:px-8 lg:px-12'>
+    <footer className='w-full bg-black px-4 py-8 sm:px-6 md:px-8 lg:px-12'>
       <div className='mx-auto flex w-full max-w-7xl flex-col gap-8 md:flex-row md:items-start md:gap-16 lg:gap-24'>
         <Link href='/' className='flex-shrink-0'>
           <Image

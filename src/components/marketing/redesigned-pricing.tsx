@@ -16,79 +16,81 @@ export function RedesignedPricing() {
   }
 
   return (
-    <section
-      id='pricing'
-      className='w-full bg-black px-4 py-16 md:px-8 md:py-24 lg:px-12'
-    >
-      <div className='mx-auto flex w-full max-w-[1023px] flex-col items-center gap-16 md:gap-[70px]'>
-        {/* Header */}
-        <div className='flex flex-col items-center gap-5'>
-          <h2 className='text-center text-[32px] font-medium leading-[40px] text-[#F7F6FF] md:text-[40px] md:leading-[50px]'>
-            Our Pricing plan
-          </h2>
+    <section className='bg-[#131313]'>
+      <section
+        id='pricing'
+        className='w-full bg-black rounded-t-[20px] md:rounded-t-[50px] px-4 py-16 md:px-8 md:py-24 lg:px-12'
+      >
+        <div className='mx-auto flex w-full max-w-[1023px] flex-col items-center gap-16 md:gap-[70px]'>
+          {/* Header */}
+          <div className='flex flex-col items-center gap-5'>
+            <h2 className='text-center text-[32px] font-medium leading-[40px] text-[#F7F6FF] md:text-[40px] md:leading-[50px]'>
+              Our Pricing plan
+            </h2>
 
-          {/* Toggle Button */}
-          <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616] p-[0.777px]'>
-            <button
-              onClick={() => setBillingCycle('monthly')}
-              className={`flex h-[41.973px] items-center justify-center rounded-[30px] px-5 transition-all ${
-                billingCycle === 'monthly'
-                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
-                  : 'border-transparent bg-transparent text-[#F7F6FF]'
-              }`}
-            >
-              <span className='text-sm font-medium'>Monthly</span>
-            </button>
-            <button
-              onClick={() => setBillingCycle('yearly')}
-              className={`flex h-[41.973px] items-center justify-center rounded-[30px] px-6 transition-all ${
-                billingCycle === 'yearly'
-                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
-                  : 'border-transparent bg-transparent text-[#F7F6FF]'
-              }`}
-            >
-              <span className='text-sm font-medium'>Yearly</span>
-            </button>
+            {/* Toggle Button */}
+            <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616] p-[0.777px]'>
+              <button
+                onClick={() => setBillingCycle('monthly')}
+                className={`flex h-[41.973px] items-center justify-center rounded-[30px] px-5 transition-all ${
+                  billingCycle === 'monthly'
+                    ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                    : 'border-transparent bg-transparent text-[#F7F6FF]'
+                }`}
+              >
+                <span className='text-sm font-medium'>Monthly</span>
+              </button>
+              <button
+                onClick={() => setBillingCycle('yearly')}
+                className={`flex h-[41.973px] items-center justify-center rounded-[30px] px-6 transition-all ${
+                  billingCycle === 'yearly'
+                    ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                    : 'border-transparent bg-transparent text-[#F7F6FF]'
+                }`}
+              >
+                <span className='text-sm font-medium'>Yearly</span>
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Pricing Cards */}
-        <div className='relative w-full'>
-          <div className='flex w-full flex-col items-center gap-4 md:flex-row md:items-start md:gap-[15px]'>
-            {plans.map((plan) => (
-              <div key={plan.id} className='relative w-full max-w-[331px]'>
-                {plan.is_featured && (
-                  <div className='absolute right-0 -top-[14px] z-10 flex h-[33px] items-center justify-center gap-2.5 rounded-[20px_5px] bg-[#0094EA] px-2.5'>
-                    <span className='text-lg font-medium leading-6 text-[#F7F6FF]'>
-                      Popular
-                    </span>
+          {/* Pricing Cards */}
+          <div className='relative w-full'>
+            <div className='flex w-full flex-col items-center gap-4 md:flex-row md:items-start md:gap-[15px]'>
+              {plans.map((plan) => (
+                <div key={plan.id} className='relative w-full max-w-[331px]'>
+                  {plan.is_featured && (
+                    <div className='absolute right-0 -top-[14px] z-10 flex h-[33px] items-center justify-center gap-2.5 rounded-[20px_5px] bg-[#0094EA] px-2.5'>
+                      <span className='text-lg font-medium leading-6 text-[#F7F6FF]'>
+                        Popular
+                      </span>
+                    </div>
+                  )}
+                  <div
+                    role='button'
+                    tabIndex={0}
+                    // onClick={() => setSelectedPlan(plan)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        setSelectedPlan(plan)
+                      }
+                    }}
+                    className='w-full text-left rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8C00] focus-visible:ring-offset-2 focus-visible:ring-offset-black'
+                  >
+                    <PricingCard plan={plan} billingCycle={billingCycle} />
                   </div>
-                )}
-                <div
-                  role='button'
-                  tabIndex={0}
-                  // onClick={() => setSelectedPlan(plan)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      setSelectedPlan(plan)
-                    }
-                  }}
-                  className='w-full text-left rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8C00] focus-visible:ring-offset-2 focus-visible:ring-offset-black'
-                >
-                  <PricingCard plan={plan} billingCycle={billingCycle} />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-      {selectedPlan && (
-        <CheckoutFlow
-          plan={selectedPlan}
-          onClose={() => setSelectedPlan(null)}
-        />
-      )}
+        {selectedPlan && (
+          <CheckoutFlow
+            plan={selectedPlan}
+            onClose={() => setSelectedPlan(null)}
+          />
+        )}
+      </section>
     </section>
   )
 }

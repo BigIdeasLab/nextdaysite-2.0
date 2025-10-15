@@ -81,36 +81,38 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className='relative w-full overflow-hidden rounded-t-[20px] bg-[#131313] px-5 py-16 md:rounded-t-[50px] md:px-12 md:py-24'>
-      <div className='mx-auto w-full max-w-[1051px]'>
-        <h2 className='mb-12 text-center text-[28px] font-medium leading-[35px] text-white md:mb-20 md:text-[40px] md:leading-[50px]'>
-          Our Outstanding Result
-        </h2>
+    <section className='bg-black'>
+      <div className='relative w-full overflow-hidden rounded-t-[20px] bg-[#131313] px-5 py-16 md:rounded-t-[50px] md:px-12 md:py-24'>
+        <div className='mx-auto w-full max-w-[1051px]'>
+          <h2 className='mb-12 text-center text-[28px] font-medium leading-[35px] text-white md:mb-20 md:text-[40px] md:leading-[50px]'>
+            Our Outstanding Result
+          </h2>
 
-        {/* Mobile: Stacked layout (for screens < md) */}
-        <div className='grid grid-cols-1 gap-6 md:hidden'>
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
-        </div>
+          {/* Mobile: Stacked layout (for screens < md) */}
+          <div className='grid grid-cols-1 gap-6 md:hidden'>
+            {testimonials.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
 
-        {/* Tablet: 2-column grid (for screens>= md and < lg) */}
-        <div className='hidden md:grid md:grid-cols-2 md:gap-8 lg:hidden md:justify-items-center'>
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
-        </div>
+          {/* Tablet: 2-column grid (for screens>= md and < lg) */}
+          <div className='hidden md:grid md:grid-cols-2 md:gap-8 lg:hidden md:justify-items-center'>
+            {testimonials.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
 
-        {/* Desktop: Scattered layout (for screens >= lg) */}
-        <div className='relative mx-auto hidden h-[893px] w-full max-w-[1051px] lg:block'>
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className={`absolute ${testimonial.position} ${testimonial.rotate}`}
-            >
-              <TestimonialCard testimonial={testimonial} />
-            </div>
-          ))}
+          {/* Desktop: Scattered layout (for screens >= lg) */}
+          <div className='relative mx-auto hidden h-[893px] w-full max-w-[1051px] lg:block'>
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className={`absolute ${testimonial.position} ${testimonial.rotate}`}
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

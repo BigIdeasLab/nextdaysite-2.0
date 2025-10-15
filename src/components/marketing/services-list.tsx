@@ -72,7 +72,7 @@ const services = [
 
 export function ServicesList() {
   return (
-    <section className='w-full bg-[#0a0a0a] px-6 py-16 md:px-12 lg:px-52'>
+    <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
       <div className='mx-auto flex w-full max-w-5xl flex-col items-start gap-48'>
         {services.map((service) => (
           <div

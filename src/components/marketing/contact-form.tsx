@@ -122,7 +122,7 @@ export function ContactForm() {
   ]
 
   return (
-    <section className='w-full px-6 pb-8 md:px-12 md:py-16 lg:px-52'>
+    <section className='w-full px-6 pb-8 md:px-12 md:pb-[210px] lg:px-52'>
       <div className='mx-auto max-w-[1002px]'>
         <div className='flex flex-col gap-10 md:flex-row md:items-start md:gap-16 lg:gap-16'>
           {/* Contact Info */}

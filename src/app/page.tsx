@@ -17,15 +17,7 @@ export const metadata: Metadata = {
 
 export default async function MarketingHomePage() {
   return (
-    <div
-      className='bg-[#0a0a0a] text-foreground'
-      style={{
-        backgroundImage: "url('/Grid.png')",
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'auto',
-        backgroundPosition: 'top',
-      }}
-    >
+    <div className='bg-black text-foreground lg-grid-background'>
       <Header />
       <main>
         <RedesignedHero />

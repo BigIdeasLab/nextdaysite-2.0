@@ -45,14 +45,14 @@ export function Header() {
         show ? 'translate-y-0' : '-translate-y-full'
       } ${addBackground ? 'bg-[#131313]' : 'bg-transparent'}`}
     >
-      <div className='mx-auto flex max-w-5xl items-center justify-between gap-8 py-4 lg:py-8'>
+      <div className='mx-auto flex max-w-6xl items-center px-6 md:px-16 justify-between gap-8 py-4 lg:py-8'>
         <Link href='/' className='flex-shrink-0'>
           <Image
             src='https://api.builder.io/api/v1/image/assets/TEMP/7f4ba7b6782f45a1cb95f9f41afb7ed3c8358a89?width=256'
             alt='NextDaySite Logo'
             width={128}
             height={34}
-            className='h-[34px] w-auto lg:h-11'
+            className='h-11 w-auto'
             priority
           />
         </Link>
@@ -79,7 +79,7 @@ export function Header() {
         <div className='flex items-center gap-2'>
           <Link
             href='/#pricing'
-            className='flex h-[34px] items-center justify-center rounded-[21px] bg-[#FF8C00] px-[14px] text-[11px] font-medium text-white transition-transform hover:scale-105 lg:h-12 lg:rounded-full lg:px-5 lg:text-base'
+            className='flex h-12 items-center justify-center  bg-[#FF8C00] text-[12px] font-medium text-white transition-transform hover:scale-105 rounded-full px-5 lg:text-[16px]'
           >
             See Pricing
           </Link>

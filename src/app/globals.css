@@ -220,6 +220,51 @@ body {
   opacity: 0.9;
 }
 
+@media (min-width: 1024px) {
+  .lg-grid-background {
+    background-image: url('/Grid.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: top;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg-portfolio-grid-background {
+    background-image: url('/Portfoliogrid.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: top;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg-about-grid-background {
+    background-image: url('/aboutgrid.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: top;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg-service-grid-background {
+    background-image: url('/servicegrid.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: top;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg-contact-grid-background {
+    background-image: url('/contactgrid.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: top;
+  }
+}
+
 @media (min-width: 768px) {
   .contact-input-wrapper {
     height: 65px;

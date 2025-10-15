@@ -1,3 +1,4 @@
+import { section } from 'framer-motion/client'
 import Image from 'next/image'
 
 const services = [
@@ -47,16 +48,18 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section className='w-full px-5 py-[106px] md:px-12 md:py-26 lg:px-52'>
-      <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-16'>
-        <h2 className='text-center font-medium text-[#F7F6FF] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
-          Our Services
-        </h2>
-        <div className='w-full overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
-          <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-2 lg:grid-cols-3'>
-            {services.map((service) => (
-              <ServiceCard key={service.title} service={service} />
-            ))}
+    <section className='bg-[#131313]'>
+      <div className='w-full bg-black px-5 py-[106px] rounded-t-[20px] md:rounded-t-[50px] md:px-12 md:py-26 lg:px-52'>
+        <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-16'>
+          <h2 className='text-center font-medium text-[#F7F6FF] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
+            Our Services
+          </h2>
+          <div className='w-full overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
+            <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-2 lg:grid-cols-3'>
+              {services.map((service) => (
+                <ServiceCard key={service.title} service={service} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

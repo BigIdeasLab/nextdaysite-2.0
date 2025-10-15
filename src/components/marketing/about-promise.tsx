@@ -7,7 +7,7 @@ export function AboutPromise() {
   ]
 
   return (
-    <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
+    <section className='w-full px-6 py-30 md:px-12 lg:px-52'>
       <div className='mx-auto flex max-w-[1022px] flex-col gap-10 md:gap-[60px]'>
         <div className='flex flex-col gap-8 md:gap-20'>
           <h2 className='max-w-[752px] text-[30px] font-medium leading-snug text-[#F7F6FF] sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>

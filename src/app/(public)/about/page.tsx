@@ -9,7 +9,7 @@ import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 
 export default function AboutPage() {
   return (
-    <div className='min-h-screen bg-[#0a0a0a] text-foreground'>
+    <div className='lg-about-grid-background min-h-screen bg-black text-foreground'>
       <Header />
       <main>
         <AboutHero />

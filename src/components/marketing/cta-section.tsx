@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function CtaSection() {
   return (
-    <section className='w-full px-3 py-16 md:px-12 lg:px-52'>
+    <section className='w-full px-3 py-16 md:px-12 lg:px-52 bg-black'>
       <div className='relative mx-auto flex min-h-[400px] w-full max-w-5xl items-center justify-center overflow-hidden rounded-[30px] bg-[#161616] py-12 md:h-[555px] md:rounded-[50px]'>
         <svg
           width='1022'
