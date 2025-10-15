@@ -70,9 +70,5 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
     return null // Or a loading spinner
   }
 
-  return (
-    <DashboardShell sections={customerSections}>
-      {children}
-    </DashboardShell>
-  )
+  return <DashboardShell sections={customerSections}>{children}</DashboardShell>
 }

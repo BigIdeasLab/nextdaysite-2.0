@@ -29,7 +29,7 @@ export function NewCustomerDashboard() {
     const readyToReview = projects.filter((p) => p.status === 'review')
     const openInvoices = invoices.filter((i) => i.status === 'open')
     const storageUsed = files.reduce((sum, file) => sum + file.size_bytes, 0)
-    const storageGB = (storageUsed / (1024 ** 3)).toFixed(2)
+    const storageGB = (storageUsed / 1024 ** 3).toFixed(2)
 
     return [
       {

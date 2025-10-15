@@ -26,7 +26,9 @@ const defaultActivities: Activity[] = [
   },
 ]
 
-export function RecentActivities({ activities = defaultActivities }: RecentActivitiesProps) {
+export function RecentActivities({
+  activities = defaultActivities,
+}: RecentActivitiesProps) {
   return (
     <div className='flex flex-col gap-4'>
       <h2 className='text-xl font-medium text-white'>Recent Activies</h2>

@@ -25,7 +25,7 @@ export function QuickActions() {
       <div className='flex flex-col gap-2.5'>
         {actions.map((action) => {
           const Icon = action.icon
-          
+
           return (
             <a
               key={action.text}
@@ -34,9 +34,14 @@ export function QuickActions() {
             >
               <div className='flex items-center gap-[14px]'>
                 <Icon className='h-6 w-6 text-[#FF8C00]' strokeWidth={1.5} />
-                <span className='text-lg font-medium text-white'>{action.text}</span>
+                <span className='text-lg font-medium text-white'>
+                  {action.text}
+                </span>
               </div>
-              <ArrowRight className='h-6 w-6 text-white transition group-hover:translate-x-1' strokeWidth={1.5} />
+              <ArrowRight
+                className='h-6 w-6 text-white transition group-hover:translate-x-1'
+                strokeWidth={1.5}
+              />
             </a>
           )
         })}
