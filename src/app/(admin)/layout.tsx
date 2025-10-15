@@ -9,7 +9,7 @@ import type { NavSection } from '@/types/navigation'
 
 const adminSections: NavSection[] = [
   {
-    label: 'Operations',
+    label: 'MAIN',
     items: [
       {
         label: 'Overview',
@@ -66,7 +66,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <DashboardShell
       sections={adminSections}
       topbar={<p className='text-sm text-foreground/60'>Admin controls</p>}
-      sidebarFooter={<p>Operational status: All systems running</p>}
     >
       {children}
     </DashboardShell>
