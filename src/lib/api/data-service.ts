@@ -291,10 +291,13 @@ export async function createProject(
     return null
   }
 
-  const slug = project.title
-    .toLowerCase()
-    .replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '')
+  const slug =
+    project.title
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '') +
+    '-' +
+    Math.random().toString(36).substring(2, 8)
 
   const { data, error } = await supabase
     .from('projects')

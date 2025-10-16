@@ -34,7 +34,7 @@ export function RedesignedHero() {
         </div>
       </div>
 
-      <div className='h-[500px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[#1A1A1A] md:h-[642px] flex flex-col'>
+      <div className='h-[500px] w-full max-w-5xl overflow-y-auto rounded-[30px] bg-[#1A1A1A] md:h-[642px] flex flex-col'>
         <OnboardingChat />
       </div>
     </section>
