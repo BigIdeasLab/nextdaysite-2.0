@@ -70,53 +70,61 @@ export function ProjectsBoard() {
       : (Object.keys(statusConfig) as ProjectStatus[])
 
   if (isLoading) {
-    return <div className='projects-loading'>Loading...</div>
+    return (
+      <div className='flex min-h-[50vh] items-center justify-center text-lg text-[#9ba1a6]'>
+        Loading...
+      </div>
+    )
   }
 
   return (
-    <div className='projects-page border'>
+    <div className='min-h-screen bg-black p-6 font-sans text-[#f7f6ff]'>
       {/* Breadcrumbs */}
-      <div className='projects-breadcrumbs'>
+      <div className='mb-8 text-lg font-light leading-[22px] text-[#9ba1a6]'>
         Homepage &gt; Project &gt; Kanban Board
       </div>
 
       {/* Header */}
-      <div className='projects-header'>
-        <div className='projects-title-section'>
-          <h1 className='projects-title'>Project Board</h1>
-          <p className='projects-subtitle'>
+      <div className='mb-8 flex items-start justify-between gap-4'>
+        <div className='flex flex-col gap-2'>
+          <h1 className='text-3xl font-medium leading-[50px] text-[#f7f6ff]'>
+            Project Board
+          </h1>
+          <p className='text-lg font-light leading-[22px] text-[#9ba1a6]'>
             Manage your projects with our Kanban board
           </p>
         </div>
-        <button className='new-project-button'>New Project</button>
+        <button className='h-12 cursor-pointer rounded-full border-none bg-[#ff8c00] px-5 text-center text-base font-medium leading-5 text-[#f7f6ff] transition-opacity duration-200 hover:opacity-90'>
+          New Project
+        </button>
       </div>
 
       {/* Search and Filters */}
-      <div className='projects-controls'>
-        <div className='search-filter-row'>
-          <div className='search-input-wrapper'>
-            <Search className='search-icon' />
+      <div className='mb-8 flex flex-col gap-5'>
+        <div className='flex items-center gap-2'>
+          <div className='flex flex-1 items-center gap-[5px] rounded-xl border border-[#131313] bg-[#131313] p-[17px_15px_16px]'>
+            <Search className='h-5 w-5 text-[#9ba1a6]' />
             <input
               type='text'
               placeholder='Search Anything'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className='search-input'
+              className='flex-1 border-none bg-transparent text-lg font-light leading-[50px] text-[#9ba1a6] outline-none placeholder:text-[#9ba1a6]'
             />
           </div>
-          <button className='filter-button'>
-            <Filter className='filter-icon' />
+          <button className='h-[53px] w-[53px] cursor-pointer items-center justify-center rounded-xl border border-[#131313] bg-[#131313] p-[15px_14px_14px_15px]'>
+            <Filter className='h-6 w-6 text-[#9ba1a6]' />
           </button>
         </div>
 
-        <div className='status-filters'>
+        <div className='flex flex-wrap items-center gap-[10px]'>
           {(Object.keys(statusConfig) as ProjectStatus[]).map((status) => {
             const count = projectsByStatus[status]?.length || 0
             const config = statusConfig[status]
             return (
               <button
                 key={status}
-                className='status-filter-button'
+                className='flex cursor-pointer items-center justify-center gap-[10px] rounded-[40px] border border-[#3a3a3a] bg-transparent px-[15px] py-[13px] transition-colors duration-200 hover:bg-[rgba(58,58,58,0.3)]'
                 onClick={() => {
                   setSelectedStatuses((prev) =>
                     prev.includes(status)
@@ -125,13 +133,17 @@ export function ProjectsBoard() {
                   )
                 }}
               >
-                <div className='status-badge'>
-                  <div className='status-badge-circle'>
-                    <span className='status-badge-number'>{count}</span>
+                <div className='flex items-center gap-[10px]'>
+                  <div className='relative flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white'>
+                    <span className='text-center text-[15px] font-normal leading-[22px] text-black'>
+                      {count}
+                    </span>
                   </div>
-                  <span className='status-badge-label'>{config.label}</span>
+                  <span className='text-base font-normal leading-[22px] text-[#f7f6ff]'>
+                    {config.label}
+                  </span>
                 </div>
-                <ChevronDown className='status-dropdown-icon' />
+                <ChevronDown className='h-5 w-5 text-white/50' />
               </button>
             )
           })}
@@ -139,60 +151,64 @@ export function ProjectsBoard() {
       </div>
 
       {/* Kanban Board */}
-      <div className='kanban-container'>
-        <div className='kanban-board'>
+      <div className='min-h-[60vh] rounded-t-[30px] bg-[#131313] p-8'>
+        <div className='grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5'>
           {filteredStatuses.map((status) => {
             const config = statusConfig[status]
             const statusProjects = projectsByStatus[status] || []
 
             return (
-              <div key={status} className='kanban-column'>
+              <div key={status} className='flex flex-col gap-5'>
                 {/* Column Header */}
-                <div className='kanban-column-header'>
-                  <div className='column-header-content'>
-                    <h3 className='column-title'>{config.label}</h3>
+                <div className='relative'>
+                  <div className='flex w-full items-center justify-center rounded-xl bg-[#202020] p-[15px]'>
+                    <h3 className='text-lg font-medium leading-[22px] text-[#f7f6ff]'>
+                      {config.label}
+                    </h3>
                   </div>
                   <div
-                    className='column-bar'
+                    className='-mt-[10px] mx-auto h-4 w-[calc(100%-24px)] rounded-b-[10px]'
                     style={{ background: config.barColor }}
                   />
                 </div>
 
                 {/* Column Cards */}
-                <div className='kanban-cards'>
+                <div className='flex flex-col gap-[10px]'>
                   {statusProjects.map((project) => (
                     <Link
                       key={project.id}
-                      href={`/dashboard/projects/${project.id}`}
-                      className='project-card'
+                      href={`/project/${project.id}`}
+                      className='flex flex-col gap-[15px] rounded-xl bg-[#202020] px-3 py-[15px] no-underline transition-colors duration-200 hover:bg-[#252525]'
                     >
-                      <div className='project-card-header'>
-                        <div className='project-info'>
-                          <h4 className='project-name'>{project.title}</h4>
-                          <p className='project-progress'>
+                      <div className='flex items-start justify-between'>
+                        <div className='flex flex-col gap-[15px]'>
+                          <h4 className='text-lg font-medium leading-[21px] text-[#f7f6ff]'>
+                            {project.title}
+                          </h4>
+                          <p className='text-base font-light leading-[22px] text-[#9ba1a6]'>
                             Progress: {project.progress}%
                           </p>
                         </div>
-                        <button className='project-menu-button'>
-                          <MoreVertical className='menu-icon' />
+                        <button className='h-[18px] w-[18px] cursor-pointer border-none bg-transparent p-0'>
+                          <MoreVertical className='h-[18px] w-[18px] text-white' />
                         </button>
                       </div>
 
-                      <div className='project-card-body'>
-                        <div className='progress-bar-container'>
-                          <div className='progress-bar-bg' />
+                      <div className='flex flex-col gap-[15px]'>
+                        <div className='relative h-[10px]'>
+                          <div className='absolute h-[10px] w-full rounded-full bg-[#2f2f2f]' />
                           <div
-                            className='progress-bar-fill'
+                            className='absolute h-[10px] rounded-full bg-white'
                             style={{ width: `${project.progress}%` }}
                           />
                         </div>
 
                         <div
-                          className='project-status-tag'
+                          className='flex items-center justify-center rounded-[10px] px-2 py-[13px]'
                           style={{ background: config.bgColor }}
                         >
                           <span
-                            className='project-status-text'
+                            className='text-base font-normal leading-[50px]'
                             style={{ color: config.color }}
                           >
                             Status: {config.label}
@@ -200,8 +216,8 @@ export function ProjectsBoard() {
                         </div>
                       </div>
 
-                      <div className='project-card-footer'>
-                        <p className='project-updated'>
+                      <div className='border-t border-white/10 pt-[10px]'>
+                        <p className='text-center text-[15px] font-normal leading-[22px] text-[#9ba1a6]'>
                           Updated:{' '}
                           {new Date(project.updated_at).toLocaleDateString(
                             'en-US',
