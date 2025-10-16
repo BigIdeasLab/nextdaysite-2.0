@@ -98,11 +98,7 @@ export function DashboardShell({
             <div className='flex-1'>{topbar}</div>
           </header>
         ) : null}
-        <main className='flex-1 overflow-y-auto px-6 py-8 sm:px-8 md:px-12'>
-          <div className='mx-auto flex w-full max-w-screen-xl flex-col gap-8'>
-            {children}
-          </div>
-        </main>
+        <main className='flex-1 overflow-y-auto px-8 py-8'>{children}</main>
       </div>
     </div>
   )

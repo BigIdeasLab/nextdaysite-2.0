@@ -36,7 +36,7 @@ export function ProjectCard({
 
         <div className='flex items-center justify-between'>
           <div
-            className={`rounded-[10px] px-2 py-[13px] ${
+            className={`rounded-[10px] px-2 py-1 ${
               isCompleted
                 ? 'bg-[#223219] text-[#82FF3A]'
                 : 'bg-[#452600] text-[#FF8C00]'

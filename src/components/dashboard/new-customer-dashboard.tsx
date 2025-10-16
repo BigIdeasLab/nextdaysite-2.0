@@ -168,26 +168,30 @@ export function NewCustomerDashboard() {
 
       <div className='grid gap-8 lg:grid-cols-[1fr_449px]'>
         <div className='flex flex-col gap-4'>
-          <ProjectSearchSection />
-
-          <div className='flex flex-col gap-4'>
-            {projects.slice(0, 3).map((project) => (
-              <ProjectCard
-                key={project.id}
-                title={project.title}
-                status={statusLabels[project.status] || 'Status: Unknown'}
-                progress={project.progress}
-                lastUpdated={formatDate(project.updated_at, {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-                statusColor={project.status === 'shipped' ? 'green' : 'orange'}
-              />
-            ))}
+          <h2 className='text-xl font-medium text-white'>Your Project</h2>
+          <div className='flex flex-col gap-4 bg-[#131313] p-3 rounded-xl'>
+            <ProjectSearchSection />
+            <div className='flex flex-col gap-4'>
+              {projects.slice(0, 3).map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  title={project.title}
+                  status={statusLabels[project.status] || 'Status: Unknown'}
+                  progress={project.progress}
+                  lastUpdated={formatDate(project.updated_at, {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                  statusColor={
+                    project.status === 'shipped' ? 'green' : 'orange'
+                  }
+                />
+              ))}
+            </div>
           </div>
         </div>
 

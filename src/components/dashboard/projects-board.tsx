@@ -74,7 +74,7 @@ export function ProjectsBoard() {
   }
 
   return (
-    <div className='projects-page'>
+    <div className='projects-page border'>
       {/* Breadcrumbs */}
       <div className='projects-breadcrumbs'>
         Homepage &gt; Project &gt; Kanban Board

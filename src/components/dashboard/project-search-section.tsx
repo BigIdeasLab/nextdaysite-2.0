@@ -3,7 +3,6 @@ import { Search, Grid3x3, List } from 'lucide-react'
 export function ProjectSearchSection() {
   return (
     <div className='flex flex-col gap-4'>
-      <h2 className='text-xl font-medium text-white'>Your Project</h2>
       <div className='flex items-center gap-2.5'>
         <div className='flex h-[53px] flex-1 items-center gap-1 rounded-xl border border-[#202020] bg-[#202020] px-[15px]'>
           <Search className='h-5 w-5 text-[#9BA1A6]' strokeWidth={1.25} />
