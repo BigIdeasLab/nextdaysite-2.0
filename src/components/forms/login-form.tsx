@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/context/auth-context'
+import { Eye, EyeOff } from 'lucide-react'
 
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -9,6 +10,8 @@ export function LoginForm() {
   const { client } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -37,7 +40,6 @@ export function LoginForm() {
       }
 
       setSubmissionState('success')
-      // Redirect to dashboard or another protected route
       window.location.href = '/dashboard'
     } catch (error) {
       console.error(error)
@@ -49,53 +51,96 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
-      <section className='flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
-        <div className='grid gap-4'>
-          <label className='flex flex-col gap-2 text-sm text-foreground/70'>
-            Email
-            <input
-              type='email'
-              className='rounded-xl border border-foreground/15 bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-foreground'
-              placeholder='you@company.com'
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </label>
-          <label className='flex flex-col gap-2 text-sm text-foreground/70'>
-            Password
-            <input
-              type='password'
-              className='rounded-xl border border-foreground/15 bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-foreground'
-              placeholder='••••••••'
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-          </label>
+    <div className="auth-card">
+      <div className="auth-header">
+        <h1 className="auth-title">Welcome Back</h1>
+        <p className="auth-subtitle">Sign in to access your customer portal</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="auth-form">
+        <div className="form-fields">
+          <div className="form-field">
+            <label className="field-label">Email</label>
+            <div className="field-input-wrapper">
+              <input
+                type="email"
+                className="field-input"
+                placeholder="youexample.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <div className="field-underline" />
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label className="field-label">Password</label>
+            <div className="field-input-wrapper">
+              <div className="password-field">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className="field-input"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="password-toggle"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-[18px] h-[18px]" />
+                  ) : (
+                    <Eye className="w-[18px] h-[18px]" />
+                  )}
+                </button>
+              </div>
+              <div className="field-underline" />
+            </div>
+          </div>
         </div>
-        {errorMessage ? (
-          <p className='text-sm font-medium text-rose-500'>{errorMessage}</p>
-        ) : null}
-        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
-          <p className='text-xs text-foreground/50'>
-            Don&apos;t have an account?{' '}
-            <a href='/signup' className='underline'>
-              Sign up
-            </a>
-          </p>
+
+        {errorMessage && (
+          <p className="error-message">{errorMessage}</p>
+        )}
+
+        <div className="form-options">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="checkbox-input"
+            />
+            <span className="checkbox-text">Remember me</span>
+          </label>
+          <a href="/forgot-password" className="forgot-link">
+            Forgot Password?
+          </a>
+        </div>
+
+        <div className="form-actions">
           <button
-            type='submit'
+            type="submit"
             disabled={
               submissionState === 'submitting' || submissionState === 'success'
             }
-            className='inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60'
+            className="primary-button"
           >
-            {submissionState === 'submitting' ? 'Logging in...' : 'Login'}
+            {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
+          <p className="switch-auth">
+            Don't have an account?{' '}
+            <a href="/signup" className="auth-link">
+              Sign Up
+            </a>
+          </p>
         </div>
-      </section>
-    </form>
+      </form>
+    </div>
   )
 }

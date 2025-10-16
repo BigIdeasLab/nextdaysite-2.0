@@ -1,7 +1,7 @@
-import { LoginForm } from '@/components/forms/login-form'
+import { EmailSent } from '@/components/forms/email-sent'
 import Image from 'next/image'
 
-export default function LoginPage() {
+export default function EmailSentPage() {
   return (
     <div className="auth-page">
       <div className="auth-container">
@@ -14,7 +14,7 @@ export default function LoginPage() {
             priority
           />
         </div>
-        <LoginForm />
+        <EmailSent />
         <p className="auth-footer">© 2025 NextDaySite. All rights reserved.</p>
       </div>
     </div>
