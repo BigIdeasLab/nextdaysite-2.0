@@ -1,7 +1,7 @@
-import { SignupForm } from '@/components/forms/signup-form'
+import { EmailConfirmed } from '@/components/forms/email-confirmed'
 import Image from 'next/image'
 
-export default function SignupPage() {
+export default function EmailConfirmedPage() {
   return (
     <div className='auth-page'>
       <div className='auth-container'>
@@ -14,7 +14,7 @@ export default function SignupPage() {
             priority
           />
         </div>
-        <SignupForm />
+        <EmailConfirmed />
         <p className='auth-footer'>© 2025 NextDaySite. All rights reserved.</p>
       </div>
     </div>
