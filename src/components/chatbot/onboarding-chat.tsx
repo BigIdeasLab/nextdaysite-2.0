@@ -40,7 +40,11 @@ export function OnboardingChat() {
   }
 
   return (
-    <div className='flex h-full w-full flex-col bg-gradient-to-b from-[#FF8C00] to-black'>
+    <div
+      className={`flex flex-col bg-gradient-to-b from-[#FF8C00] to-black ${
+        isExpanded ? 'fixed inset-0 z-50 h-screen w-screen' : 'h-full w-full'
+      }`}
+    >
       {/* Header */}
       <div className='flex items-center justify-between rounded-t-[30px] px-5 py-2 '>
         <h2 className='text-[20px] font-medium leading-[31.471px] text-[#F7F6FF]'>
@@ -50,23 +54,41 @@ export function OnboardingChat() {
           onClick={() => setIsExpanded(!isExpanded)}
           className='flex items-center gap-2.5 transition-opacity hover:opacity-90'
         >
-          <svg
-            width='26'
-            height='26'
-            viewBox='0 0 26 26'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              d='M8.66732 4.33301H4.33398M4.33398 4.33301V8.66634M4.33398 4.33301L9.75065 9.74967M17.334 4.33301H21.6673M21.6673 4.33301V8.66634M21.6673 4.33301L16.2507 9.74967M8.66732 21.6663H4.33398M4.33398 21.6663V17.333M4.33398 21.6663L9.75065 16.2497M17.334 21.6663H21.6673M21.6673 21.6663V17.333M21.6673 21.6663L16.2507 16.2497'
-              stroke='#F7F6FF'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
+          {isExpanded ? (
+            <svg
+              width='26'
+              height='26'
+              viewBox='0 0 26 26'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M4.33398 17.333H8.66732M8.66732 17.333V21.6663M8.66732 17.333L3.25098 22.7497M17.334 21.6663H21.6673M21.6673 21.6663V17.333M21.6673 21.6663L16.2507 16.2497M4.33398 8.66634H8.66732M8.66732 8.66634V4.33301M8.66732 8.66634L3.25098 3.24967M17.334 4.33301H21.6673M21.6673 4.33301V8.66634M21.6673 4.33301L16.2507 9.74967'
+                stroke='#F7F6FF'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              />
+            </svg>
+          ) : (
+            <svg
+              width='26'
+              height='26'
+              viewBox='0 0 26 26'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M8.66732 4.33301H4.33398M4.33398 4.33301V8.66634M4.33398 4.33301L9.75065 9.74967M17.334 4.33301H21.6673M21.6673 4.33301V8.66634M21.6673 4.33301L16.2507 9.74967M8.66732 21.6663H4.33398M4.33398 21.6663V17.333M4.33398 21.6663L9.75065 16.2497M17.334 21.6663H21.6673M21.6673 21.6663V17.333M21.6673 21.6663L16.2507 16.2497'
+                stroke='#F7F6FF'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              />
+            </svg>
+          )}
           <span className='text-[20px] font-medium leading-[31.471px] text-[#F7F6FF]'>
-            Expand Chat
+            {isExpanded ? 'Close Chat' : 'Expand Chat'}
           </span>
         </button>
       </div>
