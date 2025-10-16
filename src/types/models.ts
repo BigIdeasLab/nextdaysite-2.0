@@ -10,6 +10,8 @@ export type ChatMessagesRow =
 export type ActivitiesRow = Database['public']['Tables']['activities']['Row']
 export type SubscriptionsRow =
   Database['public']['Tables']['subscriptions']['Row']
+export type OnboardingStepsRow =
+  Database['public']['Tables']['onboarding_steps']['Row']
 
 export type StartCheckoutResult =
   Database['public']['Functions']['start_checkout']['Returns'][number]

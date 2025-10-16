@@ -7,6 +7,7 @@ import type {
   ChatMessagesRow,
   FilesRow,
   InvoicesRow,
+  OnboardingStepsRow,
   PlansRow,
   ProjectsRow,
   UsersRow,
@@ -41,6 +42,27 @@ export async function fetchPlans(client?: Client | null): Promise<PlansRow[]> {
 
   if (error) {
     handleError('fetchPlans', error)
+    return []
+  }
+
+  return data ?? []
+}
+
+export async function fetchOnboardingSteps(
+  client?: Client | null,
+): Promise<OnboardingStepsRow[]> {
+  const supabase = resolveClient(client)
+  if (!supabase) {
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from('onboarding_steps')
+    .select('*')
+    .order('id', { ascending: true })
+
+  if (error) {
+    handleError('fetchOnboardingSteps', error)
     return []
   }
 

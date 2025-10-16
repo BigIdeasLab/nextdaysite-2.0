@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useProjects, useInvoices, useFiles, useActivities } from '@/hooks'
 import { DashboardHeader } from './dashboard-header'
 import { NewKpiGrid } from './new-kpi-grid'
@@ -9,6 +9,7 @@ import { ProjectCard } from './project-card'
 import { QuickActions } from './quick-actions'
 import { RecentActivities } from './recent-activities'
 import { formatDate } from '@/lib/utils/format'
+import type { ProjectDetails } from '@/hooks/use-simulated-onboarding-chat'
 
 const statusLabels: Record<string, string> = {
   start: 'Status: Kickoff',
@@ -23,6 +24,22 @@ export function NewCustomerDashboard() {
   const { data: invoices = [] } = useInvoices()
   const { data: files = [] } = useFiles()
   const { data: activities = [] } = useActivities()
+  const [onboardingDetails, setOnboardingDetails] =
+    useState<ProjectDetails | null>(null)
+
+  useEffect(() => {
+    const storedDetails = localStorage.getItem('onboardingProjectDetails')
+    if (storedDetails) {
+      try {
+        const details = JSON.parse(storedDetails)
+        setOnboardingDetails(details)
+        localStorage.removeItem('onboardingProjectDetails')
+      } catch (error) {
+        console.error('Failed to parse onboarding details:', error)
+        localStorage.removeItem('onboardingProjectDetails') // Clean up corrupted data
+      }
+    }
+  }, [])
 
   const kpiMetrics = useMemo(() => {
     const activeProjects = projects.filter((p) => p.status !== 'shipped')
@@ -84,6 +101,44 @@ export function NewCustomerDashboard() {
 
   return (
     <div className='flex flex-col gap-8'>
+      {onboardingDetails && (
+        <div className='mb-8 rounded-lg border border-green-500 bg-gray-800 p-6 text-white shadow-lg'>
+          <h2 className='mb-2 text-2xl font-bold'>Welcome to NextDaySite!</h2>
+          <p className='mb-4 text-lg'>
+            Let&apos;s get started on your new project. Here are the details you
+            provided:
+          </p>
+          <ul className='mb-6 list-inside list-disc space-y-2'>
+            {onboardingDetails.projectType && (
+              <li>
+                <strong>Project Type:</strong> {onboardingDetails.projectType}
+              </li>
+            )}
+            {onboardingDetails.pageCount && (
+              <li>
+                <strong>Number of Pages:</strong> {onboardingDetails.pageCount}
+              </li>
+            )}
+            {onboardingDetails.branding && (
+              <li>
+                <strong>Branding Needs:</strong> {onboardingDetails.branding}
+              </li>
+            )}
+          </ul>
+          <div className='flex gap-4'>
+            <button className='rounded-lg bg-green-600 px-4 py-2 font-bold text-white transition-colors hover:bg-green-700'>
+              Confirm and Start Project
+            </button>
+            <button
+              onClick={() => setOnboardingDetails(null)}
+              className='rounded-lg bg-gray-600 px-4 py-2 font-bold text-white transition-colors hover:bg-gray-700'
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
       <DashboardHeader />
 
       <NewKpiGrid items={kpiMetrics} />

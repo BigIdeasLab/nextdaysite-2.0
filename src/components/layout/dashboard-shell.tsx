@@ -14,14 +14,12 @@ type DashboardShellProps = {
   sections: NavSection[]
   children: ReactNode
   topbar?: ReactNode
-  sidebarFooter?: ReactNode
 }
 
 export function DashboardShell({
   sections,
   children,
   topbar,
-  sidebarFooter,
 }: DashboardShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 

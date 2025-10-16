@@ -1,7 +1,5 @@
 'use client'
 
-import { Plus } from 'lucide-react'
-
 export function DashboardHeader() {
   return (
     <div className='flex items-center justify-between'>
