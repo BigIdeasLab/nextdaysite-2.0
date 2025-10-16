@@ -51,91 +51,89 @@ export function LoginForm() {
   }
 
   return (
-    <div className="auth-card">
-      <div className="auth-header">
-        <h1 className="auth-title">Welcome Back</h1>
-        <p className="auth-subtitle">Sign in to access your customer portal</p>
+    <div className='auth-card'>
+      <div className='auth-header'>
+        <h1 className='auth-title'>Welcome Back</h1>
+        <p className='auth-subtitle'>Sign in to access your customer portal</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        <div className="form-fields">
-          <div className="form-field">
-            <label className="field-label">Email</label>
-            <div className="field-input-wrapper">
+      <form onSubmit={handleSubmit} className='auth-form'>
+        <div className='form-fields'>
+          <div className='form-field'>
+            <label className='field-label'>Email</label>
+            <div className='field-input-wrapper'>
               <input
-                type="email"
-                className="field-input"
-                placeholder="youexample.com"
+                type='email'
+                className='field-input'
+                placeholder='youexample.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <div className="field-underline" />
+              <div className='field-underline' />
             </div>
           </div>
 
-          <div className="form-field">
-            <label className="field-label">Password</label>
-            <div className="field-input-wrapper">
-              <div className="password-field">
+          <div className='form-field'>
+            <label className='field-label'>Password</label>
+            <div className='field-input-wrapper'>
+              <div className='password-field'>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className="field-input"
-                  placeholder="Enter your password"
+                  className='field-input'
+                  placeholder='Enter your password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <button
-                  type="button"
+                  type='button'
                   onClick={() => setShowPassword(!showPassword)}
-                  className="password-toggle"
+                  className='password-toggle'
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
-                    <EyeOff className="w-[18px] h-[18px]" />
+                    <EyeOff className='w-[18px] h-[18px]' />
                   ) : (
-                    <Eye className="w-[18px] h-[18px]" />
+                    <Eye className='w-[18px] h-[18px]' />
                   )}
                 </button>
               </div>
-              <div className="field-underline" />
+              <div className='field-underline' />
             </div>
           </div>
         </div>
 
-        {errorMessage && (
-          <p className="error-message">{errorMessage}</p>
-        )}
+        {errorMessage && <p className='error-message'>{errorMessage}</p>}
 
-        <div className="form-options">
-          <label className="checkbox-label">
+        <div className='form-options'>
+          <label className='checkbox-label'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="checkbox-input"
+              className='checkbox-input'
             />
-            <span className="checkbox-text">Remember me</span>
+            <span className='checkbox-text'>Remember me</span>
           </label>
-          <a href="/forgot-password" className="forgot-link">
+          <a href='/forgot-password' className='forgot-link'>
             Forgot Password?
           </a>
         </div>
 
-        <div className="form-actions">
+        <div className='form-actions'>
           <button
-            type="submit"
+            type='submit'
             disabled={
               submissionState === 'submitting' || submissionState === 'success'
             }
-            className="primary-button"
+            className='primary-button'
           >
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
-          <p className="switch-auth">
+          <p className='switch-auth'>
             Don't have an account?{' '}
-            <a href="/signup" className="auth-link">
+            <a href='/signup' className='auth-link'>
               Sign Up
             </a>
           </p>

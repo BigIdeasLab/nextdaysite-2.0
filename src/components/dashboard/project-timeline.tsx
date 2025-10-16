@@ -43,26 +43,26 @@ const timelinePhases = [
 
 export function ProjectTimeline({ projectId }: { projectId: string }) {
   return (
-    <div className="timeline-content">
+    <div className='timeline-content'>
       {timelinePhases.map((phase) => (
-        <div key={phase.id} className="timeline-item">
-          <div className="timeline-status">
+        <div key={phase.id} className='timeline-item'>
+          <div className='timeline-status'>
             {phase.status === 'completed' && (
-              <div className="status-icon completed">
-                <Check className="check-icon" />
+              <div className='status-icon completed'>
+                <Check className='check-icon' />
               </div>
             )}
             {phase.status === 'in_progress' && (
-              <div className="status-icon in-progress">
-                <div className="status-dot" />
+              <div className='status-icon in-progress'>
+                <div className='status-dot' />
               </div>
             )}
             {phase.status === 'pending' && (
-              <div className="status-icon pending" />
+              <div className='status-icon pending' />
             )}
-            <span className="timeline-title">{phase.title}</span>
+            <span className='timeline-title'>{phase.title}</span>
           </div>
-          <span className="timeline-dates">{phase.dates}</span>
+          <span className='timeline-dates'>{phase.dates}</span>
         </div>
       ))}
     </div>

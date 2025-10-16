@@ -78,156 +78,172 @@ export function SignupForm() {
   }
 
   return (
-    <div className="auth-card">
-      <div className="auth-header">
-        <h1 className="auth-title">Create Your Account</h1>
-        <p className="auth-subtitle">Get started with NextDaySite in seconds</p>
+    <div className='auth-card'>
+      <div className='auth-header'>
+        <h1 className='auth-title'>Create Your Account</h1>
+        <p className='auth-subtitle'>Get started with NextDaySite in seconds</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        <div className="form-fields">
-          <div className="form-field">
-            <label className="field-label field-required">Full Name</label>
-            <div className="field-input-wrapper">
+      <form onSubmit={handleSubmit} className='auth-form'>
+        <div className='form-fields'>
+          <div className='form-field'>
+            <label className='field-label field-required'>Full Name</label>
+            <div className='field-input-wrapper'>
               <input
-                type="text"
-                className="field-input"
-                placeholder="youexample.com"
+                type='text'
+                className='field-input'
+                placeholder='youexample.com'
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
               />
-              <div className="field-underline" />
+              <div className='field-underline' />
             </div>
           </div>
 
-          <div className="form-field">
-            <label className="field-label field-required">Email Address</label>
-            <div className="field-input-wrapper">
+          <div className='form-field'>
+            <label className='field-label field-required'>Email Address</label>
+            <div className='field-input-wrapper'>
               <input
-                type="email"
-                className="field-input"
-                placeholder="youexample.com"
+                type='email'
+                className='field-input'
+                placeholder='youexample.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <div className="field-underline" />
+              <div className='field-underline' />
             </div>
           </div>
 
-          <div className="form-field">
-            <label className="field-label">
-              Company Name <span className="optional-text">(Optional)</span>
+          <div className='form-field'>
+            <label className='field-label'>
+              Company Name <span className='optional-text'>(Optional)</span>
             </label>
-            <div className="field-input-wrapper">
+            <div className='field-input-wrapper'>
               <input
-                type="text"
-                className="field-input"
-                placeholder="youexample.com"
+                type='text'
+                className='field-input'
+                placeholder='youexample.com'
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-              <div className="field-underline" />
+              <div className='field-underline' />
             </div>
           </div>
 
-          <div className="password-row">
-            <div className="form-field">
-              <label className="field-label field-required">Password</label>
-              <div className="field-input-wrapper">
-                <div className="password-field">
+          <div className='password-row'>
+            <div className='form-field'>
+              <label className='field-label field-required'>Password</label>
+              <div className='field-input-wrapper'>
+                <div className='password-field'>
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    className="field-input"
-                    placeholder="Enter your password"
+                    className='field-input'
+                    placeholder='Enter your password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <button
-                    type="button"
+                    type='button'
                     onClick={() => setShowPassword(!showPassword)}
-                    className="password-toggle"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    className='password-toggle'
+                    aria-label={
+                      showPassword ? 'Hide password' : 'Show password'
+                    }
                   >
                     {showPassword ? (
-                      <EyeOff className="w-[18px] h-[18px]" />
+                      <EyeOff className='w-[18px] h-[18px]' />
                     ) : (
-                      <Eye className="w-[18px] h-[18px]" />
+                      <Eye className='w-[18px] h-[18px]' />
                     )}
                   </button>
                 </div>
-                <div className="field-underline" />
+                <div className='field-underline' />
               </div>
             </div>
 
-            <div className="form-field">
-              <label className="field-label field-required">Confirm Password</label>
-              <div className="field-input-wrapper">
-                <div className="password-field">
+            <div className='form-field'>
+              <label className='field-label field-required'>
+                Confirm Password
+              </label>
+              <div className='field-input-wrapper'>
+                <div className='password-field'>
                   <input
                     type={showConfirmPassword ? 'text' : 'password'}
-                    className="field-input"
-                    placeholder="Confirm password"
+                    className='field-input'
+                    placeholder='Confirm password'
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                   <button
-                    type="button"
+                    type='button'
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="password-toggle"
-                    aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                    className='password-toggle'
+                    aria-label={
+                      showConfirmPassword ? 'Hide password' : 'Show password'
+                    }
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="w-[18px] h-[18px]" />
+                      <EyeOff className='w-[18px] h-[18px]' />
                     ) : (
-                      <Eye className="w-[18px] h-[18px]" />
+                      <Eye className='w-[18px] h-[18px]' />
                     )}
                   </button>
                 </div>
-                <div className="field-underline" />
+                <div className='field-underline' />
               </div>
             </div>
           </div>
 
-          <div className="password-requirements">
-            <p className="requirements-title">Password must contain:</p>
-            <ul className="requirements-list">
-              <li className={hasMinLength ? 'requirement-met' : 'requirement-unmet'}>
-                <span className="requirement-dot" />
+          <div className='password-requirements'>
+            <p className='requirements-title'>Password must contain:</p>
+            <ul className='requirements-list'>
+              <li
+                className={
+                  hasMinLength ? 'requirement-met' : 'requirement-unmet'
+                }
+              >
+                <span className='requirement-dot' />
                 At least 8 characters
               </li>
-              <li className={hasUpperAndLower ? 'requirement-met' : 'requirement-unmet'}>
-                <span className="requirement-dot" />
+              <li
+                className={
+                  hasUpperAndLower ? 'requirement-met' : 'requirement-unmet'
+                }
+              >
+                <span className='requirement-dot' />
                 One uppercase and one lowercase letter
               </li>
-              <li className={hasNumber ? 'requirement-met' : 'requirement-unmet'}>
-                <span className="requirement-dot" />
+              <li
+                className={hasNumber ? 'requirement-met' : 'requirement-unmet'}
+              >
+                <span className='requirement-dot' />
                 At least one number
               </li>
             </ul>
           </div>
         </div>
 
-        {errorMessage && (
-          <p className="error-message">{errorMessage}</p>
-        )}
+        {errorMessage && <p className='error-message'>{errorMessage}</p>}
 
-        <div className="form-actions">
+        <div className='form-actions'>
           <button
-            type="submit"
+            type='submit'
             disabled={
               submissionState === 'submitting' || submissionState === 'success'
             }
-            className="primary-button"
+            className='primary-button'
           >
-            {submissionState === 'submitting' ? 'Creating account...' : 'Create Account'}
+            {submissionState === 'submitting'
+              ? 'Creating account...'
+              : 'Create Account'}
           </button>
-          <p className="switch-auth">
+          <p className='switch-auth'>
             Already have an account?{' '}
-            <a href="/login" className="auth-link">
+            <a href='/login' className='auth-link'>
               Log in
             </a>
           </p>
