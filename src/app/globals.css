@@ -392,3 +392,411 @@ body {
 .markdown th {
   background-color: var(--dark-section);
 }
+
+/* Auth Pages Styles */
+.auth-page {
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 672px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #343333;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+}
+
+.auth-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-title {
+  color: #f7f6ff;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.auth-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.625rem;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+}
+
+.field-label {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.field-required::after {
+  content: '*';
+  color: #d92d20;
+  margin-left: 2px;
+}
+
+.optional-text {
+  color: #9ba1a6;
+}
+
+.field-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6875rem;
+}
+
+.field-input {
+  background: transparent;
+  border: none;
+  color: #9ba1a6;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 0 0.125rem;
+  outline: none;
+  width: 100%;
+}
+
+.field-input:focus {
+  color: #fff;
+}
+
+.field-input::placeholder {
+  color: #9ba1a6;
+}
+
+.field-underline {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.password-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem;
+  padding: 0 0.125rem;
+}
+
+.password-toggle {
+  background: none;
+  border: none;
+  color: #9ba1a6;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.password-toggle:hover {
+  color: #fff;
+}
+
+.password-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .password-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.0625rem;
+  }
+}
+
+.password-requirements {
+  background: #252625;
+  border-radius: 12px;
+  padding: 0.8125rem 0.625rem 0.625rem 0.6875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.requirements-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.requirements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirements-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5625rem;
+  color: #9ba1a6;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.requirement-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid #9ba1a6;
+  background: #9ba1a6;
+  flex-shrink: 0;
+}
+
+.requirement-met {
+  color: #10b981;
+}
+
+.requirement-met .requirement-dot {
+  border-color: #10b981;
+  background: #10b981;
+}
+
+.requirement-unmet {
+  color: #9ba1a6;
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5625rem;
+  cursor: pointer;
+}
+
+.checkbox-input {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid #ff8c00;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+}
+
+.checkbox-input:checked {
+  background: #ff8c00;
+  position: relative;
+}
+
+.checkbox-input:checked::after {
+  content: '✓';
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-text {
+  color: #9ba1a6;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.forgot-link {
+  color: #ff8c00;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.primary-button {
+  width: 100%;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  border: 1px solid #ff8c00;
+  background: #ff8c00;
+  color: #f7f6ff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.primary-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.switch-auth {
+  color: #9ba1a6;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.auth-link {
+  color: #ff8c00;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-footer {
+  color: #9ba1a6;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Email Confirmation Styles */
+.email-icon,
+.success-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: #ff8c00;
+}
+
+.email-sent-content,
+.email-confirmed-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.email-info,
+.confirmation-info {
+  background: #252625;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.email-instruction,
+.confirmation-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.email-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.email-resend-text {
+  color: #9ba1a6;
+  font-size: 14px;
+  text-align: center;
+}
+
+.back-to-login {
+  color: #9ba1a6;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.back-to-login:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+  .auth-card {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .auth-card {
+    padding: 2.5rem 2rem 2.5rem 2rem;
+  }
+}
