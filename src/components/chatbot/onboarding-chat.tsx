@@ -3,19 +3,30 @@
 import { useEffect, useRef, useState } from 'react'
 import { useOnboardingChat } from '@/hooks/use-onboarding-chat'
 import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export function OnboardingChat() {
-  const { messages, startChat, getAIResponse, isLoading } = useOnboardingChat()
+  const { messages, getAIResponse, isLoading } = useOnboardingChat()
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const [isExpanded, setIsExpanded] = useState(false)
 
-  useEffect(() => {
-    startChat()
-  }, [startChat])
+  const quickActions = [
+    'Brand identity design',
+    'Mobile app prototype',
+    'Social media ad campaign',
+    'UI/UX audit report',
+    'Responsive website redesign',
+    'Digital marketing strategy',
+  ]
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  const handleQuickAction = (action: string) => {
+    getAIResponse(action)
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -63,7 +74,7 @@ export function OnboardingChat() {
       {/* Main Content Area */}
       <div className='flex flex-1 flex-col overflow-hidden rounded-[30px] bg-[#131313] p-5'>
         {messages.length === 0 ? (
-          <div className='flex flex-1 flex-col items-center justify-between gap-8 pb-5 pt-[60px] md:gap-[45px]'>
+          <div className='flex flex-1 flex-col items-center justify-between gap-8 pb-5 pt-[44px] md:gap-[45px]'>
             {/* Logo and Title Section */}
             <div className='flex flex-col items-center gap-[45px]'>
               <div className='flex flex-col items-center gap-[25px]'>
@@ -94,25 +105,76 @@ export function OnboardingChat() {
                   </p>
                 </div>
               </div>
+
+              {/* Quick Action Buttons */}
+              <div className='flex w-full flex-col items-center gap-2'>
+                <div className='flex flex-wrap items-center justify-center gap-2'>
+                  {quickActions.slice(0, 3).map((action) => (
+                    <button
+                      key={action}
+                      onClick={() => handleQuickAction(action)}
+                      className='flex items-center justify-center gap-2.5 rounded-[30px] bg-[#202020] px-[15px] py-[16px] transition-colors hover:bg-[#2A2A2A]'
+                    >
+                      <span className='text-[21px] font-normal leading-5 text-[#F7F6FF]'>
+                        {action}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <div className='flex flex-wrap items-center justify-center gap-2'>
+                  {quickActions.slice(3, 6).map((action) => (
+                    <button
+                      key={action}
+                      onClick={() => handleQuickAction(action)}
+                      className='flex items-center justify-center gap-2.5 rounded-[30px] bg-[#202020] px-[15px] py-[16px] transition-colors hover:bg-[#2A2A2A]'
+                    >
+                      <span className='text-[21px] font-normal leading-5 text-[#F7F6FF]'>
+                        {action}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <div className='flex flex-wrap items-center justify-center gap-2'>
+                  {quickActions.slice(6).map((action) => (
+                    <button
+                      key={action}
+                      onClick={() => handleQuickAction(action)}
+                      className='flex items-center justify-center gap-2.5 rounded-[30px] bg-[#202020] px-[15px] py-[16px] transition-colors hover:bg-[#2A2A2A]'
+                    >
+                      <span className='text-[21px] font-normal leading-5 text-[#F7F6FF]'>
+                        {action}
+                      </span>
+                    </button>
+                  ))}
+                </div>{' '}
+              </div>
             </div>
           </div>
         ) : (
-          <div className='flex flex-1 flex-col gap-4 overflow-y-auto pb-4'>
+          <div className='flex flex-1 flex-col gap-4 overflow-y-auto p-4'>
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex gap-3 ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
+                className={`flex gap-3 text-[18px] ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${message.role === 'user' ? 'bg-[#FF8C00] text-white' : 'bg-[#2D2D2D] text-white'}`}
+                  className={`max-w-[80%] rounded-[20px] px-6 py-4 ${message.role === 'user' ? 'bg-[#472700] text-white' : 'bg-[#202020] text-white'}`}
                 >
-                  {message.content}
+                  {message.role === 'assistant' ? (
+                    <div className='markdown'>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    message.content
+                  )}
                 </div>
               </div>
             ))}
             {isLoading && (
               <div className='flex justify-start'>
-                <div className='max-w-[80%] rounded-2xl bg-[#2D2D2D] px-4 py-2 text-white'>
+                <div className='max-w-[80%] rounded-[20px] px-6 py-4 bg-[#2D2D2D] text-white'>
                   Typing...
                 </div>
               </div>
