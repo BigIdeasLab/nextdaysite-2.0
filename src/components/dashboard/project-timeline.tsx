@@ -43,26 +43,30 @@ const timelinePhases = [
 
 export function ProjectTimeline() {
   return (
-    <div className='timeline-content'>
+    <div className='flex flex-col gap-7'>
       {timelinePhases.map((phase) => (
-        <div key={phase.id} className='timeline-item'>
-          <div className='timeline-status'>
+        <div key={phase.id} className='flex justify-between items-center'>
+          <div className='flex items-center gap-2.5'>
             {phase.status === 'completed' && (
-              <div className='status-icon completed'>
-                <Check className='check-icon' />
+              <div className='w-6 h-6 rounded-full flex items-center justify-center bg-[#ff8c00] border-none'>
+                <Check className='w-4.5 h-4.5 text-white' />
               </div>
             )}
             {phase.status === 'in_progress' && (
-              <div className='status-icon in-progress'>
-                <div className='status-dot' />
+              <div className='w-6 h-6 rounded-full flex items-center justify-center bg-black border-[1.5px] border-[#ff8c00] relative'>
+                <div className='w-[10.5px] h-[10.5px] rounded-full bg-[#ff8c00]' />
               </div>
             )}
             {phase.status === 'pending' && (
-              <div className='status-icon pending' />
+              <div className='w-6 h-6 rounded-full flex items-center justify-center bg-black border-[1.5px] border-[#2d2d2d]' />
             )}
-            <span className='timeline-title'>{phase.title}</span>
+            <span className='text-[#9ba1a6] text-base font-light leading-[22px]'>
+              {phase.title}
+            </span>
           </div>
-          <span className='timeline-dates'>{phase.dates}</span>
+          <span className='text-[#f7f6ff] text-base font-light leading-[22px]'>
+            {phase.dates}
+          </span>
         </div>
       ))}
     </div>

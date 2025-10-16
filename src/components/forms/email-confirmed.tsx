@@ -7,35 +7,37 @@ export function EmailConfirmed() {
   const router = useRouter()
 
   return (
-    <div className='auth-card'>
-      <div className='auth-header text-center'>
-        <div className='success-icon'>
+    <div className='w-full bg-[#1a1a1a] border border-[#343333] rounded-3xl p-8'>
+      <div className='flex flex-col gap-3 mb-6 text-center'>
+        <div className='flex justify-center mb-4 text-[#ff8c00]'>
           <CheckCircle className='w-12 h-12' />
         </div>
-        <h1 className='auth-title'>Email Confirmed!</h1>
-        <p className='auth-subtitle'>
+        <h1 className='text-[#f7f6ff] text-2xl font-bold leading-tight'>
+          Email Confirmed!
+        </h1>
+        <p className='text-white/70 text-base font-normal leading-5'>
           Your account has been successfully verified
         </p>
       </div>
 
-      <div className='email-confirmed-content'>
-        <div className='confirmation-info'>
-          <p className='confirmation-text'>
+      <div className='flex flex-col gap-8 mt-6'>
+        <div className='bg-[#252625] rounded-xl p-6'>
+          <p className='text-white/70 text-sm leading-relaxed text-center'>
             You can now access all features of your NextDaySite account.
             Let&apos;s get started!
           </p>
         </div>
 
-        <div className='form-actions'>
+        <div className='flex flex-col items-center gap-4'>
           <button
             onClick={() => router.push('/dashboard')}
-            className='primary-button'
+            className='w-full h-10 flex justify-center items-center rounded-full border border-[#ff8c00] bg-[#ff8c00] text-[#f7f6ff] text-center text-sm font-medium leading-6 cursor-pointer transition-opacity duration-200'
           >
             Go to Dashboard
           </button>
-          <p className='switch-auth'>
+          <p className='text-[#9ba1a6] text-center text-sm font-normal leading-6'>
             Need to sign in again?{' '}
-            <a href='/login' className='auth-link'>
+            <a href='/login' className='text-[#ff8c00] no-underline'>
               Login
             </a>
           </p>

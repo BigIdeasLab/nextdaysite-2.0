@@ -26,7 +26,7 @@ export function DashboardShell({
   return (
     <div className='grid min-h-screen w-full bg-background text-foreground lg:grid-cols-[272px_1fr]'>
       {/* Desktop Sidebar */}
-      <aside className='hidden h-full flex-col border-r border-white/10 bg-black lg:flex'>
+      <aside className='hidden h-screen flex-col border-r border-white/10 bg-black lg:flex'>
         <div className='flex items-center justify-between gap-[53px] px-5 py-[17px]'>
           <Image
             src='/NDS-Logo.png'

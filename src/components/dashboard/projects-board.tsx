@@ -78,7 +78,7 @@ export function ProjectsBoard() {
   }
 
   return (
-    <div className='min-h-screen bg-black p-6 font-sans text-[#f7f6ff]'>
+    <div className='min-h-screen bg-black font-sans text-[#f7f6ff]'>
       {/* Breadcrumbs */}
       <div className='mb-8 text-lg font-light leading-[22px] text-[#9ba1a6]'>
         Homepage &gt; Project &gt; Kanban Board
@@ -101,8 +101,8 @@ export function ProjectsBoard() {
 
       {/* Search and Filters */}
       <div className='mb-8 flex flex-col gap-5'>
-        <div className='flex items-center gap-2'>
-          <div className='flex flex-1 items-center gap-[5px] rounded-xl border border-[#131313] bg-[#131313] p-[17px_15px_16px]'>
+        <div className='w-full flex items-center gap-2'>
+          <div className='flex items-center gap-[5px] rounded-xl border border-[#131313] bg-[#131313] px-4 w-1/2'>
             <Search className='h-5 w-5 text-[#9ba1a6]' />
             <input
               type='text'
@@ -151,8 +151,8 @@ export function ProjectsBoard() {
       </div>
 
       {/* Kanban Board */}
-      <div className='min-h-[60vh] rounded-t-[30px] bg-[#131313] p-8'>
-        <div className='grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5'>
+      <div className='min-h-[60vh] rounded-t-[30px] bg-[#131313] p-8 '>
+        <div className='grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3'>
           {filteredStatuses.map((status) => {
             const config = statusConfig[status]
             const statusProjects = projectsByStatus[status] || []
@@ -161,7 +161,7 @@ export function ProjectsBoard() {
               <div key={status} className='flex flex-col gap-5'>
                 {/* Column Header */}
                 <div className='relative'>
-                  <div className='flex w-full items-center justify-center rounded-xl bg-[#202020] p-[15px]'>
+                  <div className='relative z-10 flex w-full items-center justify-center rounded-xl bg-[#202020] p-[15px]'>
                     <h3 className='text-lg font-medium leading-[22px] text-[#f7f6ff]'>
                       {config.label}
                     </h3>
@@ -204,11 +204,11 @@ export function ProjectsBoard() {
                         </div>
 
                         <div
-                          className='flex items-center justify-center rounded-[10px] px-2 py-[13px]'
+                          className='flex items-center justify-center rounded-[10px] px-2'
                           style={{ background: config.bgColor }}
                         >
                           <span
-                            className='text-base font-normal leading-[50px]'
+                            className='text-base font-normal leading-[40px]'
                             style={{ color: config.color }}
                           >
                             Status: {config.label}
