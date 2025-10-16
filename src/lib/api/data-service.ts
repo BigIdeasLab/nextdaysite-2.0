@@ -272,6 +272,9 @@ export async function updateUser(
 export async function createProject(
   project: {
     title: string
+    project_type?: string
+    page_count?: string
+    branding?: string
   },
   client?: Client | null,
 ): Promise<ProjectsRow | null> {
@@ -301,6 +304,9 @@ export async function createProject(
         owner_id: user.id,
         slug: slug,
         status: 'start',
+        project_type: project.project_type,
+        page_count: project.page_count,
+        branding: project.branding,
       },
     ])
     .select()

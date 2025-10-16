@@ -104,7 +104,7 @@ export function useSimulatedOnboardingChat() {
             projectDetails.branding
           ) {
             await createProject({
-              name: projectDetails.projectType,
+              title: projectDetails.projectType,
               project_type: projectDetails.projectType,
               page_count: projectDetails.pageCount,
               branding: projectDetails.branding,
