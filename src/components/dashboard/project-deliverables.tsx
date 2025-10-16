@@ -45,7 +45,7 @@ const deliverables = [
   },
 ]
 
-export function ProjectDeliverables({ projectId }: { projectId: string }) {
+export function ProjectDeliverables() {
   return (
     <div className='deliverables-content'>
       {deliverables.map((deliverable) => (

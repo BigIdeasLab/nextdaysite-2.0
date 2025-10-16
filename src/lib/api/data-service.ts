@@ -268,3 +268,48 @@ export async function updateUser(
 
   return data
 }
+
+export async function createProject(
+  project: {
+    title: string
+  },
+  client?: Client | null,
+): Promise<ProjectsRow | null> {
+  const supabase = resolveClient(client)
+  if (!supabase) {
+    return null
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) {
+    console.error('User not found')
+    return null
+  }
+
+  const slug = project.title
+    .toLowerCase()
+    .replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '')
+
+  const { data, error } = await supabase
+    .from('projects')
+    .insert([
+      {
+        title: project.title,
+        owner_id: user.id,
+        slug: slug,
+        status: 'start',
+      },
+    ])
+    .select()
+    .single()
+
+  if (error) {
+    handleError('createProject', error)
+    throw error // re-throw the error to be caught by the caller
+  }
+
+  return data
+}

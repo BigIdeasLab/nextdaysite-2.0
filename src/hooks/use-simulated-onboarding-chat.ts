@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { fetchOnboardingSteps } from '@/lib/api/data-service'
+import { fetchOnboardingSteps, createProject } from '@/lib/api/data-service'
 import type { OnboardingStepsRow } from '@/types/models'
+import { useAuth } from '@/context/auth-context'
 
 // Define the structure for a message in the chat
 export interface ChatMessage {
@@ -31,6 +32,7 @@ export function useSimulatedOnboardingChat() {
   >([])
   const [currentStepName, setCurrentStepName] = useState('start')
   const router = useRouter()
+  const { user } = useAuth()
 
   // Fetch the entire conversation flow from the database on mount
   useEffect(() => {
@@ -69,7 +71,7 @@ export function useSimulatedOnboardingChat() {
   }, [])
 
   const handleUserResponse = useCallback(
-    (responseText: string, nextStepName?: string, action?: string) => {
+    async (responseText: string, nextStepName?: string, action?: string) => {
       if (!nextStepName && !action) return
 
       // 1. Add user's message to chat
@@ -92,16 +94,33 @@ export function useSimulatedOnboardingChat() {
         }))
       }
 
-      // If there's an action, handle it (e.g., redirect)
+      // If there's an action, handle it (e.g., redirect or create project)
       if (action) {
-        localStorage.setItem(
-          'onboardingProjectDetails',
-          JSON.stringify(projectDetails),
-        )
-        if (action === 'signup') {
-          router.push('/signup')
-        } else if (action === 'login') {
-          router.push('/login')
+        if (action === 'create_project') {
+          if (
+            user &&
+            projectDetails.projectType &&
+            projectDetails.pageCount &&
+            projectDetails.branding
+          ) {
+            await createProject({
+              name: projectDetails.projectType,
+              project_type: projectDetails.projectType,
+              page_count: projectDetails.pageCount,
+              branding: projectDetails.branding,
+            })
+            router.push('/dashboard')
+          }
+        } else {
+          localStorage.setItem(
+            'onboardingProjectDetails',
+            JSON.stringify(projectDetails),
+          )
+          if (action === 'signup') {
+            router.push('/signup')
+          } else if (action === 'login') {
+            router.push('/login')
+          }
         }
         setIsLoading(false)
         return
@@ -124,7 +143,7 @@ export function useSimulatedOnboardingChat() {
         setIsLoading(false)
       }, 500) // Simulate "thinking"
     },
-    [conversationFlow, currentStepName, projectDetails, router],
+    [conversationFlow, currentStepName, projectDetails, router, user],
   )
 
   return {

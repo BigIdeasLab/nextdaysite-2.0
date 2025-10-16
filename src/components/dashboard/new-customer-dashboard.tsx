@@ -10,6 +10,8 @@ import { QuickActions } from './quick-actions'
 import { RecentActivities } from './recent-activities'
 import { formatDate } from '@/lib/utils/format'
 import type { ProjectDetails } from '@/hooks/use-simulated-onboarding-chat'
+import { createProject } from '@/lib/api/data-service'
+import { useAuth } from '@/context/auth-context'
 
 const statusLabels: Record<string, string> = {
   start: 'Status: Kickoff',
@@ -26,6 +28,7 @@ export function NewCustomerDashboard() {
   const { data: activities = [] } = useActivities()
   const [onboardingDetails, setOnboardingDetails] =
     useState<ProjectDetails | null>(null)
+  const { user } = useAuth()
 
   useEffect(() => {
     const storedDetails = localStorage.getItem('onboardingProjectDetails')
@@ -40,6 +43,23 @@ export function NewCustomerDashboard() {
       }
     }
   }, [])
+
+  const handleCreateProject = async () => {
+    if (user && onboardingDetails?.projectType) {
+      try {
+        await createProject({
+          title: onboardingDetails.projectType,
+        })
+        setOnboardingDetails(null)
+        window.location.reload()
+      } catch (error) {
+        console.error('Failed to create project:', error)
+        alert(
+          'There was an error creating your project. Please check the console for more details.',
+        )
+      }
+    }
+  }
 
   const kpiMetrics = useMemo(() => {
     const activeProjects = projects.filter((p) => p.status !== 'shipped')
@@ -126,7 +146,10 @@ export function NewCustomerDashboard() {
             )}
           </ul>
           <div className='flex gap-4'>
-            <button className='rounded-lg bg-green-600 px-4 py-2 font-bold text-white transition-colors hover:bg-green-700'>
+            <button
+              onClick={handleCreateProject}
+              className='rounded-lg bg-green-600 px-4 py-2 font-bold text-white transition-colors hover:bg-green-700'
+            >
               Confirm and Start Project
             </button>
             <button

@@ -214,10 +214,8 @@ export function ProjectDetails({ projectId }: { projectId: string }) {
           </div>
         )}
 
-        {activeTab === 'deliverables' && (
-          <ProjectDeliverables projectId={projectId} />
-        )}
-        {activeTab === 'timeline' && <ProjectTimeline projectId={projectId} />}
+        {activeTab === 'deliverables' && <ProjectDeliverables />}
+        {activeTab === 'timeline' && <ProjectTimeline />}
       </div>
     </div>
   )

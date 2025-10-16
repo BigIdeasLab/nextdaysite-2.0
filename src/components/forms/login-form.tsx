@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/auth-context'
 import { Eye, EyeOff } from 'lucide-react'
 
@@ -8,6 +9,7 @@ type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
 export function LoginForm() {
   const { client } = useAuth()
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
@@ -40,7 +42,8 @@ export function LoginForm() {
       }
 
       setSubmissionState('success')
-      window.location.href = '/dashboard'
+      router.refresh()
+      router.push('/dashboard')
     } catch (error) {
       console.error(error)
       setSubmissionState('error')
@@ -132,7 +135,7 @@ export function LoginForm() {
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
           <p className='switch-auth'>
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <a href='/signup' className='auth-link'>
               Sign Up
             </a>

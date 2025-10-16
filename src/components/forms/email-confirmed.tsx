@@ -21,8 +21,8 @@ export function EmailConfirmed() {
       <div className='email-confirmed-content'>
         <div className='confirmation-info'>
           <p className='confirmation-text'>
-            You can now access all features of your NextDaySite account. Let's
-            get started!
+            You can now access all features of your NextDaySite account.
+            Let&apos;s get started!
           </p>
         </div>
 

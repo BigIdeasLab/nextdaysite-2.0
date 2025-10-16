@@ -11,7 +11,7 @@ export function EmailSent() {
         </div>
         <h1 className='auth-title'>Check Your Email</h1>
         <p className='auth-subtitle'>
-          We've sent you a magic link to sign in to your account
+          We&apos;ve sent you a magic link to sign in to your account
         </p>
       </div>
 
@@ -25,7 +25,7 @@ export function EmailSent() {
 
         <div className='email-actions'>
           <p className='email-resend-text'>
-            Didn't receive the email?{' '}
+            Didn&apos;t receive the email?{' '}
             <button className='auth-link' type='button'>
               Resend
             </button>

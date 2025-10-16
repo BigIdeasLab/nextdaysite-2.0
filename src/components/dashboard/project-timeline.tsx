@@ -41,7 +41,7 @@ const timelinePhases = [
   },
 ]
 
-export function ProjectTimeline({ projectId }: { projectId: string }) {
+export function ProjectTimeline() {
   return (
     <div className='timeline-content'>
       {timelinePhases.map((phase) => (

@@ -1,11 +1,12 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 import { getSupabaseAnonKey, getSupabaseUrl } from '@/lib/api/supabase-config'
 import type { Database } from '@/types/database'
 
 let browserClient: SupabaseClient<Database> | null = null
 
-export function createBrowserSupabaseClient(): SupabaseClient<Database> | null {
+export function createBrowserSupabaseClient(): SupabaseClient<Database> {
   if (browserClient) {
     return browserClient
   }
@@ -13,21 +14,12 @@ export function createBrowserSupabaseClient(): SupabaseClient<Database> | null {
   const supabaseUrl = getSupabaseUrl()
   const supabaseAnonKey = getSupabaseAnonKey()
 
+  // This should not happen, but if it does, we'll throw an error
   if (!supabaseUrl || !supabaseAnonKey) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn(
-        'Supabase credentials are not configured. The app will run in read-only demo mode using mock data.',
-      )
-    }
-    return null
+    throw new Error('Supabase URL or Anon Key is not defined.')
   }
 
-  browserClient = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-  })
+  browserClient = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey)
 
   return browserClient
 }
