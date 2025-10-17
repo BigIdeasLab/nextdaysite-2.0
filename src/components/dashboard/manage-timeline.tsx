@@ -18,6 +18,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
   const [title, setTitle] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+  const [status, setStatus] = useState('pending')
   const [selectedPhase, setSelectedPhase] =
     useState<ProjectTimelinePhasesRow | null>(null)
 
@@ -45,6 +46,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
         title,
         start_date: startDate,
         end_date: endDate,
+        status,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['timelinePhases', projectId] })
@@ -52,6 +54,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
       setTitle('')
       setStartDate('')
       setEndDate('')
+      setStatus('pending')
       setSelectedPhase(null)
     },
   })
@@ -78,6 +81,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
     setTitle(phase.title)
     setStartDate(phase.start_date || '')
     setEndDate(phase.end_date || '')
+    setStatus(phase.status)
     setIsEditModalOpen(true)
   }
 
@@ -219,6 +223,24 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                   onChange={(e) => setEndDate(e.target.value)}
                   className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                 />
+              </div>
+              <div className='mb-4'>
+                <label
+                  htmlFor='status'
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  Status
+                </label>
+                <select
+                  id='status'
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+                >
+                  <option value='pending'>Pending</option>
+                  <option value='in_progress'>In Progress</option>
+                  <option value='completed'>Completed</option>
+                </select>
               </div>
               <div className='flex justify-end gap-4'>
                 <button

@@ -508,3 +508,25 @@ export async function deleteDeliverable(
   }
   return true
 }
+
+export async function updateProjectStatus(
+  projectId: string,
+  status: string,
+  client?: Client | null,
+): Promise<ProjectsRow | null> {
+  const supabase = resolveClient(client)
+  if (!supabase) return null
+
+  const { data, error } = await supabase
+    .from('projects')
+    .update({ status })
+    .eq('id', projectId)
+    .select()
+    .single()
+
+  if (error) {
+    handleError('updateProjectStatus', error)
+    return null
+  }
+  return data
+}
