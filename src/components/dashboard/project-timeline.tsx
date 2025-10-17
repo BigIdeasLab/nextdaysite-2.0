@@ -1,47 +1,21 @@
 'use client'
 
+import { useTimelinePhases } from '@/hooks/use-timeline-phases'
 import { Check } from 'lucide-react'
 
-const timelinePhases = [
-  {
-    id: 1,
-    title: 'Discovery & Research',
-    dates: 'Oct 16 – Oct 17',
-    status: 'completed',
-  },
-  {
-    id: 2,
-    title: 'UX Design & Wireframing',
-    dates: 'Oct 17 – Oct 18',
-    status: 'completed',
-  },
-  {
-    id: 3,
-    title: 'UI Design & Prototyping',
-    dates: 'Oct 19 – Oct 20',
-    status: 'completed',
-  },
-  {
-    id: 4,
-    title: 'Development',
-    dates: 'Oct 21 – Oct 22',
-    status: 'in_progress',
-  },
-  {
-    id: 5,
-    title: 'Testing & Refinement',
-    dates: 'Oct 23 – Oct 24',
-    status: 'pending',
-  },
-  {
-    id: 6,
-    title: 'Launch & Handoff',
-    dates: 'Oct 24 – Oct 25',
-    status: 'pending',
-  },
-]
+export function ProjectTimeline({ projectId }: { projectId: string }) {
+  const { data: timelinePhases = [], isLoading } = useTimelinePhases(projectId)
 
-export function ProjectTimeline() {
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
   return (
     <div className='flex flex-col gap-7'>
       {timelinePhases.map((phase) => (
@@ -65,7 +39,9 @@ export function ProjectTimeline() {
             </span>
           </div>
           <span className='text-[#f7f6ff] text-base font-light leading-[22px]'>
-            {phase.dates}
+            {phase.start_date && phase.end_date
+              ? `${formatDate(phase.start_date)} – ${formatDate(phase.end_date)}`
+              : 'TBD'}
           </span>
         </div>
       ))}

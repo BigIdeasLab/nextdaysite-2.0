@@ -12,6 +12,10 @@ export type SubscriptionsRow =
   Database['public']['Tables']['subscriptions']['Row']
 export type OnboardingStepsRow =
   Database['public']['Tables']['onboarding_steps']['Row']
+export type ProjectDeliverablesRow =
+  Database['public']['Tables']['project_deliverables']['Row']
+export type ProjectTimelinePhasesRow =
+  Database['public']['Tables']['project_timeline_phases']['Row']
 
 export type StartCheckoutResult =
   Database['public']['Functions']['start_checkout']['Returns'][number]

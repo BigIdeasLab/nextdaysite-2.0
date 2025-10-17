@@ -377,6 +377,73 @@ export type Database = {
           },
         ]
       }
+      project_deliverables: {
+        Row: {
+          id: string
+          project_id: string
+          title: string
+          description: string | null
+          status: Database['public']['Enums']['deliverable_status']
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          title: string
+          description?: string | null
+          status?: Database['public']['Enums']['deliverable_status']
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          title?: string
+          description?: string | null
+          status?: Database['public']['Enums']['deliverable_status']
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'project_deliverables_project_id_fkey'
+            columns: ['project_id']
+            isOneToOne: false
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      project_timeline_phases: {
+        Row: {
+          id: string
+          project_id: string
+          title: string
+          start_date: string | null
+          end_date: string | null
+          status: Database['public']['Enums']['timeline_phase_status']
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          title: string
+          start_date?: string | null
+          end_date?: string | null
+          status?: Database['public']['Enums']['timeline_phase_status']
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          title?: string
+          start_date?: string | null
+          end_date?: string | null
+          status?: Database['public']['Enums']['timeline_phase_status']
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'project_timeline_phases_project_id_fkey'
+            columns: ['project_id']
+            isOneToOne: false
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       settings: {
         Row: {
           created_at: string
@@ -587,6 +654,7 @@ export type Database = {
         | 'note_added'
         | 'message_posted'
       chat_role: 'customer' | 'team' | 'ai'
+      deliverable_status: 'pending' | 'in_progress' | 'completed'
       invoice_status: 'draft' | 'open' | 'paid' | 'overdue'
       project_priority: 'low' | 'medium' | 'high'
       project_status:
@@ -596,6 +664,7 @@ export type Database = {
         | 'ready_to_ship'
         | 'shipped'
       subscription_status: 'trialing' | 'active' | 'past_due' | 'canceled'
+      timeline_phase_status: 'pending' | 'in_progress' | 'completed'
       user_role: 'customer' | 'admin' | 'collaborator'
     }
     CompositeTypes: {

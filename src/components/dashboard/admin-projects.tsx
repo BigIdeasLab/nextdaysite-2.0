@@ -2,6 +2,7 @@
 
 import { useProjects, useUsers } from '@/hooks'
 import { format } from 'date-fns'
+import Link from 'next/link'
 
 export function AdminProjects() {
   const { data: projects = [], isLoading: projectsLoading } = useProjects()
@@ -55,6 +56,12 @@ export function AdminProjects() {
               >
                 Progress
               </th>
+              <th
+                scope='col'
+                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
+              >
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className='bg-white divide-y divide-gray-200'>
@@ -78,6 +85,9 @@ export function AdminProjects() {
                   </td>
                   <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
                     {project.progress}%
+                  </td>
+                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Link href={`/admin/projects/${project.id}`}>Manage</Link>
                   </td>
                 </tr>
               )

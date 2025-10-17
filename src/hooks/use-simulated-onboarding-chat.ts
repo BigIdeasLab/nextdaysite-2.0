@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { fetchOnboardingSteps, createProject } from '@/lib/api/data-service'
 import type { OnboardingStepsRow } from '@/types/models'
 import { useAuth } from '@/context/auth-context'
