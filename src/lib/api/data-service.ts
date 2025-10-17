@@ -530,3 +530,26 @@ export async function updateProjectStatus(
   }
   return data
 }
+
+export async function updateProjectDates(
+  projectId: string,
+  startDate: string,
+  dueDate: string,
+  client?: Client | null,
+): Promise<ProjectsRow | null> {
+  const supabase = resolveClient(client)
+  if (!supabase) return null
+
+  const { data, error } = await supabase
+    .from('projects')
+    .update({ start_date: startDate, due_date: dueDate })
+    .eq('id', projectId)
+    .select()
+    .single()
+
+  if (error) {
+    handleError('updateProjectDates', error)
+    return null
+  }
+  return data
+}
