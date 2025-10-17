@@ -271,10 +271,18 @@ export async function updateUser(
 
 export async function createProject(
   project: {
-    title: string
-    project_type?: string
-    page_count?: string
-    branding?: string
+    projectTitle?: string
+    projectType?: string
+    hosting?: string
+    brandStyle?: string
+    projectGoals?: string
+    targetAudience?: string
+    industry?: string
+    pageCount?: string
+    budget?: number
+    confirmation?: boolean
+    aiInferredPlan?: string
+    aiInferredPaymentType?: string
   },
   client?: Client | null,
 ): Promise<ProjectsRow | null> {
@@ -292,7 +300,7 @@ export async function createProject(
   }
 
   const slug =
-    project.title
+    (project.projectTitle || 'new-project')
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '') +
@@ -303,13 +311,22 @@ export async function createProject(
     .from('projects')
     .insert([
       {
-        title: project.title,
+        title: project.projectTitle || 'New Project',
         owner_id: user.id,
         slug: slug,
         status: 'start',
-        project_type: project.project_type,
-        page_count: project.page_count,
-        branding: project.branding,
+        project_type: project.projectType,
+        page_count: project.pageCount,
+        project_title: project.projectTitle,
+        hosting: project.hosting,
+        brand_style: project.brandStyle,
+        project_goals: project.projectGoals,
+        target_audience: project.targetAudience,
+        industry: project.industry,
+        budget: project.budget,
+        ai_inferred_plan: project.aiInferredPlan,
+        ai_inferred_payment_type: project.aiInferredPaymentType,
+        confirmation: project.confirmation,
       },
     ])
     .select()

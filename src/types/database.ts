@@ -230,24 +230,30 @@ export type Database = {
       onboarding_steps: {
         Row: {
           id: number
+          is_first_step: boolean | null
+          is_last_step: boolean | null
           message: string
-          question_key: string | null
-          responses: Json | null
-          step_name: string
+          next_step_id: string | null
+          step_id: string
+          stored_key: string | null
         }
         Insert: {
           id?: number
+          is_first_step?: boolean | null
+          is_last_step?: boolean | null
           message: string
-          question_key?: string | null
-          responses?: Json | null
-          step_name: string
+          next_step_id?: string | null
+          step_id: string
+          stored_key?: string | null
         }
         Update: {
           id?: number
+          is_first_step?: boolean | null
+          is_last_step?: boolean | null
           message?: string
-          question_key?: string | null
-          responses?: Json | null
-          step_name?: string
+          next_step_id?: string | null
+          step_id?: string
+          stored_key?: string | null
         }
         Relationships: []
       }

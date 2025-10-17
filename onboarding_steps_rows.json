@@ -1,0 +1,132 @@
+[
+  {
+    "idx": 0,
+    "id": 31,
+    "step_id": "start",
+    "message": "Welcome to NextDaySite! I can help you scope out your new website. To start, what should we call your project?",
+    "stored_key": "projectTitle",
+    "next_step_id": "ask_type",
+    "is_first_step": true,
+    "is_last_step": false
+  },
+  {
+    "idx": 1,
+    "id": 32,
+    "step_id": "ask_type",
+    "message": "Got it. Now, what type of project do you need? A new website, a brand identity, or a complete package?",
+    "stored_key": "projectType",
+    "next_step_id": "ask_hosting",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 2,
+    "id": 33,
+    "step_id": "ask_hosting",
+    "message": "Great. Will you need hosting for your site? We offer a fully managed solution.",
+    "stored_key": "hosting",
+    "next_step_id": "ask_brand_style",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 3,
+    "id": 34,
+    "step_id": "ask_brand_style",
+    "message": "What style of branding or aesthetic are you looking for? (e.g., modern, minimalist, playful)",
+    "stored_key": "brandStyle",
+    "next_step_id": "ask_goals",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 4,
+    "id": 35,
+    "step_id": "ask_goals",
+    "message": "Understood. What are the main goals you want to achieve with this project?",
+    "stored_key": "projectGoals",
+    "next_step_id": "ask_audience",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 5,
+    "id": 36,
+    "step_id": "ask_audience",
+    "message": "Who is the target audience for this project?",
+    "stored_key": "targetAudience",
+    "next_step_id": "ask_industry",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 6,
+    "id": 37,
+    "step_id": "ask_industry",
+    "message": "What industry or niche will this project be for?",
+    "stored_key": "industry",
+    "next_step_id": "ask_pages",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 7,
+    "id": 38,
+    "step_id": "ask_pages",
+    "message": "Roughly how many pages do you estimate the site will need?",
+    "stored_key": "pageCount",
+    "next_step_id": "ask_budget",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 8,
+    "id": 39,
+    "step_id": "ask_budget",
+    "message": "What is your estimated budget for this project?",
+    "stored_key": "budget",
+    "next_step_id": "review_summary",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 9,
+    "id": 40,
+    "step_id": "review_summary",
+    "message": "Thanks! Here’s a summary of your project details. Does everything look correct?",
+    "stored_key": null,
+    "next_step_id": "ask_ready",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 10,
+    "id": 41,
+    "step_id": "ask_ready",
+    "message": "Are you ready to proceed, or would you like some more guidance?",
+    "stored_key": "userIntent",
+    "next_step_id": "finish",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 11,
+    "id": 42,
+    "step_id": "if_need_help",
+    "message": "No problem. We can help with planning, design, and development. Our goal is to make this process as smooth as possible for you. When you are ready, just say so!",
+    "stored_key": null,
+    "next_step_id": "finish",
+    "is_first_step": false,
+    "is_last_step": false
+  },
+  {
+    "idx": 12,
+    "id": 43,
+    "step_id": "finish",
+    "message": "Excellent! To save your project and move to the next step, please sign up or log in.",
+    "stored_key": "confirmation",
+    "next_step_id": null,
+    "is_first_step": false,
+    "is_last_step": true
+  }
+]

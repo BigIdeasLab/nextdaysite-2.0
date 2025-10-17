@@ -45,11 +45,9 @@ export function NewCustomerDashboard() {
   }, [])
 
   const handleCreateProject = async () => {
-    if (user && onboardingDetails?.projectType) {
+    if (user && onboardingDetails) {
       try {
-        await createProject({
-          title: onboardingDetails.projectType,
-        })
+        await createProject(onboardingDetails)
         setOnboardingDetails(null)
         window.location.reload()
       } catch (error) {
@@ -128,20 +126,52 @@ export function NewCustomerDashboard() {
             Let&apos;s get started on your new project. Here are the details you
             provided:
           </p>
-          <ul className='mb-6 list-inside list-disc space-y-2'>
+          <ul className='mb-6 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2'>
+            {onboardingDetails.projectTitle && (
+              <li>
+                <strong>Project Title:</strong> {onboardingDetails.projectTitle}
+              </li>
+            )}
             {onboardingDetails.projectType && (
               <li>
                 <strong>Project Type:</strong> {onboardingDetails.projectType}
               </li>
             )}
-            {onboardingDetails.pageCount && (
+            {onboardingDetails.hosting && (
               <li>
-                <strong>Number of Pages:</strong> {onboardingDetails.pageCount}
+                <strong>Hosting:</strong> {onboardingDetails.hosting}
               </li>
             )}
-            {onboardingDetails.branding && (
+            {onboardingDetails.brandStyle && (
               <li>
-                <strong>Branding Needs:</strong> {onboardingDetails.branding}
+                <strong>Brand Style:</strong> {onboardingDetails.brandStyle}
+              </li>
+            )}
+            {onboardingDetails.projectGoals && (
+              <li>
+                <strong>Project Goals:</strong> {onboardingDetails.projectGoals}
+              </li>
+            )}
+            {onboardingDetails.targetAudience && (
+              <li>
+                <strong>Target Audience:</strong>{' '}
+                {onboardingDetails.targetAudience}
+              </li>
+            )}
+            {onboardingDetails.industry && (
+              <li>
+                <strong>Industry:</strong> {onboardingDetails.industry}
+              </li>
+            )}
+            {onboardingDetails.pageCount && (
+              <li>
+                <strong>Page Count:</strong> {onboardingDetails.pageCount}
+              </li>
+            )}
+            {onboardingDetails.budget && (
+              <li>
+                <strong>Budget:</strong> $
+                {onboardingDetails.budget.toLocaleString()}
               </li>
             )}
           </ul>
