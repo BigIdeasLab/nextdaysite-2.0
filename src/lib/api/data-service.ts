@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import { createBrowserSupabaseClient } from '@/lib/api/supabase-browser'
-import type { Database } from '@/types/database'
+import type { Database, Json } from '@/types/database'
 import type {
   ActivitiesRow,
   ChatMessagesRow,
@@ -426,6 +426,20 @@ export async function updateTimelinePhase(
     handleError('updateTimelinePhase', error)
     return null
   }
+
+  if (data && data.project_id && updates.status) {
+    const project = await fetchProjectById(data.project_id, supabase)
+    if (project) {
+      const message = `Timeline phase "${data.title}" in project "${project.title}" updated to "${updates.status}"`
+      await createActivity(
+        data.project_id,
+        'status_change',
+        { message },
+        supabase,
+      )
+    }
+  }
+
   return data
 }
 
@@ -516,6 +530,29 @@ type ProjectStatus =
   | 'ready_to_ship'
   | 'shipped'
 
+export async function createActivity(
+  projectId: string,
+  eventType:
+    | 'status_change'
+    | 'file_uploaded'
+    | 'invoice_sent'
+    | 'note_added'
+    | 'message_posted',
+  metadata: Json,
+  client?: Client | null,
+) {
+  const supabase = resolveClient(client)
+  if (!supabase) return null
+
+  const { error } = await supabase
+    .from('activities')
+    .insert({ project_id: projectId, event_type: eventType, metadata })
+
+  if (error) {
+    handleError('createActivity', error)
+  }
+}
+
 export async function updateProjectStatus(
   projectId: string,
   status: ProjectStatus,
@@ -535,6 +572,12 @@ export async function updateProjectStatus(
     handleError('updateProjectStatus', error)
     return null
   }
+
+  if (data) {
+    const message = `Project "${data.title}" status updated to "${status}"`
+    await createActivity(projectId, 'status_change', { message }, supabase)
+  }
+
   return data
 }
 
