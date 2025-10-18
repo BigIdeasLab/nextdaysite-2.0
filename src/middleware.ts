@@ -66,7 +66,7 @@ export async function middleware(request: NextRequest) {
     '/billing',
     '/idea-vault',
     '/project',
-    '/admin',
+    // '/admin',
   ]
   const publicOnlyRoutes = ['/login', '/signup']
 
