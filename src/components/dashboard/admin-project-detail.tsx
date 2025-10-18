@@ -7,6 +7,23 @@ import { ManageDeliverables } from '@/components/dashboard/manage-deliverables'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateProjectStatus, updateProjectDates } from '@/lib/api/data-service'
 import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Calendar } from '@/components/ui/calendar'
+
+type ProjectStatus =
+  | 'start'
+  | 'in_progress'
+  | 'review'
+  | 'ready_to_ship'
+  | 'shipped'
 
 export function AdminProjectDetail({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
@@ -16,6 +33,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
   const [startDate, setStartDate] = useState('')
   const [dueDate, setDueDate] = useState('')
+  const [isDatePickerOpen, setDatePickerOpen] = useState(false)
 
   useEffect(() => {
     if (project) {
@@ -25,7 +43,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   }, [project])
 
   const updateStatusMutation = useMutation({
-    mutationFn: (status: string) => updateProjectStatus(projectId, status),
+    mutationFn: (status: ProjectStatus) =>
+      updateProjectStatus(projectId, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
@@ -36,8 +55,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
       startDate,
       dueDate,
     }: {
-      startDate: string
-      dueDate: string
+      startDate: string | null
+      dueDate: string | null
     }) => updateProjectDates(projectId, startDate, dueDate),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
@@ -53,7 +72,10 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   }
 
   const handleDateChange = () => {
-    updateDatesMutation.mutate({ startDate, dueDate })
+    updateDatesMutation.mutate({
+      startDate: startDate === '' ? null : startDate,
+      dueDate: dueDate === '' ? null : dueDate,
+    })
   }
 
   return (
@@ -62,27 +84,73 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
         <h1 className='text-2xl font-bold'>{project.title}</h1>
         <div className='flex items-center gap-4'>
           <span className='text-gray-500'>Start Date:</span>
-          <input
-            type='date'
-            value={
-              startDate ? new Date(startDate).toISOString().split('T')[0] : ''
-            }
-            onChange={(e) => setStartDate(e.target.value)}
-            onBlur={handleDateChange}
-            className='px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-          />
+          <Button
+            variant={'outline'}
+            onClick={() => setDatePickerOpen(true)}
+            className='w-[280px] justify-start text-left font-normal'
+          >
+            {startDate ? (
+              new Date(startDate).toLocaleDateString()
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
           <span className='text-gray-500'>Due Date:</span>
-          <input
-            type='date'
-            value={dueDate ? new Date(dueDate).toISOString().split('T')[0] : ''}
-            onChange={(e) => setDueDate(e.target.value)}
-            onBlur={handleDateChange}
-            className='px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-          />
+          <Button
+            variant={'outline'}
+            onClick={() => setDatePickerOpen(true)}
+            className='w-[280px] justify-start text-left font-normal'
+          >
+            {dueDate ? (
+              new Date(dueDate).toLocaleDateString()
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+          <Dialog open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
+            <DialogContent className='sm:max-w-[425px]'>
+              <DialogHeader>
+                <DialogTitle>Select Dates</DialogTitle>
+                <DialogDescription>
+                  Select a start and due date for the project.
+                </DialogDescription>
+              </DialogHeader>
+              <div className='grid gap-4 py-4'>
+                <Calendar
+                  mode='range'
+                  selected={{
+                    from: startDate ? new Date(startDate) : undefined,
+                    to: dueDate ? new Date(dueDate) : undefined,
+                  }}
+                  onSelect={(range) => {
+                    if (range?.from) {
+                      setStartDate(range.from.toISOString().split('T')[0])
+                    }
+                    if (range?.to) {
+                      setDueDate(range.to.toISOString().split('T')[0])
+                    }
+                  }}
+                  numberOfMonths={2}
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  onClick={() => {
+                    handleDateChange()
+                    setDatePickerOpen(false)
+                  }}
+                >
+                  Save changes
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           <span className='text-gray-500'>Status:</span>
           <select
             value={project.status}
-            onChange={(e) => updateStatusMutation.mutate(e.target.value)}
+            onChange={(e) =>
+              updateStatusMutation.mutate(e.target.value as ProjectStatus)
+            }
             className='px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
           >
             <option value='start'>Start</option>

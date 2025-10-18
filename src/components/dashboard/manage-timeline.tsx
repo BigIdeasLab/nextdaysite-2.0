@@ -10,6 +10,8 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { ProjectTimelinePhasesRow } from '@/types/models'
 
+type TimelineStatus = 'pending' | 'in_progress' | 'completed'
+
 export function ManageTimeline({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
   const { data: timelinePhases = [], isLoading } = useTimelinePhases(projectId)
@@ -18,7 +20,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
   const [title, setTitle] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
-  const [status, setStatus] = useState('pending')
+  const [status, setStatus] = useState<TimelineStatus>('pending')
   const [selectedPhase, setSelectedPhase] =
     useState<ProjectTimelinePhasesRow | null>(null)
 
@@ -46,7 +48,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
         title,
         start_date: startDate,
         end_date: endDate,
-        status,
+        status: status as TimelineStatus,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['timelinePhases', projectId] })
@@ -234,7 +236,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                 <select
                   id='status'
                   value={status}
-                  onChange={(e) => setStatus(e.target.value)}
+                  onChange={(e) => setStatus(e.target.value as TimelineStatus)}
                   className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                 >
                   <option value='pending'>Pending</option>

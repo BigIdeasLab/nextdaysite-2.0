@@ -509,9 +509,16 @@ export async function deleteDeliverable(
   return true
 }
 
+type ProjectStatus =
+  | 'start'
+  | 'in_progress'
+  | 'review'
+  | 'ready_to_ship'
+  | 'shipped'
+
 export async function updateProjectStatus(
   projectId: string,
-  status: string,
+  status: ProjectStatus,
   client?: Client | null,
 ): Promise<ProjectsRow | null> {
   const supabase = resolveClient(client)
@@ -519,7 +526,7 @@ export async function updateProjectStatus(
 
   const { data, error } = await supabase
     .from('projects')
-    .update({ status })
+    .update({ status: status as ProjectStatus })
     .eq('id', projectId)
     .select()
     .single()
@@ -533,8 +540,8 @@ export async function updateProjectStatus(
 
 export async function updateProjectDates(
   projectId: string,
-  startDate: string,
-  dueDate: string,
+  startDate: string | null,
+  dueDate: string | null,
   client?: Client | null,
 ): Promise<ProjectsRow | null> {
   const supabase = resolveClient(client)
