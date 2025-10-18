@@ -28,19 +28,34 @@ export function AdminCustomers() {
           <table className='min-w-full divide-y divide-foreground/10'>
             <thead>
               <tr>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Name
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Email
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Company
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Plan
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Joined
                 </th>
               </tr>

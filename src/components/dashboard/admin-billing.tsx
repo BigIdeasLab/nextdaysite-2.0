@@ -28,19 +28,25 @@ export function AdminBilling() {
 
       <div className='grid grid-cols-1 gap-6 md:grid-cols-3'>
         <section className='rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
-          <h3 className='text-lg font-semibold text-foreground'>Total Revenue</h3>
+          <h3 className='text-lg font-semibold text-foreground'>
+            Total Revenue
+          </h3>
           <p className='mt-2 text-3xl font-bold text-foreground'>
             {formatCurrency(totalRevenue)}
           </p>
         </section>
         <section className='rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
-          <h3 className='text-lg font-semibold text-foreground'>Total Invoices</h3>
+          <h3 className='text-lg font-semibold text-foreground'>
+            Total Invoices
+          </h3>
           <p className='mt-2 text-3xl font-bold text-foreground'>
             {invoices.length}
           </p>
         </section>
         <section className='rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
-          <h3 className='text-lg font-semibold text-foreground'>Open Invoices</h3>
+          <h3 className='text-lg font-semibold text-foreground'>
+            Open Invoices
+          </h3>
           <p className='mt-2 text-3xl font-bold text-foreground'>
             {invoices.filter((i) => i.status === 'open').length}
           </p>
@@ -52,19 +58,34 @@ export function AdminBilling() {
           <table className='min-w-full divide-y divide-foreground/10'>
             <thead>
               <tr>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Invoice ID
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Customer
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Status
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Amount
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Due Date
                 </th>
               </tr>

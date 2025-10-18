@@ -27,19 +27,34 @@ export function AdminProjects() {
           <table className='min-w-full divide-y divide-foreground/10'>
             <thead>
               <tr>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Project
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Owner
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Status
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Due Date
                 </th>
-                <th scope='col' className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground/60'
+                >
                   Progress
                 </th>
               </tr>
