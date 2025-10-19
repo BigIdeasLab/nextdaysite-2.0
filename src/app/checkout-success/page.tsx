@@ -18,8 +18,8 @@ export default function CheckoutSuccessPage({
             Payment successful!
           </h1>
           <p className='text-foreground/70'>
-            Thank you for your purchase. We&apos;re excited to get started on your
-            project.
+            Thank you for your purchase. We&apos;re excited to get started on
+            your project.
           </p>
         </div>
 
