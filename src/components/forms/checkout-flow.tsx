@@ -298,22 +298,18 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
               ) : null}
               <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
                 <p className='text-xs text-foreground/50'>
-                  By continuing you agree to the NextDaySite terms and recurring
-                  billing policy.
+                  By continuing you agree to the NextDaySite terms and{' '}
+                  {paymentType === 'payment-plan' ? 'recurring billing' : 'payment'}{' '}
+                  policy.
                 </p>
                 <button
                   type='submit'
-                  disabled={
-                    submissionState === 'submitting' ||
-                    submissionState === 'success'
-                  }
+                  disabled={submissionState === 'submitting'}
                   className='inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60'
                 >
-                  {submissionState === 'success'
-                    ? 'Checkout link sent'
-                    : submissionState === 'submitting'
-                      ? 'Preparing checkout...'
-                      : 'Continue to payment'}
+                  {submissionState === 'submitting'
+                    ? 'Redirecting to Stripe...'
+                    : 'Continue to payment'}
                 </button>
               </div>
             </section>
