@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 
-export default function CheckoutSuccessPage({
+export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  searchParams: { session_id?: string }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  const resolvedSearchParams = await searchParams
   return (
     <div className='min-h-screen w-full bg-black px-4 py-16 md:px-8'>
       <div className='mx-auto flex max-w-2xl flex-col items-center gap-8 text-center'>
@@ -71,9 +72,9 @@ export default function CheckoutSuccessPage({
           </ol>
         </div>
 
-        {searchParams.session_id && (
+        {resolvedSearchParams.session_id && (
           <p className='text-xs text-foreground/50'>
-            Session ID: {searchParams.session_id}
+            Session ID: {resolvedSearchParams.session_id}
           </p>
         )}
 

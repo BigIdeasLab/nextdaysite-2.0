@@ -115,13 +115,18 @@ async function handleCheckoutSessionCompleted(
         session.subscription as string,
       )
 
+      const sub = subscription as unknown as Stripe.Subscription & {
+        current_period_start: number
+        current_period_end: number
+      }
+
       await supabase.from('subscriptions').insert({
         user_id: userId,
         plan_id: metadata.plan_id,
         stripe_subscription_id: subscription.id,
         billing_cycle: metadata.billing_cycle || 'monthly',
         include_hosting: metadata.include_hosting === 'true',
-        status: subscription.status as Stripe.Subscription.Status,
+        status: subscription.status,
         base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
         hosting_amount: subscription.items.data[1]?.price.unit_amount
           ? (subscription.items.data[1].price.unit_amount || 0) / 100
@@ -131,10 +136,10 @@ async function handleCheckoutSessionCompleted(
         total: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
         currency: 'usd',
         current_period_start: new Date(
-          subscription.current_period_start * 1000,
+          (sub.current_period_start ?? Math.floor(Date.now() / 1000)) * 1000,
         ).toISOString(),
         current_period_end: new Date(
-          subscription.current_period_end * 1000,
+          (sub.current_period_end ?? Math.floor(Date.now() / 1000)) * 1000,
         ).toISOString(),
         metadata: {
           company_name: metadata.company_name,
@@ -161,6 +166,10 @@ async function handleCheckoutSessionCompleted(
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   try {
+    const sub = subscription as Stripe.Subscription & {
+      current_period_start: number
+      current_period_end: number
+    }
     const userId = subscription.metadata?.user_id
 
     if (!userId) {
@@ -174,7 +183,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       stripe_subscription_id: subscription.id,
       billing_cycle: subscription.metadata?.billing_cycle || 'monthly',
       include_hosting: subscription.metadata?.include_hosting === 'true',
-      status: subscription.status as Stripe.Subscription.Status,
+      status: subscription.status,
       base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
       hosting_amount: subscription.items.data[1]?.price.unit_amount
         ? (subscription.items.data[1].price.unit_amount || 0) / 100
@@ -184,10 +193,10 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       total: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
       currency: 'usd',
       current_period_start: new Date(
-        subscription.current_period_start * 1000,
+        (sub.current_period_start ?? Math.floor(Date.now() / 1000)) * 1000,
       ).toISOString(),
       current_period_end: new Date(
-        subscription.current_period_end * 1000,
+        (sub.current_period_end ?? Math.floor(Date.now() / 1000)) * 1000,
       ).toISOString(),
     })
 
@@ -201,15 +210,19 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   try {
+    const sub = subscription as Stripe.Subscription & {
+      current_period_start: number
+      current_period_end: number
+    }
     const { error } = await supabase
       .from('subscriptions')
       .update({
-        status: subscription.status as Stripe.Subscription.Status,
+        status: subscription.status,
         current_period_start: new Date(
-          subscription.current_period_start * 1000,
+          (sub.current_period_start ?? Math.floor(Date.now() / 1000)) * 1000,
         ).toISOString(),
         current_period_end: new Date(
-          subscription.current_period_end * 1000,
+          (sub.current_period_end ?? Math.floor(Date.now() / 1000)) * 1000,
         ).toISOString(),
         cancel_at_period_end: subscription.cancel_at_period_end,
       })
@@ -263,7 +276,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
       stripe_invoice_id: invoice.id,
       status: 'paid',
       subtotal: (invoice.subtotal || 0) / 100,
-      tax: (invoice.tax || 0) / 100,
+      tax: ((invoice.total || 0) - (invoice.subtotal || 0)) / 100,
       total: (invoice.total || 0) / 100,
       currency: invoice.currency.toUpperCase(),
       issued_at: new Date(invoice.created * 1000).toISOString().split('T')[0],
