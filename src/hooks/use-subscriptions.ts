@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { createBrowserClient } from '@/lib/api/supabase-browser'
+import { createBrowserSupabaseClient } from '@/lib/api/supabase-browser'
 import type { SubscriptionsRow, PlansRow } from '@/types/models'
 
 export type SubscriptionWithPlan = SubscriptionsRow & {
@@ -10,7 +10,7 @@ export function useSubscriptions() {
   return useQuery({
     queryKey: ['subscriptions'],
     queryFn: async () => {
-      const supabase = createBrowserClient()
+      const supabase = createBrowserSupabaseClient()
 
       const {
         data: { user },
