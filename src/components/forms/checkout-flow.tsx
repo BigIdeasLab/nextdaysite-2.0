@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { X } from 'lucide-react'
 
 import { useAuth } from '@/context/auth-context'
-import type { PlansRow, StartCheckoutResult } from '@/types/models'
+import type { PlansRow } from '@/types/models'
 import { formatCurrency } from '@/lib/utils/format'
 
 const HOSTING_MONTHLY = 39
@@ -17,21 +17,20 @@ type CheckoutFlowProps = {
 }
 
 type BillingCycle = 'monthly' | 'yearly'
-
+type PaymentType = 'one-time' | 'payment-plan'
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
 export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
-  const { client } = useAuth()
+  const { user } = useAuth()
   const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly')
   const [includeHosting, setIncludeHosting] = useState(true)
-  const [email, setEmail] = useState('')
+  const [paymentType, setPaymentType] = useState<PaymentType>('payment-plan')
+  const [email, setEmail] = useState(user?.email || '')
   const [company, setCompany] = useState('')
   const [notes, setNotes] = useState('')
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [checkoutResult, setCheckoutResult] =
-    useState<StartCheckoutResult | null>(null)
 
   const summary = useMemo(() => {
     if (!plan) {
