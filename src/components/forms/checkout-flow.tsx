@@ -65,7 +65,6 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
 
     setSubmissionState('submitting')
     setErrorMessage(null)
-    setCheckoutResult(null)
 
     const trimmedEmail = email.trim()
     const trimmedCompany = company.trim()
@@ -74,7 +73,7 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
     if (!trimmedEmail) {
       setSubmissionState('error')
       setErrorMessage(
-        'Please provide a contact email so we can share your payment link.',
+        'Please provide a contact email so we can proceed with checkout.',
       )
       return
     }
@@ -89,37 +88,39 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
       setNotes(trimmedNotes)
     }
 
-    if (!client) {
-      setSubmissionState('error')
-      setErrorMessage(
-        'Supabase is not configured. Please refresh and try again.',
-      )
-      return
-    }
-
     try {
-      const { data, error } = await client.rpc('start_checkout', {
-        p_email: trimmedEmail,
-        p_company_name: trimmedCompany || null,
-        p_plan_id: plan.id,
-        p_billing_cycle: billingCycle,
-        p_include_hosting: includeHosting,
-        p_notes: trimmedNotes ? trimmedNotes : null,
+      const response = await fetch('/api/checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId: plan.id,
+          billingCycle,
+          includeHosting,
+          email: trimmedEmail,
+          companyName: trimmedCompany || undefined,
+          notes: trimmedNotes || undefined,
+          userId: user?.id,
+          paymentType: paymentType === 'one-time' ? 'one-time' : 'recurring',
+        }),
       })
 
-      if (error) {
-        throw error
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create checkout session')
       }
 
-      const [result] = data ?? []
-      if (!result) {
-        throw new Error('Checkout did not return a confirmation.')
-      }
+      const data = await response.json()
 
-      setCheckoutResult(result)
-      setSubmissionState('success')
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url
+      } else {
+        throw new Error('No checkout URL provided')
+      }
     } catch (error) {
-      console.error(error)
+      console.error('Checkout error:', error)
       setSubmissionState('error')
       setErrorMessage(
         error instanceof Error
