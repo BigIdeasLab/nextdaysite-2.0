@@ -18,7 +18,7 @@ type CheckoutFlowProps = {
 
 type BillingCycle = 'monthly' | 'yearly'
 type PaymentType = 'one-time' | 'payment-plan'
-type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
+type SubmissionState = 'idle' | 'submitting' | 'error'
 
 export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
   const { user } = useAuth()
@@ -114,7 +114,6 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
       const data = await response.json()
 
       if (data.url) {
-        // Redirect to Stripe Checkout
         window.location.href = data.url
       } else {
         throw new Error('No checkout URL provided')
@@ -340,7 +339,9 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
                 </div>
                 <div className='h-px bg-foreground/10' aria-hidden />
                 <div className='flex items-center justify-between text-base font-semibold text-foreground'>
-                  <span>Total due today</span>
+                  <span>
+                    Total {paymentType === 'one-time' ? 'due today' : 'per month'}
+                  </span>
                   <span>{formatCurrency(summary.total)}</span>
                 </div>
               </div>
@@ -354,7 +355,7 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
                 What happens next?
               </p>
               <ul className='mt-2 list-disc space-y-1 pl-4'>
-                <li>Receive a Stripe checkout link to confirm payment.</li>
+                <li>Securely complete payment on Stripe.</li>
                 <li>
                   Complete onboarding questionnaire to kick off production.
                 </li>
@@ -362,22 +363,6 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
               </ul>
             </div>
           </aside>
-          {submissionState === 'success' && checkoutResult ? (
-            <div className='lg:col-span-2'>
-              <div className='rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-600'>
-                Invoice{' '}
-                <span className='font-semibold'>
-                  {checkoutResult.invoice_id}
-                </span>{' '}
-                totaling{' '}
-                <span className='font-semibold'>
-                  {formatCurrency(checkoutResult.total)}
-                </span>{' '}
-                is on its way to <span className='font-semibold'>{email}</span>.
-                We’ll start prepping your launch assets immediately.
-              </div>
-            </div>
-          ) : null}
         </div>
       </div>
     </div>
