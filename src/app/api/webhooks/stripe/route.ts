@@ -34,28 +34,33 @@ export async function POST(request: NextRequest) {
       )
     } catch (err) {
       console.error('Webhook signature verification failed:', err)
-      return NextResponse.json(
-        { error: 'Invalid signature' },
-        { status: 401 },
-      )
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
     }
 
     // Handle different event types
     switch (event.type) {
       case 'checkout.session.completed':
-        await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session)
+        await handleCheckoutSessionCompleted(
+          event.data.object as Stripe.Checkout.Session,
+        )
         break
 
       case 'customer.subscription.created':
-        await handleSubscriptionCreated(event.data.object as Stripe.Subscription)
+        await handleSubscriptionCreated(
+          event.data.object as Stripe.Subscription,
+        )
         break
 
       case 'customer.subscription.updated':
-        await handleSubscriptionUpdated(event.data.object as Stripe.Subscription)
+        await handleSubscriptionUpdated(
+          event.data.object as Stripe.Subscription,
+        )
         break
 
       case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(event.data.object as Stripe.Subscription)
+        await handleSubscriptionDeleted(
+          event.data.object as Stripe.Subscription,
+        )
         break
 
       case 'invoice.payment_succeeded':
@@ -67,11 +72,15 @@ export async function POST(request: NextRequest) {
         break
 
       case 'payment_intent.succeeded':
-        await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent)
+        await handlePaymentIntentSucceeded(
+          event.data.object as Stripe.PaymentIntent,
+        )
         break
 
       case 'payment_intent.payment_failed':
-        await handlePaymentIntentFailed(event.data.object as Stripe.PaymentIntent)
+        await handlePaymentIntentFailed(
+          event.data.object as Stripe.PaymentIntent,
+        )
         break
 
       default:
@@ -88,7 +97,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
+async function handleCheckoutSessionCompleted(
+  session: Stripe.Checkout.Session,
+) {
   try {
     const userId = session.client_reference_id
     const customerId = session.customer as string
@@ -104,7 +115,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       const subscription = await stripe.subscriptions.retrieve(
         session.subscription as string,
       )
-      
+
       await supabase.from('subscriptions').insert({
         user_id: userId,
         plan_id: metadata.plan_id,
@@ -113,16 +124,19 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
         include_hosting: metadata.include_hosting === 'true',
         status: subscription.status as any,
         base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
-        hosting_amount:
-          subscription.items.data[1]?.price.unit_amount
-            ? (subscription.items.data[1].price.unit_amount || 0) / 100
-            : 0,
+        hosting_amount: subscription.items.data[1]?.price.unit_amount
+          ? (subscription.items.data[1].price.unit_amount || 0) / 100
+          : 0,
         subtotal: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
         tax: 0,
         total: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
         currency: 'usd',
-        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-        current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+        current_period_start: new Date(
+          subscription.current_period_start * 1000,
+        ).toISOString(),
+        current_period_end: new Date(
+          subscription.current_period_end * 1000,
+        ).toISOString(),
         metadata: {
           company_name: metadata.company_name,
           notes: metadata.notes,
@@ -163,16 +177,19 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       include_hosting: subscription.metadata?.include_hosting === 'true',
       status: subscription.status as any,
       base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
-      hosting_amount:
-        subscription.items.data[1]?.price.unit_amount
-          ? (subscription.items.data[1].price.unit_amount || 0) / 100
-          : 0,
+      hosting_amount: subscription.items.data[1]?.price.unit_amount
+        ? (subscription.items.data[1].price.unit_amount || 0) / 100
+        : 0,
       subtotal: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
       tax: 0,
       total: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
       currency: 'usd',
-      current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-      current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      current_period_start: new Date(
+        subscription.current_period_start * 1000,
+      ).toISOString(),
+      current_period_end: new Date(
+        subscription.current_period_end * 1000,
+      ).toISOString(),
     })
 
     if (error) {
@@ -189,8 +206,12 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       .from('subscriptions')
       .update({
         status: subscription.status as any,
-        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-        current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+        current_period_start: new Date(
+          subscription.current_period_start * 1000,
+        ).toISOString(),
+        current_period_end: new Date(
+          subscription.current_period_end * 1000,
+        ).toISOString(),
         cancel_at_period_end: subscription.cancel_at_period_end,
       })
       .eq('stripe_subscription_id', subscription.id)

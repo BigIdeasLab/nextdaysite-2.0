@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (planError || !plan) {
-      return NextResponse.json(
-        { error: 'Plan not found' },
-        { status: 404 },
-      )
+      return NextResponse.json({ error: 'Plan not found' }, { status: 404 })
     }
 
     // Calculate prices
@@ -85,7 +82,10 @@ export async function POST(request: NextRequest) {
         customerId = customer.id
 
         // Update user with Stripe customer ID
-        await supabase.from('users').update({ stripe_customer_id: customerId }).eq('id', userId)
+        await supabase
+          .from('users')
+          .update({ stripe_customer_id: customerId })
+          .eq('id', userId)
       }
     } else {
       // Create guest customer
@@ -115,7 +115,8 @@ export async function POST(request: NextRequest) {
     } else {
       // Subscription payment
       const pricePerMonth = basePrice / (billingCycle === 'yearly' ? 12 : 1)
-      const hostingPerMonth = hostingPrice / (billingCycle === 'yearly' ? 12 : 1)
+      const hostingPerMonth =
+        hostingPrice / (billingCycle === 'yearly' ? 12 : 1)
 
       lineItems.push({
         price_data: {

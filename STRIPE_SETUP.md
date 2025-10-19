@@ -7,7 +7,9 @@ This guide provides instructions for setting up Stripe payments on the customer 
 The Stripe integration uses the following existing database tables:
 
 ### subscriptions table
+
 Stores recurring subscription information:
+
 - `user_id`: Reference to the user
 - `plan_id`: Reference to the selected plan
 - `stripe_subscription_id`: Stripe subscription ID
@@ -22,7 +24,9 @@ Stores recurring subscription information:
 - `metadata`: Additional information (company_name, notes, etc.)
 
 ### invoices table
+
 Stores one-time payments and recurring invoice records:
+
 - `user_id`: Reference to the user
 - `stripe_invoice_id`: Stripe invoice ID
 - `status`: 'draft', 'open', 'paid', 'overdue'
@@ -31,7 +35,9 @@ Stores one-time payments and recurring invoice records:
 - `issued_at`, `due_date`: Invoice dates
 
 ### users table
+
 Updated with payment information:
+
 - `stripe_customer_id`: Stripe customer ID for the user
 - `plan_id`: Current active plan
 
@@ -107,6 +113,7 @@ Stripe needs to send webhook events to your app for payment confirmations:
 Creates a Stripe Checkout session for either one-time or recurring payments.
 
 **Request:**
+
 ```json
 {
   "planId": "plan-web",
@@ -121,6 +128,7 @@ Creates a Stripe Checkout session for either one-time or recurring payments.
 ```
 
 **Response:**
+
 ```json
 {
   "sessionId": "cs_...",
@@ -135,6 +143,7 @@ Receives webhook events from Stripe and updates the database with payment inform
 ## Payment Flow
 
 ### One-Time Payment
+
 1. Customer selects plan and clicks "Pay Once"
 2. System creates Stripe Checkout session with one-time payment
 3. Customer completes payment on Stripe
@@ -142,6 +151,7 @@ Receives webhook events from Stripe and updates the database with payment inform
 5. User is redirected to success page
 
 ### Payment Plan (Subscription)
+
 1. Customer selects plan and clicks "Payment Plan"
 2. System creates Stripe Checkout session with recurring subscription
 3. Customer completes first payment on Stripe
@@ -152,15 +162,16 @@ Receives webhook events from Stripe and updates the database with payment inform
 ## Key Features Implemented
 
 ✅ **Multiple Plans**: Customers can purchase different plan tiers
-✅ **Flexible Payment Options**: 
-  - One-time payment (full price upfront)
-  - Payment plan (monthly subscription for 12 months)
-✅ **Billing Cycles**: Monthly and yearly options with discounted annual pricing
-✅ **Add-ons**: Optional managed hosting included in subscription
-✅ **Tax Calculation**: Automatic tax calculation (7% default)
-✅ **Webhook Integration**: Real-time payment status updates
-✅ **Customer Portal**: Customers can manage subscriptions via Stripe
-✅ **Secure Handling**: All sensitive payment data handled through Stripe
+✅ **Flexible Payment Options**:
+
+- One-time payment (full price upfront)
+- Payment plan (monthly subscription for 12 months)
+  ✅ **Billing Cycles**: Monthly and yearly options with discounted annual pricing
+  ✅ **Add-ons**: Optional managed hosting included in subscription
+  ✅ **Tax Calculation**: Automatic tax calculation (7% default)
+  ✅ **Webhook Integration**: Real-time payment status updates
+  ✅ **Customer Portal**: Customers can manage subscriptions via Stripe
+  ✅ **Secure Handling**: All sensitive payment data handled through Stripe
 
 ## Testing
 
@@ -177,16 +188,19 @@ Use any future date for expiry and any 3-digit number for CVC.
 ## Troubleshooting
 
 ### Webhook not receiving events
+
 1. Make sure `STRIPE_WEBHOOK_SECRET` is correct
 2. Verify endpoint URL is accessible from the internet
 3. Check Stripe webhook logs in Dashboard
 
 ### Customer creation fails
+
 1. Verify Stripe API keys are correct
 2. Check Supabase connection
 3. Review error logs in API endpoint
 
 ### Subscription not creating
+
 1. Ensure webhook is being received
 2. Check database subscriptions table for records
 3. Verify plan_id matches existing plans in database

@@ -298,7 +298,9 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
               <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
                 <p className='text-xs text-foreground/50'>
                   By continuing you agree to the NextDaySite terms and{' '}
-                  {paymentType === 'payment-plan' ? 'recurring billing' : 'payment'}{' '}
+                  {paymentType === 'payment-plan'
+                    ? 'recurring billing'
+                    : 'payment'}{' '}
                   policy.
                 </p>
                 <button
@@ -340,7 +342,8 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
                 <div className='h-px bg-foreground/10' aria-hidden />
                 <div className='flex items-center justify-between text-base font-semibold text-foreground'>
                   <span>
-                    Total {paymentType === 'one-time' ? 'due today' : 'per month'}
+                    Total{' '}
+                    {paymentType === 'one-time' ? 'due today' : 'per month'}
                   </span>
                   <span>{formatCurrency(summary.total)}</span>
                 </div>
