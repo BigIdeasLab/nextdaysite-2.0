@@ -4,6 +4,7 @@ import { useInvoices, useSubscriptions } from '@/hooks'
 import { Calendar, CreditCard } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils/format'
 import Link from 'next/link'
+import { PricingPlans } from './pricing-plans'
 
 export function Billing() {
   const { data: invoices = [], isLoading: invoicesLoading } = useInvoices()
@@ -145,6 +146,9 @@ export function Billing() {
           )}
         </div>
       </div>
+
+      {/* Pricing Plans Section */}
+      <PricingPlans />
     </div>
   )
 }
