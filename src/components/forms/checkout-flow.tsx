@@ -144,6 +144,41 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
             <section className='flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
               <header className='flex flex-col gap-2'>
                 <h2 className='text-lg font-semibold text-foreground'>
+                  Payment Type
+                </h2>
+                <p className='text-sm text-foreground/70'>
+                  Choose how you want to pay for your plan
+                </p>
+                <div className='mt-2 inline-flex self-start rounded-full border border-foreground/10 bg-foreground/5 p-1 text-xs font-medium text-foreground/70'>
+                  <button
+                    type='button'
+                    className={`rounded-full px-3 py-1 transition ${
+                      paymentType === 'one-time'
+                        ? 'bg-background text-foreground shadow'
+                        : ''
+                    }`}
+                    onClick={() => setPaymentType('one-time')}
+                  >
+                    Pay Once
+                  </button>
+                  <button
+                    type='button'
+                    className={`rounded-full px-3 py-1 transition ${
+                      paymentType === 'payment-plan'
+                        ? 'bg-background text-foreground shadow'
+                        : ''
+                    }`}
+                    onClick={() => setPaymentType('payment-plan')}
+                  >
+                    Payment Plan
+                  </button>
+                </div>
+              </header>
+            </section>
+
+            <section className='flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
+              <header className='flex flex-col gap-2'>
+                <h2 className='text-lg font-semibold text-foreground'>
                   Billing Cycle
                 </h2>
                 <div className='inline-flex self-start rounded-full border border-foreground/10 bg-foreground/5 p-1 text-xs font-medium text-foreground/70'>
