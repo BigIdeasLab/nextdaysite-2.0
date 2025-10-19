@@ -338,7 +338,7 @@ type PricingCardProps = {
 
 function PricingCard({ plan }: PricingCardProps) {
   return (
-    <div className='flex h-[750px] flex-col rounded-[15px] bg-[#202020] p-[17px]'>
+    <div className='flex flex-col rounded-[15px] bg-[#202020] p-[17px]'>
       {/* Header */}
       <div className='mb-4 flex flex-col gap-[15px]'>
         <h3 className='text-lg font-medium leading-[21px] text-[#F7F6FF]'>
@@ -353,7 +353,7 @@ function PricingCard({ plan }: PricingCardProps) {
       <div className='mb-5 h-px w-full bg-white/10'></div>
 
       {/* Pricing */}
-      <div className='mb-[108px] flex flex-col gap-[25px]'>
+      <div className='mb-8 flex flex-col gap-[25px]'>
         {/* One Time */}
         <div className='flex flex-col gap-[15px]'>
           <div className='flex flex-col gap-[17px]'>
@@ -391,7 +391,7 @@ function PricingCard({ plan }: PricingCardProps) {
                 strokeLinejoin='round'
               />
             </svg>
-            <span className='text-sm font-normal leading-[50px] text-[#FF8C00]'>
+            <span className='text-sm font-normal leading-normal text-[#FF8C00]'>
               {plan.savingsBadge}
             </span>
           </div>
@@ -430,7 +430,7 @@ function PricingCard({ plan }: PricingCardProps) {
                 strokeLinecap='round'
               />
             </svg>
-            <span className='text-sm font-normal leading-[50px] text-[#FF8C00]'>
+            <span className='text-sm font-normal leading-normal text-[#FF8C00]'>
               {plan.totalMonthly}
             </span>
           </div>
@@ -438,7 +438,7 @@ function PricingCard({ plan }: PricingCardProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className='mb-[78px] flex items-center gap-[9px]'>
+      <div className='mb-8 flex items-center gap-[9px]'>
         <button className='flex h-12 flex-1 items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 text-base font-medium leading-5 text-[#F7F6FF] transition-opacity hover:opacity-90'>
           Pay One Time
         </button>
