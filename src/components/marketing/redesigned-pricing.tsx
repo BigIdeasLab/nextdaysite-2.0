@@ -68,14 +68,14 @@ export function RedesignedPricing() {
                   <div
                     role='button'
                     tabIndex={0}
-                    // onClick={() => setSelectedPlan(plan)}
+                    onClick={() => setSelectedPlan(plan)}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault()
                         setSelectedPlan(plan)
                       }
                     }}
-                    className='w-full text-left rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8C00] focus-visible:ring-offset-2 focus-visible:ring-offset-black'
+                    className='w-full cursor-pointer text-left rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8C00] focus-visible:ring-offset-2 focus-visible:ring-offset-black'
                   >
                     <PricingCard plan={plan} billingCycle={billingCycle} />
                   </div>

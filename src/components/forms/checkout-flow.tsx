@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { X } from 'lucide-react'
 
 import { useAuth } from '@/context/auth-context'
-import type { PlansRow, StartCheckoutResult } from '@/types/models'
+import type { PlansRow } from '@/types/models'
 import { formatCurrency } from '@/lib/utils/format'
 
 const HOSTING_MONTHLY = 39
@@ -17,21 +17,20 @@ type CheckoutFlowProps = {
 }
 
 type BillingCycle = 'monthly' | 'yearly'
-
-type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
+type PaymentType = 'one-time' | 'payment-plan'
+type SubmissionState = 'idle' | 'submitting' | 'error'
 
 export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
-  const { client } = useAuth()
+  const { user } = useAuth()
   const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly')
   const [includeHosting, setIncludeHosting] = useState(true)
-  const [email, setEmail] = useState('')
+  const [paymentType, setPaymentType] = useState<PaymentType>('payment-plan')
+  const [email, setEmail] = useState(user?.email || '')
   const [company, setCompany] = useState('')
   const [notes, setNotes] = useState('')
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [checkoutResult, setCheckoutResult] =
-    useState<StartCheckoutResult | null>(null)
 
   const summary = useMemo(() => {
     if (!plan) {
@@ -66,7 +65,6 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
 
     setSubmissionState('submitting')
     setErrorMessage(null)
-    setCheckoutResult(null)
 
     const trimmedEmail = email.trim()
     const trimmedCompany = company.trim()
@@ -75,7 +73,7 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
     if (!trimmedEmail) {
       setSubmissionState('error')
       setErrorMessage(
-        'Please provide a contact email so we can share your payment link.',
+        'Please provide a contact email so we can proceed with checkout.',
       )
       return
     }
@@ -90,37 +88,38 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
       setNotes(trimmedNotes)
     }
 
-    if (!client) {
-      setSubmissionState('error')
-      setErrorMessage(
-        'Supabase is not configured. Please refresh and try again.',
-      )
-      return
-    }
-
     try {
-      const { data, error } = await client.rpc('start_checkout', {
-        p_email: trimmedEmail,
-        p_company_name: trimmedCompany || null,
-        p_plan_id: plan.id,
-        p_billing_cycle: billingCycle,
-        p_include_hosting: includeHosting,
-        p_notes: trimmedNotes ? trimmedNotes : null,
+      const response = await fetch('/api/checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId: plan.id,
+          billingCycle,
+          includeHosting,
+          email: trimmedEmail,
+          companyName: trimmedCompany || undefined,
+          notes: trimmedNotes || undefined,
+          userId: user?.id,
+          paymentType: paymentType === 'one-time' ? 'one-time' : 'recurring',
+        }),
       })
 
-      if (error) {
-        throw error
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create checkout session')
       }
 
-      const [result] = data ?? []
-      if (!result) {
-        throw new Error('Checkout did not return a confirmation.')
-      }
+      const data = await response.json()
 
-      setCheckoutResult(result)
-      setSubmissionState('success')
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        throw new Error('No checkout URL provided')
+      }
     } catch (error) {
-      console.error(error)
+      console.error('Checkout error:', error)
       setSubmissionState('error')
       setErrorMessage(
         error instanceof Error
@@ -141,6 +140,41 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
         </button>
         <div className='grid gap-8 lg:grid-cols-[2fr_1fr]'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
+            <section className='flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
+              <header className='flex flex-col gap-2'>
+                <h2 className='text-lg font-semibold text-foreground'>
+                  Payment Type
+                </h2>
+                <p className='text-sm text-foreground/70'>
+                  Choose how you want to pay for your plan
+                </p>
+                <div className='mt-2 inline-flex self-start rounded-full border border-foreground/10 bg-foreground/5 p-1 text-xs font-medium text-foreground/70'>
+                  <button
+                    type='button'
+                    className={`rounded-full px-3 py-1 transition ${
+                      paymentType === 'one-time'
+                        ? 'bg-background text-foreground shadow'
+                        : ''
+                    }`}
+                    onClick={() => setPaymentType('one-time')}
+                  >
+                    Pay Once
+                  </button>
+                  <button
+                    type='button'
+                    className={`rounded-full px-3 py-1 transition ${
+                      paymentType === 'payment-plan'
+                        ? 'bg-background text-foreground shadow'
+                        : ''
+                    }`}
+                    onClick={() => setPaymentType('payment-plan')}
+                  >
+                    Payment Plan
+                  </button>
+                </div>
+              </header>
+            </section>
+
             <section className='flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm shadow-foreground/5'>
               <header className='flex flex-col gap-2'>
                 <h2 className='text-lg font-semibold text-foreground'>
@@ -263,22 +297,20 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
               ) : null}
               <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
                 <p className='text-xs text-foreground/50'>
-                  By continuing you agree to the NextDaySite terms and recurring
-                  billing policy.
+                  By continuing you agree to the NextDaySite terms and{' '}
+                  {paymentType === 'payment-plan'
+                    ? 'recurring billing'
+                    : 'payment'}{' '}
+                  policy.
                 </p>
                 <button
                   type='submit'
-                  disabled={
-                    submissionState === 'submitting' ||
-                    submissionState === 'success'
-                  }
+                  disabled={submissionState === 'submitting'}
                   className='inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:bg-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60'
                 >
-                  {submissionState === 'success'
-                    ? 'Checkout link sent'
-                    : submissionState === 'submitting'
-                      ? 'Preparing checkout...'
-                      : 'Continue to payment'}
+                  {submissionState === 'submitting'
+                    ? 'Redirecting to Stripe...'
+                    : 'Continue to payment'}
                 </button>
               </div>
             </section>
@@ -309,7 +341,10 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
                 </div>
                 <div className='h-px bg-foreground/10' aria-hidden />
                 <div className='flex items-center justify-between text-base font-semibold text-foreground'>
-                  <span>Total due today</span>
+                  <span>
+                    Total{' '}
+                    {paymentType === 'one-time' ? 'due today' : 'per month'}
+                  </span>
                   <span>{formatCurrency(summary.total)}</span>
                 </div>
               </div>
@@ -323,7 +358,7 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
                 What happens next?
               </p>
               <ul className='mt-2 list-disc space-y-1 pl-4'>
-                <li>Receive a Stripe checkout link to confirm payment.</li>
+                <li>Securely complete payment on Stripe.</li>
                 <li>
                   Complete onboarding questionnaire to kick off production.
                 </li>
@@ -331,22 +366,6 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
               </ul>
             </div>
           </aside>
-          {submissionState === 'success' && checkoutResult ? (
-            <div className='lg:col-span-2'>
-              <div className='rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-600'>
-                Invoice{' '}
-                <span className='font-semibold'>
-                  {checkoutResult.invoice_id}
-                </span>{' '}
-                totaling{' '}
-                <span className='font-semibold'>
-                  {formatCurrency(checkoutResult.total)}
-                </span>{' '}
-                is on its way to <span className='font-semibold'>{email}</span>.
-                We’ll start prepping your launch assets immediately.
-              </div>
-            </div>
-          ) : null}
         </div>
       </div>
     </div>
