@@ -55,10 +55,29 @@ export async function middleware(request: NextRequest) {
   )
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const { pathname } = request.nextUrl
+
+  // Admin route protection
+  if (pathname.startsWith('/admin')) {
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    // Fetch the user's profile to get the latest role
+    const { data: userProfile } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const userRole = userProfile?.role
+    if (userRole !== 'admin') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
 
   const protectedRoutes = [
     '/dashboard',
@@ -66,17 +85,16 @@ export async function middleware(request: NextRequest) {
     '/billing',
     '/idea-vault',
     '/project',
-    // '/admin',
   ]
   const publicOnlyRoutes = ['/login', '/signup']
 
   // If user is logged in and tries to access a public-only route, redirect to dashboard.
-  if (session && publicOnlyRoutes.includes(pathname)) {
+  if (user && publicOnlyRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   // If user is not logged in and tries to access a protected route, redirect to login.
-  if (!session && protectedRoutes.some((route) => pathname.startsWith(route))) {
+  if (!user && protectedRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

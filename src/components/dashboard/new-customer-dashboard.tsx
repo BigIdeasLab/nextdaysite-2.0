@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState, useEffect } from 'react'
-import { useProjects, useInvoices, useFiles, useActivities } from '@/hooks'
+import { useProjects, useInvoices, useFiles } from '@/hooks'
 import { DashboardHeader } from './dashboard-header'
 import { NewKpiGrid } from './new-kpi-grid'
 import { ProjectSearchSection } from './project-search-section'
@@ -25,7 +25,6 @@ export function NewCustomerDashboard() {
   const { data: projects = [] } = useProjects()
   const { data: invoices = [] } = useInvoices()
   const { data: files = [] } = useFiles()
-  const { data: activities = [] } = useActivities()
   const [onboardingDetails, setOnboardingDetails] =
     useState<ProjectDetails | null>(null)
   const { user } = useAuth()
@@ -89,33 +88,6 @@ export function NewCustomerDashboard() {
       },
     ]
   }, [projects, invoices, files])
-
-  const recentActivitiesData = useMemo(() => {
-    return activities.slice(0, 4).map((activity) => {
-      const project = projects.find((p) => p.id === activity.project_id)
-      const createdAt = new Date(activity.created_at)
-      const now = new Date()
-      const diffMs = now.getTime() - createdAt.getTime()
-      const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-      const diffMinutes = Math.floor(diffMs / (1000 * 60))
-
-      let timeAgo = ''
-      if (diffHours >= 1) {
-        timeAgo = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
-      } else if (diffMinutes >= 1) {
-        timeAgo = `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`
-      } else {
-        timeAgo = 'Just now'
-      }
-
-      return {
-        description: project
-          ? `Project "${project.title}" - ${activity.event_type.replace('_', ' ')}`
-          : activity.event_type,
-        time: timeAgo,
-      }
-    })
-  }, [activities, projects])
 
   return (
     <div className='flex flex-col gap-8'>
@@ -227,7 +199,7 @@ export function NewCustomerDashboard() {
 
         <div className='flex flex-col gap-8'>
           <QuickActions />
-          <RecentActivities activities={recentActivitiesData} />
+          <RecentActivities />
         </div>
       </div>
     </div>

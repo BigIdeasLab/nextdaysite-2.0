@@ -78,7 +78,7 @@ export function ProjectsBoard() {
   }
 
   return (
-    <div className='min-h-screen bg-black font-sans text-[#f7f6ff]'>
+    <div className=' bg-black font-sans text-[#f7f6ff]'>
       {/* Breadcrumbs */}
       <div className='mb-8 text-lg font-light leading-[22px] text-[#9ba1a6]'>
         Homepage &gt; Project &gt; Kanban Board
@@ -151,8 +151,8 @@ export function ProjectsBoard() {
       </div>
 
       {/* Kanban Board */}
-      <div className='min-h-[60vh] rounded-t-[30px] bg-[#131313] p-8 '>
-        <div className='grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3'>
+      <div className='rounded-t-[30px] bg-[#131313] p-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3'>
           {filteredStatuses.map((status) => {
             const config = statusConfig[status]
             const statusProjects = projectsByStatus[status] || []

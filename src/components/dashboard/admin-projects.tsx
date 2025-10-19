@@ -2,17 +2,19 @@
 
 import { useProjects, useUsers } from '@/hooks'
 import { format } from 'date-fns'
+import { useRouter } from 'next/navigation'
 
 export function AdminProjects() {
   const { data: projects = [], isLoading: projectsLoading } = useProjects()
   const { data: users = [], isLoading: usersLoading } = useUsers()
+  const router = useRouter()
 
   if (projectsLoading || usersLoading) {
     return <div>Loading...</div>
   }
 
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-10 h-screen overflow-y-auto  p-6 bg-black text-[#f7f6ff]'>
       <header className='flex flex-col gap-2'>
         <h1 className='text-2xl font-semibold tracking-tight sm:text-3xl'>
           All Projects
@@ -63,7 +65,11 @@ export function AdminProjects() {
               {projects.map((project) => {
                 const owner = users.find((u) => u.id === project.owner_id)
                 return (
-                  <tr key={project.id}>
+                  <tr
+                    key={project.id}
+                    className='cursor-pointer hover:bg-foreground/5'
+                    onClick={() => router.push(`/admin/projects/${project.id}`)}
+                  >
                     <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-foreground'>
                       {project.title}
                     </td>

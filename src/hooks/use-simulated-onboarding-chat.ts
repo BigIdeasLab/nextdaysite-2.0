@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { fetchOnboardingSteps, createProject } from '@/lib/api/data-service'
+import { fetchOnboardingSteps } from '@/lib/api/data-service'
 import type { OnboardingStepsRow } from '@/types/models'
 import { useAuth } from '@/context/auth-context'
 
@@ -188,24 +187,16 @@ export function useSimulatedOnboardingChat() {
           JSON.stringify(finalDetails),
         )
 
-        if (user) {
-          await createProject(finalDetails as ProjectDetails)
-          const finishMessage: ChatMessage = {
-            role: 'assistant',
-            content:
-              'Excellent! We have saved your project. You can now proceed to your dashboard.',
-          }
-          setMessages((prev) => [...prev, finishMessage])
-          setAuthActions(['Proceed to Dashboard'])
-        } else {
-          const finishMessage: ChatMessage = {
-            role: 'assistant',
-            content:
-              'Excellent! To save your project and move to the next step, please sign up or log in.',
-          }
-          setMessages((prev) => [...prev, finishMessage])
-          setAuthActions(['Sign Up to Save', 'Log In'])
+        const finishMessage: ChatMessage = {
+          role: 'assistant',
+          content: user
+            ? 'Excellent! We have saved your project details. You can now proceed to your dashboard to confirm and start your project.'
+            : 'Excellent! To save your project and move to the next step, please sign up or log in.',
         }
+        setMessages((prev) => [...prev, finishMessage])
+        setAuthActions(
+          user ? ['Proceed to Dashboard'] : ['Sign Up to Save', 'Log In'],
+        )
         setIsConversationComplete(true)
         setShowAuthButtons(true)
         setIsLoading(false)
