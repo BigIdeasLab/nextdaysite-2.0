@@ -18,8 +18,8 @@ export default function CheckoutSuccessPage({
             Payment successful!
           </h1>
           <p className='text-foreground/70'>
-            Thank you for your purchase. We're excited to get started on your
-            project.
+            Thank you for your purchase. We&apos;re excited to get started on
+            your project.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function CheckoutSuccessPage({
                   Onboarding questionnaire
                 </p>
                 <p className='text-sm text-foreground/60'>
-                  You'll receive a detailed form to help us understand your
+                  You&apos;ll receive a detailed form to help us understand your
                   vision
                 </p>
               </div>
@@ -64,7 +64,7 @@ export default function CheckoutSuccessPage({
                   Meet your launch team
                 </p>
                 <p className='text-sm text-foreground/60'>
-                  We'll schedule a kickoff call within one business day
+                  We&apos;ll schedule a kickoff call within one business day
                 </p>
               </div>
             </li>
