@@ -192,9 +192,7 @@ export function PricingPlans() {
                 key={idx}
                 className='grid grid-cols-4 items-center gap-4 text-base'
               >
-                <div className='font-normal text-[#F7F6FF]'>
-                  {row.feature}
-                </div>
+                <div className='font-normal text-[#F7F6FF]'>{row.feature}</div>
                 <div className='flex justify-center'>
                   {row.web === 'check' ? (
                     <Check className='h-6 w-6 text-[#F7F6FF]' />
