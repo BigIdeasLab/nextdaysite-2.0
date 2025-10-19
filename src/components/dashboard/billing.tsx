@@ -146,6 +146,9 @@ export function Billing() {
           )}
         </div>
       </div>
+
+      {/* Pricing Plans Section */}
+      <PricingPlans />
     </div>
   )
 }
