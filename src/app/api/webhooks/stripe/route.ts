@@ -102,7 +102,6 @@ async function handleCheckoutSessionCompleted(
 ) {
   try {
     const userId = session.client_reference_id
-    const customerId = session.customer as string
     const metadata = session.metadata || {}
 
     if (!userId || userId === 'guest') {
@@ -122,7 +121,7 @@ async function handleCheckoutSessionCompleted(
         stripe_subscription_id: subscription.id,
         billing_cycle: metadata.billing_cycle || 'monthly',
         include_hosting: metadata.include_hosting === 'true',
-        status: subscription.status as any,
+        status: subscription.status as Stripe.Subscription.Status,
         base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
         hosting_amount: subscription.items.data[1]?.price.unit_amount
           ? (subscription.items.data[1].price.unit_amount || 0) / 100
@@ -146,6 +145,7 @@ async function handleCheckoutSessionCompleted(
 
     // Update user's plan
     if (metadata.plan_id) {
+      const customerId = session.customer as string
       await supabase
         .from('users')
         .update({
@@ -161,7 +161,6 @@ async function handleCheckoutSessionCompleted(
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   try {
-    const customerId = subscription.customer as string
     const userId = subscription.metadata?.user_id
 
     if (!userId) {
@@ -175,7 +174,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       stripe_subscription_id: subscription.id,
       billing_cycle: subscription.metadata?.billing_cycle || 'monthly',
       include_hosting: subscription.metadata?.include_hosting === 'true',
-      status: subscription.status as any,
+      status: subscription.status as Stripe.Subscription.Status,
       base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
       hosting_amount: subscription.items.data[1]?.price.unit_amount
         ? (subscription.items.data[1].price.unit_amount || 0) / 100
@@ -205,7 +204,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     const { error } = await supabase
       .from('subscriptions')
       .update({
-        status: subscription.status as any,
+        status: subscription.status as Stripe.Subscription.Status,
         current_period_start: new Date(
           subscription.current_period_start * 1000,
         ).toISOString(),
