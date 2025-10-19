@@ -9,14 +9,41 @@ import {
 } from '@/lib/api/data-service'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { ProjectTimelinePhasesRow } from '@/types/models'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 type TimelineStatus = 'pending' | 'in_progress' | 'completed'
 
 export function ManageTimeline({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
   const { data: timelinePhases = [], isLoading } = useTimelinePhases(projectId)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isAddModalOpen, setAddModalOpen] = useState(false)
+  const [isEditModalOpen, setEditModalOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
@@ -35,7 +62,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['timelinePhases', projectId] })
-      setIsModalOpen(false)
+      setAddModalOpen(false)
       setTitle('')
       setStartDate('')
       setEndDate('')
@@ -52,7 +79,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['timelinePhases', projectId] })
-      setIsEditModalOpen(false)
+      setEditModalOpen(false)
       setTitle('')
       setStartDate('')
       setEndDate('')
@@ -84,7 +111,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
     setStartDate(phase.start_date || '')
     setEndDate(phase.end_date || '')
     setStatus(phase.status)
-    setIsEditModalOpen(true)
+    setEditModalOpen(true)
   }
 
   if (isLoading) {
@@ -92,249 +119,191 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex justify-between items-center'>
-        <h2 className='text-xl font-semibold tracking-tight sm:text-2xl'>
-          Timeline
-        </h2>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className='px-4 py-2 bg-blue-500 text-white rounded-md'
-        >
-          Add Phase
-        </button>
+    <div className='space-y-4'>
+      <div className='flex items-center justify-between'>
+        <h2 className='text-xl font-semibold'>Timeline</h2>
+        <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
+          <DialogTrigger asChild>
+            <Button>Add Phase</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Phase</DialogTitle>
+              <DialogDescription>
+                Fill in the details for the new timeline phase.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleAddSubmit} className='space-y-4'>
+              <div className='space-y-2'>
+                <Label htmlFor='title'>Title</Label>
+                <Input
+                  id='title'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder='Phase title'
+                />
+              </div>
+              <div className='grid grid-cols-2 gap-4'>
+                <div className='space-y-2'>
+                  <Label htmlFor='startDate'>Start Date</Label>
+                  <Input
+                    id='startDate'
+                    type='date'
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <Label htmlFor='endDate'>End Date</Label>
+                  <Input
+                    id='endDate'
+                    type='date'
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={() => setAddModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type='submit' disabled={addMutation.isPending}>
+                  {addMutation.isPending ? 'Adding...' : 'Add'}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-          <div className='bg-white p-8 rounded-lg'>
-            <h3 className='text-lg font-semibold mb-4'>Add New Phase</h3>
-            <form onSubmit={handleAddSubmit}>
-              <div className='mb-4'>
-                <label
-                  htmlFor='title'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Title
-                </label>
-                <input
-                  type='text'
-                  id='title'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='startDate'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Start Date
-                </label>
-                <input
-                  type='date'
-                  id='startDate'
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='endDate'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  End Date
-                </label>
-                <input
-                  type='date'
-                  id='endDate'
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='flex justify-end gap-4'>
-                <button
-                  type='button'
-                  onClick={() => setIsModalOpen(false)}
-                  className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md'
-                >
-                  Cancel
-                </button>
-                <button
-                  type='submit'
-                  className='px-4 py-2 bg-blue-500 text-white rounded-md'
-                  disabled={addMutation.isPending}
-                >
-                  {addMutation.isPending ? 'Adding...' : 'Add'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {isEditModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-          <div className='bg-white p-8 rounded-lg'>
-            <h3 className='text-lg font-semibold mb-4'>Edit Phase</h3>
-            <form onSubmit={handleUpdateSubmit}>
-              <div className='mb-4'>
-                <label
-                  htmlFor='title'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Title
-                </label>
-                <input
-                  type='text'
-                  id='title'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='startDate'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Start Date
-                </label>
-                <input
-                  type='date'
-                  id='startDate'
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='endDate'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  End Date
-                </label>
-                <input
-                  type='date'
-                  id='endDate'
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='status'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Status
-                </label>
-                <select
-                  id='status'
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value as TimelineStatus)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                >
-                  <option value='pending'>Pending</option>
-                  <option value='in_progress'>In Progress</option>
-                  <option value='completed'>Completed</option>
-                </select>
-              </div>
-              <div className='flex justify-end gap-4'>
-                <button
-                  type='button'
-                  onClick={() => setIsEditModalOpen(false)}
-                  className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md'
-                >
-                  Cancel
-                </button>
-                <button
-                  type='submit'
-                  className='px-4 py-2 bg-blue-500 text-white rounded-md'
-                  disabled={updateMutation.isPending}
-                >
-                  {updateMutation.isPending ? 'Updating...' : 'Update'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      <div className='overflow-x-auto'>
-        <table className='min-w-full divide-y divide-gray-200'>
-          <thead className='bg-gray-50'>
-            <tr>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Title
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Start Date
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                End Date
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Status
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className='bg-white divide-y divide-gray-200'>
+      <div className='rounded-md border'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead>Start Date</TableHead>
+              <TableHead>End Date</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className='text-right'>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {timelinePhases.map((phase) => (
-              <tr key={phase.id}>
-                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                  {phase.title}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {phase.start_date}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {phase.end_date}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {phase.status}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  <button
-                    onClick={() => handleEditClick(phase)}
-                    className='px-2 py-1 bg-gray-200 text-gray-700 rounded-md'
+              <TableRow key={phase.id}>
+                <TableCell className='font-medium'>{phase.title}</TableCell>
+                <TableCell>{phase.start_date}</TableCell>
+                <TableCell>{phase.end_date}</TableCell>
+                <TableCell>{phase.status}</TableCell>
+                <TableCell className='text-right space-x-2'>
+                  <Dialog
+                    open={isEditModalOpen && selectedPhase?.id === phase.id}
+                    onOpenChange={setEditModalOpen}
                   >
-                    Edit
-                  </button>
-                  <button
+                    <DialogTrigger asChild>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        onClick={() => handleEditClick(phase)}
+                      >
+                        Edit
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit Phase</DialogTitle>
+                        <DialogDescription>
+                          Update the details for this timeline phase.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleUpdateSubmit} className='space-y-4'>
+                        <div className='space-y-2'>
+                          <Label htmlFor='edit-title'>Title</Label>
+                          <Input
+                            id='edit-title'
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder='Phase title'
+                          />
+                        </div>
+                        <div className='grid grid-cols-2 gap-4'>
+                          <div className='space-y-2'>
+                            <Label htmlFor='edit-startDate'>Start Date</Label>
+                            <Input
+                              id='edit-startDate'
+                              type='date'
+                              value={startDate}
+                              onChange={(e) => setStartDate(e.target.value)}
+                            />
+                          </div>
+                          <div className='space-y-2'>
+                            <Label htmlFor='edit-endDate'>End Date</Label>
+                            <Input
+                              id='edit-endDate'
+                              type='date'
+                              value={endDate}
+                              onChange={(e) => setEndDate(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div className='space-y-2'>
+                          <Label htmlFor='edit-status'>Status</Label>
+                          <Select
+                            value={status}
+                            onValueChange={(value) =>
+                              setStatus(value as TimelineStatus)
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder='Select status' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value='pending'>Pending</SelectItem>
+                              <SelectItem value='in_progress'>
+                                In Progress
+                              </SelectItem>
+                              <SelectItem value='completed'>
+                                Completed
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <DialogFooter>
+                          <Button
+                            type='button'
+                            variant='outline'
+                            onClick={() => setEditModalOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            type='submit'
+                            disabled={updateMutation.isPending}
+                          >
+                            {updateMutation.isPending
+                              ? 'Updating...'
+                              : 'Update'}
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                  <Button
+                    variant='destructive'
+                    size='sm'
                     onClick={() => deleteMutation.mutate(phase.id)}
-                    className='ml-2 px-2 py-1 bg-red-500 text-white rounded-md'
                     disabled={deleteMutation.isPending}
                   >
                     Delete
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   )

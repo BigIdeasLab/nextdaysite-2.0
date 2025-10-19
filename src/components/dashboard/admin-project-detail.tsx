@@ -17,6 +17,16 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Calendar } from '@/components/ui/calendar'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { CalendarDays } from 'lucide-react'
+import { format } from 'date-fns'
 
 type ProjectStatus =
   | 'start'
@@ -79,96 +89,147 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   }
 
   return (
-    <div className='flex flex-col gap-8'>
-      <div className='flex justify-between items-center'>
+    <div className='space-y-8'>
+      <div className='flex items-center justify-between'>
         <h1 className='text-2xl font-bold'>{project.title}</h1>
-        <div className='flex items-center gap-4'>
-          <span className='text-gray-500'>Start Date:</span>
-          <Button
-            variant={'outline'}
-            onClick={() => setDatePickerOpen(true)}
-            className='w-[280px] justify-start text-left font-normal'
-          >
-            {startDate ? (
-              new Date(startDate).toLocaleDateString()
-            ) : (
-              <span>Pick a date</span>
-            )}
-          </Button>
-          <span className='text-gray-500'>Due Date:</span>
-          <Button
-            variant={'outline'}
-            onClick={() => setDatePickerOpen(true)}
-            className='w-[280px] justify-start text-left font-normal'
-          >
-            {dueDate ? (
-              new Date(dueDate).toLocaleDateString()
-            ) : (
-              <span>Pick a date</span>
-            )}
-          </Button>
-          <Dialog open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
-            <DialogContent className='sm:max-w-[425px]'>
-              <DialogHeader>
-                <DialogTitle>Select Dates</DialogTitle>
-                <DialogDescription>
-                  Select a start and due date for the project.
-                </DialogDescription>
-              </DialogHeader>
-              <div className='grid gap-4 py-4'>
-                <Calendar
-                  mode='range'
-                  selected={{
-                    from: startDate ? new Date(startDate) : undefined,
-                    to: dueDate ? new Date(dueDate) : undefined,
-                  }}
-                  onSelect={(range) => {
-                    if (range?.from) {
-                      setStartDate(range.from.toISOString().split('T')[0])
-                    }
-                    if (range?.to) {
-                      setDueDate(range.to.toISOString().split('T')[0])
-                    }
-                  }}
-                  numberOfMonths={2}
-                />
+      </div>
+
+      <div className='grid grid-cols-1 gap-8 lg:grid-cols-3'>
+        <div className='lg:col-span-2'>
+          <Card>
+            <CardHeader>
+              <CardTitle>Project Details</CardTitle>
+            </CardHeader>
+            <CardContent className='space-y-6'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                <div>
+                  <label
+                    htmlFor='start-date'
+                    className='block text-sm font-medium text-gray-700'
+                  >
+                    Start Date
+                  </label>
+                  <Button
+                    variant={'outline'}
+                    onClick={() => setDatePickerOpen(true)}
+                    className='mt-1 w-full justify-start text-left font-normal'
+                  >
+                    <CalendarDays className='mr-2 h-4 w-4' />
+                    {startDate ? (
+                      format(new Date(startDate), 'PPP')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </div>
+                <div>
+                  <label
+                    htmlFor='due-date'
+                    className='block text-sm font-medium text-gray-700'
+                  >
+                    Due Date
+                  </label>
+                  <Button
+                    variant={'outline'}
+                    onClick={() => setDatePickerOpen(true)}
+                    className='mt-1 w-full justify-start text-left font-normal'
+                  >
+                    <CalendarDays className='mr-2 h-4 w-4' />
+                    {dueDate ? (
+                      format(new Date(dueDate), 'PPP')
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </div>
               </div>
-              <DialogFooter>
-                <Button
-                  onClick={() => {
-                    handleDateChange()
-                    setDatePickerOpen(false)
-                  }}
+              <div>
+                <label
+                  htmlFor='status'
+                  className='block text-sm font-medium text-gray-700'
                 >
-                  Save changes
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-          <span className='text-gray-500'>Status:</span>
-          <select
-            value={project.status}
-            onChange={(e) =>
-              updateStatusMutation.mutate(e.target.value as ProjectStatus)
-            }
-            className='px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-          >
-            <option value='start'>Start</option>
-            <option value='in_progress'>In Progress</option>
-            <option value='review'>Review</option>
-            <option value='ready_to_ship'>Ready to Ship</option>
-            <option value='shipped'>Shipped</option>
-          </select>
+                  Status
+                </label>
+                <Select
+                  value={project.status}
+                  onValueChange={(value) =>
+                    updateStatusMutation.mutate(value as ProjectStatus)
+                  }
+                >
+                  <SelectTrigger className='mt-1 w-full'>
+                    <SelectValue placeholder='Select status' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='start'>Start</SelectItem>
+                    <SelectItem value='in_progress'>In Progress</SelectItem>
+                    <SelectItem value='review'>Review</SelectItem>
+                    <SelectItem value='ready_to_ship'>Ready to Ship</SelectItem>
+                    <SelectItem value='shipped'>Shipped</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className='space-y-8'>
+          <Card>
+            <CardHeader>
+              <CardTitle>Timeline</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ManageTimeline projectId={project.id} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Deliverables</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ManageDeliverables projectId={project.id} />
+            </CardContent>
+          </Card>
         </div>
       </div>
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-        <div className='border rounded-lg p-4'>
-          <ManageTimeline projectId={project.id} />
-        </div>
-        <div className='border rounded-lg p-4'>
-          <ManageDeliverables projectId={project.id} />
-        </div>
-      </div>
+
+      <Dialog open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
+        <DialogContent className='sm:max-w-md'>
+          <DialogHeader>
+            <DialogTitle>Select Dates</DialogTitle>
+            <DialogDescription>
+              Select a start and due date for the project.
+            </DialogDescription>
+          </DialogHeader>
+          <div className='grid gap-4 py-4'>
+            <Calendar
+              mode='range'
+              selected={{
+                from: startDate ? new Date(startDate) : undefined,
+                to: dueDate ? new Date(dueDate) : undefined,
+              }}
+              onSelect={(range) => {
+                if (range?.from) {
+                  setStartDate(range.from.toISOString().split('T')[0])
+                }
+                if (range?.to) {
+                  setDueDate(range.to.toISOString().split('T')[0])
+                }
+              }}
+              numberOfMonths={1}
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              onClick={() => {
+                handleDateChange()
+                setDatePickerOpen(false)
+              }}
+            >
+              Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

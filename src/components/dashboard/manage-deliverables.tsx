@@ -9,12 +9,33 @@ import {
 } from '@/lib/api/data-service'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { ProjectDeliverablesRow } from '@/types/models'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 export function ManageDeliverables({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
   const { data: deliverables = [], isLoading } = useDeliverables(projectId)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isAddModalOpen, setAddModalOpen] = useState(false)
+  const [isEditModalOpen, setEditModalOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [selectedDeliverable, setSelectedDeliverable] =
@@ -30,7 +51,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deliverables', projectId] })
-      setIsModalOpen(false)
+      setAddModalOpen(false)
       setTitle('')
       setDescription('')
     },
@@ -41,7 +62,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
       updateDeliverable(selectedDeliverable!.id, { title, description }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deliverables', projectId] })
-      setIsEditModalOpen(false)
+      setEditModalOpen(false)
       setTitle('')
       setDescription('')
       setSelectedDeliverable(null)
@@ -69,7 +90,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
     setSelectedDeliverable(deliverable)
     setTitle(deliverable.title)
     setDescription(deliverable.description || '')
-    setIsEditModalOpen(true)
+    setEditModalOpen(true)
   }
 
   if (isLoading) {
@@ -77,190 +98,150 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex justify-between items-center'>
-        <h2 className='text-xl font-semibold tracking-tight sm:text-2xl'>
-          Deliverables
-        </h2>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className='px-4 py-2 bg-blue-500 text-white rounded-md'
-        >
-          Add Deliverable
-        </button>
+    <div className='space-y-4'>
+      <div className='flex items-center justify-between'>
+        <h2 className='text-xl font-semibold'>Deliverables</h2>
+        <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
+          <DialogTrigger asChild>
+            <Button>Add Deliverable</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Deliverable</DialogTitle>
+              <DialogDescription>
+                Fill in the details for the new deliverable.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleAddSubmit} className='space-y-4'>
+              <div className='space-y-2'>
+                <Label htmlFor='title'>Title</Label>
+                <Input
+                  id='title'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder='Deliverable title'
+                />
+              </div>
+              <div className='space-y-2'>
+                <Label htmlFor='description'>Description</Label>
+                <Textarea
+                  id='description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder='Deliverable description'
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={() => setAddModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type='submit' disabled={addMutation.isPending}>
+                  {addMutation.isPending ? 'Adding...' : 'Add'}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-          <div className='bg-white p-8 rounded-lg'>
-            <h3 className='text-lg font-semibold mb-4'>Add New Deliverable</h3>
-            <form onSubmit={handleAddSubmit}>
-              <div className='mb-4'>
-                <label
-                  htmlFor='title'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Title
-                </label>
-                <input
-                  type='text'
-                  id='title'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='description'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Description
-                </label>
-                <textarea
-                  id='description'
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='flex justify-end gap-4'>
-                <button
-                  type='button'
-                  onClick={() => setIsModalOpen(false)}
-                  className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md'
-                >
-                  Cancel
-                </button>
-                <button
-                  type='submit'
-                  className='px-4 py-2 bg-blue-500 text-white rounded-md'
-                  disabled={addMutation.isPending}
-                >
-                  {addMutation.isPending ? 'Adding...' : 'Add'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {isEditModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-          <div className='bg-white p-8 rounded-lg'>
-            <h3 className='text-lg font-semibold mb-4'>Edit Deliverable</h3>
-            <form onSubmit={handleUpdateSubmit}>
-              <div className='mb-4'>
-                <label
-                  htmlFor='title'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Title
-                </label>
-                <input
-                  type='text'
-                  id='title'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='mb-4'>
-                <label
-                  htmlFor='description'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Description
-                </label>
-                <textarea
-                  id='description'
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                />
-              </div>
-              <div className='flex justify-end gap-4'>
-                <button
-                  type='button'
-                  onClick={() => setIsEditModalOpen(false)}
-                  className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md'
-                >
-                  Cancel
-                </button>
-                <button
-                  type='submit'
-                  className='px-4 py-2 bg-blue-500 text-white rounded-md'
-                  disabled={updateMutation.isPending}
-                >
-                  {updateMutation.isPending ? 'Updating...' : 'Update'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      <div className='overflow-x-auto'>
-        <table className='min-w-full divide-y divide-gray-200'>
-          <thead className='bg-gray-50'>
-            <tr>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Title
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Description
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Status
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-              >
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className='bg-white divide-y divide-gray-200'>
+      <div className='rounded-md border'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className='text-right'>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {deliverables.map((deliverable) => (
-              <tr key={deliverable.id}>
-                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+              <TableRow key={deliverable.id}>
+                <TableCell className='font-medium'>
                   {deliverable.title}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {deliverable.description}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {deliverable.status}
-                </td>
-                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  <button
-                    onClick={() => handleEditClick(deliverable)}
-                    className='px-2 py-1 bg-gray-200 text-gray-700 rounded-md'
+                </TableCell>
+                <TableCell>{deliverable.description}</TableCell>
+                <TableCell>{deliverable.status}</TableCell>
+                <TableCell className='text-right space-x-2'>
+                  <Dialog
+                    open={
+                      isEditModalOpen &&
+                      selectedDeliverable?.id === deliverable.id
+                    }
+                    onOpenChange={setEditModalOpen}
                   >
-                    Edit
-                  </button>
-                  <button
+                    <DialogTrigger asChild>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        onClick={() => handleEditClick(deliverable)}
+                      >
+                        Edit
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit Deliverable</DialogTitle>
+                        <DialogDescription>
+                          Update the details for this deliverable.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleUpdateSubmit} className='space-y-4'>
+                        <div className='space-y-2'>
+                          <Label htmlFor='edit-title'>Title</Label>
+                          <Input
+                            id='edit-title'
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder='Deliverable title'
+                          />
+                        </div>
+                        <div className='space-y-2'>
+                          <Label htmlFor='edit-description'>Description</Label>
+                          <Textarea
+                            id='edit-description'
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder='Deliverable description'
+                          />
+                        </div>
+                        <DialogFooter>
+                          <Button
+                            type='button'
+                            variant='outline'
+                            onClick={() => setEditModalOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            type='submit'
+                            disabled={updateMutation.isPending}
+                          >
+                            {updateMutation.isPending
+                              ? 'Updating...'
+                              : 'Update'}
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                  <Button
+                    variant='destructive'
+                    size='sm'
                     onClick={() => deleteMutation.mutate(deliverable.id)}
-                    className='ml-2 px-2 py-1 bg-red-500 text-white rounded-md'
                     disabled={deleteMutation.isPending}
                   >
                     Delete
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   )
