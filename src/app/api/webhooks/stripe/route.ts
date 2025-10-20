@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripe, getStripeWebhookSecret } from '@/lib/stripe'
 import { createClient } from '@supabase/supabase-js'
 import type Stripe from 'stripe'
+import type { InvoicesRow } from '@/types/models'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -106,8 +107,60 @@ async function handleCheckoutSessionCompleted(
     const projectId = metadata.projectId
 
     if (!userId || userId === 'guest') {
-      console.log('Guest checkout completed, not creating subscription record')
+      console.log(
+        'Guest checkout completed, not creating invoice or subscription',
+      )
       return
+    }
+
+    // Idempotency check: See if we've already processed this checkout session
+    const { data: existingInvoice } = await supabase
+      .from('invoices')
+      .select('id')
+      .eq('metadata->checkout_session_id', session.id)
+      .single()
+
+    if (existingInvoice) {
+      console.log(`Invoice for checkout session ${session.id} already exists.`)
+      return
+    }
+
+    // Create an invoice record
+    const invoiceData: Omit<InvoicesRow, 'id' | 'created_at'> = {
+      user_id: userId,
+      project_id: projectId,
+      status: 'paid',
+      subtotal: (session.amount_subtotal || 0) / 100,
+      tax: (session.total_details?.amount_tax || 0) / 100,
+      total: (session.amount_total || 0) / 100,
+      currency: session.currency?.toUpperCase() || 'USD',
+      issued_at: new Date().toISOString().split('T')[0],
+      due_date: new Date().toISOString().split('T')[0],
+      metadata: {
+        checkout_session_id: session.id,
+        payment_intent_id:
+          typeof session.payment_intent === 'string'
+            ? session.payment_intent
+            : session.payment_intent?.id,
+        plan_id: metadata.plan_id,
+        company_name: metadata.company_name,
+        notes: metadata.notes,
+      },
+      download_url: null,
+      stripe_invoice_id: session.invoice
+        ? typeof session.invoice === 'string'
+          ? session.invoice
+          : session.invoice.id
+        : null,
+    }
+
+    const { error: newInvoiceError } = await supabase
+      .from('invoices')
+      .insert(invoiceData)
+
+    if (newInvoiceError) {
+      console.error('Error creating invoice:', newInvoiceError)
+      // Decide if you should stop further processing
     }
 
     // For subscriptions, the subscription ID will be populated after payment
@@ -176,6 +229,18 @@ async function handleCheckoutSessionCompleted(
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   try {
+    // Idempotency check: See if we've already processed this subscription
+    const { data: existingSubscription } = await supabase
+      .from('subscriptions')
+      .select('id')
+      .eq('stripe_subscription_id', subscription.id)
+      .single()
+
+    if (existingSubscription) {
+      console.log(`Subscription for ${subscription.id} already exists.`)
+      return
+    }
+
     const sub = subscription as Stripe.Subscription & {
       current_period_start: number
       current_period_end: number
@@ -281,23 +346,23 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
     if (!user) return
 
     // Create invoice record
-    const { error } = await supabase.from('invoices').insert({
-      user_id: user.id,
-      stripe_invoice_id: invoice.id,
-      status: 'paid',
-      subtotal: (invoice.subtotal || 0) / 100,
-      tax: ((invoice.total || 0) - (invoice.subtotal || 0)) / 100,
-      total: (invoice.total || 0) / 100,
-      currency: invoice.currency.toUpperCase(),
-      issued_at: new Date(invoice.created * 1000).toISOString().split('T')[0],
-      due_date: invoice.due_date
-        ? new Date(invoice.due_date * 1000).toISOString().split('T')[0]
-        : new Date().toISOString().split('T')[0],
-    })
+    // const { error } = await supabase.from('invoices').insert({
+    //   user_id: user.id,
+    //   stripe_invoice_id: invoice.id,
+    //   status: 'paid',
+    //   subtotal: (invoice.subtotal || 0) / 100,
+    //   tax: ((invoice.total || 0) - (invoice.subtotal || 0)) / 100,
+    //   total: (invoice.total || 0) / 100,
+    //   currency: invoice.currency.toUpperCase(),
+    //   issued_at: new Date(invoice.created * 1000).toISOString().split('T')[0],
+    //   due_date: invoice.due_date
+    //     ? new Date(invoice.due_date * 1000).toISOString().split('T')[0]
+    //     : new Date().toISOString().split('T')[0],
+    // })
 
-    if (error) {
-      console.error('Error creating invoice:', error)
-    }
+    // if (error) {
+    //   console.error('Error creating invoice:', error)
+    // }
   } catch (error) {
     console.error('Error handling invoice payment succeeded:', error)
   }
@@ -360,23 +425,23 @@ async function handlePaymentIntentSucceeded(
     if (!user) return
 
     // Create invoice record for one-time payment
-    const { error } = await supabase.from('invoices').insert({
-      user_id: user.id,
-      status: 'paid',
-      subtotal: (paymentIntent.amount || 0) / 100,
-      tax: 0,
-      total: (paymentIntent.amount || 0) / 100,
-      currency: (paymentIntent.currency || 'usd').toUpperCase(),
-      issued_at: new Date().toISOString().split('T')[0],
-      due_date: new Date().toISOString().split('T')[0],
-      metadata: {
-        payment_intent_id: paymentIntent.id,
-      },
-    })
+    // const { error } = await supabase.from('invoices').insert({
+    //   user_id: user.id,
+    //   status: 'paid',
+    //   subtotal: (paymentIntent.amount || 0) / 100,
+    //   tax: 0,
+    //   total: (paymentIntent.amount || 0) / 100,
+    //   currency: (paymentIntent.currency || 'usd').toUpperCase(),
+    //   issued_at: new Date().toISOString().split('T')[0],
+    //   due_date: new Date().toISOString().split('T')[0],
+    //   metadata: {
+    //     payment_intent_id: paymentIntent.id,
+    //   },
+    // })
 
-    if (error) {
-      console.error('Error creating invoice from payment intent:', error)
-    }
+    // if (error) {
+    //   console.error('Error creating invoice from payment intent:', error)
+    // }
   } catch (error) {
     console.error('Error handling payment intent succeeded:', error)
   }

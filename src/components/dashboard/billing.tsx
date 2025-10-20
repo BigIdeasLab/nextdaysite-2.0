@@ -5,8 +5,8 @@ import { Calendar, CreditCard } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils/format'
 import Link from 'next/link'
 import { PricingPlans } from './pricing-plans'
-import { InvoiceHistory } from './invoice-history'
-import { PaymentHistory } from './payment-history'
+// import { InvoiceHistory } from './invoice-history'
+// import { PaymentHistory } from './payment-history'
 
 export function Billing() {
   const { data: invoices = [], isLoading: invoicesLoading } = useInvoices()
@@ -63,7 +63,7 @@ export function Billing() {
             New Project
           </Link>
           <Link
-            href='/billing?view=invoices'
+            href='/billing/history'
             className='flex h-12 items-center justify-center rounded-[30px] bg-[#202020] px-5 text-center text-base font-medium text-[#F7F6FF] transition-opacity hover:opacity-90'
           >
             View Invoices
@@ -153,10 +153,10 @@ export function Billing() {
       <PricingPlans />
 
       {/* Invoice History Section */}
-      <InvoiceHistory invoices={invoices} />
+      {/* <InvoiceHistory invoices={invoices} /> */}
 
       {/* Payment History Section */}
-      <PaymentHistory payments={invoices} />
+      {/* <PaymentHistory payments={invoices} /> */}
     </div>
   )
 }
