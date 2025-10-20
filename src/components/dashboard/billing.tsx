@@ -151,6 +151,12 @@ export function Billing() {
 
       {/* Pricing Plans Section */}
       <PricingPlans />
+
+      {/* Invoice History Section */}
+      <InvoiceHistory invoices={invoices} />
+
+      {/* Payment History Section */}
+      <PaymentHistory payments={invoices} />
     </div>
   )
 }
