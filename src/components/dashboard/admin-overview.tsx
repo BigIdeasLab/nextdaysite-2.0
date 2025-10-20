@@ -91,7 +91,7 @@ export function AdminOverview() {
       {
         label: 'Pipeline load',
         value: String(projects.length),
-        caption: `${projects.filter((project) => project.status !== 'shipped').length} in production`,
+        caption: `${projects.filter((project) => project.status !== 'completed').length} in production`,
       },
       {
         label: 'Average cycle',

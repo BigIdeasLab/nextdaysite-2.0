@@ -14,11 +14,13 @@ import { createProject } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
 
 const statusLabels: Record<string, string> = {
-  start: 'Status: Kickoff',
+  active: 'Status: Active',
+  inactive: 'Status: Inactive (Click to activate)',
   in_progress: 'Status: In Progress',
   review: 'Status: In Review',
-  ready_to_ship: 'Status: Ready to Ship',
-  shipped: 'Status: Completed',
+  completed: 'Status: Completed',
+  paused: 'Status: Paused',
+  cancelled: 'Status: Cancelled',
 }
 
 export function NewCustomerDashboard() {
@@ -59,7 +61,7 @@ export function NewCustomerDashboard() {
   }
 
   const kpiMetrics = useMemo(() => {
-    const activeProjects = projects.filter((p) => p.status !== 'shipped')
+    const activeProjects = projects.filter((p) => p.status === 'active')
     const readyToReview = projects.filter((p) => p.status === 'review')
     const openInvoices = invoices.filter((i) => i.status === 'open')
     const storageUsed = files.reduce((sum, file) => sum + file.size_bytes, 0)
@@ -188,8 +190,9 @@ export function NewCustomerDashboard() {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}
+                  isInactive={project.status === 'inactive'}
                   statusColor={
-                    project.status === 'shipped' ? 'green' : 'orange'
+                    project.status === 'completed' ? 'green' : 'orange'
                   }
                 />
               ))}

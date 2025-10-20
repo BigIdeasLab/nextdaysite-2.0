@@ -27,13 +27,9 @@ import {
 } from '@/components/ui/select'
 import { CalendarDays } from 'lucide-react'
 import { format } from 'date-fns'
+import { Database } from '@/types/database'
 
-type ProjectStatus =
-  | 'start'
-  | 'in_progress'
-  | 'review'
-  | 'ready_to_ship'
-  | 'shipped'
+type ProjectStatus = Database['public']['Enums']['project_status']
 
 export function AdminProjectDetail({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
@@ -160,11 +156,13 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     <SelectValue placeholder='Select status' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='start'>Start</SelectItem>
+                    <SelectItem value='active'>Active</SelectItem>
+                    <SelectItem value='inactive'>Inactive</SelectItem>
                     <SelectItem value='in_progress'>In Progress</SelectItem>
                     <SelectItem value='review'>Review</SelectItem>
-                    <SelectItem value='ready_to_ship'>Ready to Ship</SelectItem>
-                    <SelectItem value='shipped'>Shipped</SelectItem>
+                    <SelectItem value='completed'>Completed</SelectItem>
+                    <SelectItem value='paused'>Paused</SelectItem>
+                    <SelectItem value='cancelled'>Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

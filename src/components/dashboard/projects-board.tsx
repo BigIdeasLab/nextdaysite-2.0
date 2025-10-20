@@ -7,17 +7,18 @@ import Link from 'next/link'
 import type { ProjectsRow } from '@/types/models'
 
 type ProjectStatus =
-  | 'start'
+  | 'active'
   | 'in_progress'
   | 'review'
-  | 'ready_to_ship'
-  | 'shipped'
+  | 'completed'
+  | 'paused'
+  | 'cancelled'
 
 const statusConfig: Record<
   ProjectStatus,
   { label: string; color: string; bgColor: string; barColor: string }
 > = {
-  start: {
+  active: {
     label: 'Active',
     color: '#FF8C00',
     bgColor: '#452600',
@@ -30,22 +31,28 @@ const statusConfig: Record<
     barColor: '#FFE14A',
   },
   review: {
+    label: 'In Review',
+    color: '#00C3FF',
+    bgColor: '#00303F',
+    barColor: '#00C3FF',
+  },
+  completed: {
     label: 'Completed',
     color: '#459538',
     bgColor: '#1D3219',
     barColor: '#459538',
   },
-  ready_to_ship: {
-    label: 'Ready to Ship',
-    color: '#00C3FF',
-    bgColor: '#00303F',
-    barColor: '#00C3FF',
+  paused: {
+    label: 'Paused',
+    color: '#9BA1A6',
+    bgColor: '#3A3A3A',
+    barColor: '#9BA1A6',
   },
-  shipped: {
-    label: 'Shipped',
-    color: '#9D5CFF',
-    bgColor: '#38225A',
-    barColor: '#9D5CFF',
+  cancelled: {
+    label: 'Cancelled',
+    color: '#FF5C5C',
+    bgColor: '#4D1F1F',
+    barColor: '#FF5C5C',
   },
 }
 

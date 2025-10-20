@@ -172,6 +172,7 @@ export type Database = {
           due_date: string
           id: string
           issued_at: string
+          metadata: Json | null
           project_id: string | null
           status: Database['public']['Enums']['invoice_status']
           stripe_invoice_id: string | null
@@ -185,8 +186,9 @@ export type Database = {
           currency?: string
           download_url?: string | null
           due_date: string
-          id: string
+          id?: string
           issued_at: string
+          metadata?: Json | null
           project_id?: string | null
           status?: Database['public']['Enums']['invoice_status']
           stripe_invoice_id?: string | null
@@ -202,6 +204,7 @@ export type Database = {
           due_date?: string
           id?: string
           issued_at?: string
+          metadata?: Json | null
           project_id?: string | null
           status?: Database['public']['Enums']['invoice_status']
           stripe_invoice_id?: string | null
@@ -305,99 +308,27 @@ export type Database = {
         }
         Relationships: []
       }
-      projects: {
-        Row: {
-          budget: number | null
-          completed_at: string | null
-          created_at: string
-          due_date: string | null
-          id: string
-          owner_id: string
-          priority: Database['public']['Enums']['project_priority']
-          progress: number
-          project_manager_id: string | null
-          slug: string
-          start_date: string | null
-          status: Database['public']['Enums']['project_status']
-          summary: string | null
-          tags: string[]
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          budget?: number | null
-          completed_at?: string | null
-          created_at?: string
-          due_date?: string | null
-          id?: string
-          owner_id: string
-          priority?: Database['public']['Enums']['project_priority']
-          progress?: number
-          project_manager_id?: string | null
-          slug: string
-          start_date?: string | null
-          status?: Database['public']['Enums']['project_status']
-          summary?: string | null
-          tags?: string[]
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          budget?: number | null
-          completed_at?: string | null
-          created_at?: string
-          due_date?: string | null
-          id?: string
-          owner_id?: string
-          priority?: Database['public']['Enums']['project_priority']
-          progress?: number
-          project_manager_id?: string | null
-          slug?: string
-          start_date?: string | null
-          status?: Database['public']['Enums']['project_status']
-          summary?: string | null
-          tags?: string[]
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'projects_owner_id_fkey'
-            columns: ['owner_id']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'projects_project_manager_id_fkey'
-            columns: ['project_manager_id']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
-      }
       project_deliverables: {
         Row: {
-          id: string
-          project_id: string
-          title: string
           description: string | null
-          status: Database['public']['Enums']['deliverable_status']
+          id: string
+          project_id: string | null
+          status: Database['public']['Enums']['deliverable_status'] | null
+          title: string
         }
         Insert: {
-          id?: string
-          project_id: string
-          title: string
           description?: string | null
-          status?: Database['public']['Enums']['deliverable_status']
+          id?: string
+          project_id?: string | null
+          status?: Database['public']['Enums']['deliverable_status'] | null
+          title: string
         }
         Update: {
-          id?: string
-          project_id?: string
-          title?: string
           description?: string | null
-          status?: Database['public']['Enums']['deliverable_status']
+          id?: string
+          project_id?: string | null
+          status?: Database['public']['Enums']['deliverable_status'] | null
+          title?: string
         }
         Relationships: [
           {
@@ -411,28 +342,28 @@ export type Database = {
       }
       project_timeline_phases: {
         Row: {
-          id: string
-          project_id: string
-          title: string
-          start_date: string | null
           end_date: string | null
-          status: Database['public']['Enums']['timeline_phase_status']
+          id: string
+          project_id: string | null
+          start_date: string | null
+          status: Database['public']['Enums']['timeline_phase_status'] | null
+          title: string
         }
         Insert: {
-          id?: string
-          project_id: string
-          title: string
-          start_date?: string | null
           end_date?: string | null
-          status?: Database['public']['Enums']['timeline_phase_status']
+          id?: string
+          project_id?: string | null
+          start_date?: string | null
+          status?: Database['public']['Enums']['timeline_phase_status'] | null
+          title: string
         }
         Update: {
-          id?: string
-          project_id?: string
-          title?: string
-          start_date?: string | null
           end_date?: string | null
-          status?: Database['public']['Enums']['timeline_phase_status']
+          id?: string
+          project_id?: string | null
+          start_date?: string | null
+          status?: Database['public']['Enums']['timeline_phase_status'] | null
+          title?: string
         }
         Relationships: [
           {
@@ -440,6 +371,121 @@ export type Database = {
             columns: ['project_id']
             isOneToOne: false
             referencedRelation: 'projects'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          ai_inferred_payment_type: string | null
+          ai_inferred_plan: string | null
+          brand_style: string | null
+          budget: number | null
+          completed_at: string | null
+          confirmation: boolean | null
+          created_at: string
+          due_date: string | null
+          hosting: string | null
+          id: string
+          industry: string | null
+          owner_id: string
+          page_count: string | null
+          plan_id: string | null
+          priority: Database['public']['Enums']['project_priority']
+          progress: number
+          project_goals: string | null
+          project_manager_id: string | null
+          project_title: string | null
+          project_type: string | null
+          slug: string
+          start_date: string | null
+          status: Database['public']['Enums']['project_status']
+          summary: string | null
+          tags: string[]
+          target_audience: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          ai_inferred_payment_type?: string | null
+          ai_inferred_plan?: string | null
+          brand_style?: string | null
+          budget?: number | null
+          completed_at?: string | null
+          confirmation?: boolean | null
+          created_at?: string
+          due_date?: string | null
+          hosting?: string | null
+          id?: string
+          industry?: string | null
+          owner_id: string
+          page_count?: string | null
+          plan_id?: string | null
+          priority?: Database['public']['Enums']['project_priority']
+          progress?: number
+          project_goals?: string | null
+          project_manager_id?: string | null
+          project_title?: string | null
+          project_type?: string | null
+          slug: string
+          start_date?: string | null
+          status?: Database['public']['Enums']['project_status']
+          summary?: string | null
+          tags?: string[]
+          target_audience?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          ai_inferred_payment_type?: string | null
+          ai_inferred_plan?: string | null
+          brand_style?: string | null
+          budget?: number | null
+          completed_at?: string | null
+          confirmation?: boolean | null
+          created_at?: string
+          due_date?: string | null
+          hosting?: string | null
+          id?: string
+          industry?: string | null
+          owner_id?: string
+          page_count?: string | null
+          plan_id?: string | null
+          priority?: Database['public']['Enums']['project_priority']
+          progress?: number
+          project_goals?: string | null
+          project_manager_id?: string | null
+          project_title?: string | null
+          project_type?: string | null
+          slug?: string
+          start_date?: string | null
+          status?: Database['public']['Enums']['project_status']
+          summary?: string | null
+          tags?: string[]
+          target_audience?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'projects_owner_id_fkey'
+            columns: ['owner_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'projects_plan_id_fkey'
+            columns: ['plan_id']
+            isOneToOne: false
+            referencedRelation: 'plans'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'projects_project_manager_id_fkey'
+            columns: ['project_manager_id']
+            isOneToOne: false
+            referencedRelation: 'users'
             referencedColumns: ['id']
           },
         ]
@@ -494,6 +540,7 @@ export type Database = {
           metadata: Json | null
           notes: string | null
           plan_id: string
+          project_id: string | null
           status: Database['public']['Enums']['subscription_status']
           stripe_subscription_id: string | null
           subtotal: number
@@ -516,6 +563,7 @@ export type Database = {
           metadata?: Json | null
           notes?: string | null
           plan_id: string
+          project_id?: string | null
           status?: Database['public']['Enums']['subscription_status']
           stripe_subscription_id?: string | null
           subtotal: number
@@ -538,6 +586,7 @@ export type Database = {
           metadata?: Json | null
           notes?: string | null
           plan_id?: string
+          project_id?: string | null
           status?: Database['public']['Enums']['subscription_status']
           stripe_subscription_id?: string | null
           subtotal?: number
@@ -552,6 +601,13 @@ export type Database = {
             columns: ['plan_id']
             isOneToOne: false
             referencedRelation: 'plans'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'subscriptions_project_id_fkey'
+            columns: ['project_id']
+            isOneToOne: false
+            referencedRelation: 'projects'
             referencedColumns: ['id']
           },
           {
@@ -658,11 +714,13 @@ export type Database = {
       invoice_status: 'draft' | 'open' | 'paid' | 'overdue'
       project_priority: 'low' | 'medium' | 'high'
       project_status:
-        | 'start'
+        | 'active'
+        | 'inactive'
         | 'in_progress'
         | 'review'
-        | 'ready_to_ship'
-        | 'shipped'
+        | 'completed'
+        | 'paused'
+        | 'cancelled'
       subscription_status: 'trialing' | 'active' | 'past_due' | 'canceled'
       timeline_phase_status: 'pending' | 'in_progress' | 'completed'
       user_role: 'customer' | 'admin' | 'collaborator'
@@ -801,16 +859,20 @@ export const Constants = {
         'message_posted',
       ],
       chat_role: ['customer', 'team', 'ai'],
+      deliverable_status: ['pending', 'in_progress', 'completed'],
       invoice_status: ['draft', 'open', 'paid', 'overdue'],
       project_priority: ['low', 'medium', 'high'],
       project_status: [
-        'start',
+        'active',
+        'inactive',
         'in_progress',
         'review',
-        'ready_to_ship',
-        'shipped',
+        'completed',
+        'paused',
+        'cancelled',
       ],
       subscription_status: ['trialing', 'active', 'past_due', 'canceled'],
+      timeline_phase_status: ['pending', 'in_progress', 'completed'],
       user_role: ['customer', 'admin', 'collaborator'],
     },
   },

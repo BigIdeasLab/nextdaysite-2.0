@@ -6,12 +6,19 @@ import { Check } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { usePlans } from '@/hooks/use-plans'
+import { SelectProjectModal } from './select-project-modal'
 
 export function PricingPlans() {
   const [selectedPayment, setSelectedPayment] = useState<
     'two-state' | 'one-time'
   >('two-state')
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<{
+    planId: string
+    paymentType: 'one-time' | 'recurring'
+  } | null>(null)
+  const router = useRouter()
+  const { data: user } = useUser()
   const { data: plansData, isLoading, isError } = usePlans()
 
   const plans =
@@ -97,6 +104,46 @@ export function PricingPlans() {
     },
   ]
 
+  const handlePurchase = (
+    planId: string,
+    paymentType: 'one-time' | 'recurring',
+  ) => {
+    setSelectedPlan({ planId, paymentType })
+    setIsModalOpen(true)
+  }
+
+  const handleCheckout = async (projectId: string) => {
+    if (!selectedPlan || !user) return
+
+    try {
+      const response = await fetch('/api/checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId: selectedPlan.planId,
+          paymentType: selectedPlan.paymentType,
+          billingCycle:
+            selectedPlan.paymentType === 'recurring' ? 'monthly' : 'one-time',
+          email: user.email,
+          userId: user.id,
+          projectId,
+          includeHosting: false, // Assuming no hosting by default
+        }),
+      })
+
+      if (response.ok) {
+        const { url } = await response.json()
+        router.push(url)
+      } else {
+        console.error('Checkout failed')
+      }
+    } catch (error) {
+      console.error('An error occurred during checkout:', error)
+    }
+  }
+
   return (
     <div className='w-full rounded-t-[30px] bg-[#131313] px-4 py-10 md:px-8 lg:px-12'>
       {/* Header Section */}
@@ -138,7 +185,7 @@ export function PricingPlans() {
       {/* Pricing Cards */}
       <div className='mb-[50px] grid grid-cols-1 gap-2.5 md:grid-cols-2 lg:grid-cols-3'>
         {plans.map((plan, index) => (
-          <PricingCard key={index} plan={plan} />
+          <PricingCard key={index} plan={plan} onPurchase={handlePurchase} />
         ))}
       </div>
 
@@ -294,6 +341,11 @@ export function PricingPlans() {
           </button>
         </div>
       </div>
+      <SelectProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelectProject={handleCheckout}
+      />
     </div>
   )
 }
@@ -309,9 +361,10 @@ type PricingCardProps = {
     totalMonthly: string
     features: string[]
   }
+  onPurchase: (planId: string, paymentType: 'one-time' | 'recurring') => void
 }
 
-function PricingCard({ plan }: PricingCardProps) {
+function PricingCard({ plan, onPurchase }: PricingCardProps) {
   const router = useRouter()
   const { data: user } = useUser()
 
@@ -320,32 +373,7 @@ function PricingCard({ plan }: PricingCardProps) {
       router.push('/login')
       return
     }
-
-    try {
-      const response = await fetch('/api/checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          planId: plan.planId,
-          paymentType,
-          billingCycle: paymentType === 'recurring' ? 'monthly' : 'one-time',
-          email: user.email,
-          userId: user.id,
-          includeHosting: false, // Assuming no hosting by default
-        }),
-      })
-
-      if (response.ok) {
-        const { url } = await response.json()
-        router.push(url)
-      } else {
-        console.error('Checkout failed')
-      }
-    } catch (error) {
-      console.error('An error occurred during checkout:', error)
-    }
+    onPurchase(plan.planId, paymentType)
   }
 
   return (

@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
       notes,
       userId,
       paymentType,
+      projectId,
     } = body
 
     if (!planId || !email || !billingCycle || paymentType === undefined) {
@@ -58,8 +59,7 @@ export async function POST(request: NextRequest) {
       : 0
 
     const subtotal = (basePrice || 0) + hostingPrice
-    const tax = Math.round(subtotal * 0.07 * 100) / 100
-    const total = subtotal + tax
+    const total = subtotal
 
     // Get or create Stripe customer
     let customerId: string
@@ -172,6 +172,7 @@ export async function POST(request: NextRequest) {
         payment_type: paymentType,
         company_name: companyName || '',
         notes: notes || '',
+        projectId,
       },
     }
 

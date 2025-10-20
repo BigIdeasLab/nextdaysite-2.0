@@ -316,7 +316,7 @@ export async function createProject(
         title: project.projectTitle || 'New Project',
         owner_id: user.id,
         slug: slug,
-        status: 'start',
+        status: 'inactive',
         project_type: project.projectType,
         page_count: project.pageCount,
         project_title: project.projectTitle,
@@ -523,13 +523,6 @@ export async function deleteDeliverable(
   return true
 }
 
-type ProjectStatus =
-  | 'start'
-  | 'in_progress'
-  | 'review'
-  | 'ready_to_ship'
-  | 'shipped'
-
 export async function createActivity(
   projectId: string,
   eventType:
@@ -555,7 +548,7 @@ export async function createActivity(
 
 export async function updateProjectStatus(
   projectId: string,
-  status: ProjectStatus,
+  status: Database['public']['Enums']['project_status'],
   client?: Client | null,
 ): Promise<ProjectsRow | null> {
   const supabase = resolveClient(client)
@@ -563,7 +556,7 @@ export async function updateProjectStatus(
 
   const { data, error } = await supabase
     .from('projects')
-    .update({ status: status as ProjectStatus })
+    .update({ status })
     .eq('id', projectId)
     .select()
     .single()

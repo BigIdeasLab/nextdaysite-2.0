@@ -110,7 +110,9 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
     setTitle(phase.title)
     setStartDate(phase.start_date || '')
     setEndDate(phase.end_date || '')
-    setStatus(phase.status)
+    if (phase.status) {
+      setStatus(phase.status)
+    }
     setEditModalOpen(true)
   }
 

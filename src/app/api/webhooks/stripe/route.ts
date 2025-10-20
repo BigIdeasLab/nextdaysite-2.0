@@ -103,6 +103,7 @@ async function handleCheckoutSessionCompleted(
   try {
     const userId = session.client_reference_id
     const metadata = session.metadata || {}
+    const projectId = metadata.projectId
 
     if (!userId || userId === 'guest') {
       console.log('Guest checkout completed, not creating subscription record')
@@ -145,7 +146,16 @@ async function handleCheckoutSessionCompleted(
           company_name: metadata.company_name,
           notes: metadata.notes,
         },
+        project_id: projectId,
       })
+    }
+
+    // Update project status and plan
+    if (projectId && metadata.plan_id) {
+      await supabase
+        .from('projects')
+        .update({ status: 'active', plan_id: metadata.plan_id })
+        .eq('id', projectId)
     }
 
     // Update user's plan

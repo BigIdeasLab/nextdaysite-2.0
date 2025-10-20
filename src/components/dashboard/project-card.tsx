@@ -1,4 +1,5 @@
 import { MoreVertical, Clock } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 type ProjectCardProps = {
   title: string
@@ -6,6 +7,7 @@ type ProjectCardProps = {
   progress: number
   lastUpdated: string
   statusColor?: 'orange' | 'green'
+  isInactive?: boolean
 }
 
 export function ProjectCard({
@@ -14,8 +16,30 @@ export function ProjectCard({
   progress,
   lastUpdated,
   statusColor = 'orange',
+  isInactive = false,
 }: ProjectCardProps) {
+  const router = useRouter()
   const isCompleted = statusColor === 'green'
+
+  const handleStatusClick = () => {
+    if (isInactive) {
+      router.push('/billing')
+    }
+  }
+
+  const StatusDisplay = () => (
+    <div
+      className={`rounded-[10px] px-2 py-1 ${
+        isCompleted
+          ? 'bg-[#223219] text-[#82FF3A]'
+          : isInactive
+            ? 'bg-gray-600 text-white'
+            : 'bg-[#452600] text-[#FF8C00]'
+      }`}
+    >
+      <span className='text-[17px]'>{status}</span>
+    </div>
+  )
 
   return (
     <div className='flex h-[210px] w-full flex-col rounded-xl border border-[#202020] bg-[#202020]'>
@@ -35,15 +59,13 @@ export function ProjectCard({
         </div>
 
         <div className='flex items-center justify-between'>
-          <div
-            className={`rounded-[10px] px-2 py-1 ${
-              isCompleted
-                ? 'bg-[#223219] text-[#82FF3A]'
-                : 'bg-[#452600] text-[#FF8C00]'
-            }`}
-          >
-            <span className='text-[17px]'>{status}</span>
-          </div>
+          {isInactive ? (
+            <button onClick={handleStatusClick}>
+              <StatusDisplay />
+            </button>
+          ) : (
+            <StatusDisplay />
+          )}
           <span className='text-[17px] text-white'>{progress}%</span>
         </div>
       </div>

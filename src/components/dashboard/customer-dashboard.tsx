@@ -28,7 +28,7 @@ export function CustomerDashboard() {
 
   const metrics = useMemo(() => {
     const activeProjects = projects.filter(
-      (project) => project.status !== 'shipped',
+      (project) => project.status !== 'completed',
     )
     const inReview = projects.filter((project) => project.status === 'review')
     const openInvoices = invoices.filter((invoice) => invoice.status === 'open')
