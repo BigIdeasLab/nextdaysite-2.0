@@ -5,6 +5,8 @@ import { Calendar, CreditCard } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils/format'
 import Link from 'next/link'
 import { PricingPlans } from './pricing-plans'
+import { InvoiceHistory } from './invoice-history'
+import { PaymentHistory } from './payment-history'
 
 export function Billing() {
   const { data: invoices = [], isLoading: invoicesLoading } = useInvoices()
