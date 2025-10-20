@@ -1,64 +1,38 @@
 'use client'
 
 import { useState } from 'react'
+import { useUser } from '@/hooks/use-user'
 import { Check } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
+import { usePlans } from '@/hooks/use-plans'
 
 export function PricingPlans() {
   const [selectedPayment, setSelectedPayment] = useState<
     'two-state' | 'one-time'
   >('two-state')
 
-  const plans = [
-    {
-      name: 'Web',
-      description: 'Modern 3–5 page website fast.',
-      oneTimePrice: '$1,500',
-      monthlyPrice: '$150',
-      savingsBadge: 'Save $200',
-      totalMonthly: 'Total $1,800',
-      features: [
-        '3–5 pages',
-        'Responsive + basic SEO',
-        '1 concept + 2 revisions',
-        '5 stock images + icons',
-        'Performance & accessibility pass',
-        'Staging preview',
-        'Delivery: 3–5 business days',
-      ],
-    },
-    {
-      name: 'Brand Identity',
-      description: 'Logo suite, brand kit, and templates.',
-      oneTimePrice: '$2,500',
-      monthlyPrice: '$250',
-      savingsBadge: 'Save $200',
-      totalMonthly: 'Total $1,800',
-      features: [
-        'Logo suite',
-        'Color + type system',
-        'Social kit',
-        'Business card + letterhead',
-        '3 flyer/post templates',
-        'Mini brand guide (PDF)',
-      ],
-    },
-    {
-      name: 'Complete',
-      description: 'Website + branding handled end - to - end.',
-      oneTimePrice: '$5,000',
-      monthlyPrice: '$500',
-      savingsBadge: 'Save $200',
-      totalMonthly: 'Total $1,800',
-      features: [
-        'Everything in Web + Identity',
-        '6–10 pages',
-        'AI copy draft for key pages',
-        'SEO essentials',
-        'Launch checklist',
-        '7 day post launch tweaks',
-      ],
-    },
-  ]
+  const { data: plansData, isLoading, isError } = usePlans()
+
+  const plans =
+    plansData?.map((plan) => ({
+      name: plan.name,
+      planId: plan.id,
+      description: plan.summary,
+      oneTimePrice: `${plan.yearly_price.toLocaleString()}`,
+      monthlyPrice: `${plan.monthly_price.toLocaleString()}`,
+      savingsBadge: `Save ${(plan.monthly_price * 12 - plan.yearly_price).toLocaleString()}`,
+      totalMonthly: `Total ${(plan.monthly_price * 12).toLocaleString()}`,
+      features: plan.features,
+    })) || []
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error loading plans.</div>
+  }
 
   const comparisonRows = [
     {
@@ -327,6 +301,7 @@ export function PricingPlans() {
 type PricingCardProps = {
   plan: {
     name: string
+    planId: string
     description: string
     oneTimePrice: string
     monthlyPrice: string
@@ -337,6 +312,42 @@ type PricingCardProps = {
 }
 
 function PricingCard({ plan }: PricingCardProps) {
+  const router = useRouter()
+  const { data: user } = useUser()
+
+  const handleCheckout = async (paymentType: 'one-time' | 'recurring') => {
+    if (!user) {
+      router.push('/login')
+      return
+    }
+
+    try {
+      const response = await fetch('/api/checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId: plan.planId,
+          paymentType,
+          billingCycle: paymentType === 'recurring' ? 'monthly' : 'one-time',
+          email: user.email,
+          userId: user.id,
+          includeHosting: false, // Assuming no hosting by default
+        }),
+      })
+
+      if (response.ok) {
+        const { url } = await response.json()
+        router.push(url)
+      } else {
+        console.error('Checkout failed')
+      }
+    } catch (error) {
+      console.error('An error occurred during checkout:', error)
+    }
+  }
+
   return (
     <div className='flex flex-col rounded-[15px] bg-[#202020] p-[17px]'>
       {/* Header */}
@@ -439,10 +450,16 @@ function PricingCard({ plan }: PricingCardProps) {
 
       {/* Action Buttons */}
       <div className='mb-8 flex items-center gap-[9px]'>
-        <button className='flex h-12 flex-1 items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 text-base font-medium leading-5 text-[#F7F6FF] transition-opacity hover:opacity-90'>
+        <button
+          onClick={() => handleCheckout('one-time')}
+          className='flex h-12 flex-1 items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 text-base font-medium leading-5 text-[#F7F6FF] transition-opacity hover:opacity-90'
+        >
           Pay One Time
         </button>
-        <button className='flex h-12 flex-1 items-center justify-center rounded-[30px] bg-white px-5 text-base font-medium leading-5 text-black transition-opacity hover:opacity-90'>
+        <button
+          onClick={() => handleCheckout('recurring')}
+          className='flex h-12 flex-1 items-center justify-center rounded-[30px] bg-white px-5 text-base font-medium leading-5 text-black transition-opacity hover:opacity-90'
+        >
           Pay For Plan
         </button>
       </div>

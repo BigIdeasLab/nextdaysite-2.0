@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { createClient } from '@supabase/supabase-js'
 import type Stripe from 'stripe'
+import type { Database } from '@/types/database'
+
+console.log('API route loaded: /api/checkout-session')
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -10,7 +13,7 @@ if (!supabaseUrl || !supabaseServiceKey) {
   throw new Error('Supabase configuration is missing')
 }
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
 
 export async function POST(request: NextRequest) {
   try {
