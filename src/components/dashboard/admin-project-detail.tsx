@@ -259,8 +259,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     </Button>
                   </div>
 
-                  <div className='rounded-lg border border-gray-200 p-4'>
-                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>
+                  <div className='rounded-lg border border-gray-300 bg-gray-50/50 p-4'>
+                    <p className='text-xs font-medium uppercase tracking-wider text-gray-600'>
                       Due Date
                     </p>
                     <Button
