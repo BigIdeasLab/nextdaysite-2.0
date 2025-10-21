@@ -95,7 +95,7 @@ export function NewCustomerDashboard() {
     <div className='flex flex-col gap-8'>
       {onboardingDetails && (
         <div className='onboarding-wallet-card'>
-          <svg
+          {/* <svg
             className='confetti-decoration'
             width='774'
             height='129'
@@ -271,7 +271,7 @@ export function NewCustomerDashboard() {
                 />
               </clipPath>
             </defs>
-          </svg>
+          </svg> */}
           <div className='onboarding-content'>
             <div className='onboarding-header'>
               <h2 className='onboarding-title'>Welcome to NextDaySite!</h2>
