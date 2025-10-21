@@ -225,8 +225,8 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
 
       {/* Timeline List */}
       {timelinePhases.length === 0 ? (
-        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center'>
-          <p className='text-sm text-gray-500'>
+        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center dark:border-gray-600 dark:bg-gray-900'>
+          <p className='text-sm text-gray-500 dark:text-gray-400'>
             No phases added yet. Create your first timeline phase.
           </p>
         </div>
@@ -238,10 +238,10 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
             return (
               <div
                 key={phase.id}
-                className='flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
+                className='flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:hover:border-gray-600'
               >
                 {/* Status Icon */}
-                <div className={`${statusConfig_.bg} rounded-full p-2`}>
+                <div className={`rounded-full p-2 ${statusConfig_.bg}`}>
                   <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
                 </div>
 
@@ -249,10 +249,10 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                 <div className='flex-1 min-w-0'>
                   <div className='flex items-start justify-between gap-2'>
                     <div className='flex-1'>
-                      <h4 className='font-semibold text-gray-900'>
+                      <h4 className='font-semibold text-gray-900 dark:text-gray-50'>
                         {phase.title}
                       </h4>
-                      <div className='mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500'>
+                      <div className='mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400'>
                         {phase.start_date && (
                           <span>
                             Start:{' '}
@@ -286,7 +286,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                         variant='ghost'
                         size='sm'
                         onClick={() => handleEditClick(phase)}
-                        className='text-gray-600 hover:text-gray-900'
+                        className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
                       >
                         <Edit2 className='h-4 w-4' />
                       </Button>
