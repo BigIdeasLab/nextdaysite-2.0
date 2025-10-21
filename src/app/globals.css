@@ -393,6 +393,187 @@ body {
   background-color: var(--dark-section);
 }
 
+/* Onboarding Wallet Card Styles */
+.onboarding-wallet-card {
+  position: relative;
+  width: 100%;
+  max-width: 774px;
+  border-radius: 16px;
+  border: 1px solid #131313;
+  background: #131313;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.confetti-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.onboarding-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 14px;
+}
+
+.onboarding-header {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.onboarding-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.onboarding-subtitle {
+  color: #9ba1a6;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.onboarding-details-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 20px 15px;
+  border-radius: 10px;
+  background: #202020;
+}
+
+.details-column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detail-label {
+  color: #9ba1a6;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 22px;
+}
+
+.detail-value {
+  color: #f7f6ff;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 22px;
+  text-align: right;
+}
+
+.onboarding-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.start-project-button {
+  display: flex;
+  height: 48px;
+  padding: 0 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 30px;
+  background: #ff8c00;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.start-project-button:hover {
+  opacity: 0.9;
+}
+
+.start-project-button span {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.start-project-button svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.dismiss-button {
+  display: flex;
+  height: 48px;
+  padding: 0 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 30px;
+  border: 1px solid #393939;
+  background: #202020;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dismiss-button:hover {
+  background: #2a2a2a;
+}
+
+.dismiss-button span {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.dismiss-button svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .onboarding-actions {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 768px) {
+  .onboarding-details-card {
+    flex-direction: row;
+    gap: 106px;
+  }
+
+  .details-column:first-child {
+    flex: 1;
+    max-width: 357px;
+  }
+
+  .details-column:last-child {
+    flex: 1;
+    max-width: 252px;
+  }
+}
+
 /* Auth Pages Styles */
 .auth-page {
   min-height: 100vh;
