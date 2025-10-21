@@ -35,8 +35,17 @@ import {
   Trash2,
   Edit2,
   Plus,
+  CalendarDays,
 } from 'lucide-react'
 import { format } from 'date-fns'
+import { CustomCalendar } from './custom-calendar'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Matcher } from 'react-day-picker'
 
 type TimelineStatus = 'pending' | 'in_progress' | 'completed'
 
@@ -61,7 +70,15 @@ const statusColors = {
   },
 }
 
-export function ManageTimeline({ projectId }: { projectId: string }) {
+export function ManageTimeline({
+  projectId,
+  projectStartDate,
+  projectDueDate,
+}: {
+  projectId: string
+  projectStartDate: string
+  projectDueDate: string
+}) {
   const queryClient = useQueryClient()
   const { data: timelinePhases = [], isLoading } = useTimelinePhases(projectId)
   const [isAddModalOpen, setAddModalOpen] = useState(false)
@@ -72,6 +89,11 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
   const [status, setStatus] = useState<TimelineStatus>('pending')
   const [selectedPhase, setSelectedPhase] =
     useState<ProjectTimelinePhasesRow | null>(null)
+  const [datePickerFor, setDatePickerFor] = useState<
+    'startDate' | 'endDate' | null
+  >(null)
+
+  const areProjectDatesSet = projectStartDate && projectDueDate
 
   const addMutation = useMutation({
     mutationFn: () =>
@@ -148,6 +170,22 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
     setSelectedPhase(null)
   }
 
+  const handleDateSelect = (date: Date | undefined) => {
+    if (!date || !datePickerFor) return
+
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const day = date.getDate().toString().padStart(2, '0')
+    const newDate = `${year}-${month}-${day}`
+
+    if (datePickerFor === 'startDate') {
+      setStartDate(newDate)
+    } else {
+      setEndDate(newDate)
+    }
+    setDatePickerFor(null)
+  }
+
   if (isLoading) {
     return (
       <div className='flex items-center justify-center py-8'>
@@ -158,16 +196,53 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
     )
   }
 
+  const getDisabledDays = (): Matcher[] => {
+    const matchers: Matcher[] = []
+    if (datePickerFor === 'startDate') {
+      if (projectStartDate) {
+        matchers.push({ before: new Date(projectStartDate) })
+      }
+      if (projectDueDate) {
+        matchers.push({ after: new Date(projectDueDate) })
+      }
+    } else if (datePickerFor === 'endDate') {
+      if (startDate) {
+        matchers.push({ before: new Date(startDate) })
+      } else if (projectStartDate) {
+        matchers.push({ before: new Date(projectStartDate) })
+      }
+      if (projectDueDate) {
+        matchers.push({ after: new Date(projectDueDate) })
+      }
+    }
+    return matchers
+  }
+
   return (
     <div className='space-y-4'>
       {/* Add Phase Button */}
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
-        <DialogTrigger asChild>
-          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'>
-            <Plus className='h-4 w-4' />
-            Add Phase
-          </Button>
-        </DialogTrigger>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className='w-full'>
+                <Button
+                  className='w-full gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'
+                  disabled={!areProjectDatesSet}
+                  onClick={() => areProjectDatesSet && setAddModalOpen(true)}
+                >
+                  <Plus className='h-4 w-4' />
+                  Add Phase
+                </Button>
+              </div>
+            </TooltipTrigger>
+            {!areProjectDatesSet && (
+              <TooltipContent>
+                <p>Please set project start and due dates first.</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
         <DialogContent className='sm:max-w-md'>
           <DialogHeader>
             <DialogTitle>Add New Phase</DialogTitle>
@@ -188,22 +263,36 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
             </div>
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
-                <Label htmlFor='startDate'>Start Date</Label>
-                <Input
-                  id='startDate'
-                  type='date'
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
+                <Label>Start Date</Label>
+                <Button
+                  type='button'
+                  variant='outline'
+                  className='w-full justify-start text-left font-normal'
+                  onClick={() => setDatePickerFor('startDate')}
+                >
+                  <CalendarDays className='mr-2 h-4 w-4' />
+                  {startDate ? (
+                    format(new Date(startDate), 'MMM dd, yyyy')
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
               </div>
               <div className='space-y-2'>
-                <Label htmlFor='endDate'>End Date</Label>
-                <Input
-                  id='endDate'
-                  type='date'
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
+                <Label>End Date</Label>
+                <Button
+                  type='button'
+                  variant='outline'
+                  className='w-full justify-start text-left font-normal'
+                  onClick={() => setDatePickerFor('endDate')}
+                >
+                  <CalendarDays className='mr-2 h-4 w-4' />
+                  {endDate ? (
+                    format(new Date(endDate), 'MMM dd, yyyy')
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
               </div>
             </div>
             <DialogFooter className='flex gap-3'>
@@ -234,7 +323,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
         </div>
       ) : (
         <div className='space-y-3'>
-          {timelinePhases.map((phase, index) => {
+          {timelinePhases.map((phase) => {
             const statusConfig_ = statusColors[phase.status as TimelineStatus]
             const StatusIcon = statusConfig_.icon
             return (
@@ -242,12 +331,9 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                 key={phase.id}
                 className='flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:hover:border-gray-600'
               >
-                {/* Status Icon */}
                 <div className={`rounded-full p-2 ${statusConfig_.bg}`}>
                   <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
                 </div>
-
-                {/* Phase Details */}
                 <div className='flex-1 min-w-0'>
                   <div className='flex items-start justify-between gap-2'>
                     <div className='flex-1'>
@@ -276,8 +362,6 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                     </div>
                   </div>
                 </div>
-
-                {/* Actions */}
                 <div className='flex items-center gap-2'>
                   <Dialog
                     open={isEditModalOpen && selectedPhase?.id === phase.id}
@@ -312,22 +396,36 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                         </div>
                         <div className='grid grid-cols-2 gap-4'>
                           <div className='space-y-2'>
-                            <Label htmlFor='edit-startDate'>Start Date</Label>
-                            <Input
-                              id='edit-startDate'
-                              type='date'
-                              value={startDate}
-                              onChange={(e) => setStartDate(e.target.value)}
-                            />
+                            <Label>Start Date</Label>
+                            <Button
+                              type='button'
+                              variant='outline'
+                              className='w-full justify-start text-left font-normal'
+                              onClick={() => setDatePickerFor('startDate')}
+                            >
+                              <CalendarDays className='mr-2 h-4 w-4' />
+                              {startDate ? (
+                                format(new Date(startDate), 'MMM dd, yyyy')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                            </Button>
                           </div>
                           <div className='space-y-2'>
-                            <Label htmlFor='edit-endDate'>End Date</Label>
-                            <Input
-                              id='edit-endDate'
-                              type='date'
-                              value={endDate}
-                              onChange={(e) => setEndDate(e.target.value)}
-                            />
+                            <Label>End Date</Label>
+                            <Button
+                              type='button'
+                              variant='outline'
+                              className='w-full justify-start text-left font-normal'
+                              onClick={() => setDatePickerFor('endDate')}
+                            >
+                              <CalendarDays className='mr-2 h-4 w-4' />
+                              {endDate ? (
+                                format(new Date(endDate), 'MMM dd, yyyy')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                            </Button>
                           </div>
                         </div>
                         <div className='space-y-2'>
@@ -390,6 +488,38 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
           })}
         </div>
       )}
+
+      {/* Calendar Modal */}
+      <Dialog
+        open={datePickerFor !== null}
+        onOpenChange={(isOpen) => !isOpen && setDatePickerFor(null)}
+      >
+        <DialogContent className='sm:max-w-md'>
+          <DialogHeader>
+            <DialogTitle>
+              {datePickerFor === 'startDate'
+                ? 'Select Start Date'
+                : 'Select End Date'}
+            </DialogTitle>
+          </DialogHeader>
+          <div className='flex justify-center py-4'>
+            <CustomCalendar
+              mode='single'
+              selected={
+                datePickerFor === 'startDate'
+                  ? startDate
+                    ? new Date(startDate)
+                    : undefined
+                  : endDate
+                    ? new Date(endDate)
+                    : undefined
+              }
+              onSelect={handleDateSelect}
+              disabled={getDisabledDays()}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

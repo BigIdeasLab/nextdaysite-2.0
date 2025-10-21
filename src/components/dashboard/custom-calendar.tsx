@@ -1,14 +1,10 @@
 'use client'
 
 import * as React from 'react'
-import { DayPicker, DayPickerRangeProps, ClassNames } from 'react-day-picker'
+import { DayPicker } from 'react-day-picker'
 import { cn } from '@/lib/utils'
 
-export type CustomCalendarProps = DayPickerRangeProps & {
-  className?: string
-  classNames?: ClassNames
-  showOutsideDays?: boolean
-}
+export type CustomCalendarProps = React.ComponentProps<typeof DayPicker>
 
 function CustomCalendar({
   className,

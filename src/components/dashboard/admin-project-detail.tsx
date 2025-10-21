@@ -12,7 +12,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -31,12 +30,10 @@ import {
   Clock,
   AlertCircle,
   Pause,
-  XCircle,
   Zap,
 } from 'lucide-react'
 import { format, differenceInDays } from 'date-fns'
 import { Database } from '@/types/database'
-import { DateRange } from 'react-day-picker'
 
 type ProjectStatus = Database['public']['Enums']['project_status']
 
@@ -85,9 +82,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
   const project = projects?.find((p) => p.id === projectId)
 
-  const [startDate, setStartDate] = useState('')
-  const [dueDate, setDueDate] = useState('')
-  const [isDatePickerOpen, setDatePickerOpen] = useState(false)
+  const [startDate, setStartDate] = useState(project?.start_date || '')
+  const [dueDate, setDueDate] = useState(project?.due_date || '')
+  const [datePickerFor, setDatePickerFor] = useState<
+    'startDate' | 'dueDate' | null
+  >(null)
 
   useEffect(() => {
     if (project) {
@@ -114,7 +113,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
     }) => updateProjectDates(projectId, startDate, dueDate),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
-      setDatePickerOpen(false)
+      setDatePickerFor(null)
     },
   })
 
@@ -133,31 +132,40 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   const statusConfig_ = statusConfig[project.status as ProjectStatus]
   const StatusIcon = statusConfig_.icon
 
-  const handleDateChange = () => {
-    updateDatesMutation.mutate({
-      startDate: startDate === '' ? null : startDate,
-      dueDate: dueDate === '' ? null : dueDate,
-    })
-  }
+  const handleDateSelect = (date: Date | undefined) => {
+    if (!date || !datePickerFor) return
 
-  const handleDateSelect = (range: DateRange | undefined) => {
-    if (range?.from) {
-      setStartDate(range.from.toISOString().split('T')[0])
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const day = date.getDate().toString().padStart(2, '0')
+    const newDate = `${year}-${month}-${day}`
+
+    const currentStartDate = startDate === '' ? null : startDate
+    const currentDueDate = dueDate === '' ? null : dueDate
+
+    if (datePickerFor === 'startDate') {
+      setStartDate(newDate)
+      updateDatesMutation.mutate({
+        startDate: newDate,
+        dueDate: currentDueDate,
+      })
     } else {
-      setStartDate('')
-    }
-    if (range?.to) {
-      setDueDate(range.to.toISOString().split('T')[0])
-    } else {
-      setDueDate('')
+      setDueDate(newDate)
+      updateDatesMutation.mutate({
+        startDate: currentStartDate,
+        dueDate: newDate,
+      })
     }
   }
 
   const getDateRangeInfo = () => {
     if (!startDate || !dueDate) return null
     const days = differenceInDays(new Date(dueDate), new Date(startDate))
-    return days > 0 ? `${days} days` : 'Due date is before start date'
+    return days >= 0 ? `${days} days` : 'Due date is before start date'
   }
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
 
   return (
     <div className='space-y-8'>
@@ -234,9 +242,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     </p>
                     <Button
                       variant='ghost'
-                      onClick={() => {
-                        setDatePickerOpen(true)
-                      }}
+                      onClick={() => setDatePickerFor('startDate')}
                       className='mt-2 flex h-auto flex-col items-start justify-start p-0 text-left'
                     >
                       <div className='flex items-center gap-2'>
@@ -260,9 +266,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     </p>
                     <Button
                       variant='ghost'
-                      onClick={() => {
-                        setDatePickerOpen(true)
-                      }}
+                      onClick={() => setDatePickerFor('dueDate')}
                       className='mt-2 flex h-auto flex-col items-start justify-start p-0 text-left'
                     >
                       <div className='flex items-center gap-2'>
@@ -298,7 +302,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
               </CardTitle>
             </CardHeader>
             <CardContent className='pt-6'>
-              <ManageTimeline projectId={project.id} />
+              <ManageTimeline
+                projectId={project.id}
+                projectStartDate={startDate}
+                projectDueDate={dueDate}
+              />
             </CardContent>
           </Card>
         </div>
@@ -319,37 +327,43 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
       </div>
 
       {/* Calendar Modal */}
-      <Dialog open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
+      <Dialog
+        open={datePickerFor !== null}
+        onOpenChange={(isOpen) => !isOpen && setDatePickerFor(null)}
+      >
         <DialogContent className='sm:max-w-md'>
           <DialogHeader>
-            <DialogTitle>Select Date Range</DialogTitle>
+            <DialogTitle>
+              {datePickerFor === 'startDate'
+                ? 'Select Start Date'
+                : 'Select Due Date'}
+            </DialogTitle>
             <DialogDescription>
-              Choose the start and end dates for the project.
+              {datePickerFor === 'startDate'
+                ? 'Choose the start date for the project.'
+                : 'Choose the due date for the project.'}
             </DialogDescription>
           </DialogHeader>
           <div className='flex justify-center py-4'>
             <CustomCalendar
-              mode='range'
-              selected={{
-                from: startDate ? new Date(startDate) : undefined,
-                to: dueDate ? new Date(dueDate) : undefined,
-              }}
+              mode='single'
+              selected={
+                datePickerFor === 'startDate'
+                  ? startDate
+                    ? new Date(startDate)
+                    : undefined
+                  : dueDate
+                    ? new Date(dueDate)
+                    : undefined
+              }
               onSelect={handleDateSelect}
+              disabled={
+                datePickerFor === 'startDate'
+                  ? { before: today }
+                  : { before: startDate ? new Date(startDate) : today }
+              }
             />
           </div>
-          <DialogFooter className='flex gap-3'>
-            <Button variant='outline' onClick={() => setDatePickerOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                handleDateChange()
-              }}
-              disabled={updateDatesMutation.isPending}
-            >
-              {updateDatesMutation.isPending ? 'Saving...' : 'Save Dates'}
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
