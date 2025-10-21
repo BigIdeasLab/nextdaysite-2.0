@@ -144,7 +144,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
   if (isLoading) {
     return (
       <div className='flex items-center justify-center py-8'>
-        <div className='text-sm text-gray-500'>Loading deliverables...</div>
+        <div className='text-sm text-gray-500 dark:text-gray-400'>Loading deliverables...</div>
       </div>
     )
   }
@@ -158,23 +158,23 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
     <div className='space-y-4'>
       {/* Header with Progress */}
       {totalCount > 0 && (
-        <div className='rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4'>
+        <div className='rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4 dark:from-blue-950 dark:to-indigo-950'>
           <div className='flex items-center justify-between'>
             <div>
-              <p className='text-xs font-semibold uppercase tracking-wider text-gray-600'>
+              <p className='text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400'>
                 Progress
               </p>
-              <p className='mt-1 text-2xl font-bold text-gray-900'>
+              <p className='mt-1 text-2xl font-bold text-gray-900 dark:text-gray-50'>
                 {completedCount}/{totalCount}
               </p>
             </div>
-            <div className='h-12 w-12 rounded-full bg-white flex items-center justify-center'>
-              <div className='text-sm font-semibold text-indigo-600'>
+            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-800'>
+              <div className='text-sm font-semibold text-indigo-600 dark:text-indigo-400'>
                 {Math.round((completedCount / totalCount) * 100)}%
               </div>
             </div>
           </div>
-          <div className='mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200'>
+          <div className='mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700'>
             <div
               className='h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-300'
               style={{
@@ -188,7 +188,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
       {/* Add Deliverable Button */}
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
         <DialogTrigger asChild>
-          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700'>
+          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'>
             <Plus className='h-4 w-4' />
             Add Deliverable
           </Button>
