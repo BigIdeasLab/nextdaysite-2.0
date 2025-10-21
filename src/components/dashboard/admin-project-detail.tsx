@@ -326,35 +326,60 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
       <Dialog open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
         <DialogContent className='sm:max-w-md'>
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className='text-lg font-semibold text-gray-900'>
               {datePickerMode === 'start'
                 ? 'Select Start Date'
                 : 'Select Due Date'}
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className='text-sm text-gray-600'>
               {datePickerMode === 'start'
                 ? 'Choose when the project should start.'
                 : 'Choose when the project is due.'}
             </DialogDescription>
           </DialogHeader>
-          <div className='flex justify-center py-4'>
-            <Calendar
-              mode='single'
-              selected={
-                datePickerMode === 'start'
+          <div className='space-y-4'>
+            {/* Calendar Display */}
+            <div className='flex justify-center rounded-lg border border-gray-200 bg-gray-50/50 p-4'>
+              <Calendar
+                mode='single'
+                selected={
+                  datePickerMode === 'start'
+                    ? startDate
+                      ? new Date(startDate)
+                      : undefined
+                    : dueDate
+                      ? new Date(dueDate)
+                      : undefined
+                }
+                onSelect={handleDateSelect}
+                disabled={(date) => date > new Date()}
+                className='w-full'
+              />
+            </div>
+
+            {/* Date Summary */}
+            <div className='rounded-lg bg-blue-50 p-3'>
+              <p className='text-xs font-semibold uppercase tracking-wider text-blue-700'>
+                {datePickerMode === 'start' ? 'Start Date' : 'Due Date'}
+              </p>
+              <p className='mt-1 text-sm font-semibold text-blue-900'>
+                {datePickerMode === 'start'
                   ? startDate
-                    ? new Date(startDate)
-                    : undefined
+                    ? format(new Date(startDate), 'EEEE, MMMM dd, yyyy')
+                    : 'Not selected'
                   : dueDate
-                    ? new Date(dueDate)
-                    : undefined
-              }
-              onSelect={handleDateSelect}
-              disabled={(date) => date > new Date()}
-            />
+                    ? format(new Date(dueDate), 'EEEE, MMMM dd, yyyy')
+                    : 'Not selected'}
+              </p>
+            </div>
           </div>
+
           <DialogFooter className='flex gap-3'>
-            <Button variant='outline' onClick={() => setDatePickerOpen(false)}>
+            <Button
+              variant='outline'
+              onClick={() => setDatePickerOpen(false)}
+              className='flex-1'
+            >
               Cancel
             </Button>
             <Button
@@ -362,8 +387,9 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                 handleDateChange()
               }}
               disabled={updateDatesMutation.isPending}
+              className='flex-1 bg-blue-600 hover:bg-blue-700'
             >
-              {updateDatesMutation.isPending ? 'Saving...' : 'Save Date'}
+              {updateDatesMutation.isPending ? 'Saving...' : 'Confirm Date'}
             </Button>
           </DialogFooter>
         </DialogContent>
