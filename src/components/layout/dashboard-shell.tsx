@@ -99,7 +99,9 @@ export function DashboardShell({
           </header>
         ) : null}
         <main className='flex-1 overflow-hidden'>
-          <div className='h-screen overflow-y-auto px-8 py-8 bg-white'>{children}</div>
+          <div className='h-screen overflow-y-auto px-8 py-8 bg-white'>
+            {children}
+          </div>
         </main>
       </div>
     </div>
