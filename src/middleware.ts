@@ -75,7 +75,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/admin', request.url))
     }
 
-    // If the user is a customer and is trying to access an admin route,
     // redirect them to their dashboard.
     if (userRole !== 'admin' && pathname.startsWith('/admin')) {
       return NextResponse.redirect(new URL('/dashboard', request.url))
