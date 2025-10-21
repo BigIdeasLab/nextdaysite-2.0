@@ -165,13 +165,13 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   return (
     <div className='space-y-8'>
       {/* Header Section */}
-      <div className='rounded-lg border border-gray-200 bg-white p-6 shadow-sm'>
+      <div className='rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:shadow-sm'>
         <div className='flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center'>
           <div className='flex-1'>
-            <h1 className='text-3xl font-bold text-gray-900'>
+            <h1 className='text-3xl font-bold text-gray-900 dark:text-gray-50'>
               {project.title}
             </h1>
-            <p className='mt-2 text-sm text-gray-500'>
+            <p className='mt-2 text-sm text-gray-500 dark:text-gray-400'>
               Project ID: {projectId}
             </p>
           </div>
@@ -193,16 +193,16 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
         {/* Left Column - Project Details and Timeline */}
         <div className='space-y-8 lg:col-span-2'>
           {/* Project Details Card */}
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
-              <CardTitle className='text-lg text-gray-900'>
+          <Card className='border-gray-200 dark:border-gray-700'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-slate-900'>
+              <CardTitle className='text-lg text-gray-900 dark:text-gray-50'>
                 Project Details
               </CardTitle>
             </CardHeader>
             <CardContent className='space-y-6 pt-6'>
               {/* Status Selector */}
               <div className='space-y-3'>
-                <label className='block text-sm font-semibold text-gray-700'>
+                <label className='block text-sm font-semibold text-gray-700 dark:text-gray-300'>
                   Project Status
                 </label>
                 <Select
