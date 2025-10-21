@@ -30,7 +30,9 @@ export function CustomerDashboard() {
     const activeProjects = projects.filter(
       (project) => project.status !== 'completed',
     )
-    const inReview = projects.filter((project) => project.status === 'review')
+    const readyToShip = projects.filter(
+      (project) => project.status === 'ready_to_ship',
+    )
     const openInvoices = invoices.filter((invoice) => invoice.status === 'open')
     const openInvoiceTotal = openInvoices.reduce(
       (sum, invoice) => sum + invoice.total,
@@ -56,9 +58,11 @@ export function CustomerDashboard() {
         caption: 'In the last 7 days',
       },
       {
-        label: 'In review',
-        value: String(inReview.length),
-        caption: inReview.length ? 'Awaiting approvals' : 'Everything on track',
+        label: 'Ready to Ship',
+        value: String(readyToShip.length),
+        caption: readyToShip.length
+          ? 'Ready for deployment'
+          : 'Everything on track',
       },
       {
         label: 'Open invoices',

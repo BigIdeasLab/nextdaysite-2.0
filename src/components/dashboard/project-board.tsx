@@ -3,12 +3,11 @@ import { formatDate } from '@/lib/utils/format'
 
 const statusColumns: { key: ProjectsRow['status']; label: string }[] = [
   { key: 'active', label: 'Active' },
-  { key: 'inactive', label: 'Inactive' },
   { key: 'in_progress', label: 'In Progress' },
-  { key: 'review', label: 'In Review' },
+  { key: 'ready_to_ship', label: 'Ready to Ship' },
+  { key: 'shipped', label: 'Shipped' },
   { key: 'completed', label: 'Completed' },
-  { key: 'paused', label: 'Paused' },
-  { key: 'cancelled', label: 'Cancelled' },
+  { key: 'inactive', label: 'Inactive' },
 ]
 
 type ProjectBoardProps = {

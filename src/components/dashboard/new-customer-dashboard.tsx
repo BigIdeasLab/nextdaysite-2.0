@@ -17,10 +17,9 @@ const statusLabels: Record<string, string> = {
   active: 'Status: Active',
   inactive: 'Status: Inactive (Click to activate)',
   in_progress: 'Status: In Progress',
-  review: 'Status: In Review',
   completed: 'Status: Completed',
-  paused: 'Status: Paused',
-  cancelled: 'Status: Cancelled',
+  ready_to_ship: 'Status: Ready to Ship',
+  shipped: 'Status: Shipped',
 }
 
 export function NewCustomerDashboard() {
@@ -62,7 +61,7 @@ export function NewCustomerDashboard() {
 
   const kpiMetrics = useMemo(() => {
     const activeProjects = projects.filter((p) => p.status === 'active')
-    const readyToReview = projects.filter((p) => p.status === 'review')
+    const readyToShip = projects.filter((p) => p.status === 'ready_to_ship')
     const openInvoices = invoices.filter((i) => i.status === 'open')
     const storageUsed = files.reduce((sum, file) => sum + file.size_bytes, 0)
     const storageGB = (storageUsed / 1024 ** 3).toFixed(2)
@@ -74,8 +73,8 @@ export function NewCustomerDashboard() {
         icon: 'folder' as const,
       },
       {
-        label: 'Ready to Review',
-        value: String(readyToReview.length),
+        label: 'Ready to Ship',
+        value: String(readyToShip.length),
         icon: 'message' as const,
       },
       {

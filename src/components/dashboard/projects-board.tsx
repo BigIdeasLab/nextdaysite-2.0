@@ -9,10 +9,10 @@ import type { ProjectsRow } from '@/types/models'
 type ProjectStatus =
   | 'active'
   | 'in_progress'
-  | 'review'
+  | 'ready_to_ship'
+  | 'shipped'
   | 'completed'
-  | 'paused'
-  | 'cancelled'
+  | 'inactive'
 
 const statusConfig: Record<
   ProjectStatus,
@@ -30,11 +30,17 @@ const statusConfig: Record<
     bgColor: '#483C00',
     barColor: '#FFE14A',
   },
-  review: {
-    label: 'In Review',
+  ready_to_ship: {
+    label: 'Ready to Ship',
     color: '#00C3FF',
     bgColor: '#00303F',
     barColor: '#00C3FF',
+  },
+  shipped: {
+    label: 'Shipped',
+    color: '#9BA1A6',
+    bgColor: '#3A3A3A',
+    barColor: '#9BA1A6',
   },
   completed: {
     label: 'Completed',
@@ -42,17 +48,11 @@ const statusConfig: Record<
     bgColor: '#1D3219',
     barColor: '#459538',
   },
-  paused: {
-    label: 'Paused',
+  inactive: {
+    label: 'Inactive',
     color: '#9BA1A6',
     bgColor: '#3A3A3A',
     barColor: '#9BA1A6',
-  },
-  cancelled: {
-    label: 'Cancelled',
-    color: '#FF5C5C',
-    bgColor: '#4D1F1F',
-    barColor: '#FF5C5C',
   },
 }
 

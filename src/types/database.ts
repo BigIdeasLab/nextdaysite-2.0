@@ -525,6 +525,21 @@ export type Database = {
           },
         ]
       }
+      stripe_events: {
+        Row: {
+          created_at: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           base_amount: number
@@ -717,10 +732,9 @@ export type Database = {
         | 'active'
         | 'inactive'
         | 'in_progress'
-        | 'review'
         | 'completed'
-        | 'paused'
-        | 'cancelled'
+        | 'ready_to_ship'
+        | 'shipped'
       subscription_status: 'trialing' | 'active' | 'past_due' | 'canceled'
       timeline_phase_status: 'pending' | 'in_progress' | 'completed'
       user_role: 'customer' | 'admin' | 'collaborator'
@@ -866,10 +880,9 @@ export const Constants = {
         'active',
         'inactive',
         'in_progress',
-        'review',
         'completed',
-        'paused',
-        'cancelled',
+        'ready_to_ship',
+        'shipped',
       ],
       subscription_status: ['trialing', 'active', 'past_due', 'canceled'],
       timeline_phase_status: ['pending', 'in_progress', 'completed'],

@@ -59,23 +59,17 @@ const statusConfig = {
     icon: CheckCircle2,
     lightBg: 'bg-green-50',
   },
-  review: {
-    label: 'In Review',
+  ready_to_ship: {
+    label: 'Ready to Ship',
     color: 'bg-purple-100 text-purple-800',
     icon: AlertCircle,
     lightBg: 'bg-purple-50',
   },
-  paused: {
-    label: 'Paused',
+  shipped: {
+    label: 'Shipped',
     color: 'bg-gray-100 text-gray-800',
     icon: Pause,
     lightBg: 'bg-gray-50',
-  },
-  cancelled: {
-    label: 'Cancelled',
-    color: 'bg-red-100 text-red-800',
-    icon: XCircle,
-    lightBg: 'bg-red-50',
   },
   inactive: {
     label: 'Inactive',
@@ -220,11 +214,10 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                   <SelectContent>
                     <SelectItem value='active'>Active</SelectItem>
                     <SelectItem value='in_progress'>In Progress</SelectItem>
-                    <SelectItem value='review'>In Review</SelectItem>
                     <SelectItem value='completed'>Completed</SelectItem>
-                    <SelectItem value='paused'>Paused</SelectItem>
-                    <SelectItem value='cancelled'>Cancelled</SelectItem>
-                    <SelectItem value='inactive'>Inactive</SelectItem>
+                    <SelectItem value='ready_to_ship'>Ready to Ship</SelectItem>
+                    <SelectItem value='shipped'>Shipped</SelectItem>
+                    {/* <SelectItem value='inactive'>Inactive</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
