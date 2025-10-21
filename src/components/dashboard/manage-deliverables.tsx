@@ -23,13 +23,43 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  Trash2,
+  Edit2,
+  Plus,
+} from 'lucide-react'
+
+type DeliverableStatus = 'pending' | 'in_progress' | 'completed'
+
+const statusColors = {
+  pending: {
+    icon: AlertCircle,
+    color: 'text-gray-500',
+    bg: 'bg-gray-100',
+    badge: 'bg-gray-100 text-gray-700',
+  },
+  in_progress: {
+    icon: Clock,
+    color: 'text-amber-500',
+    bg: 'bg-amber-100',
+    badge: 'bg-amber-100 text-amber-700',
+  },
+  completed: {
+    icon: CheckCircle2,
+    color: 'text-green-500',
+    bg: 'bg-green-100',
+    badge: 'bg-green-100 text-green-700',
+  },
+}
 
 export function ManageDeliverables({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
@@ -38,6 +68,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
   const [isEditModalOpen, setEditModalOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [status, setStatus] = useState<DeliverableStatus>('pending')
   const [selectedDeliverable, setSelectedDeliverable] =
     useState<ProjectDeliverablesRow | null>(null)
 
@@ -59,12 +90,17 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
 
   const updateMutation = useMutation({
     mutationFn: () =>
-      updateDeliverable(selectedDeliverable!.id, { title, description }),
+      updateDeliverable(selectedDeliverable!.id, {
+        title,
+        description,
+        status: status as DeliverableStatus,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deliverables', projectId] })
       setEditModalOpen(false)
       setTitle('')
       setDescription('')
+      setStatus('pending')
       setSelectedDeliverable(null)
     },
   })
@@ -78,11 +114,13 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
 
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!title.trim()) return
     addMutation.mutate()
   }
 
   const handleUpdateSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!title.trim()) return
     updateMutation.mutate()
   }
 
@@ -90,83 +128,167 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
     setSelectedDeliverable(deliverable)
     setTitle(deliverable.title)
     setDescription(deliverable.description || '')
+    if (deliverable.status) {
+      setStatus(deliverable.status as DeliverableStatus)
+    }
     setEditModalOpen(true)
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
+  const handleResetForm = () => {
+    setTitle('')
+    setDescription('')
+    setStatus('pending')
+    setSelectedDeliverable(null)
   }
+
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <div className='text-sm text-gray-500'>Loading deliverables...</div>
+      </div>
+    )
+  }
+
+  const completedCount = deliverables.filter(
+    (d) => d.status === 'completed',
+  ).length
+  const totalCount = deliverables.length
 
   return (
     <div className='space-y-4'>
-      <div className='flex items-center justify-between'>
-        <h2 className='text-xl font-semibold'>Deliverables</h2>
-        <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
-          <DialogTrigger asChild>
-            <Button>Add Deliverable</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Deliverable</DialogTitle>
-              <DialogDescription>
-                Fill in the details for the new deliverable.
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleAddSubmit} className='space-y-4'>
-              <div className='space-y-2'>
-                <Label htmlFor='title'>Title</Label>
-                <Input
-                  id='title'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder='Deliverable title'
-                />
+      {/* Header with Progress */}
+      {totalCount > 0 && (
+        <div className='rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4'>
+          <div className='flex items-center justify-between'>
+            <div>
+              <p className='text-xs font-semibold uppercase tracking-wider text-gray-600'>
+                Progress
+              </p>
+              <p className='mt-1 text-2xl font-bold text-gray-900'>
+                {completedCount}/{totalCount}
+              </p>
+            </div>
+            <div className='h-12 w-12 rounded-full bg-white flex items-center justify-center'>
+              <div className='text-sm font-semibold text-indigo-600'>
+                {Math.round((completedCount / totalCount) * 100)}%
               </div>
-              <div className='space-y-2'>
-                <Label htmlFor='description'>Description</Label>
-                <Textarea
-                  id='description'
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder='Deliverable description'
-                />
-              </div>
-              <DialogFooter>
-                <Button
-                  type='button'
-                  variant='outline'
-                  onClick={() => setAddModalOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button type='submit' disabled={addMutation.isPending}>
-                  {addMutation.isPending ? 'Adding...' : 'Add'}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </div>
+          </div>
+          <div className='mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200'>
+            <div
+              className='h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-300'
+              style={{
+                width: `${totalCount > 0 ? (completedCount / totalCount) * 100 : 0}%`,
+              }}
+            />
+          </div>
+        </div>
+      )}
 
-      <div className='rounded-md border'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className='text-right'>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {deliverables.map((deliverable) => (
-              <TableRow key={deliverable.id}>
-                <TableCell className='font-medium'>
-                  {deliverable.title}
-                </TableCell>
-                <TableCell>{deliverable.description}</TableCell>
-                <TableCell>{deliverable.status}</TableCell>
-                <TableCell className='text-right space-x-2'>
+      {/* Add Deliverable Button */}
+      <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
+        <DialogTrigger asChild>
+          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700'>
+            <Plus className='h-4 w-4' />
+            Add Deliverable
+          </Button>
+        </DialogTrigger>
+        <DialogContent className='sm:max-w-md'>
+          <DialogHeader>
+            <DialogTitle>Add New Deliverable</DialogTitle>
+            <DialogDescription>
+              Create a new deliverable for this project.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleAddSubmit} className='space-y-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='title'>Deliverable Title</Label>
+              <Input
+                id='title'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder='e.g., Website Design'
+                autoFocus
+              />
+            </div>
+            <div className='space-y-2'>
+              <Label htmlFor='description'>Description</Label>
+              <Textarea
+                id='description'
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder='Add details about this deliverable...'
+                className='resize-none'
+                rows={4}
+              />
+            </div>
+            <DialogFooter className='flex gap-3'>
+              <Button
+                type='button'
+                variant='outline'
+                onClick={() => {
+                  setAddModalOpen(false)
+                  handleResetForm()
+                }}
+              >
+                Cancel
+              </Button>
+              <Button type='submit' disabled={addMutation.isPending}>
+                {addMutation.isPending ? 'Adding...' : 'Add'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Deliverables List */}
+      {deliverables.length === 0 ? (
+        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center'>
+          <p className='text-sm text-gray-500'>
+            No deliverables added yet. Create your first deliverable.
+          </p>
+        </div>
+      ) : (
+        <div className='space-y-3'>
+          {deliverables.map((deliverable) => {
+            const statusConfig_ =
+              statusColors[deliverable.status as DeliverableStatus]
+            const StatusIcon = statusConfig_.icon
+            return (
+              <div
+                key={deliverable.id}
+                className='flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
+              >
+                {/* Status Icon */}
+                <div
+                  className={`${statusConfig_.bg} rounded-full p-2 flex-shrink-0`}
+                >
+                  <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
+                </div>
+
+                {/* Deliverable Details */}
+                <div className='flex-1 min-w-0'>
+                  <div className='flex items-start justify-between gap-2'>
+                    <div className='flex-1'>
+                      <h4 className='font-semibold text-gray-900'>
+                        {deliverable.title}
+                      </h4>
+                      {deliverable.description && (
+                        <p className='mt-1 text-sm text-gray-600 line-clamp-2'>
+                          {deliverable.description}
+                        </p>
+                      )}
+                    </div>
+                    <div
+                      className={`flex-shrink-0 rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap ${statusConfig_.badge}`}
+                    >
+                      {deliverable.status}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className='flex items-center gap-1 flex-shrink-0'>
                   <Dialog
                     open={
                       isEditModalOpen &&
@@ -176,14 +298,15 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                   >
                     <DialogTrigger asChild>
                       <Button
-                        variant='outline'
+                        variant='ghost'
                         size='sm'
                         onClick={() => handleEditClick(deliverable)}
+                        className='text-gray-600 hover:text-gray-900'
                       >
-                        Edit
+                        <Edit2 className='h-4 w-4' />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className='sm:max-w-md'>
                       <DialogHeader>
                         <DialogTitle>Edit Deliverable</DialogTitle>
                         <DialogDescription>
@@ -192,12 +315,12 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                       </DialogHeader>
                       <form onSubmit={handleUpdateSubmit} className='space-y-4'>
                         <div className='space-y-2'>
-                          <Label htmlFor='edit-title'>Title</Label>
+                          <Label htmlFor='edit-title'>Deliverable Title</Label>
                           <Input
                             id='edit-title'
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder='Deliverable title'
+                            placeholder='e.g., Website Design'
                           />
                         </div>
                         <div className='space-y-2'>
@@ -206,14 +329,41 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                             id='edit-description'
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder='Deliverable description'
+                            placeholder='Add details about this deliverable...'
+                            className='resize-none'
+                            rows={4}
                           />
                         </div>
-                        <DialogFooter>
+                        <div className='space-y-2'>
+                          <Label htmlFor='edit-status'>Status</Label>
+                          <Select
+                            value={status}
+                            onValueChange={(value) =>
+                              setStatus(value as DeliverableStatus)
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder='Select status' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value='pending'>Pending</SelectItem>
+                              <SelectItem value='in_progress'>
+                                In Progress
+                              </SelectItem>
+                              <SelectItem value='completed'>
+                                Completed
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <DialogFooter className='flex gap-3'>
                           <Button
                             type='button'
                             variant='outline'
-                            onClick={() => setEditModalOpen(false)}
+                            onClick={() => {
+                              setEditModalOpen(false)
+                              handleResetForm()
+                            }}
                           >
                             Cancel
                           </Button>
@@ -230,19 +380,20 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                     </DialogContent>
                   </Dialog>
                   <Button
-                    variant='destructive'
+                    variant='ghost'
                     size='sm'
                     onClick={() => deleteMutation.mutate(deliverable.id)}
                     disabled={deleteMutation.isPending}
+                    className='text-red-600 hover:bg-red-50 hover:text-red-700'
                   >
-                    Delete
+                    <Trash2 className='h-4 w-4' />
                   </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
