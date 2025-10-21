@@ -39,7 +39,7 @@ function CustomCalendar({
         head_cell:
           'text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem]',
         row: 'flex w-full',
-        cell: 'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
+        cell: 'relative flex-1 p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
         day: cn(
           buttonVariants({ variant: 'ghost' }),
           'h-8 w-8 p-0 font-normal aria-selected:opacity-100',
