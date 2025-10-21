@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Calendar } from '@/components/ui/calendar'
+import { CustomCalendar } from '@/components/dashboard/custom-calendar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Select,
@@ -36,6 +36,7 @@ import {
 } from 'lucide-react'
 import { format, differenceInDays } from 'date-fns'
 import { Database } from '@/types/database'
+import { DateRange } from 'react-day-picker'
 
 type ProjectStatus = Database['public']['Enums']['project_status']
 
@@ -93,7 +94,6 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   const [startDate, setStartDate] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
-  const [datePickerMode, setDatePickerMode] = useState<'start' | 'due'>('start')
 
   useEffect(() => {
     if (project) {
@@ -146,13 +146,16 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
     })
   }
 
-  const handleDateSelect = (date: Date | undefined) => {
-    if (!date) return
-
-    if (datePickerMode === 'start') {
-      setStartDate(date.toISOString().split('T')[0])
+  const handleDateSelect = (range: DateRange | undefined) => {
+    if (range?.from) {
+      setStartDate(range.from.toISOString().split('T')[0])
     } else {
-      setDueDate(date.toISOString().split('T')[0])
+      setStartDate('')
+    }
+    if (range?.to) {
+      setDueDate(range.to.toISOString().split('T')[0])
+    } else {
+      setDueDate('')
     }
   }
 
@@ -239,7 +242,6 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     <Button
                       variant='ghost'
                       onClick={() => {
-                        setDatePickerMode('start')
                         setDatePickerOpen(true)
                       }}
                       className='mt-2 flex h-auto flex-col items-start justify-start p-0 text-left'
@@ -266,7 +268,6 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     <Button
                       variant='ghost'
                       onClick={() => {
-                        setDatePickerMode('due')
                         setDatePickerOpen(true)
                       }}
                       className='mt-2 flex h-auto flex-col items-start justify-start p-0 text-left'
@@ -328,31 +329,19 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
       <Dialog open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
         <DialogContent className='sm:max-w-md'>
           <DialogHeader>
-            <DialogTitle>
-              {datePickerMode === 'start'
-                ? 'Select Start Date'
-                : 'Select Due Date'}
-            </DialogTitle>
+            <DialogTitle>Select Date Range</DialogTitle>
             <DialogDescription>
-              {datePickerMode === 'start'
-                ? 'Choose when the project should start.'
-                : 'Choose when the project is due.'}
+              Choose the start and end dates for the project.
             </DialogDescription>
           </DialogHeader>
           <div className='flex justify-center py-4'>
-            <Calendar
-              mode='single'
-              selected={
-                datePickerMode === 'start'
-                  ? startDate
-                    ? new Date(startDate)
-                    : undefined
-                  : dueDate
-                    ? new Date(dueDate)
-                    : undefined
-              }
+            <CustomCalendar
+              mode='range'
+              selected={{
+                from: startDate ? new Date(startDate) : undefined,
+                to: dueDate ? new Date(dueDate) : undefined,
+              }}
               onSelect={handleDateSelect}
-              disabled={(date) => date > new Date()}
             />
           </div>
           <DialogFooter className='flex gap-3'>
@@ -365,7 +354,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
               }}
               disabled={updateDatesMutation.isPending}
             >
-              {updateDatesMutation.isPending ? 'Saving...' : 'Save Date'}
+              {updateDatesMutation.isPending ? 'Saving...' : 'Save Dates'}
             </Button>
           </DialogFooter>
         </DialogContent>
