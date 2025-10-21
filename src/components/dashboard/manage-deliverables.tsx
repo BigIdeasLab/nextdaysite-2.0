@@ -144,7 +144,9 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
   if (isLoading) {
     return (
       <div className='flex items-center justify-center py-8'>
-        <div className='text-sm text-gray-500 dark:text-gray-400'>Loading deliverables...</div>
+        <div className='text-sm text-gray-500 dark:text-gray-400'>
+          Loading deliverables...
+        </div>
       </div>
     )
   }

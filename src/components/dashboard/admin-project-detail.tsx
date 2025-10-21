@@ -299,7 +299,9 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
           {/* Timeline Section */}
           <Card className='border-gray-200 dark:border-gray-700'>
             <CardHeader className='border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-slate-900'>
-              <CardTitle className='text-lg text-gray-900 dark:text-gray-50'>Timeline</CardTitle>
+              <CardTitle className='text-lg text-gray-900 dark:text-gray-50'>
+                Timeline
+              </CardTitle>
             </CardHeader>
             <CardContent className='pt-6'>
               <ManageTimeline projectId={project.id} />
