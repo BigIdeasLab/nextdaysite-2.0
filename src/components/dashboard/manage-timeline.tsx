@@ -28,16 +28,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { CheckCircle2, Clock, AlertCircle, Trash2, Edit2, Plus } from 'lucide-react'
+import { format } from 'date-fns'
 
 type TimelineStatus = 'pending' | 'in_progress' | 'completed'
+
+const statusColors = {
+  pending: {
+    icon: AlertCircle,
+    color: 'text-gray-500',
+    bg: 'bg-gray-100',
+    badge: 'bg-gray-100 text-gray-700',
+  },
+  in_progress: {
+    icon: Clock,
+    color: 'text-amber-500',
+    bg: 'bg-amber-100',
+    badge: 'bg-amber-100 text-amber-700',
+  },
+  completed: {
+    icon: CheckCircle2,
+    color: 'text-green-500',
+    bg: 'bg-green-100',
+    badge: 'bg-green-100 text-green-700',
+  },
+}
 
 export function ManageTimeline({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient()
@@ -97,11 +112,13 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
 
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!title.trim()) return
     addMutation.mutate()
   }
 
   const handleUpdateSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!title.trim()) return
     updateMutation.mutate()
   }
 
@@ -111,110 +128,155 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
     setStartDate(phase.start_date || '')
     setEndDate(phase.end_date || '')
     if (phase.status) {
-      setStatus(phase.status)
+      setStatus(phase.status as TimelineStatus)
     }
     setEditModalOpen(true)
   }
 
+  const handleResetForm = () => {
+    setTitle('')
+    setStartDate('')
+    setEndDate('')
+    setStatus('pending')
+    setSelectedPhase(null)
+  }
+
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <div className='text-sm text-gray-500'>Loading timeline...</div>
+      </div>
+    )
   }
 
   return (
     <div className='space-y-4'>
-      <div className='flex items-center justify-between'>
-        <h2 className='text-xl font-semibold'>Timeline</h2>
-        <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
-          <DialogTrigger asChild>
-            <Button>Add Phase</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Phase</DialogTitle>
-              <DialogDescription>
-                Fill in the details for the new timeline phase.
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleAddSubmit} className='space-y-4'>
+      {/* Add Phase Button */}
+      <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
+        <DialogTrigger asChild>
+          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700'>
+            <Plus className='h-4 w-4' />
+            Add Phase
+          </Button>
+        </DialogTrigger>
+        <DialogContent className='sm:max-w-md'>
+          <DialogHeader>
+            <DialogTitle>Add New Phase</DialogTitle>
+            <DialogDescription>
+              Create a new timeline phase for this project.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleAddSubmit} className='space-y-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='title'>Phase Title</Label>
+              <Input
+                id='title'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder='e.g., Research & Discovery'
+                autoFocus
+              />
+            </div>
+            <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
-                <Label htmlFor='title'>Title</Label>
+                <Label htmlFor='startDate'>Start Date</Label>
                 <Input
-                  id='title'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder='Phase title'
+                  id='startDate'
+                  type='date'
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
                 />
               </div>
-              <div className='grid grid-cols-2 gap-4'>
-                <div className='space-y-2'>
-                  <Label htmlFor='startDate'>Start Date</Label>
-                  <Input
-                    id='startDate'
-                    type='date'
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                </div>
-                <div className='space-y-2'>
-                  <Label htmlFor='endDate'>End Date</Label>
-                  <Input
-                    id='endDate'
-                    type='date'
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                  />
-                </div>
+              <div className='space-y-2'>
+                <Label htmlFor='endDate'>End Date</Label>
+                <Input
+                  id='endDate'
+                  type='date'
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
               </div>
-              <DialogFooter>
-                <Button
-                  type='button'
-                  variant='outline'
-                  onClick={() => setAddModalOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button type='submit' disabled={addMutation.isPending}>
-                  {addMutation.isPending ? 'Adding...' : 'Add'}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </div>
+            <DialogFooter className='flex gap-3'>
+              <Button
+                type='button'
+                variant='outline'
+                onClick={() => {
+                  setAddModalOpen(false)
+                  handleResetForm()
+                }}
+              >
+                Cancel
+              </Button>
+              <Button type='submit' disabled={addMutation.isPending}>
+                {addMutation.isPending ? 'Adding...' : 'Add Phase'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
-      <div className='rounded-md border'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Start Date</TableHead>
-              <TableHead>End Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className='text-right'>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {timelinePhases.map((phase) => (
-              <TableRow key={phase.id}>
-                <TableCell className='font-medium'>{phase.title}</TableCell>
-                <TableCell>{phase.start_date}</TableCell>
-                <TableCell>{phase.end_date}</TableCell>
-                <TableCell>{phase.status}</TableCell>
-                <TableCell className='text-right space-x-2'>
+      {/* Timeline List */}
+      {timelinePhases.length === 0 ? (
+        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center'>
+          <p className='text-sm text-gray-500'>
+            No phases added yet. Create your first timeline phase.
+          </p>
+        </div>
+      ) : (
+        <div className='space-y-3'>
+          {timelinePhases.map((phase, index) => {
+            const statusConfig_ = statusColors[phase.status as TimelineStatus]
+            const StatusIcon = statusConfig_.icon
+            return (
+              <div
+                key={phase.id}
+                className='flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
+              >
+                {/* Status Icon */}
+                <div className={`${statusConfig_.bg} rounded-full p-2`}>
+                  <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
+                </div>
+
+                {/* Phase Details */}
+                <div className='flex-1 min-w-0'>
+                  <div className='flex items-start justify-between gap-2'>
+                    <div className='flex-1'>
+                      <h4 className='font-semibold text-gray-900'>
+                        {phase.title}
+                      </h4>
+                      <div className='mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500'>
+                        {phase.start_date && (
+                          <span>Start: {format(new Date(phase.start_date), 'MMM dd, yyyy')}</span>
+                        )}
+                        {phase.end_date && (
+                          <span>End: {format(new Date(phase.end_date), 'MMM dd, yyyy')}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className={`rounded-full px-3 py-1 text-xs font-medium ${statusConfig_.badge}`}>
+                      {phase.status}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className='flex items-center gap-2'>
                   <Dialog
                     open={isEditModalOpen && selectedPhase?.id === phase.id}
                     onOpenChange={setEditModalOpen}
                   >
                     <DialogTrigger asChild>
                       <Button
-                        variant='outline'
+                        variant='ghost'
                         size='sm'
                         onClick={() => handleEditClick(phase)}
+                        className='text-gray-600 hover:text-gray-900'
                       >
-                        Edit
+                        <Edit2 className='h-4 w-4' />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className='sm:max-w-md'>
                       <DialogHeader>
                         <DialogTitle>Edit Phase</DialogTitle>
                         <DialogDescription>
@@ -223,12 +285,12 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                       </DialogHeader>
                       <form onSubmit={handleUpdateSubmit} className='space-y-4'>
                         <div className='space-y-2'>
-                          <Label htmlFor='edit-title'>Title</Label>
+                          <Label htmlFor='edit-title'>Phase Title</Label>
                           <Input
                             id='edit-title'
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder='Phase title'
+                            placeholder='e.g., Research & Discovery'
                           />
                         </div>
                         <div className='grid grid-cols-2 gap-4'>
@@ -273,11 +335,14 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                             </SelectContent>
                           </Select>
                         </div>
-                        <DialogFooter>
+                        <DialogFooter className='flex gap-3'>
                           <Button
                             type='button'
                             variant='outline'
-                            onClick={() => setEditModalOpen(false)}
+                            onClick={() => {
+                              setEditModalOpen(false)
+                              handleResetForm()
+                            }}
                           >
                             Cancel
                           </Button>
@@ -285,28 +350,27 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                             type='submit'
                             disabled={updateMutation.isPending}
                           >
-                            {updateMutation.isPending
-                              ? 'Updating...'
-                              : 'Update'}
+                            {updateMutation.isPending ? 'Updating...' : 'Update'}
                           </Button>
                         </DialogFooter>
                       </form>
                     </DialogContent>
                   </Dialog>
                   <Button
-                    variant='destructive'
+                    variant='ghost'
                     size='sm'
                     onClick={() => deleteMutation.mutate(phase.id)}
                     disabled={deleteMutation.isPending}
+                    className='text-red-600 hover:bg-red-50 hover:text-red-700'
                   >
-                    Delete
+                    <Trash2 className='h-4 w-4' />
                   </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
