@@ -447,7 +447,10 @@ export function NewCustomerDashboard() {
                   id='projectTitle'
                   value={formValues.projectTitle || ''}
                   onChange={(e) =>
-                    setFormValues((v) => ({ ...v, projectTitle: e.target.value }))
+                    setFormValues((v) => ({
+                      ...v,
+                      projectTitle: e.target.value,
+                    }))
                   }
                   placeholder='My Awesome Project'
                 />
@@ -458,7 +461,10 @@ export function NewCustomerDashboard() {
                   id='projectType'
                   value={formValues.projectType || ''}
                   onChange={(e) =>
-                    setFormValues((v) => ({ ...v, projectType: e.target.value }))
+                    setFormValues((v) => ({
+                      ...v,
+                      projectType: e.target.value,
+                    }))
                   }
                   placeholder='New Website'
                 />
@@ -491,7 +497,10 @@ export function NewCustomerDashboard() {
                   id='projectGoals'
                   value={formValues.projectGoals || ''}
                   onChange={(e) =>
-                    setFormValues((v) => ({ ...v, projectGoals: e.target.value }))
+                    setFormValues((v) => ({
+                      ...v,
+                      projectGoals: e.target.value,
+                    }))
                   }
                   placeholder='Increase sales, generate leads, etc.'
                 />
@@ -502,7 +511,10 @@ export function NewCustomerDashboard() {
                   id='targetAudience'
                   value={formValues.targetAudience || ''}
                   onChange={(e) =>
-                    setFormValues((v) => ({ ...v, targetAudience: e.target.value }))
+                    setFormValues((v) => ({
+                      ...v,
+                      targetAudience: e.target.value,
+                    }))
                   }
                   placeholder='General consumers, B2B, etc.'
                 />
@@ -538,7 +550,10 @@ export function NewCustomerDashboard() {
                   onChange={(e) =>
                     setFormValues((v) => ({
                       ...v,
-                      budget: e.target.value === '' ? undefined : Number(e.target.value),
+                      budget:
+                        e.target.value === ''
+                          ? undefined
+                          : Number(e.target.value),
                     }))
                   }
                   placeholder='5000'

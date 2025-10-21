@@ -11,7 +11,7 @@ export function DashboardHeader({ onNewProject }: DashboardHeaderProps) {
       <button
         onClick={onNewProject}
         className='flex h-12 items-center justify-center gap-3 rounded-[30px] bg-[#FF8C00] px-5 text-white transition hover:bg-[#FF8C00]/90'
-     >
+      >
         <span className='text-base font-medium'>New Project</span>
       </button>
     </div>
