@@ -34,55 +34,99 @@ export function SelectProjectModal({
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
-        <Dialog.Overlay className='fixed inset-0 bg-black/50' />
-        <Dialog.Content className='fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6 shadow-lg'>
-          <Dialog.Title className='text-lg font-medium'>
-            Select a Project
-          </Dialog.Title>
-          <Dialog.Description className='mt-2 text-sm text-gray-500'>
-            Choose an inactive project to associate with this plan.
-          </Dialog.Description>
+        <Dialog.Overlay className='fixed inset-0 bg-black/50 backdrop-blur-sm' />
+        <Dialog.Content className='fixed left-1/2 top-1/2 w-full max-w-[732px] -translate-x-1/2 -translate-y-1/2 rounded-[30px] bg-black p-[25px] shadow-2xl'>
+          <div className='flex flex-col gap-6'>
+            {/* Header with Title and Close Button */}
+            <div className='flex items-start justify-between gap-4'>
+              <div className='flex flex-col gap-[22px]'>
+                <Dialog.Title className='text-[22px] font-medium capitalize leading-[50px] text-[#F7F6FF]'>
+                  Select a Project
+                </Dialog.Title>
+                <Dialog.Description className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+                  Choose an inactive project to associate with this plan.
+                </Dialog.Description>
+              </div>
 
-          {isLoading && <div>Loading projects...</div>}
-          {isError && <div>Error loading projects.</div>}
-
-          {projects && projects.length > 0 ? (
-            <div className='mt-4 space-y-2'>
-              {projects.map((project) => (
-                <div
-                  key={project.id}
-                  className={`cursor-pointer rounded-md border p-3 ${selectedProject === project.id ? 'border-blue-500 bg-blue-50' : ''}`}
-                  onClick={() => setSelectedProject(project.id)}
+              {/* Close Button */}
+              <Dialog.Close asChild>
+                <button
+                  className='flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center transition-opacity hover:opacity-70'
+                  aria-label='Close'
                 >
-                  {project.title}
-                </div>
-              ))}
+                  <svg
+                    width='33'
+                    height='33'
+                    viewBox='0 0 33 33'
+                    fill='none'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      d='M1 1L32 32M32 1L1 32'
+                      stroke='#FFF'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                    />
+                  </svg>
+                </button>
+              </Dialog.Close>
             </div>
-          ) : (
-            <div className='mt-4 text-center'>
-              <p>No inactive projects found.</p>
-              <button
-                onClick={handleCreateNewProject}
-                className='mt-4 rounded-md bg-blue-500 px-4 py-2 text-white'
-              >
-                Create New Project
-              </button>
-            </div>
-          )}
 
-          <div className='mt-6 flex justify-end space-x-4'>
-            <Dialog.Close asChild>
-              <button className='rounded-md border border-gray-300 px-4 py-2'>
-                Cancel
+            {/* Content Area */}
+            <div className='flex min-h-[79px] flex-col gap-4'>
+              {isLoading && (
+                <div className='flex items-center justify-center rounded-[12px] bg-[#262627] px-[13px] py-[15px] text-[18px] font-medium text-[#9BA1A6]'>
+                  Loading projects...
+                </div>
+              )}
+
+              {isError && (
+                <div className='flex items-center justify-center rounded-[12px] bg-[#262627] px-[13px] py-[15px] text-[18px] font-medium text-[#9BA1A6]'>
+                  Error loading projects.
+                </div>
+              )}
+
+              {!isLoading && !isError && projects && projects.length > 0 ? (
+                <div className='flex max-h-[300px] flex-col gap-2.5 overflow-y-auto'>
+                  {projects.map((project) => (
+                    <div
+                      key={project.id}
+                      className={`flex cursor-pointer items-center rounded-[12px] px-[13px] py-[15px] text-[18px] font-medium transition-all ${
+                        selectedProject === project.id
+                          ? 'bg-[#FF8C00] text-[#F7F6FF]'
+                          : 'bg-[#262627] text-[#9BA1A6] hover:bg-[#2d2d2e]'
+                      }`}
+                      onClick={() => setSelectedProject(project.id)}
+                    >
+                      {project.title}
+                    </div>
+                  ))}
+                </div>
+              ) : !isLoading && !isError ? (
+                <div className='flex flex-col items-center gap-4 py-6'>
+                  <p className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+                    No inactive projects found.
+                  </p>
+                  <button
+                    onClick={handleCreateNewProject}
+                    className='flex items-center justify-center rounded-[30px] border border-[#FF8C00] bg-[#FF8C00] px-[26px] py-[22px] text-[18px] font-semibold leading-[24px] text-[#F7F6FF] transition-opacity hover:opacity-90'
+                  >
+                    Create New Project
+                  </button>
+                </div>
+              ) : null}
+            </div>
+
+            {/* Action Button */}
+            {projects && projects.length > 0 && (
+              <button
+                onClick={handleContinue}
+                disabled={!selectedProject}
+                className='flex w-full items-center justify-center rounded-[30px] border border-[#FF8C00] bg-[#FF8C00] px-[26px] py-[22px] text-[18px] font-semibold leading-[24px] text-[#F7F6FF] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50'
+              >
+                Continue with Selected Project
               </button>
-            </Dialog.Close>
-            <button
-              onClick={handleContinue}
-              disabled={!selectedProject}
-              className='rounded-md bg-blue-500 px-4 py-2 text-white disabled:opacity-50'
-            >
-              Continue
-            </button>
+            )}
           </div>
         </Dialog.Content>
       </Dialog.Portal>
