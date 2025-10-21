@@ -193,8 +193,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
         {/* Left Column - Project Details and Timeline */}
         <div className='space-y-8 lg:col-span-2'>
           {/* Project Details Card */}
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
+          <Card className='border-gray-300 shadow-md'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50/50'>
               <CardTitle className='text-lg text-gray-900'>
                 Project Details
               </CardTitle>
@@ -297,8 +297,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
           </Card>
 
           {/* Timeline Section */}
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
+          <Card className='border-gray-300 shadow-md'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50/50'>
               <CardTitle className='text-lg text-gray-900'>Timeline</CardTitle>
             </CardHeader>
             <CardContent className='pt-6'>
@@ -309,8 +309,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
         {/* Right Column - Deliverables */}
         <div className='space-y-8'>
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
+          <Card className='border-gray-300 shadow-md'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50/50'>
               <CardTitle className='text-lg text-gray-900'>
                 Deliverables
               </CardTitle>
