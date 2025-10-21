@@ -168,7 +168,9 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
       <div className='rounded-lg border border-gray-200 bg-white p-6 shadow-sm'>
         <div className='flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center'>
           <div className='flex-1'>
-            <h1 className='text-3xl font-bold text-gray-900'>{project.title}</h1>
+            <h1 className='text-3xl font-bold text-gray-900'>
+              {project.title}
+            </h1>
             <p className='mt-2 text-sm text-gray-500'>
               Project ID: {projectId}
             </p>
@@ -226,7 +228,9 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
               {/* Dates Section */}
               <div className='space-y-3'>
-                <h3 className='text-sm font-semibold text-gray-700'>Timeline</h3>
+                <h3 className='text-sm font-semibold text-gray-700'>
+                  Timeline
+                </h3>
                 <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                   <div className='rounded-lg border border-gray-200 p-4'>
                     <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>
@@ -323,7 +327,9 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
         <DialogContent className='sm:max-w-md'>
           <DialogHeader>
             <DialogTitle>
-              {datePickerMode === 'start' ? 'Select Start Date' : 'Select Due Date'}
+              {datePickerMode === 'start'
+                ? 'Select Start Date'
+                : 'Select Due Date'}
             </DialogTitle>
             <DialogDescription>
               {datePickerMode === 'start'
@@ -348,10 +354,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
             />
           </div>
           <DialogFooter className='flex gap-3'>
-            <Button
-              variant='outline'
-              onClick={() => setDatePickerOpen(false)}
-            >
+            <Button variant='outline' onClick={() => setDatePickerOpen(false)}>
               Cancel
             </Button>
             <Button

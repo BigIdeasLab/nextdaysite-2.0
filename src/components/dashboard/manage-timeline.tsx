@@ -28,7 +28,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CheckCircle2, Clock, AlertCircle, Trash2, Edit2, Plus } from 'lucide-react'
+import {
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  Trash2,
+  Edit2,
+  Plus,
+} from 'lucide-react'
 import { format } from 'date-fns'
 
 type TimelineStatus = 'pending' | 'in_progress' | 'completed'
@@ -247,14 +254,22 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                       </h4>
                       <div className='mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500'>
                         {phase.start_date && (
-                          <span>Start: {format(new Date(phase.start_date), 'MMM dd, yyyy')}</span>
+                          <span>
+                            Start:{' '}
+                            {format(new Date(phase.start_date), 'MMM dd, yyyy')}
+                          </span>
                         )}
                         {phase.end_date && (
-                          <span>End: {format(new Date(phase.end_date), 'MMM dd, yyyy')}</span>
+                          <span>
+                            End:{' '}
+                            {format(new Date(phase.end_date), 'MMM dd, yyyy')}
+                          </span>
                         )}
                       </div>
                     </div>
-                    <div className={`rounded-full px-3 py-1 text-xs font-medium ${statusConfig_.badge}`}>
+                    <div
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${statusConfig_.badge}`}
+                    >
                       {phase.status}
                     </div>
                   </div>
@@ -350,7 +365,9 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                             type='submit'
                             disabled={updateMutation.isPending}
                           >
-                            {updateMutation.isPending ? 'Updating...' : 'Update'}
+                            {updateMutation.isPending
+                              ? 'Updating...'
+                              : 'Update'}
                           </Button>
                         </DialogFooter>
                       </form>

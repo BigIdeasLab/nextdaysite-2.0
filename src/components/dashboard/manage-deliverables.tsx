@@ -29,7 +29,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CheckCircle2, Clock, AlertCircle, Trash2, Edit2, Plus } from 'lucide-react'
+import {
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  Trash2,
+  Edit2,
+  Plus,
+} from 'lucide-react'
 
 type DeliverableStatus = 'pending' | 'in_progress' | 'completed'
 
@@ -143,7 +150,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
   }
 
   const completedCount = deliverables.filter(
-    (d) => d.status === 'completed'
+    (d) => d.status === 'completed',
   ).length
   const totalCount = deliverables.length
 
@@ -244,7 +251,8 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
       ) : (
         <div className='space-y-3'>
           {deliverables.map((deliverable) => {
-            const statusConfig_ = statusColors[deliverable.status as DeliverableStatus]
+            const statusConfig_ =
+              statusColors[deliverable.status as DeliverableStatus]
             const StatusIcon = statusConfig_.icon
             return (
               <div
@@ -252,7 +260,9 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                 className='flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
               >
                 {/* Status Icon */}
-                <div className={`${statusConfig_.bg} rounded-full p-2 flex-shrink-0`}>
+                <div
+                  className={`${statusConfig_.bg} rounded-full p-2 flex-shrink-0`}
+                >
                   <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
                 </div>
 
