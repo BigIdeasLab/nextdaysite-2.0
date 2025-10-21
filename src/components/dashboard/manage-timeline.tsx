@@ -151,7 +151,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
   if (isLoading) {
     return (
       <div className='flex items-center justify-center py-8'>
-        <div className='text-sm text-gray-500'>Loading timeline...</div>
+        <div className='text-sm text-gray-500 dark:text-gray-400'>Loading timeline...</div>
       </div>
     )
   }
@@ -161,7 +161,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
       {/* Add Phase Button */}
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
         <DialogTrigger asChild>
-          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700'>
+          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'>
             <Plus className='h-4 w-4' />
             Add Phase
           </Button>
