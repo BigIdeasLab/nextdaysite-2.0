@@ -228,12 +228,12 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
               {/* Dates Section */}
               <div className='space-y-3'>
-                <h3 className='text-sm font-semibold text-gray-700'>
+                <h3 className='text-sm font-semibold text-gray-700 dark:text-gray-300'>
                   Timeline
                 </h3>
                 <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                  <div className='rounded-lg border border-gray-200 p-4'>
-                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>
+                  <div className='rounded-lg border border-gray-200 p-4 dark:border-gray-700'>
+                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400'>
                       Start Date
                     </p>
                     <Button
@@ -246,11 +246,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     >
                       <div className='flex items-center gap-2'>
                         <CalendarDays className='h-5 w-5 text-blue-500' />
-                        <span className='text-lg font-semibold text-gray-900'>
+                        <span className='text-lg font-semibold text-gray-900 dark:text-gray-50'>
                           {startDate ? (
                             format(new Date(startDate), 'MMM dd, yyyy')
                           ) : (
-                            <span className='text-sm text-gray-400'>
+                            <span className='text-sm text-gray-400 dark:text-gray-500'>
                               Not set
                             </span>
                           )}
@@ -259,8 +259,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     </Button>
                   </div>
 
-                  <div className='rounded-lg border border-gray-200 p-4'>
-                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>
+                  <div className='rounded-lg border border-gray-200 p-4 dark:border-gray-700'>
+                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400'>
                       Due Date
                     </p>
                     <Button
@@ -273,11 +273,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     >
                       <div className='flex items-center gap-2'>
                         <CalendarDays className='h-5 w-5 text-green-500' />
-                        <span className='text-lg font-semibold text-gray-900'>
+                        <span className='text-lg font-semibold text-gray-900 dark:text-gray-50'>
                           {dueDate ? (
                             format(new Date(dueDate), 'MMM dd, yyyy')
                           ) : (
-                            <span className='text-sm text-gray-400'>
+                            <span className='text-sm text-gray-400 dark:text-gray-500'>
                               Not set
                             </span>
                           )}
@@ -288,7 +288,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                 </div>
 
                 {getDateRangeInfo() && (
-                  <div className='rounded-lg bg-blue-50 p-3 text-sm text-blue-700'>
+                  <div className='rounded-lg bg-blue-50 p-3 text-sm text-blue-700 dark:bg-blue-950 dark:text-blue-200'>
                     📅 Duration: {getDateRangeInfo()}
                   </div>
                 )}
