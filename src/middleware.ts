@@ -72,7 +72,7 @@ export async function middleware(request: NextRequest) {
     // If the user is an admin and is trying to access a non-admin route,
     // redirect them to the admin dashboard.
     if (userRole === 'admin' && !pathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/admin', request.url))
+      return NextResponse.redirect(new URL('/admin/overview', request.url))
     }
 
     // redirect them to their dashboard.
