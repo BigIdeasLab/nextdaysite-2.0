@@ -243,8 +243,8 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
 
       {/* Deliverables List */}
       {deliverables.length === 0 ? (
-        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center'>
-          <p className='text-sm text-gray-500'>
+        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center dark:border-gray-600 dark:bg-gray-900'>
+          <p className='text-sm text-gray-500 dark:text-gray-400'>
             No deliverables added yet. Create your first deliverable.
           </p>
         </div>
@@ -257,11 +257,11 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
             return (
               <div
                 key={deliverable.id}
-                className='flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
+                className='flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:hover:border-gray-600'
               >
                 {/* Status Icon */}
                 <div
-                  className={`${statusConfig_.bg} rounded-full p-2 flex-shrink-0`}
+                  className={`flex-shrink-0 rounded-full p-2 ${statusConfig_.bg}`}
                 >
                   <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
                 </div>
@@ -270,17 +270,17 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                 <div className='flex-1 min-w-0'>
                   <div className='flex items-start justify-between gap-2'>
                     <div className='flex-1'>
-                      <h4 className='font-semibold text-gray-900'>
+                      <h4 className='font-semibold text-gray-900 dark:text-gray-50'>
                         {deliverable.title}
                       </h4>
                       {deliverable.description && (
-                        <p className='mt-1 text-sm text-gray-600 line-clamp-2'>
+                        <p className='mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400'>
                           {deliverable.description}
                         </p>
                       )}
                     </div>
                     <div
-                      className={`flex-shrink-0 rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap ${statusConfig_.badge}`}
+                      className={`flex-shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${statusConfig_.badge}`}
                     >
                       {deliverable.status}
                     </div>
@@ -288,7 +288,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                 </div>
 
                 {/* Actions */}
-                <div className='flex items-center gap-1 flex-shrink-0'>
+                <div className='flex flex-shrink-0 items-center gap-1'>
                   <Dialog
                     open={
                       isEditModalOpen &&
@@ -301,7 +301,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                         variant='ghost'
                         size='sm'
                         onClick={() => handleEditClick(deliverable)}
-                        className='text-gray-600 hover:text-gray-900'
+                        className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
                       >
                         <Edit2 className='h-4 w-4' />
                       </Button>
