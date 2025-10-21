@@ -12,6 +12,16 @@ import { formatDate } from '@/lib/utils/format'
 import type { ProjectDetails } from '@/hooks/use-simulated-onboarding-chat'
 import { createProject } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 const statusLabels: Record<string, string> = {
   active: 'Status: Active',
@@ -28,6 +38,8 @@ export function NewCustomerDashboard() {
   const { data: files = [] } = useFiles()
   const [onboardingDetails, setOnboardingDetails] =
     useState<ProjectDetails | null>(null)
+  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false)
+  const [formValues, setFormValues] = useState<Partial<ProjectDetails>>({})
   const { user } = useAuth()
 
   useEffect(() => {
@@ -56,6 +68,24 @@ export function NewCustomerDashboard() {
           'There was an error creating your project. Please check the console for more details.',
         )
       }
+    }
+  }
+
+  const openNewProjectModal = () => {
+    setFormValues(onboardingDetails ?? {})
+    setIsNewProjectOpen(true)
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      await createProject(formValues)
+      setIsNewProjectOpen(false)
+      setOnboardingDetails(null)
+      window.location.reload()
+    } catch (error) {
+      console.error('Failed to create project from form:', error)
+      alert('There was an error creating your project.')
     }
   }
 
@@ -397,9 +427,157 @@ export function NewCustomerDashboard() {
         </div>
       )}
 
-      <DashboardHeader />
+      <DashboardHeader onNewProject={openNewProjectModal} />
 
       <NewKpiGrid items={kpiMetrics} />
+
+      <Dialog open={isNewProjectOpen} onOpenChange={setIsNewProjectOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create New Project</DialogTitle>
+            <DialogDescription>
+              Review or update details and create your project.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleFormSubmit} className='space-y-4'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <div>
+                <Label htmlFor='projectTitle'>Project Title</Label>
+                <Input
+                  id='projectTitle'
+                  value={formValues.projectTitle || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({
+                      ...v,
+                      projectTitle: e.target.value,
+                    }))
+                  }
+                  placeholder='My Awesome Project'
+                />
+              </div>
+              <div>
+                <Label htmlFor='projectType'>Project Type</Label>
+                <Input
+                  id='projectType'
+                  value={formValues.projectType || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({
+                      ...v,
+                      projectType: e.target.value,
+                    }))
+                  }
+                  placeholder='New Website'
+                />
+              </div>
+              <div>
+                <Label htmlFor='hosting'>Hosting</Label>
+                <Input
+                  id='hosting'
+                  value={formValues.hosting || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({ ...v, hosting: e.target.value }))
+                  }
+                  placeholder='Yes/No'
+                />
+              </div>
+              <div>
+                <Label htmlFor='brandStyle'>Brand Style</Label>
+                <Input
+                  id='brandStyle'
+                  value={formValues.brandStyle || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({ ...v, brandStyle: e.target.value }))
+                  }
+                  placeholder='Modern, Minimalist, etc.'
+                />
+              </div>
+              <div className='sm:col-span-2'>
+                <Label htmlFor='projectGoals'>Project Goals</Label>
+                <Input
+                  id='projectGoals'
+                  value={formValues.projectGoals || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({
+                      ...v,
+                      projectGoals: e.target.value,
+                    }))
+                  }
+                  placeholder='Increase sales, generate leads, etc.'
+                />
+              </div>
+              <div>
+                <Label htmlFor='targetAudience'>Target Audience</Label>
+                <Input
+                  id='targetAudience'
+                  value={formValues.targetAudience || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({
+                      ...v,
+                      targetAudience: e.target.value,
+                    }))
+                  }
+                  placeholder='General consumers, B2B, etc.'
+                />
+              </div>
+              <div>
+                <Label htmlFor='industry'>Industry</Label>
+                <Input
+                  id='industry'
+                  value={formValues.industry || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({ ...v, industry: e.target.value }))
+                  }
+                  placeholder='Technology, Healthcare, etc.'
+                />
+              </div>
+              <div>
+                <Label htmlFor='pageCount'>Page Count</Label>
+                <Input
+                  id='pageCount'
+                  value={formValues.pageCount || ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({ ...v, pageCount: e.target.value }))
+                  }
+                  placeholder='1-5, 5-10, 10-20, 20+'
+                />
+              </div>
+              <div>
+                <Label htmlFor='budget'>Budget</Label>
+                <Input
+                  id='budget'
+                  type='number'
+                  value={formValues.budget ?? ''}
+                  onChange={(e) =>
+                    setFormValues((v) => ({
+                      ...v,
+                      budget:
+                        e.target.value === ''
+                          ? undefined
+                          : Number(e.target.value),
+                    }))
+                  }
+                  placeholder='5000'
+                />
+              </div>
+            </div>
+            <DialogFooter className='pt-2'>
+              <button
+                type='button'
+                onClick={() => setIsNewProjectOpen(false)}
+                className='rounded-md border border-input bg-background px-4 py-2 text-sm hover:bg-accent'
+              >
+                Cancel
+              </button>
+              <button
+                type='submit'
+                className='rounded-[30px] bg-[#FF8C00] px-5 py-2 text-sm text-white transition hover:bg-[#FF8C00]/90'
+              >
+                Create Project
+              </button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <div className='grid gap-8 lg:grid-cols-[1fr_449px]'>
         <div className='flex flex-col gap-4'>
