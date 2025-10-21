@@ -30,6 +30,12 @@ const statusConfig: Record<
     bgColor: '#483C00',
     barColor: '#FFE14A',
   },
+  completed: {
+    label: 'Completed',
+    color: '#459538',
+    bgColor: '#1D3219',
+    barColor: '#459538',
+  },
   ready_to_ship: {
     label: 'Ready to Ship',
     color: '#00C3FF',
@@ -41,12 +47,6 @@ const statusConfig: Record<
     color: '#9BA1A6',
     bgColor: '#3A3A3A',
     barColor: '#9BA1A6',
-  },
-  completed: {
-    label: 'Completed',
-    color: '#459538',
-    bgColor: '#1D3219',
-    barColor: '#459538',
   },
   inactive: {
     label: 'Inactive',
