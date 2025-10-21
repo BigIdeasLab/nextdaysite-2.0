@@ -38,6 +38,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
     }
 
+    // Check if this event has already been processed
+    const { data: existingEvent } = await supabase
+      .from('stripe_events')
+      .select('id')
+      .eq('id', event.id)
+      .maybeSingle()
+
+    if (existingEvent) {
+      console.log(`Event ${event.id} already processed`)
+      return NextResponse.json({ received: true })
+    }
+
+    // Log this event as processed
+    await supabase.from('stripe_events').insert({ id: event.id })
+
     // Handle different event types
     switch (event.type) {
       case 'checkout.session.completed':
@@ -46,10 +61,10 @@ export async function POST(request: NextRequest) {
         )
         break
 
+      case 'invoice.payment_succeeded':
+      case 'payment_intent.succeeded':
       case 'customer.subscription.created':
-        await handleSubscriptionCreated(
-          event.data.object as Stripe.Subscription,
-        )
+        // Do nothing. checkout.session.completed is the source of truth.
         break
 
       case 'customer.subscription.updated':
@@ -61,26 +76,6 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.deleted':
         await handleSubscriptionDeleted(
           event.data.object as Stripe.Subscription,
-        )
-        break
-
-      case 'invoice.payment_succeeded':
-        await handleInvoicePaymentSucceeded(event.data.object as Stripe.Invoice)
-        break
-
-      case 'invoice.payment_failed':
-        await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice)
-        break
-
-      case 'payment_intent.succeeded':
-        await handlePaymentIntentSucceeded(
-          event.data.object as Stripe.PaymentIntent,
-        )
-        break
-
-      case 'payment_intent.payment_failed':
-        await handlePaymentIntentFailed(
-          event.data.object as Stripe.PaymentIntent,
         )
         break
 
@@ -104,7 +99,8 @@ async function handleCheckoutSessionCompleted(
   try {
     const userId = session.client_reference_id
     const metadata = session.metadata || {}
-    const projectId = metadata.projectId
+    const projectId = metadata.project_id || metadata.projectId || null
+    const planId = metadata.plan_id || metadata.planId || null
 
     if (!userId || userId === 'guest') {
       console.log(
@@ -113,15 +109,21 @@ async function handleCheckoutSessionCompleted(
       return
     }
 
-    // Idempotency check: See if we've already processed this checkout session
+    const paymentIntentId =
+      typeof session.payment_intent === 'string'
+        ? session.payment_intent
+        : session.payment_intent?.id
+
     const { data: existingInvoice } = await supabase
       .from('invoices')
       .select('id')
-      .eq('metadata->checkout_session_id', session.id)
-      .single()
+      .or(
+        `metadata->>checkout_session_id.eq.${session.id},metadata->>payment_intent_id.eq.${paymentIntentId},stripe_invoice_id.eq.${session.invoice}`,
+      )
+      .maybeSingle()
 
     if (existingInvoice) {
-      console.log(`Invoice for checkout session ${session.id} already exists.`)
+      console.log(`Invoice already exists for session ${session.id}`)
       return
     }
 
@@ -142,7 +144,7 @@ async function handleCheckoutSessionCompleted(
           typeof session.payment_intent === 'string'
             ? session.payment_intent
             : session.payment_intent?.id,
-        plan_id: metadata.plan_id,
+        plan_id: planId,
         company_name: metadata.company_name,
         notes: metadata.notes,
       },
@@ -160,7 +162,7 @@ async function handleCheckoutSessionCompleted(
 
     if (newInvoiceError) {
       console.error('Error creating invoice:', newInvoiceError)
-      // Decide if you should stop further processing
+      return // Stop if invoice creation fails
     }
 
     // For subscriptions, the subscription ID will be populated after payment
@@ -174,9 +176,9 @@ async function handleCheckoutSessionCompleted(
         current_period_end: number
       }
 
-      await supabase.from('subscriptions').insert({
+      const subscriptionData = {
         user_id: userId,
-        plan_id: metadata.plan_id,
+        plan_id: planId,
         stripe_subscription_id: subscription.id,
         billing_cycle: metadata.billing_cycle || 'monthly',
         include_hosting: metadata.include_hosting === 'true',
@@ -200,86 +202,45 @@ async function handleCheckoutSessionCompleted(
           notes: metadata.notes,
         },
         project_id: projectId,
-      })
+      }
+
+      const { error: subError } = await supabase
+        .from('subscriptions')
+        .insert(subscriptionData)
+      if (subError) {
+        console.error('Error creating subscription:', subError)
+      }
     }
 
     // Update project status and plan
-    if (projectId && metadata.plan_id) {
-      await supabase
+    if (projectId && planId) {
+      const { error: projectUpdateError } = await supabase
         .from('projects')
-        .update({ status: 'active', plan_id: metadata.plan_id })
+        .update({ status: 'active', plan_id: planId })
         .eq('id', projectId)
+
+      if (projectUpdateError) {
+        console.error('Error updating project:', projectUpdateError)
+      }
     }
 
     // Update user's plan
-    if (metadata.plan_id) {
+    if (planId) {
       const customerId = session.customer as string
-      await supabase
+      const { error: userUpdateError } = await supabase
         .from('users')
         .update({
-          plan_id: metadata.plan_id,
+          plan_id: planId,
           stripe_customer_id: customerId,
         })
         .eq('id', userId)
+
+      if (userUpdateError) {
+        console.error('Error updating user:', userUpdateError)
+      }
     }
   } catch (error) {
     console.error('Error handling checkout session completed:', error)
-  }
-}
-
-async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
-  try {
-    // Idempotency check: See if we've already processed this subscription
-    const { data: existingSubscription } = await supabase
-      .from('subscriptions')
-      .select('id')
-      .eq('stripe_subscription_id', subscription.id)
-      .single()
-
-    if (existingSubscription) {
-      console.log(`Subscription for ${subscription.id} already exists.`)
-      return
-    }
-
-    const sub = subscription as Stripe.Subscription & {
-      current_period_start: number
-      current_period_end: number
-    }
-    const userId = subscription.metadata?.user_id
-
-    if (!userId) {
-      console.log('No user_id in subscription metadata')
-      return
-    }
-
-    const { error } = await supabase.from('subscriptions').insert({
-      user_id: userId,
-      plan_id: subscription.metadata?.plan_id || '',
-      stripe_subscription_id: subscription.id,
-      billing_cycle: subscription.metadata?.billing_cycle || 'monthly',
-      include_hosting: subscription.metadata?.include_hosting === 'true',
-      status: subscription.status,
-      base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
-      hosting_amount: subscription.items.data[1]?.price.unit_amount
-        ? (subscription.items.data[1].price.unit_amount || 0) / 100
-        : 0,
-      subtotal: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
-      tax: 0,
-      total: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
-      currency: 'usd',
-      current_period_start: new Date(
-        (sub.current_period_start ?? Math.floor(Date.now() / 1000)) * 1000,
-      ).toISOString(),
-      current_period_end: new Date(
-        (sub.current_period_end ?? Math.floor(Date.now() / 1000)) * 1000,
-      ).toISOString(),
-    })
-
-    if (error) {
-      console.error('Error inserting subscription:', error)
-    }
-  } catch (error) {
-    console.error('Error handling subscription created:', error)
   }
 }
 
@@ -325,132 +286,5 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     }
   } catch (error) {
     console.error('Error handling subscription deleted:', error)
-  }
-}
-
-async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
-  try {
-    const customerId = invoice.customer as string
-    const customer = await stripe.customers.retrieve(customerId)
-    const email = (customer as Stripe.Customer).email
-
-    if (!email) return
-
-    // Find or create user by email
-    const { data: user } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email)
-      .single()
-
-    if (!user) return
-
-    // Create invoice record
-    // const { error } = await supabase.from('invoices').insert({
-    //   user_id: user.id,
-    //   stripe_invoice_id: invoice.id,
-    //   status: 'paid',
-    //   subtotal: (invoice.subtotal || 0) / 100,
-    //   tax: ((invoice.total || 0) - (invoice.subtotal || 0)) / 100,
-    //   total: (invoice.total || 0) / 100,
-    //   currency: invoice.currency.toUpperCase(),
-    //   issued_at: new Date(invoice.created * 1000).toISOString().split('T')[0],
-    //   due_date: invoice.due_date
-    //     ? new Date(invoice.due_date * 1000).toISOString().split('T')[0]
-    //     : new Date().toISOString().split('T')[0],
-    // })
-
-    // if (error) {
-    //   console.error('Error creating invoice:', error)
-    // }
-  } catch (error) {
-    console.error('Error handling invoice payment succeeded:', error)
-  }
-}
-
-async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
-  try {
-    const customerId = invoice.customer as string
-    const customer = await stripe.customers.retrieve(customerId)
-    const email = (customer as Stripe.Customer).email
-
-    if (!email) return
-
-    // Find user by email
-    const { data: user } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email)
-      .single()
-
-    if (!user) return
-
-    // Update subscription status
-    const subscriptions = await stripe.subscriptions.list({
-      customer: customerId,
-    })
-
-    if (subscriptions.data.length > 0) {
-      const sub = subscriptions.data[0]
-      await supabase
-        .from('subscriptions')
-        .update({
-          status: 'past_due',
-        })
-        .eq('stripe_subscription_id', sub.id)
-    }
-  } catch (error) {
-    console.error('Error handling invoice payment failed:', error)
-  }
-}
-
-async function handlePaymentIntentSucceeded(
-  paymentIntent: Stripe.PaymentIntent,
-) {
-  try {
-    if (!paymentIntent.customer) return
-
-    const customerId = paymentIntent.customer as string
-    const customer = await stripe.customers.retrieve(customerId)
-    const email = (customer as Stripe.Customer).email
-
-    if (!email) return
-
-    const { data: user } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email)
-      .single()
-
-    if (!user) return
-
-    // Create invoice record for one-time payment
-    // const { error } = await supabase.from('invoices').insert({
-    //   user_id: user.id,
-    //   status: 'paid',
-    //   subtotal: (paymentIntent.amount || 0) / 100,
-    //   tax: 0,
-    //   total: (paymentIntent.amount || 0) / 100,
-    //   currency: (paymentIntent.currency || 'usd').toUpperCase(),
-    //   issued_at: new Date().toISOString().split('T')[0],
-    //   due_date: new Date().toISOString().split('T')[0],
-    //   metadata: {
-    //     payment_intent_id: paymentIntent.id,
-    //   },
-    // })
-
-    // if (error) {
-    //   console.error('Error creating invoice from payment intent:', error)
-    // }
-  } catch (error) {
-    console.error('Error handling payment intent succeeded:', error)
-  }
-}
-
-async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
-  try {
-    console.log('Payment intent failed:', paymentIntent.id)
-  } catch (error) {
-    console.error('Error handling payment intent failed:', error)
   }
 }
