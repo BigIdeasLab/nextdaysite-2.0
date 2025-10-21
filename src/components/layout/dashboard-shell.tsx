@@ -85,21 +85,21 @@ export function DashboardShell({
         </div>
       </aside>
 
-      <div className='flex min-h-screen flex-col bg-black'>
+      <div className='flex min-h-screen flex-col bg-white'>
         {topbar ? (
-          <header className='flex h-16 items-center justify-between border-b border-foreground/10 bg-background/90 px-6 backdrop-blur'>
+          <header className='flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6'>
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className='-ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-transparent transition hover:bg-white/10 lg:hidden'
+              className='-ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-transparent transition hover:bg-gray-100 lg:hidden'
               aria-label='Open menu'
             >
-              <Menu className='h-6 w-6 text-white' />
+              <Menu className='h-6 w-6 text-gray-700' />
             </button>
-            <div className='flex-1'>{topbar}</div>
+            <div className='flex-1 text-gray-600'>{topbar}</div>
           </header>
         ) : null}
         <main className='flex-1 overflow-hidden'>
-          <div className='h-screen overflow-y-auto px-8 py-8'>{children}</div>
+          <div className='h-screen overflow-y-auto px-8 py-8 bg-white'>{children}</div>
         </main>
       </div>
     </div>
