@@ -17,36 +17,37 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn('p-3', className)}
+      className={cn('p-4', className)}
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
-        caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium',
-        nav: 'space-x-1 flex items-center',
+        caption: 'flex justify-center pt-1 relative items-center mb-2',
+        caption_label: 'text-base font-semibold text-gray-900',
+        nav: 'space-x-1 flex items-center justify-between w-full px-1',
         nav_button: cn(
           buttonVariants({ variant: 'outline' }),
-          'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+          'h-8 w-8 bg-white p-0 border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-400',
         ),
-        nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-1',
+        nav_button_previous: 'absolute left-0',
+        nav_button_next: 'absolute right-0',
         table: 'w-full border-collapse space-y-1',
-        head_row: 'flex',
+        head_row: 'flex gap-1 justify-between mb-2',
         head_cell:
-          'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]',
-        row: 'flex w-full mt-2',
-        cell: 'h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+          'text-gray-500 rounded-md w-9 h-9 font-semibold text-xs flex items-center justify-center',
+        row: 'flex w-full gap-1 justify-between',
+        cell: 'h-9 w-9 text-center text-sm p-0 relative focus-within:relative focus-within:z-20',
         day: cn(
-          buttonVariants({ variant: 'ghost' }),
-          'h-9 w-9 p-0 font-normal aria-selected:opacity-100',
+          'h-9 w-9 p-0 font-normal rounded-lg transition-colors',
+          'hover:bg-gray-100 hover:text-gray-900',
+          'aria-selected:opacity-100',
         ),
         day_selected:
-          'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-        day_today: 'bg-accent text-accent-foreground',
-        day_outside: 'text-muted-foreground opacity-50',
-        day_disabled: 'text-muted-foreground opacity-50',
+          'bg-blue-600 text-white hover:bg-blue-700 focus:bg-blue-600 focus:text-white font-semibold',
+        day_today: 'bg-blue-100 text-blue-900 font-semibold border border-blue-300',
+        day_outside: 'text-gray-400 opacity-60',
+        day_disabled: 'text-gray-300 opacity-50 cursor-not-allowed',
         day_range_middle:
-          'aria-selected:bg-accent aria-selected:text-accent-foreground',
+          'aria-selected:bg-blue-50 aria-selected:text-blue-900 rounded-none',
         day_hidden: 'invisible',
         ...classNames,
       }}
