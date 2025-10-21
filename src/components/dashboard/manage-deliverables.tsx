@@ -347,7 +347,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                             <SelectTrigger>
                               <SelectValue placeholder='Select status' />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className='bg-black'>
                               <SelectItem value='pending'>Pending</SelectItem>
                               <SelectItem value='in_progress'>
                                 In Progress

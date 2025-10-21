@@ -219,7 +219,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                   <SelectTrigger className='w-full'>
                     <SelectValue placeholder='Select status' />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-black'>
                     <SelectItem value='active'>Active</SelectItem>
                     <SelectItem value='in_progress'>In Progress</SelectItem>
                     <SelectItem value='completed'>Completed</SelectItem>
