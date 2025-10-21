@@ -43,21 +43,21 @@ type TimelineStatus = 'pending' | 'in_progress' | 'completed'
 const statusColors = {
   pending: {
     icon: AlertCircle,
-    color: 'text-gray-500',
-    bg: 'bg-gray-100',
-    badge: 'bg-gray-100 text-gray-700',
+    color: 'text-gray-500 dark:text-gray-400',
+    bg: 'bg-gray-100 dark:bg-gray-800',
+    badge: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
   },
   in_progress: {
     icon: Clock,
-    color: 'text-amber-500',
-    bg: 'bg-amber-100',
-    badge: 'bg-amber-100 text-amber-700',
+    color: 'text-amber-500 dark:text-amber-400',
+    bg: 'bg-amber-100 dark:bg-amber-900',
+    badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200',
   },
   completed: {
     icon: CheckCircle2,
-    color: 'text-green-500',
-    bg: 'bg-green-100',
-    badge: 'bg-green-100 text-green-700',
+    color: 'text-green-500 dark:text-green-400',
+    bg: 'bg-green-100 dark:bg-green-900',
+    badge: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200',
   },
 }
 
@@ -151,7 +151,9 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
   if (isLoading) {
     return (
       <div className='flex items-center justify-center py-8'>
-        <div className='text-sm text-gray-500'>Loading timeline...</div>
+        <div className='text-sm text-gray-500 dark:text-gray-400'>
+          Loading timeline...
+        </div>
       </div>
     )
   }
@@ -161,7 +163,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
       {/* Add Phase Button */}
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
         <DialogTrigger asChild>
-          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700'>
+          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'>
             <Plus className='h-4 w-4' />
             Add Phase
           </Button>
@@ -225,8 +227,8 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
 
       {/* Timeline List */}
       {timelinePhases.length === 0 ? (
-        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center'>
-          <p className='text-sm text-gray-500'>
+        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center dark:border-gray-600 dark:bg-gray-900'>
+          <p className='text-sm text-gray-500 dark:text-gray-400'>
             No phases added yet. Create your first timeline phase.
           </p>
         </div>
@@ -238,10 +240,10 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
             return (
               <div
                 key={phase.id}
-                className='flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
+                className='flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:hover:border-gray-600'
               >
                 {/* Status Icon */}
-                <div className={`${statusConfig_.bg} rounded-full p-2`}>
+                <div className={`rounded-full p-2 ${statusConfig_.bg}`}>
                   <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
                 </div>
 
@@ -249,10 +251,10 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                 <div className='flex-1 min-w-0'>
                   <div className='flex items-start justify-between gap-2'>
                     <div className='flex-1'>
-                      <h4 className='font-semibold text-gray-900'>
+                      <h4 className='font-semibold text-gray-900 dark:text-gray-50'>
                         {phase.title}
                       </h4>
-                      <div className='mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500'>
+                      <div className='mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400'>
                         {phase.start_date && (
                           <span>
                             Start:{' '}
@@ -286,7 +288,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                         variant='ghost'
                         size='sm'
                         onClick={() => handleEditClick(phase)}
-                        className='text-gray-600 hover:text-gray-900'
+                        className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
                       >
                         <Edit2 className='h-4 w-4' />
                       </Button>
@@ -378,7 +380,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                     size='sm'
                     onClick={() => deleteMutation.mutate(phase.id)}
                     disabled={deleteMutation.isPending}
-                    className='text-red-600 hover:bg-red-50 hover:text-red-700'
+                    className='text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-900 dark:hover:text-red-300'
                   >
                     <Trash2 className='h-4 w-4' />
                   </Button>

@@ -165,13 +165,13 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
   return (
     <div className='space-y-8'>
       {/* Header Section */}
-      <div className='rounded-lg border border-gray-200 bg-white p-6 shadow-sm'>
+      <div className='rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:shadow-sm'>
         <div className='flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center'>
           <div className='flex-1'>
-            <h1 className='text-3xl font-bold text-gray-900'>
+            <h1 className='text-3xl font-bold text-gray-900 dark:text-gray-50'>
               {project.title}
             </h1>
-            <p className='mt-2 text-sm text-gray-500'>
+            <p className='mt-2 text-sm text-gray-500 dark:text-gray-400'>
               Project ID: {projectId}
             </p>
           </div>
@@ -193,16 +193,16 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
         {/* Left Column - Project Details and Timeline */}
         <div className='space-y-8 lg:col-span-2'>
           {/* Project Details Card */}
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
-              <CardTitle className='text-lg text-gray-900'>
+          <Card className='border-gray-200 dark:border-gray-700'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-slate-900'>
+              <CardTitle className='text-lg text-gray-900 dark:text-gray-50'>
                 Project Details
               </CardTitle>
             </CardHeader>
             <CardContent className='space-y-6 pt-6'>
               {/* Status Selector */}
               <div className='space-y-3'>
-                <label className='block text-sm font-semibold text-gray-700'>
+                <label className='block text-sm font-semibold text-gray-700 dark:text-gray-300'>
                   Project Status
                 </label>
                 <Select
@@ -228,12 +228,12 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
               {/* Dates Section */}
               <div className='space-y-3'>
-                <h3 className='text-sm font-semibold text-gray-700'>
+                <h3 className='text-sm font-semibold text-gray-700 dark:text-gray-300'>
                   Timeline
                 </h3>
                 <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                  <div className='rounded-lg border border-gray-200 p-4'>
-                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>
+                  <div className='rounded-lg border border-gray-200 p-4 dark:border-gray-700'>
+                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400'>
                       Start Date
                     </p>
                     <Button
@@ -246,11 +246,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     >
                       <div className='flex items-center gap-2'>
                         <CalendarDays className='h-5 w-5 text-blue-500' />
-                        <span className='text-lg font-semibold text-gray-900'>
+                        <span className='text-lg font-semibold text-gray-900 dark:text-gray-50'>
                           {startDate ? (
                             format(new Date(startDate), 'MMM dd, yyyy')
                           ) : (
-                            <span className='text-sm text-gray-400'>
+                            <span className='text-sm text-gray-400 dark:text-gray-500'>
                               Not set
                             </span>
                           )}
@@ -259,8 +259,8 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     </Button>
                   </div>
 
-                  <div className='rounded-lg border border-gray-200 p-4'>
-                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>
+                  <div className='rounded-lg border border-gray-200 p-4 dark:border-gray-700'>
+                    <p className='text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400'>
                       Due Date
                     </p>
                     <Button
@@ -273,11 +273,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                     >
                       <div className='flex items-center gap-2'>
                         <CalendarDays className='h-5 w-5 text-green-500' />
-                        <span className='text-lg font-semibold text-gray-900'>
+                        <span className='text-lg font-semibold text-gray-900 dark:text-gray-50'>
                           {dueDate ? (
                             format(new Date(dueDate), 'MMM dd, yyyy')
                           ) : (
-                            <span className='text-sm text-gray-400'>
+                            <span className='text-sm text-gray-400 dark:text-gray-500'>
                               Not set
                             </span>
                           )}
@@ -288,7 +288,7 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
                 </div>
 
                 {getDateRangeInfo() && (
-                  <div className='rounded-lg bg-blue-50 p-3 text-sm text-blue-700'>
+                  <div className='rounded-lg bg-blue-50 p-3 text-sm text-blue-700 dark:bg-blue-950 dark:text-blue-200'>
                     📅 Duration: {getDateRangeInfo()}
                   </div>
                 )}
@@ -297,9 +297,11 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
           </Card>
 
           {/* Timeline Section */}
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
-              <CardTitle className='text-lg text-gray-900'>Timeline</CardTitle>
+          <Card className='border-gray-200 dark:border-gray-700'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-slate-900'>
+              <CardTitle className='text-lg text-gray-900 dark:text-gray-50'>
+                Timeline
+              </CardTitle>
             </CardHeader>
             <CardContent className='pt-6'>
               <ManageTimeline projectId={project.id} />
@@ -309,9 +311,9 @@ export function AdminProjectDetail({ projectId }: { projectId: string }) {
 
         {/* Right Column - Deliverables */}
         <div className='space-y-8'>
-          <Card className='border-gray-200'>
-            <CardHeader className='border-b border-gray-200 bg-gray-50'>
-              <CardTitle className='text-lg text-gray-900'>
+          <Card className='border-gray-200 dark:border-gray-700'>
+            <CardHeader className='border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-slate-900'>
+              <CardTitle className='text-lg text-gray-900 dark:text-gray-50'>
                 Deliverables
               </CardTitle>
             </CardHeader>

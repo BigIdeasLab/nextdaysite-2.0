@@ -43,21 +43,21 @@ type DeliverableStatus = 'pending' | 'in_progress' | 'completed'
 const statusColors = {
   pending: {
     icon: AlertCircle,
-    color: 'text-gray-500',
-    bg: 'bg-gray-100',
-    badge: 'bg-gray-100 text-gray-700',
+    color: 'text-gray-500 dark:text-gray-400',
+    bg: 'bg-gray-100 dark:bg-gray-800',
+    badge: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
   },
   in_progress: {
     icon: Clock,
-    color: 'text-amber-500',
-    bg: 'bg-amber-100',
-    badge: 'bg-amber-100 text-amber-700',
+    color: 'text-amber-500 dark:text-amber-400',
+    bg: 'bg-amber-100 dark:bg-amber-900',
+    badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200',
   },
   completed: {
     icon: CheckCircle2,
-    color: 'text-green-500',
-    bg: 'bg-green-100',
-    badge: 'bg-green-100 text-green-700',
+    color: 'text-green-500 dark:text-green-400',
+    bg: 'bg-green-100 dark:bg-green-900',
+    badge: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200',
   },
 }
 
@@ -144,7 +144,9 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
   if (isLoading) {
     return (
       <div className='flex items-center justify-center py-8'>
-        <div className='text-sm text-gray-500'>Loading deliverables...</div>
+        <div className='text-sm text-gray-500 dark:text-gray-400'>
+          Loading deliverables...
+        </div>
       </div>
     )
   }
@@ -158,23 +160,23 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
     <div className='space-y-4'>
       {/* Header with Progress */}
       {totalCount > 0 && (
-        <div className='rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4'>
+        <div className='rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4 dark:from-blue-950 dark:to-indigo-950'>
           <div className='flex items-center justify-between'>
             <div>
-              <p className='text-xs font-semibold uppercase tracking-wider text-gray-600'>
+              <p className='text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400'>
                 Progress
               </p>
-              <p className='mt-1 text-2xl font-bold text-gray-900'>
+              <p className='mt-1 text-2xl font-bold text-gray-900 dark:text-gray-50'>
                 {completedCount}/{totalCount}
               </p>
             </div>
-            <div className='h-12 w-12 rounded-full bg-white flex items-center justify-center'>
-              <div className='text-sm font-semibold text-indigo-600'>
+            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-800'>
+              <div className='text-sm font-semibold text-indigo-600 dark:text-indigo-400'>
                 {Math.round((completedCount / totalCount) * 100)}%
               </div>
             </div>
           </div>
-          <div className='mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200'>
+          <div className='mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700'>
             <div
               className='h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-300'
               style={{
@@ -188,7 +190,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
       {/* Add Deliverable Button */}
       <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
         <DialogTrigger asChild>
-          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700'>
+          <Button className='w-full gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'>
             <Plus className='h-4 w-4' />
             Add Deliverable
           </Button>
@@ -243,8 +245,8 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
 
       {/* Deliverables List */}
       {deliverables.length === 0 ? (
-        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center'>
-          <p className='text-sm text-gray-500'>
+        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center dark:border-gray-600 dark:bg-gray-900'>
+          <p className='text-sm text-gray-500 dark:text-gray-400'>
             No deliverables added yet. Create your first deliverable.
           </p>
         </div>
@@ -257,11 +259,11 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
             return (
               <div
                 key={deliverable.id}
-                className='flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm'
+                className='flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm dark:border-gray-700 dark:bg-slate-950 dark:hover:border-gray-600'
               >
                 {/* Status Icon */}
                 <div
-                  className={`${statusConfig_.bg} rounded-full p-2 flex-shrink-0`}
+                  className={`flex-shrink-0 rounded-full p-2 ${statusConfig_.bg}`}
                 >
                   <StatusIcon className={`h-4 w-4 ${statusConfig_.color}`} />
                 </div>
@@ -270,17 +272,17 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                 <div className='flex-1 min-w-0'>
                   <div className='flex items-start justify-between gap-2'>
                     <div className='flex-1'>
-                      <h4 className='font-semibold text-gray-900'>
+                      <h4 className='font-semibold text-gray-900 dark:text-gray-50'>
                         {deliverable.title}
                       </h4>
                       {deliverable.description && (
-                        <p className='mt-1 text-sm text-gray-600 line-clamp-2'>
+                        <p className='mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400'>
                           {deliverable.description}
                         </p>
                       )}
                     </div>
                     <div
-                      className={`flex-shrink-0 rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap ${statusConfig_.badge}`}
+                      className={`flex-shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${statusConfig_.badge}`}
                     >
                       {deliverable.status}
                     </div>
@@ -288,7 +290,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                 </div>
 
                 {/* Actions */}
-                <div className='flex items-center gap-1 flex-shrink-0'>
+                <div className='flex flex-shrink-0 items-center gap-1'>
                   <Dialog
                     open={
                       isEditModalOpen &&
@@ -301,7 +303,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                         variant='ghost'
                         size='sm'
                         onClick={() => handleEditClick(deliverable)}
-                        className='text-gray-600 hover:text-gray-900'
+                        className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
                       >
                         <Edit2 className='h-4 w-4' />
                       </Button>
@@ -384,7 +386,7 @@ export function ManageDeliverables({ projectId }: { projectId: string }) {
                     size='sm'
                     onClick={() => deleteMutation.mutate(deliverable.id)}
                     disabled={deleteMutation.isPending}
-                    className='text-red-600 hover:bg-red-50 hover:text-red-700'
+                    className='text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-900 dark:hover:text-red-300'
                   >
                     <Trash2 className='h-4 w-4' />
                   </Button>
