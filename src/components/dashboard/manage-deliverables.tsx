@@ -43,21 +43,21 @@ type DeliverableStatus = 'pending' | 'in_progress' | 'completed'
 const statusColors = {
   pending: {
     icon: AlertCircle,
-    color: 'text-gray-500',
-    bg: 'bg-gray-100',
-    badge: 'bg-gray-100 text-gray-700',
+    color: 'text-gray-500 dark:text-gray-400',
+    bg: 'bg-gray-100 dark:bg-gray-800',
+    badge: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
   },
   in_progress: {
     icon: Clock,
-    color: 'text-amber-500',
-    bg: 'bg-amber-100',
-    badge: 'bg-amber-100 text-amber-700',
+    color: 'text-amber-500 dark:text-amber-400',
+    bg: 'bg-amber-100 dark:bg-amber-900',
+    badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200',
   },
   completed: {
     icon: CheckCircle2,
-    color: 'text-green-500',
-    bg: 'bg-green-100',
-    badge: 'bg-green-100 text-green-700',
+    color: 'text-green-500 dark:text-green-400',
+    bg: 'bg-green-100 dark:bg-green-900',
+    badge: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200',
   },
 }
 
