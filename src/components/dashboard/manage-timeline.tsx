@@ -378,7 +378,7 @@ export function ManageTimeline({ projectId }: { projectId: string }) {
                     size='sm'
                     onClick={() => deleteMutation.mutate(phase.id)}
                     disabled={deleteMutation.isPending}
-                    className='text-red-600 hover:bg-red-50 hover:text-red-700'
+                    className='text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-900 dark:hover:text-red-300'
                   >
                     <Trash2 className='h-4 w-4' />
                   </Button>
