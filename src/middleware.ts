@@ -60,6 +60,28 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
+  if (user) {
+    const { data: userProfile } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const userRole = userProfile?.role
+
+    // If the user is an admin and is trying to access a non-admin route,
+    // redirect them to the admin dashboard.
+    if (userRole === 'admin' && !pathname.startsWith('/admin')) {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+
+    // If the user is a customer and is trying to access an admin route,
+    // redirect them to their dashboard.
+    if (userRole !== 'admin' && pathname.startsWith('/admin')) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
+
   // Admin route protection
   if (pathname.startsWith('/admin')) {
     if (!user) {
@@ -90,6 +112,17 @@ export async function middleware(request: NextRequest) {
 
   // If user is logged in and tries to access a public-only route, redirect to dashboard.
   if (user && publicOnlyRoutes.includes(pathname)) {
+    const { data: userProfile } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const userRole = userProfile?.role
+
+    if (userRole === 'admin') {
+      return NextResponse.redirect(new URL('/admin/overview', request.url))
+    }
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
