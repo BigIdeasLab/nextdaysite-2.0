@@ -5,7 +5,6 @@ import type { ReactNode } from 'react'
 import { AuthProvider } from '@/context/auth-context'
 import { QueryProvider } from '@/lib/providers/query-provider'
 import { ThemeProvider } from '@/lib/providers/theme-provider'
-import { NewProjectModalProvider } from '@/lib/providers/new-project-modal-provider'
 
 type AppProvidersProps = {
   children: ReactNode
@@ -15,9 +14,7 @@ export function AppProviders({ children }: AppProvidersProps) {
   return (
     <ThemeProvider>
       <QueryProvider>
-        <AuthProvider>
-          <NewProjectModalProvider>{children}</NewProjectModalProvider>
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </QueryProvider>
     </ThemeProvider>
   )
