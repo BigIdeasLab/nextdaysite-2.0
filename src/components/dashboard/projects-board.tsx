@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useProjects } from '@/hooks'
+import { useProjects, useNewProjectModal } from '@/hooks'
 import { Search, Filter, ChevronDown, MoreVertical } from 'lucide-react'
 import Link from 'next/link'
 import type { ProjectsRow } from '@/types/models'
+import { NewProjectModal } from '@/components/ui/new-project-modal'
 
 type ProjectStatus =
   | 'active'
@@ -60,6 +61,14 @@ export function ProjectsBoard() {
   const { data: projects = [], isLoading } = useProjects()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedStatuses, setSelectedStatuses] = useState<ProjectStatus[]>([])
+  const {
+    isOpen: isNewProjectOpen,
+    setIsOpen: setIsNewProjectOpen,
+    formValues,
+    setFormValues,
+    onSubmit: handleFormSubmit,
+    openModal: openNewProjectModal,
+  } = useNewProjectModal()
 
   const projectsByStatus = projects.reduce(
     (acc, project) => {
@@ -101,7 +110,10 @@ export function ProjectsBoard() {
             Manage your projects with our Kanban board
           </p>
         </div>
-        <button className='h-12 cursor-pointer rounded-full border-none bg-[#ff8c00] px-5 text-center text-base font-medium leading-5 text-[#f7f6ff] transition-opacity duration-200 hover:opacity-90'>
+        <button
+          onClick={() => openNewProjectModal()}
+          className='h-12 cursor-pointer rounded-full border-none bg-[#ff8c00] px-5 text-center text-base font-medium leading-5 text-[#f7f6ff] transition-opacity duration-200 hover:opacity-90'
+        >
           New Project
         </button>
       </div>
@@ -244,6 +256,14 @@ export function ProjectsBoard() {
           })}
         </div>
       </div>
+
+      <NewProjectModal
+        isOpen={isNewProjectOpen}
+        onOpenChange={setIsNewProjectOpen}
+        formValues={formValues}
+        onFormChange={setFormValues}
+        onSubmit={handleFormSubmit}
+      />
     </div>
   )
 }
