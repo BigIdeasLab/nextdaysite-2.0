@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useProjects } from '@/hooks'
+import { useProjects, useNewProjectModal } from '@/hooks'
 import { Search, Filter, ChevronDown, MoreVertical } from 'lucide-react'
 import Link from 'next/link'
 import type { ProjectsRow } from '@/types/models'
+import { NewProjectModal } from '@/components/ui/new-project-modal'
 
 type ProjectStatus =
   | 'active'
