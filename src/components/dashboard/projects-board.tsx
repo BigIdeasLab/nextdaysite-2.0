@@ -256,6 +256,14 @@ export function ProjectsBoard() {
           })}
         </div>
       </div>
+
+      <NewProjectModal
+        isOpen={isNewProjectOpen}
+        onOpenChange={setIsNewProjectOpen}
+        formValues={formValues}
+        onFormChange={setFormValues}
+        onSubmit={handleFormSubmit}
+      />
     </div>
   )
 }
