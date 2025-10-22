@@ -61,6 +61,14 @@ export function ProjectsBoard() {
   const { data: projects = [], isLoading } = useProjects()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedStatuses, setSelectedStatuses] = useState<ProjectStatus[]>([])
+  const {
+    isOpen: isNewProjectOpen,
+    setIsOpen: setIsNewProjectOpen,
+    formValues,
+    setFormValues,
+    onSubmit: handleFormSubmit,
+    openModal: openNewProjectModal,
+  } = useNewProjectModal()
 
   const projectsByStatus = projects.reduce(
     (acc, project) => {
