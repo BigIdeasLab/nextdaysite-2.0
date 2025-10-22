@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState, useEffect } from 'react'
-import { useProjects, useInvoices, useFiles } from '@/hooks'
+import { useProjects, useInvoices, useFiles, useNewProjectModal } from '@/hooks'
 import { DashboardHeader } from './dashboard-header'
 import { NewKpiGrid } from './new-kpi-grid'
 import { ProjectSearchSection } from './project-search-section'
