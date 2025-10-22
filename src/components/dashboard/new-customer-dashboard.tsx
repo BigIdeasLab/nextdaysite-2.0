@@ -410,7 +410,7 @@ export function NewCustomerDashboard() {
         </div>
       )}
 
-      <DashboardHeader onNewProject={openNewProjectModal} />
+      <DashboardHeader onNewProject={handleOpenNewProjectModal} />
 
       <NewKpiGrid items={kpiMetrics} />
 
