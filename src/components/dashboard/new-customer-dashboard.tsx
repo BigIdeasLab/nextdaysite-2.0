@@ -29,9 +29,15 @@ export function NewCustomerDashboard() {
   const { data: files = [] } = useFiles()
   const [onboardingDetails, setOnboardingDetails] =
     useState<ProjectDetails | null>(null)
-  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false)
-  const [formValues, setFormValues] = useState<Partial<ProjectDetails>>({})
   const { user } = useAuth()
+  const {
+    isOpen: isNewProjectOpen,
+    setIsOpen: setIsNewProjectOpen,
+    formValues,
+    setFormValues,
+    onSubmit: handleFormSubmit,
+    openModal: openNewProjectModal,
+  } = useNewProjectModal()
 
   useEffect(() => {
     const storedDetails = localStorage.getItem('onboardingProjectDetails')
