@@ -122,9 +122,7 @@ export function NewProjectModal({
               <Input
                 id='industry'
                 value={formValues.industry || ''}
-                onChange={(e) =>
-                  handleFieldChange('industry', e.target.value)
-                }
+                onChange={(e) => handleFieldChange('industry', e.target.value)}
                 placeholder='Technology, Healthcare, etc.'
                 disabled={isLoading}
               />
@@ -134,9 +132,7 @@ export function NewProjectModal({
               <Input
                 id='pageCount'
                 value={formValues.pageCount || ''}
-                onChange={(e) =>
-                  handleFieldChange('pageCount', e.target.value)
-                }
+                onChange={(e) => handleFieldChange('pageCount', e.target.value)}
                 placeholder='1-5, 5-10, 10-20, 20+'
                 disabled={isLoading}
               />

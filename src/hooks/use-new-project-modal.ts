@@ -20,13 +20,10 @@ export function useNewProjectModal() {
     setError(null)
   }, [])
 
-  const handleFormChange = useCallback(
-    (values: Partial<ProjectDetails>) => {
-      setFormValues(values)
-      setError(null)
-    },
-    [],
-  )
+  const handleFormChange = useCallback((values: Partial<ProjectDetails>) => {
+    setFormValues(values)
+    setError(null)
+  }, [])
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
