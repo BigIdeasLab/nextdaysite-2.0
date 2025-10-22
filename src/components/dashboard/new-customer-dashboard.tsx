@@ -12,16 +12,7 @@ import { formatDate } from '@/lib/utils/format'
 import type { ProjectDetails } from '@/hooks/use-simulated-onboarding-chat'
 import { createProject } from '@/lib/api/data-service'
 import { useAuth } from '@/context/auth-context'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { NewProjectModal } from '@/components/ui/new-project-modal'
 
 const statusLabels: Record<string, string> = {
   active: 'Status: Active',
