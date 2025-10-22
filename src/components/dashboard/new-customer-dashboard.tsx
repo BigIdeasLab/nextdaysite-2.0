@@ -68,22 +68,8 @@ export function NewCustomerDashboard() {
     }
   }
 
-  const openNewProjectModal = () => {
-    setFormValues(onboardingDetails ?? {})
-    setIsNewProjectOpen(true)
-  }
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      await createProject(formValues)
-      setIsNewProjectOpen(false)
-      setOnboardingDetails(null)
-      window.location.reload()
-    } catch (error) {
-      console.error('Failed to create project from form:', error)
-      alert('There was an error creating your project.')
-    }
+  const handleOpenNewProjectModal = () => {
+    openNewProjectModal(onboardingDetails ?? {})
   }
 
   const kpiMetrics = useMemo(() => {
