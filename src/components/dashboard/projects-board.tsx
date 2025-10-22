@@ -110,7 +110,10 @@ export function ProjectsBoard() {
             Manage your projects with our Kanban board
           </p>
         </div>
-        <button className='h-12 cursor-pointer rounded-full border-none bg-[#ff8c00] px-5 text-center text-base font-medium leading-5 text-[#f7f6ff] transition-opacity duration-200 hover:opacity-90'>
+        <button
+          onClick={() => openNewProjectModal()}
+          className='h-12 cursor-pointer rounded-full border-none bg-[#ff8c00] px-5 text-center text-base font-medium leading-5 text-[#f7f6ff] transition-opacity duration-200 hover:opacity-90'
+        >
           New Project
         </button>
       </div>
