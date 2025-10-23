@@ -97,18 +97,82 @@ async function handleCheckoutSessionCompleted(
   session: Stripe.Checkout.Session,
 ) {
   try {
-    const userId = session.client_reference_id
     const metadata = session.metadata || {}
-    const projectId = metadata.project_id || metadata.projectId || null
     const planId = metadata.plan_id || metadata.planId || null
+    const billingCycle = metadata.billing_cycle || 'monthly'
 
-    if (!userId || userId === 'guest') {
-      console.log(
-        'Guest checkout completed, not creating invoice or subscription',
-      )
+    // Get email from session
+    const email = session.customer_details?.email
+    if (!email) {
+      console.error('No email found in checkout session')
       return
     }
 
+    // Get or create user
+    let userId: string
+    const { data: existingUser } = await supabase.auth.admin.listUsers()
+    const user = existingUser.users.find(u => u.email === email)
+
+    if (user) {
+      userId = user.id
+    } else {
+      // Create new user with passwordless signup
+      const { data: newAuthUser, error: authError } = await supabase.auth.admin.createUser({
+        email,
+        email_confirm: false,
+        user_metadata: {
+          created_via: 'stripe_checkout',
+        },
+      })
+
+      if (authError || !newAuthUser.user) {
+        console.error('Error creating user:', authError)
+        return
+      }
+
+      userId = newAuthUser.user.id
+
+      // Create user record in public.users table
+      await supabase
+        .from('users')
+        .insert({
+          id: userId,
+          email,
+          stripe_customer_id: session.customer as string,
+          plan_id: planId,
+          created_at: new Date().toISOString(),
+        })
+        .then(result => {
+          if (result.error) {
+            console.error('Error creating user record:', result.error)
+          }
+        })
+    }
+
+    // Create a project for the user
+    const projectTitle = `Project - ${new Date().toLocaleDateString()}`
+    const projectSlug = `project-${userId.substring(0, 8)}-${Math.random().toString(36).substring(2, 8)}`
+
+    const { data: newProject, error: projectError } = await supabase
+      .from('projects')
+      .insert({
+        title: projectTitle,
+        owner_id: userId,
+        slug: projectSlug,
+        status: 'active',
+        plan_id: planId,
+        created_at: new Date().toISOString(),
+      })
+      .select()
+      .single()
+
+    if (projectError) {
+      console.error('Error creating project:', projectError)
+    }
+
+    const projectId = newProject?.id || null
+
+    // Check if invoice already exists
     const paymentIntentId =
       typeof session.payment_intent === 'string'
         ? session.payment_intent
@@ -124,6 +188,9 @@ async function handleCheckoutSessionCompleted(
 
     if (existingInvoice) {
       console.log(`Invoice already exists for session ${session.id}`)
+
+      // Still send magic link if user is new
+      await sendMagicLinkToUser(email)
       return
     }
 
@@ -145,8 +212,7 @@ async function handleCheckoutSessionCompleted(
             ? session.payment_intent
             : session.payment_intent?.id,
         plan_id: planId,
-        company_name: metadata.company_name,
-        notes: metadata.notes,
+        billing_cycle: billingCycle,
       },
       download_url: null,
       stripe_invoice_id: session.invoice
@@ -162,10 +228,9 @@ async function handleCheckoutSessionCompleted(
 
     if (newInvoiceError) {
       console.error('Error creating invoice:', newInvoiceError)
-      return // Stop if invoice creation fails
     }
 
-    // For subscriptions, the subscription ID will be populated after payment
+    // For subscriptions, create subscription record
     if (session.subscription) {
       const subscription = await stripe.subscriptions.retrieve(
         session.subscription as string,
@@ -180,13 +245,11 @@ async function handleCheckoutSessionCompleted(
         user_id: userId,
         plan_id: planId,
         stripe_subscription_id: subscription.id,
-        billing_cycle: metadata.billing_cycle || 'monthly',
-        include_hosting: metadata.include_hosting === 'true',
+        billing_cycle: billingCycle,
+        include_hosting: false,
         status: subscription.status,
         base_amount: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
-        hosting_amount: subscription.items.data[1]?.price.unit_amount
-          ? (subscription.items.data[1].price.unit_amount || 0) / 100
-          : 0,
+        hosting_amount: 0,
         subtotal: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
         tax: 0,
         total: (subscription.items.data[0]?.price.unit_amount || 0) / 100,
@@ -197,10 +260,7 @@ async function handleCheckoutSessionCompleted(
         current_period_end: new Date(
           (sub.current_period_end ?? Math.floor(Date.now() / 1000)) * 1000,
         ).toISOString(),
-        metadata: {
-          company_name: metadata.company_name,
-          notes: metadata.notes,
-        },
+        metadata: {},
         project_id: projectId,
       }
 
@@ -212,35 +272,29 @@ async function handleCheckoutSessionCompleted(
       }
     }
 
-    // Update project status and plan
-    if (projectId && planId) {
-      const { error: projectUpdateError } = await supabase
-        .from('projects')
-        .update({ status: 'active', plan_id: planId })
-        .eq('id', projectId)
-
-      if (projectUpdateError) {
-        console.error('Error updating project:', projectUpdateError)
-      }
-    }
-
-    // Update user's plan
-    if (planId) {
-      const customerId = session.customer as string
-      const { error: userUpdateError } = await supabase
-        .from('users')
-        .update({
-          plan_id: planId,
-          stripe_customer_id: customerId,
-        })
-        .eq('id', userId)
-
-      if (userUpdateError) {
-        console.error('Error updating user:', userUpdateError)
-      }
-    }
+    // Send magic link to user
+    await sendMagicLinkToUser(email)
   } catch (error) {
     console.error('Error handling checkout session completed:', error)
+  }
+}
+
+async function sendMagicLinkToUser(email: string): Promise<void> {
+  try {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`,
+      },
+    })
+
+    if (error) {
+      console.error('Error sending magic link:', error)
+    } else {
+      console.log(`Magic link sent to ${email}`)
+    }
+  } catch (error) {
+    console.error('Error in sendMagicLinkToUser:', error)
   }
 }
 
