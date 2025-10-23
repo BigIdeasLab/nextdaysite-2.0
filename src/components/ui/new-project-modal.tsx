@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import type { ProjectDetails } from '@/hooks/use-simulated-onboarding-chat'
+import type { ProjectDetails } from '@/hooks/use-new-project-modal'
 
 interface NewProjectModalProps {
   isOpen: boolean
