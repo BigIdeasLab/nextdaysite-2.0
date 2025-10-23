@@ -22,21 +22,19 @@ export async function POST(request: NextRequest) {
     const {
       planId,
       billingCycle,
-      includeHosting,
-      email,
-      companyName,
-      notes,
-      userId,
-      paymentType,
-      projectId,
     } = body
 
-    if (!planId || !email || !billingCycle || paymentType === undefined) {
+    if (!planId || !billingCycle) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 },
       )
     }
+
+    // Default to monthly and recurring (subscription)
+    const resolvedBillingCycle = billingCycle || 'monthly'
+    const paymentType = 'recurring'
+    const includeHosting = false
 
     // Fetch plan details from database
     const { data: plan, error: planError } = await supabase
@@ -51,128 +49,48 @@ export async function POST(request: NextRequest) {
 
     // Calculate prices
     const basePrice =
-      billingCycle === 'yearly' ? plan.yearly_price : plan.monthly_price
-    const hostingPrice = includeHosting
-      ? billingCycle === 'yearly'
-        ? plan.hosting_yearly_price || 0
-        : plan.hosting_monthly_price || 0
-      : 0
+      resolvedBillingCycle === 'yearly' ? plan.yearly_price : plan.monthly_price
 
-    const subtotal = (basePrice || 0) + hostingPrice
+    const subtotal = basePrice || 0
     const total = subtotal
 
-    // Get or create Stripe customer
-    let customerId: string
+    // Create Stripe customer without email (Stripe will collect it)
+    const customer = await stripe.customers.create({
+      metadata: {
+        plan_id: planId,
+      },
+    })
+    const customerId = customer.id
 
-    if (userId) {
-      // Check if user already has a Stripe customer
-      const { data: user } = await supabase
-        .from('users')
-        .select('stripe_customer_id')
-        .eq('id', userId)
-        .single()
-
-      if (user?.stripe_customer_id) {
-        customerId = user.stripe_customer_id
-      } else {
-        // Create new Stripe customer
-        const customer = await stripe.customers.create({
-          email,
-          name: companyName || email,
-          metadata: {
-            user_id: userId,
-          },
-        })
-        customerId = customer.id
-
-        // Update user with Stripe customer ID
-        await supabase
-          .from('users')
-          .update({ stripe_customer_id: customerId })
-          .eq('id', userId)
-      }
-    } else {
-      // Create guest customer
-      const customer = await stripe.customers.create({
-        email,
-        name: companyName || email,
-      })
-      customerId = customer.id
-    }
-
-    // Create checkout session
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = []
-
-    if (paymentType === 'one-time') {
-      // One-time payment
-      lineItems.push({
+    // Create subscription checkout session
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+      {
         price_data: {
           currency: 'usd',
           product_data: {
             name: plan.name,
             description: plan.summary,
           },
-          unit_amount: Math.round(total * 100),
-        },
-        quantity: 1,
-      })
-    } else {
-      // Subscription payment
-      const pricePerMonth = basePrice / (billingCycle === 'yearly' ? 12 : 1)
-      const hostingPerMonth =
-        hostingPrice / (billingCycle === 'yearly' ? 12 : 1)
-
-      lineItems.push({
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: plan.name,
-            description: plan.summary,
-          },
-          unit_amount: Math.round(pricePerMonth * 100),
+          unit_amount: Math.round(basePrice * 100),
           recurring: {
-            interval: 'month',
+            interval: resolvedBillingCycle === 'yearly' ? 'year' : 'month',
             interval_count: 1,
           },
         },
         quantity: 1,
-      })
-
-      if (includeHosting && hostingPerMonth > 0) {
-        lineItems.push({
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'Managed Hosting',
-              description: 'Deployed on Vercel with uptime monitoring and SSL',
-            },
-            unit_amount: Math.round(hostingPerMonth * 100),
-            recurring: {
-              interval: 'month',
-              interval_count: 1,
-            },
-          },
-          quantity: 1,
-        })
-      }
-    }
+      },
+    ]
 
     const sessionParams: Stripe.Checkout.SessionCreateParams = {
       customer: customerId,
       line_items: lineItems,
-      mode: paymentType === 'one-time' ? 'payment' : 'subscription',
+      mode: 'subscription',
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-cancel`,
-      client_reference_id: userId || undefined,
+      billing_address_collection: 'required',
       metadata: {
         plan_id: planId,
-        billing_cycle: billingCycle,
-        include_hosting: includeHosting.toString(),
-        user_id: userId || 'guest',
-        payment_type: paymentType,
-        company_name: companyName || '',
-        notes: notes || '',
-        projectId,
+        billing_cycle: resolvedBillingCycle,
       },
     }
 
