@@ -1,16 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { CheckoutFlow } from '@/components/forms/checkout-flow'
 import { usePlans } from '@/hooks'
 import type { PlansRow } from '@/types/models'
 
 export function RedesignedPricing() {
   const { data: plans = [], isLoading } = usePlans()
-  const [selectedPlan, setSelectedPlan] = useState<PlansRow | null>(null)
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>(
     'monthly',
   )
+  const [isCheckingOut, setIsCheckingOut] = useState<string | null>(null)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -65,42 +65,74 @@ export function RedesignedPricing() {
                       </span>
                     </div>
                   )}
-                  <div
-                    role='button'
-                    tabIndex={0}
-                    onClick={() => setSelectedPlan(plan)}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault()
-                        setSelectedPlan(plan)
-                      }
-                    }}
-                    className='w-full cursor-pointer text-left rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8C00] focus-visible:ring-offset-2 focus-visible:ring-offset-black'
-                  >
-                    <PricingCard plan={plan} billingCycle={billingCycle} />
-                  </div>
+                  <PricingCard
+                    plan={plan}
+                    billingCycle={billingCycle}
+                    onSubscribe={handleSubscribe}
+                    isLoading={isCheckingOut === plan.id}
+                  />
                 </div>
               ))}
             </div>
           </div>
+
+          {checkoutError && (
+            <div className='mt-6 rounded-lg bg-red-500/10 border border-red-500/20 p-4 text-red-500 text-sm'>
+              {checkoutError}
+            </div>
+          )}
         </div>
-        {selectedPlan && (
-          <CheckoutFlow
-            plan={selectedPlan}
-            onClose={() => setSelectedPlan(null)}
-          />
-        )}
       </section>
     </section>
   )
+
+  async function handleSubscribe(planId: string) {
+    setIsCheckingOut(planId)
+    setCheckoutError(null)
+
+    try {
+      const response = await fetch('/api/checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId,
+          billingCycle,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create checkout session')
+      }
+
+      const data = await response.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        throw new Error('No checkout URL provided')
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      setCheckoutError(
+        error instanceof Error ? error.message : 'Failed to start checkout',
+      )
+      setIsCheckingOut(null)
+    }
+  }
 }
 
 function PricingCard({
   plan,
   billingCycle,
+  onSubscribe,
+  isLoading = false,
 }: {
   plan: PlansRow
   billingCycle: 'monthly' | 'yearly'
+  onSubscribe: (planId: string) => Promise<void>
+  isLoading?: boolean
 }) {
   const [addHosting, setAddHosting] = useState(false)
   const basePrice =
@@ -195,10 +227,12 @@ function PricingCard({
           {/* Subscribe Button */}
           <button
             type='button'
-            className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 transition-transform hover:scale-105'
+            onClick={() => onSubscribe(plan.id)}
+            disabled={isLoading}
+            className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 transition-transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed'
           >
             <span className='text-lg font-medium leading-6 text-[#F7F6FF]'>
-              Subscribe
+              {isLoading ? 'Redirecting to Stripe...' : 'Subscribe'}
             </span>
           </button>
 

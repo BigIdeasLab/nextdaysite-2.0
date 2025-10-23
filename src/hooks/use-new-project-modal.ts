@@ -1,6 +1,17 @@
 import { useState, useCallback } from 'react'
-import type { ProjectDetails } from './use-simulated-onboarding-chat'
 import { createProject } from '@/lib/api/data-service'
+
+export interface ProjectDetails {
+  projectTitle?: string
+  projectType?: string
+  hosting?: string
+  brandStyle?: string
+  projectGoals?: string
+  targetAudience?: string
+  industry?: string
+  pageCount?: string
+  budget?: number
+}
 
 export function useNewProjectModal() {
   const [isOpen, setIsOpen] = useState(false)
