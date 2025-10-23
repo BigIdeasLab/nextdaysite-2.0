@@ -111,19 +111,20 @@ async function handleCheckoutSessionCompleted(
     // Get or create user
     let userId: string
     const { data: existingUser } = await supabase.auth.admin.listUsers()
-    const user = existingUser.users.find(u => u.email === email)
+    const user = existingUser.users.find((u) => u.email === email)
 
     if (user) {
       userId = user.id
     } else {
       // Create new user with passwordless signup
-      const { data: newAuthUser, error: authError } = await supabase.auth.admin.createUser({
-        email,
-        email_confirm: false,
-        user_metadata: {
-          created_via: 'stripe_checkout',
-        },
-      })
+      const { data: newAuthUser, error: authError } =
+        await supabase.auth.admin.createUser({
+          email,
+          email_confirm: false,
+          user_metadata: {
+            created_via: 'stripe_checkout',
+          },
+        })
 
       if (authError || !newAuthUser.user) {
         console.error('Error creating user:', authError)
@@ -142,7 +143,7 @@ async function handleCheckoutSessionCompleted(
           plan_id: planId,
           created_at: new Date().toISOString(),
         })
-        .then(result => {
+        .then((result) => {
           if (result.error) {
             console.error('Error creating user record:', result.error)
           }

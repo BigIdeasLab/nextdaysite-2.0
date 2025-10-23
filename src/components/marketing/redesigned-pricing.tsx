@@ -116,7 +116,7 @@ export function RedesignedPricing() {
     } catch (error) {
       console.error('Checkout error:', error)
       setCheckoutError(
-        error instanceof Error ? error.message : 'Failed to start checkout'
+        error instanceof Error ? error.message : 'Failed to start checkout',
       )
       setIsCheckingOut(null)
     }
