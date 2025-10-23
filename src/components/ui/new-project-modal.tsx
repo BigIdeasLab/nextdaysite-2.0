@@ -29,7 +29,10 @@ export function NewProjectModal({
   onSubmit,
   isLoading = false,
 }: NewProjectModalProps) {
-  const handleFieldChange = (field: keyof ProjectDetails, value: any) => {
+  const handleFieldChange = (
+    field: keyof ProjectDetails,
+    value: string | number | undefined,
+  ) => {
     onFormChange({
       ...formValues,
       [field]: value,
