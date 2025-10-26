@@ -15,7 +15,7 @@ export default function EmailConfirmedPage() {
           />
         </div>
         <EmailConfirmed />
-        <p className='text-[#9ba1a6] text-center text-xs font-normal leading-6'>
+        <p className='text-[var(--text-secondary)] text-center text-xs font-normal leading-6'>
           © 2025 NextDaySite. All rights reserved.
         </p>
       </div>
