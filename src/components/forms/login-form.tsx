@@ -79,7 +79,7 @@ export function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <div className='w-full h-px bg-white/50' />
+              <div className='w-full h-px bg-foreground/50' />
             </div>
           </div>
 
@@ -110,7 +110,7 @@ export function LoginForm() {
                   )}
                 </button>
               </div>
-              <div className='w-full h-px bg-white/50' />
+              <div className='w-full h-px bg-foreground/50' />
             </div>
           </div>
         </div>
