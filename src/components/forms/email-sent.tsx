@@ -9,7 +9,7 @@ export function EmailSent() {
         <div className='flex justify-center mb-4 text-[var(--orange-primary)]'>
           <Mail className='w-12 h-12' />
         </div>
-        <h1 className='text-[#f7f6ff] text-2xl font-bold leading-tight'>
+        <h1 className='text-[var(--foreground)] text-2xl font-bold leading-tight'>
           Check Your Email
         </h1>
         <p className='text-white/70 text-base font-normal leading-5'>
