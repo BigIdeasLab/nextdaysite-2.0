@@ -56,7 +56,7 @@ export function LoginForm() {
   return (
     <div className='w-full bg-[var(--dark-card)] border border-[var(--dark-section)] rounded-3xl p-8'>
       <div className='flex flex-col gap-3 mb-6'>
-        <h1 className='text-[#f7f6ff] text-2xl font-bold leading-tight'>
+        <h1 className='text-[var(--foreground)] text-2xl font-bold leading-tight'>
           Welcome Back
         </h1>
         <p className='text-white/70 text-base font-normal leading-5'>
