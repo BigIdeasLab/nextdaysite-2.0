@@ -489,7 +489,7 @@ body {
 }
 
 .detail-value {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -639,7 +639,7 @@ body {
 }
 
 .auth-title {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 24px;
   font-weight: 700;
   line-height: 30px;
@@ -888,7 +888,7 @@ body {
   border-radius: 30px;
   border: 1px solid #ff8c00;
   background: #ff8c00;
-  color: #f7f6ff;
+  color: var(--foreground);
   text-align: center;
   font-size: 14px;
   font-weight: 500;
@@ -1010,7 +1010,7 @@ body {
 .project-details-page {
   min-height: 100vh;
   background: #000;
-  color: #f7f6ff;
+  color: var(--foreground);
   padding: 1.5rem;
   font-family:
     var(--font-geist-sans),
@@ -1049,7 +1049,7 @@ body {
 }
 
 .project-details-title {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 30px;
   font-weight: 500;
   line-height: 50px;
@@ -1130,7 +1130,7 @@ body {
 }
 
 .meta-value {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -1233,7 +1233,7 @@ body {
 }
 
 .scope-text {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 28px;
@@ -1259,7 +1259,7 @@ body {
 }
 
 .spec-value {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -1299,7 +1299,7 @@ body {
 }
 
 .deliverable-title {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
@@ -1377,7 +1377,7 @@ body {
 }
 
 .timeline-dates {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
