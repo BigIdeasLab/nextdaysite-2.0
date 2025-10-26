@@ -53,7 +53,7 @@ export function ServicesSection() {
           <h2 className='text-center font-medium text-[var(--foreground)] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
             Our Services
           </h2>
-          <div className='w-full overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
+          <div className='w-full overflow-hidden rounded-[20px] bg-[var(--dark-card)] md:rounded-[50px]'>
             <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-2 lg:grid-cols-3'>
               {services.map((service) => (
                 <ServiceCard key={service.title} service={service} />
