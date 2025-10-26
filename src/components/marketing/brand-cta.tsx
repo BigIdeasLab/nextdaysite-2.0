@@ -65,7 +65,7 @@ export function BrandCta() {
             </Link>
             <Link
               href='/portfolio'
-              className='flex h-14 items-center justify-center rounded-full bg-[#090808] px-7 text-lg font-medium text-white transition-transform hover:scale-105'
+              className='flex h-14 items-center justify-center rounded-full bg-[var(--dark-bg)] px-7 text-lg font-medium text-[var(--foreground)] transition-transform hover:scale-105'
             >
               View Our Work
             </Link>
