@@ -17,7 +17,7 @@ export function AboutIntro() {
           <h2 className='text-3xl font-medium leading-tight text-[var(--foreground)] md:text-[32px]'>
             About Us
           </h2>
-          <p className='text-lg leading-relaxed text-[#9BA1A6]'>
+          <p className='text-lg leading-relaxed text-[var(--text-secondary)]'>
             Nextsaysite was founded in 1999 with a mission to empower brands
             with functional websites that add significant value to any project.
             In today&apos;s digital age, this is needed to set apart any brand
