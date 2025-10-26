@@ -18,7 +18,7 @@ export function EmailSent() {
       </div>
 
       <div className='flex flex-col gap-8 mt-6'>
-        <div className='bg-[#252625] rounded-xl p-6'>
+        <div className='bg-[var(--dark-section)] rounded-xl p-6'>
           <p className='text-white/70 text-sm leading-relaxed text-center'>
             Click the link in the email we sent you to complete your sign up.
             The link will expire in 24 hours.
