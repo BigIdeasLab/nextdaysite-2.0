@@ -303,7 +303,7 @@ function PricingCard({
         </div>
 
         {/* Features Grid */}
-        <div className='rounded-[10px] bg-[#E1E1E1] p-[10px]'>
+        <div className='rounded-[10px] bg-[#262627] p-[10px]'>
           <div className='grid grid-cols-1 gap-[13px] sm:grid-cols-2 sm:gap-x-[10px]'>
             {features.map((feature, index) => (
               <div key={index} className='flex items-center gap-[9px]'>
@@ -340,7 +340,7 @@ function PricingCard({
                     />
                   </svg>
                 </div>
-                <span className='text-[14px] leading-[21.803px] text-black/50'>
+                <span className='text-sm leading-[21.803px] text-[#9BA1A6]'>
                   {feature}
                 </span>
               </div>
