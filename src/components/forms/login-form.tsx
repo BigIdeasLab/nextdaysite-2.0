@@ -54,12 +54,12 @@ export function LoginForm() {
   }
 
   return (
-    <div className='w-full bg-[#1a1a1a] border border-[#343333] rounded-3xl p-8'>
+    <div className='w-full bg-[var(--dark-card)] border border-[var(--dark-section)] rounded-3xl p-8'>
       <div className='flex flex-col gap-3 mb-6'>
-        <h1 className='text-[#f7f6ff] text-2xl font-bold leading-tight'>
+        <h1 className='text-[var(--foreground)] text-2xl font-bold leading-tight'>
           Welcome Back
         </h1>
-        <p className='text-white/70 text-base font-normal leading-5'>
+        <p className='text-foreground/70 text-base font-normal leading-5'>
           Sign in to access your customer portal
         </p>
       </div>
@@ -67,31 +67,31 @@ export function LoginForm() {
       <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col gap-5'>
-            <label className='text-white text-base font-normal leading-6'>
+            <label className='text-foreground text-base font-normal leading-6'>
               Email
             </label>
             <div className='flex flex-col gap-2.5'>
               <input
                 type='email'
-                className='bg-transparent border-none text-[#9ba1a6] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[#9ba1a6]'
+                className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-foreground placeholder:text-[var(--text-secondary)]'
                 placeholder='youexample.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <div className='w-full h-px bg-white/50' />
+              <div className='w-full h-px bg-foreground/50' />
             </div>
           </div>
 
           <div className='flex flex-col gap-5'>
-            <label className='text-white text-base font-normal leading-6'>
+            <label className='text-foreground text-base font-normal leading-6'>
               Password
             </label>
             <div className='flex flex-col gap-2.5'>
               <div className='flex items-center justify-between gap-2.5 p-0.5'>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className='bg-transparent border-none text-[#9ba1a6] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[#9ba1a6]'
+                  className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-foreground placeholder:text-[var(--text-secondary)]'
                   placeholder='Enter your password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -100,7 +100,7 @@ export function LoginForm() {
                 <button
                   type='button'
                   onClick={() => setShowPassword(!showPassword)}
-                  className='bg-none border-none text-[#9ba1a6] cursor-pointer p-0 flex items-center justify-center flex-shrink-0 hover:text-white'
+                  className='bg-none border-none text-[var(--text-secondary)] cursor-pointer p-0 flex items-center justify-center flex-shrink-0 hover:text-white'
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
@@ -110,7 +110,7 @@ export function LoginForm() {
                   )}
                 </button>
               </div>
-              <div className='w-full h-px bg-white/50' />
+              <div className='w-full h-px bg-foreground/50' />
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@ export function LoginForm() {
               onChange={(e) => setRememberMe(e.target.checked)}
               className='w-4 h-4 rounded border border-[#ff8c00] bg-transparent cursor-pointer appearance-none checked:bg-[#ff8c00] checked:relative checked:after:content-["✓"] checked:after:absolute checked:after:text-white checked:after:text-xs checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2'
             />
-            <span className='text-[#9ba1a6] text-sm font-normal leading-6'>
+            <span className='text-[var(--text-secondary)] text-sm font-normal leading-6'>
               Remember me
             </span>
           </label>
@@ -151,7 +151,7 @@ export function LoginForm() {
           >
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
-          <p className='text-[#9ba1a6] text-center text-sm font-normal leading-6'>
+          <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
             Don&apos;t have an account?{' '}
             <a
               href='/signup'

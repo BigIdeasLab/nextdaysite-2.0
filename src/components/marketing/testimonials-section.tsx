@@ -81,7 +81,7 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className='bg-black'>
+    <section className='bg-background transition-colors duration-300'>
       <div className='relative w-full overflow-hidden rounded-t-[20px] bg-[#131313] px-5 py-16 md:rounded-t-[50px] md:px-12 md:py-24'>
         <div className='mx-auto w-full max-w-[1051px]'>
           <h2 className='mb-12 text-center text-[28px] font-medium leading-[35px] text-white md:mb-20 md:text-[40px] md:leading-[50px]'>

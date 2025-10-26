@@ -60,9 +60,9 @@ const projects = [
 
 export function FeaturedWorksSection() {
   return (
-    <section className='w-full rounded-t-[20px] bg-[#131313] px-5 py-[106px] md:rounded-t-[50px] md:px-12 md:py-30 lg:px-52'>
+    <section className='w-full rounded-t-[20px] bg-[var(--dark-section)] px-5 py-[106px] md:rounded-t-[50px] md:px-12 md:py-30 lg:px-52 transition-colors duration-300'>
       <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-[60px] md:gap-[180px]'>
-        <h2 className='text-center text-[28px] font-medium leading-[35px] text-[#F7F6FF] md:text-[40px] md:leading-[50px]'>
+        <h2 className='text-center text-[28px] font-medium leading-[35px] text-[var(--foreground)] md:text-[40px] md:leading-[50px]'>
           Our Featured Work
         </h2>
 
@@ -104,10 +104,10 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
         />
       </div>
       <div className='flex w-full max-w-md flex-col items-start gap-[10px] pt-[5px]'>
-        <h3 className='text-[24px] font-medium leading-[31.471px] text-[#F7F6FF] md:text-[32px]'>
+        <h3 className='text-[24px] font-medium leading-[31.471px] text-[var(--foreground)] md:text-[32px]'>
           {project.title}
         </h3>
-        <p className='text-[16px] leading-[24px] text-[#9BA1A6] md:text-[18px]'>
+        <p className='text-[16px] leading-[24px] text-[var(--text-secondary)] md:text-[18px]'>
           {project.description}
         </p>
       </div>

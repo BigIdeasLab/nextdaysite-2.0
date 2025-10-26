@@ -47,14 +47,14 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section className='bg-[#131313]'>
-      <div className='w-full bg-black px-5 py-[106px] rounded-t-[20px] md:rounded-t-[50px] md:px-12 md:py-26 lg:px-52'>
+    <section className='bg-[var(--dark-section)] transition-colors duration-300'>
+      <div className='w-full bg-background px-5 py-[106px] transition-colors duration-300 rounded-t-[20px] md:rounded-t-[50px] md:px-12 md:py-26 lg:px-52'>
         <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-16'>
-          <h2 className='text-center font-medium text-[#F7F6FF] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
+          <h2 className='text-center font-medium text-[var(--foreground)] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
             Our Services
           </h2>
-          <div className='w-full overflow-hidden rounded-[20px] bg-[#161616] md:rounded-[50px]'>
-            <div className='grid grid-cols-1 gap-px bg-[#2A2A2A] md:grid-cols-2 lg:grid-cols-3'>
+          <div className='w-full overflow-hidden rounded-[20px] bg-[var(--dark-card)] md:rounded-[50px]'>
+            <div className='grid grid-cols-1 gap-px bg-[var(--dark-bg)] md:grid-cols-2 lg:grid-cols-3'>
               {services.map((service) => (
                 <ServiceCard key={service.title} service={service} />
               ))}
@@ -68,7 +68,7 @@ export function ServicesSection() {
 
 function ServiceCard({ service }: { service: (typeof services)[0] }) {
   return (
-    <div className='flex flex-col items-center gap-4 bg-[#161616] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
+    <div className='flex flex-col items-center gap-4 bg-[var(--dark-card)] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
       <div className='relative w-full max-w-[345px] aspect-[345/190]'>
         <div
           className='absolute -rotate-[8.233deg] z-20'

@@ -3,7 +3,7 @@ import Link from 'next/link'
 export function BrandCta() {
   return (
     <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
-      <div className='relative mx-auto flex min-h-[400px] w-full max-w-5xl flex-col items-center justify-center gap-12 overflow-hidden rounded-[50px] bg-[#161616] px-6 py-16'>
+      <div className='relative mx-auto flex min-h-[400px] w-full max-w-5xl flex-col items-center justify-center gap-12 overflow-hidden rounded-[50px] bg-[var(--dark-card)] px-6 py-16 transition-colors duration-300'>
         <svg
           width='1022'
           height='526'
@@ -49,23 +49,23 @@ export function BrandCta() {
         </svg>
 
         <div className='relative z-10 flex w-full max-w-2xl flex-col items-center gap-8 text-center'>
-          <h2 className='text-balance text-4xl font-medium leading-tight text-white md:text-5xl'>
+          <h2 className='text-balance text-4xl font-medium leading-tight text-[var(--foreground)] md:text-5xl'>
             A Strong Brand Begins With A Bold Identity.
           </h2>
-          <p className='text-balance text-lg leading-relaxed text-[#B9B9B9]'>
+          <p className='text-balance text-lg leading-relaxed text-[var(--text-muted)]'>
             From your logo to your message, every detail should tell your story
             with clarity and confidence.
           </p>
           <div className='flex flex-wrap items-center gap-3'>
             <Link
               href='/checkout'
-              className='flex h-14 items-center justify-center rounded-full bg-[#FF8C00] px-8 text-lg font-medium text-white transition-transform hover:scale-105'
+              className='flex h-14 items-center justify-center rounded-full bg-[var(--orange-primary)] px-8 text-lg font-medium text-[var(--foreground)] transition-transform hover:scale-105'
             >
               Get Started
             </Link>
             <Link
               href='/portfolio'
-              className='flex h-14 items-center justify-center rounded-full bg-[#090808] px-7 text-lg font-medium text-white transition-transform hover:scale-105'
+              className='flex h-14 items-center justify-center rounded-full bg-[var(--dark-bg)] px-7 text-lg font-medium text-[var(--foreground)] transition-transform hover:scale-105'
             >
               View Our Work
             </Link>

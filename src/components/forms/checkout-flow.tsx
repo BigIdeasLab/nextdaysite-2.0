@@ -131,10 +131,10 @@ export function CheckoutFlow({ plan, onClose }: CheckoutFlowProps) {
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm'>
-      <div className='relative w-full max-w-4xl rounded-2xl bg-[#0a0a0a] p-8 shadow-2xl'>
+      <div className='relative w-full max-w-4xl rounded-2xl bg-[var(--dark-bg)] p-8 shadow-2xl transition-colors duration-300'>
         <button
           onClick={onClose}
-          className='absolute top-4 right-4 text-white/50 hover:text-white'
+          className='absolute top-4 right-4 text-foreground/50 hover:text-foreground'
         >
           <X size={24} />
         </button>

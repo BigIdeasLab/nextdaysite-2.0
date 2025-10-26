@@ -3,13 +3,35 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --orange-primary: #ff8c00;
+  --orange-primary: var(--orange-primary);
   --orange-border: #ca7207;
+  --dark-bg: #f9fafb;
+  --dark-section: #f3f4f6;
+  --dark-card: #f7f7f9;
+  --text-muted: #6b7280;
+  --text-secondary: #4b5563;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
   --dark-bg: #0a0a0a;
   --dark-section: #131313;
   --dark-card: #161616;
   --text-muted: #b5a29f;
-  --text-secondary: #9ba1a6;
+  --text-secondary: var(--text-secondary);
+}
+
+/* Smooth theme transitions */
+html,
+body,
+body * {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    fill 200ms ease,
+    stroke 200ms ease;
 }
 
 @theme inline {
@@ -20,7 +42,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.dark):not(.light) {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
@@ -95,7 +117,7 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  background: #545454;
+  background: var(--dark-section);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -155,7 +177,7 @@ body {
 }
 
 .contact-input-label {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 400;
   line-height: 16.13px;
@@ -205,8 +227,8 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  border: 1px solid #ff8c00;
-  background: #ff8c00;
+  border: 1px solid var(--orange-primary);
+  background: var(--orange-primary);
   color: white;
   text-align: center;
   font-size: 15px;
@@ -399,8 +421,8 @@ body {
   width: 100%;
   max-width: 774px;
   border-radius: 16px;
-  border: 1px solid #131313;
-  background: #131313;
+  border: 1px solid var(--dark-section);
+  background: var(--dark-section);
   overflow: hidden;
   margin-bottom: 2rem;
 }
@@ -431,14 +453,14 @@ body {
 }
 
 .onboarding-title {
-  color: #fff;
+  color: var(--foreground);
   font-size: 20px;
   font-weight: 500;
   line-height: 20px;
 }
 
 .onboarding-subtitle {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 15px;
   font-weight: 400;
   line-height: 20px;
@@ -450,7 +472,7 @@ body {
   gap: 1.5rem;
   padding: 20px 15px;
   border-radius: 10px;
-  background: #202020;
+  background: var(--dark-card);
 }
 
 .details-column {
@@ -467,14 +489,14 @@ body {
 }
 
 .detail-label {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
 }
 
 .detail-value {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -495,7 +517,7 @@ body {
   align-items: center;
   gap: 5px;
   border-radius: 30px;
-  background: #ff8c00;
+  background: var(--orange-primary);
   border: none;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -506,7 +528,7 @@ body {
 }
 
 .start-project-button span {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -527,8 +549,8 @@ body {
   align-items: center;
   gap: 5px;
   border-radius: 30px;
-  border: 1px solid #393939;
-  background: #202020;
+  border: 1px solid var(--dark-section);
+  background: var(--dark-card);
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -538,7 +560,7 @@ body {
 }
 
 .dismiss-button span {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -577,7 +599,7 @@ body {
 /* Auth Pages Styles */
 .auth-page {
   min-height: 100vh;
-  background: #000;
+  background: var(--dark-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -610,8 +632,8 @@ body {
 
 .auth-card {
   width: 100%;
-  background: #1a1a1a;
-  border: 1px solid #343333;
+  background: var(--dark-card);
+  border: 1px solid var(--dark-section);
   border-radius: 24px;
   padding: 2.5rem 2rem;
 }
@@ -624,7 +646,7 @@ body {
 }
 
 .auth-title {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 24px;
   font-weight: 700;
   line-height: 30px;
@@ -656,7 +678,7 @@ body {
 }
 
 .field-label {
-  color: #fff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -669,7 +691,7 @@ body {
 }
 
 .optional-text {
-  color: #9ba1a6;
+  color: var(--text-secondary);
 }
 
 .field-input-wrapper {
@@ -681,7 +703,7 @@ body {
 .field-input {
   background: transparent;
   border: none;
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
@@ -691,11 +713,11 @@ body {
 }
 
 .field-input:focus {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .field-input::placeholder {
-  color: #9ba1a6;
+  color: var(--text-secondary);
 }
 
 .field-underline {
@@ -715,7 +737,7 @@ body {
 .password-toggle {
   background: none;
   border: none;
-  color: #9ba1a6;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 0;
   display: flex;
@@ -725,7 +747,7 @@ body {
 }
 
 .password-toggle:hover {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .password-row {
@@ -742,7 +764,7 @@ body {
 }
 
 .password-requirements {
-  background: #252625;
+  background: var(--dark-section);
   border-radius: 12px;
   padding: 0.8125rem 0.625rem 0.625rem 0.6875rem;
   display: flex;
@@ -751,7 +773,7 @@ body {
 }
 
 .requirements-title {
-  color: #fff;
+  color: var(--foreground);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -770,7 +792,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5625rem;
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
@@ -780,8 +802,8 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  border: 1px solid #9ba1a6;
-  background: #9ba1a6;
+  border: 1px solid var(--text-secondary);
+  background: var(--text-secondary);
   flex-shrink: 0;
 }
 
@@ -795,7 +817,7 @@ body {
 }
 
 .requirement-unmet {
-  color: #9ba1a6;
+  color: var(--text-secondary);
 }
 
 .form-options {
@@ -816,21 +838,21 @@ body {
   width: 16px;
   height: 16px;
   border-radius: 4px;
-  border: 1px solid #ff8c00;
+  border: 1px solid var(--orange-primary);
   background: transparent;
   cursor: pointer;
   appearance: none;
 }
 
 .checkbox-input:checked {
-  background: #ff8c00;
+  background: var(--orange-primary);
   position: relative;
 }
 
 .checkbox-input:checked::after {
   content: '✓';
   position: absolute;
-  color: #fff;
+  color: var(--foreground);
   font-size: 12px;
   top: 50%;
   left: 50%;
@@ -838,14 +860,14 @@ body {
 }
 
 .checkbox-text {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
 }
 
 .forgot-link {
-  color: #ff8c00;
+  color: var(--orange-primary);
   text-align: right;
   font-size: 14px;
   font-weight: 400;
@@ -871,9 +893,9 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 30px;
-  border: 1px solid #ff8c00;
-  background: #ff8c00;
-  color: #f7f6ff;
+  border: 1px solid var(--orange-primary);
+  background: var(--orange-primary);
+  color: var(--foreground);
   text-align: center;
   font-size: 14px;
   font-weight: 500;
@@ -892,7 +914,7 @@ body {
 }
 
 .switch-auth {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   text-align: center;
   font-size: 14px;
   font-weight: 400;
@@ -900,7 +922,7 @@ body {
 }
 
 .auth-link {
-  color: #ff8c00;
+  color: var(--orange-primary);
   text-decoration: none;
 }
 
@@ -909,7 +931,7 @@ body {
 }
 
 .auth-footer {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   text-align: center;
   font-size: 12px;
   font-weight: 400;
@@ -929,7 +951,7 @@ body {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
-  color: #ff8c00;
+  color: var(--orange-primary);
 }
 
 .email-sent-content,
@@ -942,7 +964,7 @@ body {
 
 .email-info,
 .confirmation-info {
-  background: #252625;
+  background: var(--dark-section);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -963,19 +985,19 @@ body {
 }
 
 .email-resend-text {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 14px;
   text-align: center;
 }
 
 .back-to-login {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 14px;
   text-decoration: none;
 }
 
 .back-to-login:hover {
-  color: #fff;
+  color: var(--foreground);
   text-decoration: underline;
 }
 
@@ -994,8 +1016,8 @@ body {
 /* Project Details Page Styles */
 .project-details-page {
   min-height: 100vh;
-  background: #000;
-  color: #f7f6ff;
+  background: var(--dark-bg);
+  color: var(--foreground);
   padding: 1.5rem;
   font-family:
     var(--font-geist-sans),
@@ -1009,7 +1031,7 @@ body {
 }
 
 .project-breadcrumbs {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 18px;
   font-weight: 300;
   line-height: 22px;
@@ -1017,7 +1039,7 @@ body {
 }
 
 .project-breadcrumbs a {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   text-decoration: none;
 }
 
@@ -1034,7 +1056,7 @@ body {
 }
 
 .project-details-title {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 30px;
   font-weight: 500;
   line-height: 50px;
@@ -1061,7 +1083,7 @@ body {
 .action-icon {
   width: 26px;
   height: 26px;
-  color: #fff;
+  color: var(--foreground);
 }
 
 .project-status-row {
@@ -1099,7 +1121,7 @@ body {
 .meta-icon {
   width: 24px;
   height: 24px;
-  color: #9ba1a6;
+  color: var(--text-secondary);
 }
 
 .meta-icon-placeholder {
@@ -1108,14 +1130,14 @@ body {
 }
 
 .meta-label {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
 }
 
 .meta-value {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -1146,7 +1168,7 @@ body {
 .small-progress-fill {
   height: 10px;
   border-radius: 30px;
-  background: #fff;
+  background: var(--background);
   position: absolute;
 }
 
@@ -1162,7 +1184,7 @@ body {
 }
 
 .tab-button {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
@@ -1174,7 +1196,7 @@ body {
 }
 
 .tab-button.active {
-  color: #fff;
+  color: var(--foreground);
   font-weight: 500;
 }
 
@@ -1188,7 +1210,7 @@ body {
 .tab-indicator {
   width: 59px;
   height: 2px;
-  background: #ff8c00;
+  background: var(--orange-primary);
   position: absolute;
   top: 0;
   transition: left 0.3s ease;
@@ -1211,14 +1233,14 @@ body {
 }
 
 .scope-heading {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
 }
 
 .scope-text {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 28px;
@@ -1237,14 +1259,14 @@ body {
 }
 
 .spec-label {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
 }
 
 .spec-value {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -1267,7 +1289,7 @@ body {
   width: 16px;
   height: 91px;
   border-radius: 0 10px 10px 0;
-  background: #ff8c00;
+  background: var(--orange-primary);
   flex-shrink: 0;
 }
 
@@ -1279,19 +1301,19 @@ body {
   align-items: flex-start;
   gap: 25px;
   border-radius: 12px;
-  background: #131313;
+  background: var(--dark-section);
   margin-left: -10px;
 }
 
 .deliverable-title {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
 }
 
 .deliverable-description {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -1326,19 +1348,19 @@ body {
 }
 
 .status-icon.completed {
-  background: #ff8c00;
+  background: var(--orange-primary);
   border: none;
 }
 
 .check-icon {
   width: 18px;
   height: 18px;
-  color: #fff;
+  color: var(--foreground);
 }
 
 .status-icon.in-progress {
-  background: #000;
-  border: 1.5px solid #ff8c00;
+  background: var(--dark-bg);
+  border: 1.5px solid var(--orange-primary);
   position: relative;
 }
 
@@ -1346,23 +1368,23 @@ body {
   width: 10.5px;
   height: 10.5px;
   border-radius: 50%;
-  background: #ff8c00;
+  background: var(--orange-primary);
 }
 
 .status-icon.pending {
-  background: #000;
+  background: var(--dark-bg);
   border: 1.5px solid #2d2d2d;
 }
 
 .timeline-title {
-  color: #9ba1a6;
+  color: var(--text-secondary);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
 }
 
 .timeline-dates {
-  color: #f7f6ff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 300;
   line-height: 22px;
@@ -1416,7 +1438,7 @@ body {
   flex-direction: column;
   gap: 22px;
   border-radius: 8px;
-  background: #464646;
+  background: var(--dark-card);
   box-shadow: 2px 16px 19px 0 rgba(0, 0, 0, 0.09);
   width: fit-content;
   max-width: 100%;
@@ -1430,7 +1452,7 @@ body {
 }
 
 .calendar-month-label {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 14px;
   font-weight: 600;
@@ -1463,7 +1485,7 @@ body {
 }
 
 .calendar-chevron {
-  fill: #b5bec6;
+  fill: var(--text-muted);
 }
 
 .calendar-grid {
@@ -1486,7 +1508,7 @@ body {
   height: 20px;
   justify-content: center;
   align-items: center;
-  color: #b5bec6;
+  color: var(--text-muted);
   text-align: center;
   font-size: 10px;
   font-weight: 600;
@@ -1521,7 +1543,7 @@ body {
 }
 
 .calendar-date {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 16px;
   font-weight: 600;
@@ -1534,7 +1556,7 @@ body {
 }
 
 .calendar-day-selected .calendar-date {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .calendar-day-today:not(.calendar-day-selected) {
@@ -1542,7 +1564,7 @@ body {
 }
 
 .calendar-day-outside .calendar-date {
-  color: #b5bec6;
+  color: var(--text-muted);
   opacity: 0.4;
 }
 

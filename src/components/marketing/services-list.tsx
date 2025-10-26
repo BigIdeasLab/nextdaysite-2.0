@@ -102,17 +102,17 @@ export function ServicesList() {
 
             <div className='flex w-full flex-col items-start gap-10 md:w-1/2'>
               <div className='flex flex-col items-start gap-2.5'>
-                <h3 className='text-3xl font-medium leading-tight text-[#F7F6FF]'>
+                <h3 className='text-3xl font-medium leading-tight text-[var(--foreground)]'>
                   {service.title}
                 </h3>
-                <p className='text-lg leading-6 text-[#9BA1A6]'>
+                <p className='text-lg leading-6 text-[var(--text-secondary)]'>
                   {service.description}
                 </p>
               </div>
 
               <Link
                 href='#pricing'
-                className='flex items-center justify-center rounded-full border border-white/50 px-6 py-5 text-base font-medium text-white transition-colors hover:border-white/70 hover:bg-white/5'
+                className='flex items-center justify-center rounded-full border border-foreground/50 px-6 py-5 text-base font-medium text-foreground transition-colors hover:border-foreground/70 hover:bg-foreground/5'
               >
                 See Pricing
               </Link>

@@ -135,7 +135,7 @@ export function RedesignedPricing() {
   return (
     <section
       id='pricing'
-      className='w-full bg-black px-4 py-12 md:px-8 md:py-16 lg:py-24'
+      className='w-full bg-background px-4 py-12 transition-colors duration-300 md:px-8 md:py-16 lg:py-24'
     >
       <div className='mx-auto flex w-full max-w-[1023px] flex-col items-start gap-12 md:gap-[70px]'>
         {/* Header */}
@@ -213,10 +213,10 @@ function PricingCard({
         <div className='flex flex-col gap-6 md:gap-[25px]'>
           {/* Title and Description */}
           <div className='flex flex-col gap-[15px]'>
-            <h3 className='text-xl font-medium leading-[21px] text-[#F7F6FF]'>
+            <h3 className='text-xl font-medium leading-[21px] text-[var(--foreground)]'>
               {title}
             </h3>
-            <p className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+            <p className='text-[17px] font-light leading-[22px] text-[var(--text-secondary)]'>
               {description}
             </p>
           </div>
@@ -224,7 +224,7 @@ function PricingCard({
           {/* Price and Tag */}
           <div className='flex flex-col gap-[15px]'>
             <div className='flex items-center gap-[15px]'>
-              <span className='text-[35px] font-bold leading-[21px] text-[#F7F6FF]'>
+              <span className='text-[35px] font-bold leading-[21px] text-[var(--foreground)]'>
                 {price}
               </span>
               {priceNote && (
@@ -245,19 +245,19 @@ function PricingCard({
                 >
                   <path
                     d='M12.1916 3.48438C12.7688 3.48438 13.2368 3.9523 13.2368 4.52952C13.2368 5.10674 12.7688 5.57466 12.1916 5.57466C11.6144 5.57466 11.1465 5.10674 11.1465 4.52952C11.1465 3.9523 11.6144 3.48438 12.1916 3.48438Z'
-                    stroke='#FF8C00'
+                    stroke='var(--orange-primary)'
                     strokeWidth='1.56771'
                     strokeLinecap='round'
                     strokeLinejoin='round'
                   />
                   <path
                     d='M1.93399 7.76468C1.23503 8.54533 1.21999 9.72307 1.86148 10.5516C3.13442 12.1957 4.52769 13.5889 6.17176 14.8618C7.00026 15.5033 8.178 15.4883 8.95865 14.7894C11.0781 12.8917 13.019 10.9085 14.8921 8.729C15.0773 8.51356 15.1931 8.24948 15.2191 7.96653C15.3341 6.71541 15.5703 3.11084 14.5914 2.13194C13.6125 1.15304 10.0079 1.38921 8.7568 1.50417C8.47384 1.53018 8.20977 1.64601 7.99426 1.8312C5.81488 3.70434 3.83167 5.64527 1.93399 7.76468Z'
-                    stroke='#FF8C00'
+                    stroke='var(--orange-primary)'
                     strokeWidth='1.56771'
                   />
                   <path
                     d='M9.60777 8.61645C9.62261 8.33705 9.701 7.8259 9.27618 7.43746M9.27618 7.43746C9.14471 7.31727 8.96508 7.20878 8.72045 7.12252C7.8449 6.81395 6.76947 7.8468 7.53024 8.79224C7.93917 9.30039 8.25445 9.45674 8.22477 10.0338C8.20387 10.4398 7.80511 10.8639 7.27954 11.0255C6.82296 11.1658 6.31931 10.98 6.00075 10.624C5.61179 10.1895 5.65107 9.77969 5.64774 9.60111M9.27618 7.43746L9.75563 6.95801M6.03541 10.6782L5.58008 11.1336'
-                    stroke='#FF8C00'
+                    stroke='var(--orange-primary)'
                     strokeWidth='1.56771'
                     strokeLinecap='round'
                     strokeLinejoin='round'
@@ -280,19 +280,19 @@ function PricingCard({
                 >
                   <path
                     d='M12.1916 3.48438C12.7688 3.48438 13.2368 3.9523 13.2368 4.52952C13.2368 5.10674 12.7688 5.57466 12.1916 5.57466C11.6144 5.57466 11.1465 5.10674 11.1465 4.52952C11.1465 3.9523 11.6144 3.48438 12.1916 3.48438Z'
-                    stroke='#FF8C00'
+                    stroke='var(--orange-primary)'
                     strokeWidth='1.56771'
                     strokeLinecap='round'
                     strokeLinejoin='round'
                   />
                   <path
                     d='M1.93399 7.76468C1.23503 8.54533 1.21999 9.72307 1.86148 10.5516C3.13442 12.1957 4.52769 13.5889 6.17176 14.8618C7.00026 15.5033 8.178 15.4883 8.95865 14.7894C11.0781 12.8917 13.019 10.9085 14.8921 8.729C15.0773 8.51356 15.1931 8.24948 15.2191 7.96653C15.3341 6.71541 15.5703 3.11084 14.5914 2.13194C13.6125 1.15304 10.0079 1.38921 8.7568 1.50417C8.47384 1.53018 8.20977 1.64601 7.99426 1.8312C5.81488 3.70434 3.83167 5.64527 1.93399 7.76468Z'
-                    stroke='#FF8C00'
+                    stroke='var(--orange-primary)'
                     strokeWidth='1.56771'
                   />
                   <path
                     d='M9.60777 8.61645C9.62261 8.33705 9.701 7.8259 9.27618 7.43746M9.27618 7.43746C9.14471 7.31727 8.96508 7.20878 8.72045 7.12252C7.8449 6.81395 6.76947 7.8468 7.53024 8.79224C7.93917 9.30039 8.25445 9.45674 8.22477 10.0338C8.20387 10.4398 7.80511 10.8639 7.27954 11.0255C6.82296 11.1658 6.31931 10.98 6.00075 10.624C5.61179 10.1895 5.65107 9.77969 5.64774 9.60111M9.27618 7.43746L9.75563 6.95801M6.03541 10.6782L5.58008 11.1336'
-                    stroke='#FF8C00'
+                    stroke='var(--orange-primary)'
                     strokeWidth='1.56771'
                     strokeLinecap='round'
                     strokeLinejoin='round'
@@ -358,7 +358,7 @@ function PricingCard({
             type='button'
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
-            <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
+            <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
               Subscribe
             </span>
           </button>
@@ -366,7 +366,7 @@ function PricingCard({
             type='button'
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#161616] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
-            <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
+            <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
               Customize
             </span>
           </button>

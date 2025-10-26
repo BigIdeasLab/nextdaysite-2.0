@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default async function MarketingHomePage() {
   return (
-    <div className='bg-black text-foreground lg-grid-background'>
+    <div className='bg-background text-foreground transition-colors duration-300 lg-grid-background'>
       <Header />
       <main>
         <RedesignedHero />

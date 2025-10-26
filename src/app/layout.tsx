@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning data-scroll-behavior='smooth'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background text-foreground transition-colors duration-300`}
       >
         <AppProviders>{children}</AppProviders>
       </body>

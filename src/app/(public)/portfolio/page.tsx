@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function PortfolioPage() {
   return (
-    <div className='lg-portfolio-grid-background min-h-screen bg-black text-foreground'>
+    <div className='lg-portfolio-grid-background min-h-screen bg-background text-foreground transition-colors duration-300'>
       <Header />
       <main>
         <PortfolioHero />

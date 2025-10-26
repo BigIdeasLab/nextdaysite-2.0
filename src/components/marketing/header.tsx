@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X } from 'lucide-react'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -43,7 +44,7 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         show ? 'translate-y-0' : '-translate-y-full'
-      } ${addBackground ? 'bg-[#131313]' : 'bg-transparent'}`}
+      } ${addBackground ? 'bg-background dark:bg-[#131313]' : 'bg-transparent'}`}
     >
       <div className='mx-auto flex max-w-6xl items-center px-6 md:px-16 justify-between gap-8 py-4 lg:py-8'>
         <Link href='/' className='flex-shrink-0'>
@@ -66,8 +67,10 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-normal transition-colors hover:text-white ${
-                  isActive ? 'text-white' : 'text-white/70'
+                className={`text-sm font-normal transition-colors hover:text-foreground dark:hover:text-white ${
+                  isActive
+                    ? 'text-foreground dark:text-white'
+                    : 'text-foreground/70 dark:text-white/70'
                 }`}
               >
                 {item.label}
@@ -79,10 +82,12 @@ export function Header() {
         <div className='flex items-center gap-2'>
           <Link
             href='/#pricing'
-            className='flex h-12 items-center justify-center  bg-[#FF8C00] text-[12px] font-medium text-white transition-transform hover:scale-105 rounded-full px-5 lg:text-[16px]'
+            className='flex h-12 items-center justify-center bg-[var(--orange-primary)] text-[12px] font-medium text-[var(--foreground)] transition-transform hover:scale-105 rounded-full px-5 lg:text-[16px]'
           >
             See Pricing
           </Link>
+
+          <ThemeToggle />
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -90,9 +95,12 @@ export function Header() {
             aria-label='Toggle menu'
           >
             {mobileMenuOpen ? (
-              <X className='h-6 w-6 text-[#A6A6A6]' strokeWidth={2} />
+              <X className='h-6 w-6 text-[var(--text-muted)]' strokeWidth={2} />
             ) : (
-              <Menu className='h-6 w-6 text-[#A6A6A6]' strokeWidth={2} />
+              <Menu
+                className='h-6 w-6 text-[var(--text-muted)]'
+                strokeWidth={2}
+              />
             )}
           </button>
         </div>
@@ -100,7 +108,7 @@ export function Header() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className='fixed inset-0 z-40 bg-black/95 lg:hidden'>
+        <div className='fixed inset-0 z-40 bg-background/95 dark:bg-black/95 lg:hidden'>
           <nav className='flex h-full flex-col items-center justify-center gap-8 px-6'>
             {navItems.map((item) => {
               const isActive =
@@ -112,7 +120,9 @@ export function Header() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-2xl font-medium transition-colors ${
-                    isActive ? 'text-white' : 'text-white/70'
+                    isActive
+                      ? 'text-foreground dark:text-white'
+                      : 'text-foreground/70 dark:text-white/70'
                   }`}
                 >
                   {item.label}

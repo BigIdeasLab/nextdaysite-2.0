@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function SignupPage() {
   return (
-    <div className='min-h-screen bg-black flex items-center justify-center py-8 px-4 font-sans'>
+    <div className='min-h-screen bg-background transition-colors duration-300 flex items-center justify-center py-8 px-4 font-sans'>
       <div className='w-full max-w-2xl flex flex-col items-center gap-8'>
         <div className='flex justify-center mb-4'>
           <Image
@@ -15,7 +15,7 @@ export default function SignupPage() {
           />
         </div>
         <SignupForm />
-        <p className='text-[#9ba1a6] text-center text-xs font-normal leading-6'>
+        <p className='text-[var(--text-secondary)] text-center text-xs font-normal leading-6'>
           © 2025 NextDaySite. All rights reserved.
         </p>
       </div>

@@ -8,7 +8,7 @@ export default async function CheckoutSuccessPage({
 }) {
   const resolvedSearchParams = await searchParams
   return (
-    <div className='min-h-screen w-full bg-black px-4 py-16 md:px-8'>
+    <div className='min-h-screen w-full bg-background transition-colors duration-300 px-4 py-16 md:px-8'>
       <div className='mx-auto flex max-w-2xl flex-col items-center gap-8 text-center'>
         <div className='flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10'>
           <CheckCircle2 className='h-8 w-8 text-emerald-600' />
