@@ -108,6 +108,12 @@ export async function middleware(request: NextRequest) {
     '/project',
   ]
   const publicOnlyRoutes = ['/login', '/signup']
+  const onboardingRoutes = ['/onboarding']
+
+  // Allow onboarding routes for authenticated users
+  if (user && onboardingRoutes.some((route) => pathname.startsWith(route))) {
+    return response
+  }
 
   // If user is logged in and tries to access a public-only route, redirect to dashboard.
   if (user && publicOnlyRoutes.includes(pathname)) {
