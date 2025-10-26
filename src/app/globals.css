@@ -414,8 +414,8 @@ body {
   width: 100%;
   max-width: 774px;
   border-radius: 16px;
-  border: 1px solid #131313;
-  background: #131313;
+  border: 1px solid var(--dark-section);
+  background: var(--dark-section);
   overflow: hidden;
   margin-bottom: 2rem;
 }
