@@ -44,11 +44,14 @@
   --dark-border: #2d2d2d;
   --dark-bg-secondary: #2a2a2a;
   --dark-gray: #262627;
-  --dark-gray-secondary: #2D2D2D;
-  --light-text: #F7F6FF;
-  --testimonial-bg: #1A1A1A;
-  --testimonial-border: #2B2B2B;
-  --testimonial-text: #9A9EA2;
+  --dark-gray-secondary: #2d2d2d;
+  --light-text: #f7f6ff;
+  --testimonial-bg: #1a1a1a;
+  --testimonial-border: #2b2b2b;
+  --testimonial-text: #9a9ea2;
+  --dark-very-dark: #090808;
+  --pricing-label-text: #9ba1a6;
+  --pricing-input-label: #3e3e3e;
 }
 
 /* Smooth theme transitions */
