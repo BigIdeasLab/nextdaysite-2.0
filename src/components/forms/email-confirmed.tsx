@@ -35,7 +35,7 @@ export function EmailConfirmed() {
           >
             Go to Dashboard
           </button>
-          <p className='text-[#9ba1a6] text-center text-sm font-normal leading-6'>
+          <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
             Need to sign in again?{' '}
             <a href='/login' className='text-[#ff8c00] no-underline'>
               Login
