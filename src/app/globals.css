@@ -1045,7 +1045,12 @@ body {
   padding: 0 0 12px 0;
   outline: none;
   width: 100%;
-  font-family: Matter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-family:
+    Matter,
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
 }
 
 .onboarding-input:focus {
@@ -1078,7 +1083,12 @@ body {
   line-height: 24px;
   cursor: pointer;
   transition: opacity 0.2s;
-  font-family: Matter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-family:
+    Matter,
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
 }
 
 .onboarding-submit-button:hover:not(:disabled) {

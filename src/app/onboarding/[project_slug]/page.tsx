@@ -11,10 +11,10 @@ export default async function OnboardingPage({
   const { project_slug } = await params
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+    <div className='min-h-screen bg-background text-foreground transition-colors duration-300'>
       <Header />
-      <main className="onboarding-page-main">
-        <div className="onboarding-page-container">
+      <main className='onboarding-page-main'>
+        <div className='onboarding-page-container'>
           <OnboardingForm />
         </div>
       </main>
