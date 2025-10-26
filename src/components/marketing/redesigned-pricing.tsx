@@ -1,274 +1,229 @@
 'use client'
 
 import { useState } from 'react'
-import { usePlans } from '@/hooks'
-import type { PlansRow } from '@/types/models'
+import Image from 'next/image'
+
+type PricingTab = 'fixed-rate' | 'payment-plan'
+
+interface PricingCardData {
+  title: string
+  description: string
+  price: string
+  savings: string
+  image: string
+  features: string[]
+}
+
+const pricingData: PricingCardData[] = [
+  {
+    title: 'Web',
+    description: 'Modern 3–5 page website fast.',
+    price: '$1,500',
+    savings: 'Save $200',
+    image:
+      'https://api.builder.io/api/v1/image/assets/TEMP/06425d9733f6cda11821dac6f1e21cfb4b1b479f?width=682',
+    features: [
+      '3–5 pages',
+      'Performance & accessibility pass',
+      'Responsive + basic SEO',
+      'Staging preview',
+      '1 concept + 2 revisions',
+      'Delivery: 3–5 business days',
+      '5 stock images + icons',
+    ],
+  },
+  {
+    title: 'Brand Identity',
+    description: 'Brand Identity',
+    price: '$2,500',
+    savings: 'Save $200',
+    image:
+      'https://api.builder.io/api/v1/image/assets/TEMP/4a5be1fa16475440fc28cd6281b77aff9149e73e?width=682',
+    features: [
+      'Logo suite',
+      '3 flyer/post templates',
+      'Color + type system',
+      'Mini brand guide (PDF)',
+      'Social kit',
+      'Business card + letterhead',
+    ],
+  },
+  {
+    title: 'Complete',
+    description: 'Website + branding handled end - to - end.',
+    price: '$5,000',
+    savings: 'Save $200',
+    image:
+      'https://api.builder.io/api/v1/image/assets/TEMP/83c0293a4b0a380ce136ccd0b0b921feae17c0b5?width=682',
+    features: [
+      'Everything in Web + Identity',
+      'Launch checklist',
+      '6–10 pages',
+      '7 day post launch tweaks',
+      'AI copy draft for key pages',
+      'SEO essentials',
+    ],
+  },
+]
 
 export function RedesignedPricing() {
-  const { data: plans = [], isLoading } = usePlans()
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>(
-    'monthly',
-  )
-  const [isCheckingOut, setIsCheckingOut] = useState<string | null>(null)
-  const [checkoutError, setCheckoutError] = useState<string | null>(null)
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const [activeTab, setActiveTab] = useState<PricingTab>('fixed-rate')
 
   return (
-    <section className='bg-[#131313]'>
-      <section
-        id='pricing'
-        className='w-full bg-black rounded-t-[20px] md:rounded-t-[50px] px-4 py-16 md:px-8 md:py-24 lg:px-12'
-      >
-        <div className='mx-auto flex w-full max-w-[1023px] flex-col items-center gap-16 md:gap-[70px]'>
-          {/* Header */}
-          <div className='flex flex-col items-center gap-5'>
-            <h2 className='text-center text-[32px] font-medium leading-[40px] text-[#F7F6FF] md:text-[40px] md:leading-[50px]'>
-              Our Pricing plan
-            </h2>
+    <section className='w-full bg-black px-4 py-12 md:px-8 md:py-16 lg:py-24'>
+      <div className='mx-auto flex w-full max-w-[1023px] flex-col items-start gap-12 md:gap-[70px]'>
+        {/* Header */}
+        <div className='flex w-full flex-col items-center gap-5'>
+          <h2 className='text-center text-[32px] font-medium leading-[40px] text-white md:text-[40px] md:leading-[50px]'>
+            Our Pricing plan
+          </h2>
 
-            {/* Toggle Button */}
-            <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616] p-[0.777px]'>
-              <button
-                onClick={() => setBillingCycle('monthly')}
-                className={`flex h-[41.973px] items-center justify-center rounded-[30px] px-5 transition-all ${
-                  billingCycle === 'monthly'
-                    ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
-                    : 'border-transparent bg-transparent text-[#F7F6FF]'
-                }`}
-              >
-                <span className='text-sm font-medium'>Monthly</span>
-              </button>
-              <button
-                onClick={() => setBillingCycle('yearly')}
-                className={`flex h-[41.973px] items-center justify-center rounded-[30px] px-6 transition-all ${
-                  billingCycle === 'yearly'
-                    ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
-                    : 'border-transparent bg-transparent text-[#F7F6FF]'
-                }`}
-              >
-                <span className='text-sm font-medium'>Yearly</span>
-              </button>
-            </div>
+          {/* Toggle Button */}
+          <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616]'>
+            <button
+              onClick={() => setActiveTab('fixed-rate')}
+              className={`flex h-[42px] items-center justify-center rounded-[30px] px-5 transition-all ${
+                activeTab === 'fixed-rate'
+                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  : 'border-transparent bg-transparent text-white'
+              }`}
+            >
+              <span className='text-sm font-medium leading-[18.655px]'>
+                Fixed Rate
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveTab('payment-plan')}
+              className={`flex h-[42px] items-center justify-center rounded-[30px] px-6 transition-all ${
+                activeTab === 'payment-plan'
+                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  : 'border-transparent bg-transparent text-white'
+              }`}
+            >
+              <span className='text-sm font-medium leading-[18.655px]'>
+                Payment Plan
+              </span>
+            </button>
           </div>
-
-          {/* Pricing Cards */}
-          <div className='relative w-full'>
-            <div className='flex w-full flex-col items-center gap-4 md:flex-row md:items-start md:gap-[15px]'>
-              {plans.map((plan) => (
-                <div key={plan.id} className='relative w-full max-w-[331px]'>
-                  {plan.is_featured && (
-                    <div className='absolute right-0 -top-[14px] z-10 flex h-[33px] items-center justify-center gap-2.5 rounded-[20px_5px] bg-[#0094EA] px-2.5'>
-                      <span className='text-lg font-medium leading-6 text-[#F7F6FF]'>
-                        Popular
-                      </span>
-                    </div>
-                  )}
-                  <PricingCard
-                    plan={plan}
-                    billingCycle={billingCycle}
-                    onSubscribe={handleSubscribe}
-                    isLoading={isCheckingOut === plan.id}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {checkoutError && (
-            <div className='mt-6 rounded-lg bg-red-500/10 border border-red-500/20 p-4 text-red-500 text-sm'>
-              {checkoutError}
-            </div>
-          )}
         </div>
-      </section>
+
+        {/* Pricing Cards */}
+        <div className='flex w-full flex-col items-start gap-[15px]'>
+          {pricingData.map((card, index) => (
+            <PricingCard key={index} {...card} />
+          ))}
+        </div>
+      </div>
     </section>
   )
-
-  async function handleSubscribe(planId: string) {
-    setIsCheckingOut(planId)
-    setCheckoutError(null)
-
-    try {
-      const response = await fetch('/api/checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          planId,
-          billingCycle,
-        }),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to create checkout session')
-      }
-
-      const data = await response.json()
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        throw new Error('No checkout URL provided')
-      }
-    } catch (error) {
-      console.error('Checkout error:', error)
-      setCheckoutError(
-        error instanceof Error ? error.message : 'Failed to start checkout',
-      )
-      setIsCheckingOut(null)
-    }
-  }
 }
 
 function PricingCard({
-  plan,
-  billingCycle,
-  onSubscribe,
-  isLoading = false,
-}: {
-  plan: PlansRow
-  billingCycle: 'monthly' | 'yearly'
-  onSubscribe: (planId: string) => Promise<void>
-  isLoading?: boolean
-}) {
-  const [addHosting, setAddHosting] = useState(false)
-  const basePrice =
-    billingCycle === 'monthly' ? plan.monthly_price : plan.yearly_price
-  const hostingPrice = addHosting
-    ? billingCycle === 'monthly'
-      ? plan.hosting_monthly_price || 0
-      : plan.hosting_yearly_price || 0
-    : 0
-  const price = (basePrice || 0) + hostingPrice
-  const period = billingCycle === 'monthly' ? '/ Month' : '/ Year'
-  const hasHostingOption = plan.hosting
-
+  title,
+  description,
+  price,
+  savings,
+  image,
+  features,
+}: PricingCardData) {
   return (
-    <div
-      className={`flex h-auto w-full flex-col overflow-hidden rounded-[20px] bg-[#161616] md:h-[771px] ${
-        plan.is_featured ? 'border border-[#FF8C00]' : 'border-0'
-      }`}
-    >
-      <div className='flex-grow'>
-        {/* Main Content */}
-        <div className='flex flex-col gap-[30px] p-5'>
-          {/* Header */}
-          <div className='flex w-full max-w-[238px] flex-col gap-2'>
-            <div className='flex items-center gap-2'>
-              <svg
-                width='24'
-                height='25'
-                viewBox='0 0 24 25'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <g clipPath='url(#clip0_2462_202)'>
-                  <mask
-                    id='mask0_2462_202'
-                    style={{ maskType: 'luminance' }}
-                    maskUnits='userSpaceOnUse'
-                    x='0'
-                    y='0'
-                    width='24'
-                    height='25'
-                  >
-                    <path
-                      d='M24 0.527344H0V24.5273H24V0.527344Z'
-                      fill='white'
-                    />
-                  </mask>
-                  <g mask='url(#mask0_2462_202)'>
-                    <path
-                      d='M17 12.5273C17 15.2887 14.7614 17.5274 12 17.5274C9.23859 17.5274 7 15.2887 7 12.5273C7 9.76591 9.23859 7.52734 12 7.52734C14.7614 7.52734 17 9.76591 17 12.5273Z'
-                      fill='#F7F6FF'
-                      stroke='#F7F6FF'
-                    />
-                    <path
-                      d='M12 2.52734C11.6227 2.86067 11.0945 3.72734 12 4.52735M12 20.5273C12.3773 20.8606 12.9055 21.7273 12 22.5273M19.5 5.03006C18.9685 4.99717 17.9253 5.25028 18.0042 6.52582M5.49576 18.0273C5.52866 18.5589 5.27555 19.602 4.00001 19.5231M5.00271 5.02735C4.96979 5.55937 5.22315 6.60365 6.5 6.52463M18 18.03C18.5316 17.9988 19.5747 18.2382 19.4958 19.4442M22 12.5273C21.6667 12.1501 20.8 11.6218 20.0001 12.5273M4.00001 12.0274C3.66668 12.4046 2.80001 12.9328 2 12.0274'
-                      stroke='#F7F6FF'
-                      strokeWidth='1.5'
-                      strokeLinecap='round'
-                    />
-                  </g>
-                </g>
-                <defs>
-                  <clipPath id='clip0_2462_202'>
-                    <rect
-                      width='24'
-                      height='24'
-                      fill='white'
-                      transform='translate(0 0.527344)'
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-              <h3 className='text-xl font-medium leading-6 text-[#F7F6FF]'>
-                {plan.name}
-              </h3>
-            </div>
-            <p className='text-base font-light leading-6 text-white/50'>
-              {plan.summary}
+    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[#161616] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
+      {/* Image */}
+      <div className='relative h-[250px] w-full flex-shrink-0 overflow-hidden rounded-[10px] md:h-[365px] md:w-[341px]'>
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className='object-cover'
+          sizes='(max-width: 768px) 100vw, 341px'
+        />
+      </div>
+
+      {/* Content */}
+      <div className='flex flex-1 flex-col gap-5'>
+        {/* Header Info */}
+        <div className='flex flex-col gap-6 md:gap-[25px]'>
+          {/* Title and Description */}
+          <div className='flex flex-col gap-[15px]'>
+            <h3 className='text-xl font-medium leading-[21px] text-[#F7F6FF]'>
+              {title}
+            </h3>
+            <p className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+              {description}
             </p>
           </div>
 
-          {/* Price */}
-          <div className='flex items-center gap-[5px]'>
-            <span className='text-[45px] font-medium leading-6 text-[#F7F6FF]'>
-              ${price}
-            </span>
-            <span className='text-[21px] font-normal leading-6 text-white/50'>
-              {period}
-            </span>
-          </div>
-
-          {/* Subscribe Button */}
-          <button
-            type='button'
-            onClick={() => onSubscribe(plan.id)}
-            disabled={isLoading}
-            className='flex h-[54px] w-full items-center justify-center rounded-[30px] border-2 border-[#CA7207] bg-[#FF8C00] px-5 transition-transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed'
-          >
-            <span className='text-lg font-medium leading-6 text-[#F7F6FF]'>
-              {isLoading ? 'Redirecting to Stripe...' : 'Subscribe'}
-            </span>
-          </button>
-
-          {/* Features List */}
+          {/* Price and Tag */}
           <div className='flex flex-col gap-[15px]'>
-            {plan.features.map((feature, index) => (
-              <div key={index} className='flex items-center gap-[10px]'>
-                <div className='relative h-6 w-6 flex-shrink-0'>
+            <div className='text-[35px] font-bold leading-[21px] text-[#F7F6FF]'>
+              {price}
+            </div>
+            <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#452600] px-[10px] py-2'>
+              <svg
+                width='16'
+                height='16'
+                viewBox='0 0 16 16'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M11.666 3.33398C12.2183 3.33398 12.666 3.7817 12.666 4.33398C12.666 4.88627 12.2183 5.33398 11.666 5.33398C11.1137 5.33398 10.666 4.88627 10.666 4.33398C10.666 3.7817 11.1137 3.33398 11.666 3.33398Z'
+                  stroke='#FF8C00'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                />
+                <path
+                  d='M1.85014 7.42992C1.18137 8.17685 1.16699 9.30372 1.78076 10.0965C2.99873 11.6695 4.33181 13.0026 5.90487 14.2205C6.69759 14.8343 7.82445 14.8199 8.57139 14.1512C10.5993 12.3355 12.4563 10.4379 14.2486 8.35258C14.4258 8.14645 14.5366 7.89378 14.5615 7.62305C14.6715 6.42597 14.8975 2.9771 13.9609 2.04048C13.0242 1.10386 9.57532 1.32983 8.37825 1.43982C8.10752 1.4647 7.85485 1.57554 7.64865 1.75272C5.5634 3.54496 3.66586 5.40206 1.85014 7.42992Z'
+                  stroke='#FF8C00'
+                />
+                <path
+                  d='M9.19162 8.24501C9.20582 7.97768 9.28082 7.48861 8.87435 7.11694M8.87435 7.11694C8.74855 7.00194 8.57668 6.89814 8.34262 6.81561C7.50488 6.52037 6.47591 7.50861 7.20382 8.41321C7.59508 8.89941 7.89675 9.04901 7.86835 9.60114C7.84835 9.98961 7.46682 10.3954 6.96395 10.55C6.52708 10.6843 6.04519 10.5065 5.74039 10.1659C5.36823 9.75008 5.40582 9.35801 5.40263 9.18714M8.87435 7.11694L9.33308 6.6582M5.77356 10.2177L5.33789 10.6534'
+                  stroke='#FF8C00'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                />
+              </svg>
+              <span className='text-sm font-normal leading-[50px] text-[#FF8C00]'>
+                {savings}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className='rounded-[10px] bg-[#262627] p-[10px]'>
+          <div className='grid grid-cols-1 gap-[13px] sm:grid-cols-2 sm:gap-x-[10px]'>
+            {features.map((feature, index) => (
+              <div key={index} className='flex items-center gap-[9px]'>
+                <div className='relative h-[22px] w-[22px] flex-shrink-0'>
                   <svg
-                    width='24'
-                    height='25'
-                    viewBox='0 0 24 25'
+                    width='22'
+                    height='22'
+                    viewBox='0 0 22 22'
                     fill='none'
                     xmlns='http://www.w3.org/2000/svg'
                     className='absolute left-0 top-0'
                   >
-                    <circle cx='12' cy='12.5273' r='12' fill='#2D2D2D' />
+                    <circle cx='10.9013' cy='10.9013' r='10.9013' fill='#2D2D2D' />
                   </svg>
                   <svg
-                    width='20'
-                    height='21'
-                    viewBox='0 0 20 21'
+                    width='19'
+                    height='19'
+                    viewBox='0 0 19 19'
                     fill='none'
                     xmlns='http://www.w3.org/2000/svg'
-                    className='absolute left-0.5 top-0.5'
+                    className='absolute left-[2px] top-[2px]'
                   >
                     <path
-                      d='M4.16699 12.1941L7.08366 15.1108L15.8337 5.94409'
+                      d='M3.78516 10.5986L6.43477 13.2482L14.3836 4.9209'
                       stroke='#F7F6FF'
-                      strokeWidth='1.5'
+                      strokeWidth='1.36266'
                       strokeLinecap='round'
                       strokeLinejoin='round'
                     />
                   </svg>
                 </div>
-                <span className='text-[15px] leading-6 text-white/50'>
+                <span className='text-sm leading-[21.803px] text-[#9BA1A6]'>
                   {feature}
                 </span>
               </div>
@@ -276,77 +231,25 @@ function PricingCard({
           </div>
         </div>
 
-        {hasHostingOption && (
-          <>
-            {/* Divider */}
-            <div className='h-px w-full bg-white/10' />
-
-            {/* Add Managed Hosting Section */}
-            <div className='flex items-center gap-[10px] p-5'>
-              <input
-                type='checkbox'
-                checked={addHosting}
-                onChange={(e) => setAddHosting(e.target.checked)}
-                className='h-6 w-6 flex-shrink-0 rounded-md border-2 border-[#2D2D2D] bg-transparent'
-              />
-              <div className='flex flex-col gap-[7px]'>
-                <div className='flex items-center gap-[5px]'>
-                  <span className='text-base font-medium leading-6 text-[#F7F6FF]'>
-                    Add Managed Hosting
-                  </span>
-                  <svg
-                    width='17'
-                    height='18'
-                    viewBox='0 0 17 18'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M7.79199 12.5691H9.20866V8.31909H7.79199V12.5691ZM8.50033 6.90242C8.70102 6.90242 8.86937 6.83442 9.00537 6.69842C9.14137 6.56242 9.20913 6.39431 9.20866 6.19409C9.20819 5.99387 9.14019 5.82576 9.00466 5.68976C8.86913 5.55376 8.70102 5.48576 8.50033 5.48576C8.29963 5.48576 8.13152 5.55376 7.99599 5.68976C7.86046 5.82576 7.79246 5.99387 7.79199 6.19409C7.79152 6.39431 7.85952 6.56266 7.99599 6.69913C8.13246 6.83561 8.30058 6.90337 8.50033 6.90242ZM8.50033 16.1108C7.52046 16.1108 6.59963 15.9247 5.73783 15.5526C4.87602 15.1805 4.12637 14.6759 3.48887 14.0389C2.85137 13.4019 2.3468 12.6522 1.97516 11.7899C1.60352 10.9276 1.41747 10.0068 1.41699 9.02742C1.41652 8.04804 1.60258 7.1272 1.97516 6.26493C2.34774 5.40265 2.85231 4.65299 3.48887 4.01597C4.12542 3.37894 4.87508 2.87437 5.73783 2.50226C6.60058 2.13015 7.52141 1.94409 8.50033 1.94409C9.47924 1.94409 10.4001 2.13015 11.2628 2.50226C12.1256 2.87437 12.8752 3.37894 13.5118 4.01597C14.1483 4.65299 14.6531 5.40265 15.0262 6.26493C15.3993 7.1272 15.5851 8.04804 15.5837 9.02742C15.5822 10.0068 15.3962 10.9276 15.0255 11.7899C14.6548 12.6522 14.1502 13.4019 13.5118 14.0389C12.8733 14.6759 12.1237 15.1807 11.2628 15.5533C10.402 15.9259 9.48113 16.1117 8.50033 16.1108Z'
-                      fill='#8A8A8A'
-                    />
-                  </svg>
-                </div>
-                <span className='text-sm font-light leading-6 text-white/50'>
-                  Modern 3–5 page website, fast.
-                </span>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className='h-px w-full bg-white/10' />
-          </>
-        )}
-      </div>
-      {/* Customize Plan */}
-      <div className='flex items-center justify-center gap-[10px] p-5'>
-        <svg
-          width='20'
-          height='21'
-          viewBox='0 0 20 21'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <path
-            d='M4.16634 13.8608L3.33301 17.1941L6.66634 16.3608L16.3213 6.70575C16.6338 6.3932 16.8093 5.96936 16.8093 5.52742C16.8093 5.08548 16.6338 4.66163 16.3213 4.34908L16.178 4.20575C15.8655 3.8933 15.4416 3.71777 14.9997 3.71777C14.5577 3.71777 14.1339 3.8933 13.8213 4.20575L4.16634 13.8608Z'
-            stroke='#FF8C00'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          />
-          <path
-            d='M4.16634 13.8607L3.33301 17.194L6.66634 16.3607L14.9997 8.02734L12.4997 5.52734L4.16634 13.8607Z'
-            fill='#FF8C00'
-          />
-          <path
-            d='M12.4997 5.52734L14.9997 8.02734M10.833 17.194H17.4997'
-            stroke='#FF8C00'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          />
-        </svg>
-        <span className='text-lg leading-6 text-[#FF8C00]'>Customize plan</span>
+        {/* Buttons */}
+        <div className='flex flex-col gap-[7px] sm:flex-row'>
+          <button
+            type='button'
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+          >
+            <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
+              Subscribe
+            </span>
+          </button>
+          <button
+            type='button'
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#262627] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+          >
+            <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
+              Customize
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   )
