@@ -135,7 +135,7 @@ export function RedesignedPricing() {
   return (
     <section
       id='pricing'
-      className='w-full bg-black px-4 py-12 md:px-8 md:py-16 lg:py-24'
+      className='w-full bg-background px-4 py-12 transition-colors duration-300 md:px-8 md:py-16 lg:py-24'
     >
       <div className='mx-auto flex w-full max-w-[1023px] flex-col items-start gap-12 md:gap-[70px]'>
         {/* Header */}
