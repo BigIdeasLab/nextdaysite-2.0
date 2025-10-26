@@ -27,9 +27,9 @@ export function AboutProcess() {
   ]
 
   return (
-    <section className='w-full rounded-t-[50px] bg-[#131313] px-6 py-20 md:px-12 lg:px-24'>
+    <section className='w-full rounded-t-[50px] bg-[var(--dark-section)] px-6 py-20 md:px-12 lg:px-24'>
       <div className='mx-auto flex max-w-5xl flex-col gap-12 md:gap-16'>
-        <h2 className='text-4xl font-medium leading-tight text-[#F7F6FF] md:text-5xl lg:text-6xl'>
+        <h2 className='text-4xl font-medium leading-tight text-[var(--light-text)] md:text-5xl lg:text-6xl'>
           Our Process
         </h2>
 
@@ -37,10 +37,10 @@ export function AboutProcess() {
           {steps.map((step, index) => (
             <div key={index} className='flex flex-col gap-6 md:gap-8'>
               <div className='flex flex-col items-start gap-4 md:flex-row md:items-start md:justify-between'>
-                <h3 className='text-2xl font-medium leading-tight text-[#F7F6FF] md:text-3xl'>
+                <h3 className='text-2xl font-medium leading-tight text-[var(--light-text)] md:text-3xl'>
                   {step.number} {step.title}
                 </h3>
-                <p className='max-w-full text-base leading-relaxed text-[#9BA1A6] md:max-w-md md:text-lg'>
+                <p className='max-w-full text-base leading-relaxed text-[var(--pricing-label-text)] md:max-w-md md:text-lg'>
                   {step.description}
                 </p>
               </div>
