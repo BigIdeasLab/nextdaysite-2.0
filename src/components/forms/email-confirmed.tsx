@@ -9,7 +9,7 @@ export function EmailConfirmed() {
   return (
     <div className='w-full bg-[var(--dark-card)] border border-[var(--dark-section)] rounded-3xl p-8'>
       <div className='flex flex-col gap-3 mb-6 text-center'>
-        <div className='flex justify-center mb-4 text-[#ff8c00]'>
+        <div className='flex justify-center mb-4 text-[var(--orange-primary)]'>
           <CheckCircle className='w-12 h-12' />
         </div>
         <h1 className='text-[#f7f6ff] text-2xl font-bold leading-tight'>
