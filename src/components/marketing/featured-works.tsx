@@ -9,7 +9,7 @@ const projects = [
       'Monitor and optimize environmental impact in real-time through data analytics.',
     image:
       'https://api.builder.io/api/v1/image/assets/TEMP/bcb8d48b109cabb767cfef3995a7ddbf14a6331a?width=1576',
-    color: '#545454',
+    color: 'var(--placeholder-gray)',
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ const projects = [
       'Transform any space into a smart home with customizable automation options.',
     image:
       'https://api.builder.io/api/v1/image/assets/TEMP/d1e3b79c7882105a073f340d0c30a1a900f0c949?width=1598',
-    color: '#545454',
+    color: 'var(--placeholder-gray)',
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const projects = [
       'Personalized workout and nutrition plans that adapt to user progress and feedback.',
     image:
       'https://api.builder.io/api/v1/image/assets/TEMP/eaf534945d725f799b9272c318be0a739d9d1f45?width=1102',
-    color: '#545454',
+    color: 'var(--placeholder-gray)',
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ const projects = [
       'A decentralized platform for learning and sharing blockchain technology skills.',
     image:
       'https://api.builder.io/api/v1/image/assets/TEMP/aad2392e0bb258e9218c5d85571b5c9bf436041b?width=992',
-    color: '#545454',
+    color: 'var(--placeholder-gray)',
   },
   {
     id: 5,
@@ -45,7 +45,7 @@ const projects = [
       'Curate unique travel experiences based on user preferences and local insights.',
     image:
       'https://api.builder.io/api/v1/image/assets/TEMP/102f3110d5fdd2b33ff7050b860f9718c7afcadb?width=1600',
-    color: '#545454',
+    color: 'var(--placeholder-gray)',
   },
   {
     id: 6,
@@ -54,7 +54,7 @@ const projects = [
       'A social platform for book lovers to share, review, and recommend their favorite reads.',
     image:
       'https://api.builder.io/api/v1/image/assets/TEMP/573c7ff44d2188cf791374291f32ab1b5507b47f?width=992',
-    color: '#545454',
+    color: 'var(--placeholder-gray)',
   },
 ]
 
