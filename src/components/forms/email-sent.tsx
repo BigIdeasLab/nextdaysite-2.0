@@ -26,7 +26,7 @@ export function EmailSent() {
         </div>
 
         <div className='flex flex-col items-center gap-4'>
-          <p className='text-[#9ba1a6] text-sm text-center'>
+          <p className='text-[var(--text-secondary)] text-sm text-center'>
             Didn&apos;t receive the email?{' '}
             <button className='text-[#ff8c00] no-underline' type='button'>
               Resend
