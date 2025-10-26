@@ -1603,7 +1603,7 @@ body {
 }
 
 .calendar-day-range-middle {
-  background: rgba(240, 77, 35, 0.2);
+  background: var(--toast-selection);
   border-radius: 0;
 }
 
