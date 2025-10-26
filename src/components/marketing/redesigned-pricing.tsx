@@ -216,7 +216,7 @@ function PricingCard({
             <h3 className='text-xl font-medium leading-[21px] text-[var(--foreground)]'>
               {title}
             </h3>
-            <p className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+            <p className='text-[17px] font-light leading-[22px] text-[var(--text-secondary)]'>
               {description}
             </p>
           </div>
