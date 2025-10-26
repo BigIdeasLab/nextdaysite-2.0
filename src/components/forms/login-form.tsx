@@ -73,7 +73,7 @@ export function LoginForm() {
             <div className='flex flex-col gap-2.5'>
               <input
                 type='email'
-                className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[var(--text-secondary)]'
+                className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-foreground placeholder:text-[var(--text-secondary)]'
                 placeholder='youexample.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -91,7 +91,7 @@ export function LoginForm() {
               <div className='flex items-center justify-between gap-2.5 p-0.5'>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[var(--text-secondary)]'
+                  className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-foreground placeholder:text-[var(--text-secondary)]'
                   placeholder='Enter your password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
