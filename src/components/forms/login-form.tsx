@@ -116,7 +116,7 @@ export function LoginForm() {
         </div>
 
         {errorMessage && (
-          <p className='text-[#ef4444] text-sm font-medium text-center'>
+          <p className='text-[var(--error-color)] text-sm font-medium text-center'>
             {errorMessage}
           </p>
         )}
@@ -127,7 +127,7 @@ export function LoginForm() {
               type='checkbox'
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className='w-4 h-4 rounded border border-[#ff8c00] bg-transparent cursor-pointer appearance-none checked:bg-[#ff8c00] checked:relative checked:after:content-["✓"] checked:after:absolute checked:after:text-white checked:after:text-xs checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2'
+              className='w-4 h-4 rounded border border-[var(--orange-accent)] bg-transparent cursor-pointer appearance-none checked:bg-[var(--orange-accent)] checked:relative checked:after:content-["✓"] checked:after:absolute checked:after:text-white checked:after:text-xs checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2'
             />
             <span className='text-[var(--text-secondary)] text-sm font-normal leading-6'>
               Remember me
@@ -135,7 +135,7 @@ export function LoginForm() {
           </label>
           <a
             href='/forgot-password'
-            className='text-[#ff8c00] text-right text-sm font-normal leading-6 no-underline hover:underline'
+            className='text-[var(--orange-accent)] text-right text-sm font-normal leading-6 no-underline hover:underline'
           >
             Forgot Password?
           </a>
@@ -147,7 +147,7 @@ export function LoginForm() {
             disabled={
               submissionState === 'submitting' || submissionState === 'success'
             }
-            className='w-full h-10 flex justify-center items-center rounded-full border border-[#ff8c00] bg-[#ff8c00] text-[#f7f6ff] text-center text-sm font-medium leading-6 cursor-pointer transition-opacity duration-200 disabled:opacity-60 disabled:cursor-not-allowed'
+            className='w-full h-10 flex justify-center items-center rounded-full border border-[var(--orange-accent)] bg-[var(--orange-accent)] text-[var(--light-text)] text-center text-sm font-medium leading-6 cursor-pointer transition-opacity duration-200 disabled:opacity-60 disabled:cursor-not-allowed'
           >
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
@@ -155,7 +155,7 @@ export function LoginForm() {
             Don&apos;t have an account?{' '}
             <a
               href='/signup'
-              className='text-[#ff8c00] no-underline hover:underline'
+              className='text-[var(--orange-accent)] no-underline hover:underline'
             >
               Sign Up
             </a>
