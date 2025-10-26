@@ -44,7 +44,7 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         show ? 'translate-y-0' : '-translate-y-full'
-      } ${addBackground ? 'bg-[#131313]' : 'bg-transparent'}`}
+      } ${addBackground ? 'bg-background dark:bg-[#131313]' : 'bg-transparent'}`}
     >
       <div className='mx-auto flex max-w-6xl items-center px-6 md:px-16 justify-between gap-8 py-4 lg:py-8'>
         <Link href='/' className='flex-shrink-0'>
