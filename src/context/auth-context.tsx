@@ -57,6 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return
       }
 
+      console.log('[AuthProvider] getSession session:', data.session)
       setSession(data.session ?? null)
       setUser(data.session?.user ?? null)
       setLoading(false)
@@ -69,6 +70,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!isMounted) {
           return
         }
+        console.log('[AuthProvider] onAuthStateChange event:', _event)
+        console.log('[AuthProvider] onAuthStateChange session:', nextSession)
         setSession(nextSession)
         setUser(nextSession?.user ?? null)
         setLoading(false)

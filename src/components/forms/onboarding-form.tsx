@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/auth-context'
 
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
-export function OnboardingForm() {
+export function OnboardingForm({ project_slug }: { project_slug: string }) {
   const router = useRouter()
+  const { session, loading: isAuthLoading } = useAuth()
   const [projectTitle, setProjectTitle] = useState('')
   const [mainGoal, setMainGoal] = useState('')
   const [targetAudience, setTargetAudience] = useState('')
@@ -21,17 +23,36 @@ export function OnboardingForm() {
     setSubmissionState('submitting')
     setErrorMessage(null)
 
+    if (!session) {
+      setSubmissionState('error')
+      setErrorMessage(
+        'Authentication error. Please make sure you are logged in.',
+      )
+      return
+    }
+
     try {
-      console.log({
-        projectTitle,
-        mainGoal,
-        targetAudience,
-        keyFeatures,
-        referenceWebsites,
+      const response = await fetch(`/api/projects/${project_slug}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          project_title: projectTitle,
+          main_goal: mainGoal,
+          target_audience: targetAudience,
+          key_features: keyFeatures,
+          reference_websites: referenceWebsites,
+        }),
       })
 
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to submit project details')
+      }
+
       setSubmissionState('success')
-      router.push('/dashboard')
+      router.push('/') // Or a success page
     } catch (error) {
       console.error(error)
       setSubmissionState('error')
@@ -39,6 +60,10 @@ export function OnboardingForm() {
         error instanceof Error ? error.message : 'Could not submit form.',
       )
     }
+  }
+
+  if (isAuthLoading) {
+    return <p>Verifying your session...</p>
   }
 
   return (
@@ -116,11 +141,17 @@ export function OnboardingForm() {
         <button
           type='submit'
           disabled={
-            submissionState === 'submitting' || submissionState === 'success'
+            isAuthLoading ||
+            submissionState === 'submitting' ||
+            submissionState === 'success'
           }
           className='onboarding-submit-button'
         >
-          {submissionState === 'submitting' ? 'Submitting...' : 'Submit'}
+          {isAuthLoading
+            ? 'Verifying...'
+            : submissionState === 'submitting'
+              ? 'Submitting...'
+              : 'Submit'}
         </button>
       </form>
     </div>
