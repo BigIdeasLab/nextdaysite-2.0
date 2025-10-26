@@ -9,12 +9,14 @@ interface PricingCardData {
   title: string
   description: string
   price: string
+  priceNote?: string
   savings: string
+  totalPrice?: string
   image: string
   features: string[]
 }
 
-const pricingData: PricingCardData[] = [
+const fixedRatePricingData: PricingCardData[] = [
   {
     title: 'Web',
     description: 'Modern 3–5 page website fast.',
@@ -66,11 +68,75 @@ const pricingData: PricingCardData[] = [
   },
 ]
 
+const paymentPlanPricingData: PricingCardData[] = [
+  {
+    title: 'Web',
+    description: 'Modern 3–5 page website fast.',
+    price: '$150',
+    priceNote: '/ mo × 12',
+    totalPrice: 'Total: $3,000',
+    savings: '',
+    image:
+      'https://api.builder.io/api/v1/image/assets/TEMP/06425d9733f6cda11821dac6f1e21cfb4b1b479f?width=682',
+    features: [
+      '3–5 pages',
+      'Performance & accessibility pass',
+      'Responsive + basic SEO',
+      'Staging preview',
+      '1 concept + 2 revisions',
+      'Delivery: 3–5 business days',
+      '5 stock images + icons',
+    ],
+  },
+  {
+    title: 'Brand Identity',
+    description: 'Brand Identity',
+    price: '$250',
+    priceNote: '/ mo × 12',
+    totalPrice: 'Total: $3,000',
+    savings: '',
+    image:
+      'https://api.builder.io/api/v1/image/assets/TEMP/4a5be1fa16475440fc28cd6281b77aff9149e73e?width=682',
+    features: [
+      'Logo suite',
+      '3 flyer/post templates',
+      'Color + type system',
+      'Mini brand guide (PDF)',
+      'Social kit',
+      'Business card + letterhead',
+    ],
+  },
+  {
+    title: 'Complete',
+    description: 'Website + branding handled end - to - end.',
+    price: '$500',
+    priceNote: '/ mo × 12',
+    totalPrice: 'Total: $3,000',
+    savings: '',
+    image:
+      'https://api.builder.io/api/v1/image/assets/TEMP/83c0293a4b0a380ce136ccd0b0b921feae17c0b5?width=682',
+    features: [
+      'Everything in Web + Identity',
+      'Launch checklist',
+      '6–10 pages',
+      '7 day post launch tweaks',
+      'AI copy draft for key pages',
+      'SEO essentials',
+    ],
+  },
+]
+
 export function RedesignedPricing() {
   const [activeTab, setActiveTab] = useState<PricingTab>('fixed-rate')
 
+  const currentPricingData =
+    activeTab === 'payment-plan' ? paymentPlanPricingData : fixedRatePricingData
+
   return (
-    <section className='w-full bg-black px-4 py-12 md:px-8 md:py-16 lg:py-24'>
+    <section
+      id='pricing'
+      className='w-full bg-black px-4 py-12 md:px-8 md:py-16 lg:py-24'
+    >
       <div className='mx-auto flex w-full max-w-[1023px] flex-col items-start gap-12 md:gap-[70px]'>
         {/* Header */}
         <div className='flex w-full flex-col items-center gap-5'>
@@ -82,9 +148,9 @@ export function RedesignedPricing() {
           <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616]'>
             <button
               onClick={() => setActiveTab('fixed-rate')}
-              className={`flex h-[42px] items-center justify-center rounded-[30px] px-5 transition-all ${
+              className={`flex h-[42px] items-center justify-center rounded-[30px] border px-5 transition-all ${
                 activeTab === 'fixed-rate'
-                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  ? 'border-[#F7F6FF] bg-[#F7F6FF] text-black'
                   : 'border-transparent bg-transparent text-white'
               }`}
             >
@@ -109,7 +175,7 @@ export function RedesignedPricing() {
 
         {/* Pricing Cards */}
         <div className='flex w-full flex-col items-start gap-[15px]'>
-          {pricingData.map((card, index) => (
+          {currentPricingData.map((card, index) => (
             <PricingCard key={index} {...card} />
           ))}
         </div>
@@ -122,7 +188,9 @@ function PricingCard({
   title,
   description,
   price,
+  priceNote,
   savings,
+  totalPrice,
   image,
   features,
 }: PricingCardData) {
@@ -155,38 +223,86 @@ function PricingCard({
 
           {/* Price and Tag */}
           <div className='flex flex-col gap-[15px]'>
-            <div className='text-[35px] font-bold leading-[21px] text-[#F7F6FF]'>
-              {price}
-            </div>
-            <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#452600] px-[10px] py-2'>
-              <svg
-                width='16'
-                height='16'
-                viewBox='0 0 16 16'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M11.666 3.33398C12.2183 3.33398 12.666 3.7817 12.666 4.33398C12.666 4.88627 12.2183 5.33398 11.666 5.33398C11.1137 5.33398 10.666 4.88627 10.666 4.33398C10.666 3.7817 11.1137 3.33398 11.666 3.33398Z'
-                  stroke='#FF8C00'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-                <path
-                  d='M1.85014 7.42992C1.18137 8.17685 1.16699 9.30372 1.78076 10.0965C2.99873 11.6695 4.33181 13.0026 5.90487 14.2205C6.69759 14.8343 7.82445 14.8199 8.57139 14.1512C10.5993 12.3355 12.4563 10.4379 14.2486 8.35258C14.4258 8.14645 14.5366 7.89378 14.5615 7.62305C14.6715 6.42597 14.8975 2.9771 13.9609 2.04048C13.0242 1.10386 9.57532 1.32983 8.37825 1.43982C8.10752 1.4647 7.85485 1.57554 7.64865 1.75272C5.5634 3.54496 3.66586 5.40206 1.85014 7.42992Z'
-                  stroke='#FF8C00'
-                />
-                <path
-                  d='M9.19162 8.24501C9.20582 7.97768 9.28082 7.48861 8.87435 7.11694M8.87435 7.11694C8.74855 7.00194 8.57668 6.89814 8.34262 6.81561C7.50488 6.52037 6.47591 7.50861 7.20382 8.41321C7.59508 8.89941 7.89675 9.04901 7.86835 9.60114C7.84835 9.98961 7.46682 10.3954 6.96395 10.55C6.52708 10.6843 6.04519 10.5065 5.74039 10.1659C5.36823 9.75008 5.40582 9.35801 5.40263 9.18714M8.87435 7.11694L9.33308 6.6582M5.77356 10.2177L5.33789 10.6534'
-                  stroke='#FF8C00'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-              <span className='text-sm font-normal leading-[50px] text-[#FF8C00]'>
-                {savings}
+            <div className='flex items-center gap-[15px]'>
+              <span className='text-[35px] font-bold leading-[21px] text-[#F7F6FF]'>
+                {price}
               </span>
+              {priceNote && (
+                <span className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+                  {priceNote}
+                </span>
+              )}
             </div>
+            {totalPrice && (
+              <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#FFE8CC] px-[10px] py-2'>
+                <svg
+                  width='17'
+                  height='17'
+                  viewBox='0 0 17 17'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-[17px] w-[17px] flex-shrink-0'
+                >
+                  <path
+                    d='M12.1916 3.48438C12.7688 3.48438 13.2368 3.9523 13.2368 4.52952C13.2368 5.10674 12.7688 5.57466 12.1916 5.57466C11.6144 5.57466 11.1465 5.10674 11.1465 4.52952C11.1465 3.9523 11.6144 3.48438 12.1916 3.48438Z'
+                    stroke='#FF8C00'
+                    strokeWidth='1.56771'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                  <path
+                    d='M1.93399 7.76468C1.23503 8.54533 1.21999 9.72307 1.86148 10.5516C3.13442 12.1957 4.52769 13.5889 6.17176 14.8618C7.00026 15.5033 8.178 15.4883 8.95865 14.7894C11.0781 12.8917 13.019 10.9085 14.8921 8.729C15.0773 8.51356 15.1931 8.24948 15.2191 7.96653C15.3341 6.71541 15.5703 3.11084 14.5914 2.13194C13.6125 1.15304 10.0079 1.38921 8.7568 1.50417C8.47384 1.53018 8.20977 1.64601 7.99426 1.8312C5.81488 3.70434 3.83167 5.64527 1.93399 7.76468Z'
+                    stroke='#FF8C00'
+                    strokeWidth='1.56771'
+                  />
+                  <path
+                    d='M9.60777 8.61645C9.62261 8.33705 9.701 7.8259 9.27618 7.43746M9.27618 7.43746C9.14471 7.31727 8.96508 7.20878 8.72045 7.12252C7.8449 6.81395 6.76947 7.8468 7.53024 8.79224C7.93917 9.30039 8.25445 9.45674 8.22477 10.0338C8.20387 10.4398 7.80511 10.8639 7.27954 11.0255C6.82296 11.1658 6.31931 10.98 6.00075 10.624C5.61179 10.1895 5.65107 9.77969 5.64774 9.60111M9.27618 7.43746L9.75563 6.95801M6.03541 10.6782L5.58008 11.1336'
+                    stroke='#FF8C00'
+                    strokeWidth='1.56771'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+                <span className='text-[15px] font-normal leading-[52px] text-[#FF8C00]'>
+                  {totalPrice}
+                </span>
+              </div>
+            )}
+            {savings && savings !== '' && (
+              <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#FFE8CC] px-[10px] py-2'>
+                <svg
+                  width='17'
+                  height='17'
+                  viewBox='0 0 17 17'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-[17px] w-[17px] flex-shrink-0'
+                >
+                  <path
+                    d='M12.1916 3.48438C12.7688 3.48438 13.2368 3.9523 13.2368 4.52952C13.2368 5.10674 12.7688 5.57466 12.1916 5.57466C11.6144 5.57466 11.1465 5.10674 11.1465 4.52952C11.1465 3.9523 11.6144 3.48438 12.1916 3.48438Z'
+                    stroke='#FF8C00'
+                    strokeWidth='1.56771'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                  <path
+                    d='M1.93399 7.76468C1.23503 8.54533 1.21999 9.72307 1.86148 10.5516C3.13442 12.1957 4.52769 13.5889 6.17176 14.8618C7.00026 15.5033 8.178 15.4883 8.95865 14.7894C11.0781 12.8917 13.019 10.9085 14.8921 8.729C15.0773 8.51356 15.1931 8.24948 15.2191 7.96653C15.3341 6.71541 15.5703 3.11084 14.5914 2.13194C13.6125 1.15304 10.0079 1.38921 8.7568 1.50417C8.47384 1.53018 8.20977 1.64601 7.99426 1.8312C5.81488 3.70434 3.83167 5.64527 1.93399 7.76468Z'
+                    stroke='#FF8C00'
+                    strokeWidth='1.56771'
+                  />
+                  <path
+                    d='M9.60777 8.61645C9.62261 8.33705 9.701 7.8259 9.27618 7.43746M9.27618 7.43746C9.14471 7.31727 8.96508 7.20878 8.72045 7.12252C7.8449 6.81395 6.76947 7.8468 7.53024 8.79224C7.93917 9.30039 8.25445 9.45674 8.22477 10.0338C8.20387 10.4398 7.80511 10.8639 7.27954 11.0255C6.82296 11.1658 6.31931 10.98 6.00075 10.624C5.61179 10.1895 5.65107 9.77969 5.64774 9.60111M9.27618 7.43746L9.75563 6.95801M6.03541 10.6782L5.58008 11.1336'
+                    stroke='#FF8C00'
+                    strokeWidth='1.56771'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+                <span className='text-[15px] font-normal leading-[52px] text-[#FF8C00]'>
+                  {savings}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -248,7 +364,7 @@ function PricingCard({
           </button>
           <button
             type='button'
-            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#262627] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#161616] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
             <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
               Customize
