@@ -102,7 +102,7 @@ export function ServicesList() {
 
             <div className='flex w-full flex-col items-start gap-10 md:w-1/2'>
               <div className='flex flex-col items-start gap-2.5'>
-                <h3 className='text-3xl font-medium leading-tight text-[#F7F6FF]'>
+                <h3 className='text-3xl font-medium leading-tight text-[var(--foreground)]'>
                   {service.title}
                 </h3>
                 <p className='text-lg leading-6 text-[#9BA1A6]'>
