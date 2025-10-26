@@ -110,7 +110,7 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  background: #545454;
+  background: var(--dark-section);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -446,7 +446,7 @@ body {
 }
 
 .onboarding-title {
-  color: #fff;
+  color: var(--foreground);
   font-size: 20px;
   font-weight: 500;
   line-height: 20px;
@@ -465,7 +465,7 @@ body {
   gap: 1.5rem;
   padding: 20px 15px;
   border-radius: 10px;
-  background: #202020;
+  background: var(--dark-card);
 }
 
 .details-column {
@@ -521,7 +521,7 @@ body {
 }
 
 .start-project-button span {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -542,8 +542,8 @@ body {
   align-items: center;
   gap: 5px;
   border-radius: 30px;
-  border: 1px solid #393939;
-  background: #202020;
+  border: 1px solid var(--dark-section);
+  background: var(--dark-card);
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -553,7 +553,7 @@ body {
 }
 
 .dismiss-button span {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -671,7 +671,7 @@ body {
 }
 
 .field-label {
-  color: #fff;
+  color: var(--foreground);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -706,7 +706,7 @@ body {
 }
 
 .field-input:focus {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .field-input::placeholder {
@@ -740,7 +740,7 @@ body {
 }
 
 .password-toggle:hover {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .password-row {
@@ -766,7 +766,7 @@ body {
 }
 
 .requirements-title {
-  color: #fff;
+  color: var(--foreground);
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -845,7 +845,7 @@ body {
 .checkbox-input:checked::after {
   content: '✓';
   position: absolute;
-  color: #fff;
+  color: var(--foreground);
   font-size: 12px;
   top: 50%;
   left: 50%;
@@ -990,7 +990,7 @@ body {
 }
 
 .back-to-login:hover {
-  color: #fff;
+  color: var(--foreground);
   text-decoration: underline;
 }
 
@@ -1076,7 +1076,7 @@ body {
 .action-icon {
   width: 26px;
   height: 26px;
-  color: #fff;
+  color: var(--foreground);
 }
 
 .project-status-row {
@@ -1161,7 +1161,7 @@ body {
 .small-progress-fill {
   height: 10px;
   border-radius: 30px;
-  background: #fff;
+  background: var(--background);
   position: absolute;
 }
 
@@ -1189,7 +1189,7 @@ body {
 }
 
 .tab-button.active {
-  color: #fff;
+  color: var(--foreground);
   font-weight: 500;
 }
 
@@ -1348,7 +1348,7 @@ body {
 .check-icon {
   width: 18px;
   height: 18px;
-  color: #fff;
+  color: var(--foreground);
 }
 
 .status-icon.in-progress {
@@ -1431,7 +1431,7 @@ body {
   flex-direction: column;
   gap: 22px;
   border-radius: 8px;
-  background: #464646;
+  background: var(--dark-card);
   box-shadow: 2px 16px 19px 0 rgba(0, 0, 0, 0.09);
   width: fit-content;
   max-width: 100%;
@@ -1445,7 +1445,7 @@ body {
 }
 
 .calendar-month-label {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 14px;
   font-weight: 600;
@@ -1478,7 +1478,7 @@ body {
 }
 
 .calendar-chevron {
-  fill: #b5bec6;
+  fill: var(--text-muted);
 }
 
 .calendar-grid {
@@ -1501,7 +1501,7 @@ body {
   height: 20px;
   justify-content: center;
   align-items: center;
-  color: #b5bec6;
+  color: var(--text-muted);
   text-align: center;
   font-size: 10px;
   font-weight: 600;
@@ -1536,7 +1536,7 @@ body {
 }
 
 .calendar-date {
-  color: #fff;
+  color: var(--foreground);
   text-align: center;
   font-size: 16px;
   font-weight: 600;
@@ -1549,7 +1549,7 @@ body {
 }
 
 .calendar-day-selected .calendar-date {
-  color: #fff;
+  color: var(--foreground);
 }
 
 .calendar-day-today:not(.calendar-day-selected) {
@@ -1557,7 +1557,7 @@ body {
 }
 
 .calendar-day-outside .calendar-date {
-  color: #b5bec6;
+  color: var(--text-muted);
   opacity: 0.4;
 }
 
