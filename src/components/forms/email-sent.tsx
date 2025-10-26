@@ -32,7 +32,7 @@ export function EmailSent() {
               Resend
             </button>
           </p>
-          <a href='/login' className='text-[#9ba1a6] text-sm no-underline'>
+          <a href='/login' className='text-[var(--text-secondary)] text-sm no-underline'>
             Back to Login
           </a>
         </div>
