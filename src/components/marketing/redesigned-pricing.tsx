@@ -204,7 +204,12 @@ function PricingCard({
                     xmlns='http://www.w3.org/2000/svg'
                     className='absolute left-0 top-0'
                   >
-                    <circle cx='10.9013' cy='10.9013' r='10.9013' fill='#2D2D2D' />
+                    <circle
+                      cx='10.9013'
+                      cy='10.9013'
+                      r='10.9013'
+                      fill='#2D2D2D'
+                    />
                   </svg>
                   <svg
                     width='19'
