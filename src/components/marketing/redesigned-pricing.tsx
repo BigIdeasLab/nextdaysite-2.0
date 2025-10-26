@@ -145,12 +145,12 @@ export function RedesignedPricing() {
           </h2>
 
           {/* Toggle Button */}
-          <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616]'>
+          <div className='flex items-center rounded-[30px] border border-[var(--pricing-input-label)] bg-[var(--dark-card)]'>
             <button
               onClick={() => setActiveTab('fixed-rate')}
               className={`flex h-[42px] items-center justify-center rounded-[30px] border px-5 transition-all ${
                 activeTab === 'fixed-rate'
-                  ? 'border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  ? 'border-[var(--light-text)] bg-[var(--light-text)] text-black'
                   : 'border-transparent bg-transparent text-white'
               }`}
             >
@@ -162,7 +162,7 @@ export function RedesignedPricing() {
               onClick={() => setActiveTab('payment-plan')}
               className={`flex h-[42px] items-center justify-center rounded-[30px] px-6 transition-all ${
                 activeTab === 'payment-plan'
-                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  ? 'border border-[var(--light-text)] bg-[var(--light-text)] text-black'
                   : 'border-transparent bg-transparent text-white'
               }`}
             >
@@ -195,7 +195,7 @@ function PricingCard({
   features,
 }: PricingCardData) {
   return (
-    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[#161616] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
+    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[var(--dark-card)] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
       {/* Image */}
       <div className='relative h-[250px] w-full flex-shrink-0 overflow-hidden rounded-[10px] md:h-[365px] md:w-[341px]'>
         <Image
@@ -228,7 +228,7 @@ function PricingCard({
                 {price}
               </span>
               {priceNote && (
-                <span className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
+                <span className='text-[17px] font-light leading-[22px] text-[var(--pricing-label-text)]'>
                   {priceNote}
                 </span>
               )}
@@ -263,7 +263,7 @@ function PricingCard({
                     strokeLinejoin='round'
                   />
                 </svg>
-                <span className='text-[15px] font-normal leading-[52px] text-[#FF8C00]'>
+                <span className='text-[15px] font-normal leading-[52px] text-[var(--orange-accent)]'>
                   {totalPrice}
                 </span>
               </div>
@@ -298,7 +298,7 @@ function PricingCard({
                     strokeLinejoin='round'
                   />
                 </svg>
-                <span className='text-[15px] font-normal leading-[52px] text-[#FF8C00]'>
+                <span className='text-[15px] font-normal leading-[52px] text-[var(--orange-accent)]'>
                   {savings}
                 </span>
               </div>
@@ -307,7 +307,7 @@ function PricingCard({
         </div>
 
         {/* Features Grid */}
-        <div className='rounded-[10px] bg-[#262627] p-[10px]'>
+        <div className='rounded-[10px] bg-[var(--dark-gray)] p-[10px]'>
           <div className='grid grid-cols-1 gap-[13px] sm:grid-cols-2 sm:gap-x-[10px]'>
             {features.map((feature, index) => (
               <div key={index} className='flex items-center gap-[9px]'>
@@ -324,7 +324,7 @@ function PricingCard({
                       cx='10.9013'
                       cy='10.9013'
                       r='10.9013'
-                      fill='#2D2D2D'
+                      fill='var(--dark-gray-secondary)'
                     />
                   </svg>
                   <svg
@@ -337,14 +337,14 @@ function PricingCard({
                   >
                     <path
                       d='M3.78516 10.5986L6.43477 13.2482L14.3836 4.9209'
-                      stroke='#F7F6FF'
+                      stroke='var(--light-text)'
                       strokeWidth='1.36266'
                       strokeLinecap='round'
                       strokeLinejoin='round'
                     />
                   </svg>
                 </div>
-                <span className='text-sm leading-[21.803px] text-[#9BA1A6]'>
+                <span className='text-sm leading-[21.803px] text-[var(--pricing-label-text)]'>
                   {feature}
                 </span>
               </div>
@@ -356,7 +356,7 @@ function PricingCard({
         <div className='flex flex-col gap-[7px] sm:flex-row'>
           <button
             type='button'
-            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--orange-accent)] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
             <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
               Subscribe
@@ -364,7 +364,7 @@ function PricingCard({
           </button>
           <button
             type='button'
-            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#161616] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--dark-card)] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
             <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
               Customize
