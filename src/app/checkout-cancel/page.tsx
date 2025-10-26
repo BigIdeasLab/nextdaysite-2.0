@@ -3,7 +3,7 @@ import { X } from 'lucide-react'
 
 export default function CheckoutCancelPage() {
   return (
-    <div className='min-h-screen w-full bg-black px-4 py-16 md:px-8'>
+    <div className='min-h-screen w-full bg-background transition-colors duration-300 px-4 py-16 md:px-8'>
       <div className='mx-auto flex max-w-2xl flex-col items-center gap-8 text-center'>
         <div className='flex h-16 w-16 items-center justify-center rounded-full bg-rose-500/10'>
           <X className='h-8 w-8 text-rose-600' />
