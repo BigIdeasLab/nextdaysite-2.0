@@ -28,10 +28,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Default to monthly and recurring (subscription)
-    const resolvedBillingCycle = billingCycle || 'monthly'
-
-    // Fetch plan details from database
     const { data: plan, error: planError } = await supabase
       .from('plans')
       .select('*')
@@ -42,11 +38,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Plan not found' }, { status: 404 })
     }
 
-    // Calculate prices
-    const basePrice =
-      resolvedBillingCycle === 'yearly' ? plan.yearly_price : plan.monthly_price
-
-    // Create Stripe customer without email (Stripe will collect it)
     const customer = await stripe.customers.create({
       metadata: {
         plan_id: planId,
@@ -54,36 +45,67 @@ export async function POST(request: NextRequest) {
     })
     const customerId = customer.id
 
-    // Create subscription checkout session
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: plan.name,
-            description: plan.summary,
-          },
-          unit_amount: Math.round(basePrice * 100),
-          recurring: {
-            interval: resolvedBillingCycle === 'yearly' ? 'year' : 'month',
-            interval_count: 1,
-          },
-        },
-        quantity: 1,
-      },
-    ]
+    let sessionParams: Stripe.Checkout.SessionCreateParams
 
-    const sessionParams: Stripe.Checkout.SessionCreateParams = {
-      customer: customerId,
-      line_items: lineItems,
-      mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-cancel`,
-      billing_address_collection: 'required',
-      metadata: {
-        plan_id: planId,
-        billing_cycle: resolvedBillingCycle,
-      },
+    if (billingCycle === 'fixed-rate') {
+      sessionParams = {
+        customer: customerId,
+        mode: 'payment',
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: plan.name,
+                description: plan.summary,
+              },
+              unit_amount: Math.round(plan.yearly_price * 100),
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-cancel`,
+        billing_address_collection: 'required',
+        metadata: {
+          plan_id: planId,
+          billing_cycle: 'fixed-rate',
+        },
+      }
+    } else if (billingCycle === 'payment-plan') {
+      sessionParams = {
+        customer: customerId,
+        mode: 'subscription',
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: plan.name,
+                description: plan.summary,
+              },
+              unit_amount: Math.round(plan.monthly_price * 100),
+              recurring: {
+                interval: 'month',
+                interval_count: 1,
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout-cancel`,
+        billing_address_collection: 'required',
+        metadata: {
+          plan_id: planId,
+          billing_cycle: 'payment-plan',
+        },
+      }
+    } else {
+      return NextResponse.json(
+        { error: 'Invalid billing cycle' },
+        { status: 400 },
+      )
     }
 
     const session = await stripe.checkout.sessions.create(sessionParams)

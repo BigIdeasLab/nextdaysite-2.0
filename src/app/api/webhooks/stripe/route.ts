@@ -99,7 +99,9 @@ async function handleCheckoutSessionCompleted(
   try {
     const metadata = session.metadata || {}
     const planId = metadata.plan_id || metadata.planId || null
-    const billingCycle = metadata.billing_cycle || 'monthly'
+    const rawBillingCycle = metadata.billing_cycle || 'monthly'
+    // Sanitize billingCycle to ensure it's a valid enum value for the database
+    const billingCycle = rawBillingCycle === 'yearly' ? 'yearly' : 'monthly'
 
     // Get email from session
     const email = session.customer_details?.email
@@ -122,7 +124,8 @@ async function handleCheckoutSessionCompleted(
           email,
           email_confirm: false,
           user_metadata: {
-            created_via: 'stripe_checkout',
+            full_name: email, // Default full_name to email
+            role: 'customer', // Set default role
           },
         })
 
@@ -133,26 +136,52 @@ async function handleCheckoutSessionCompleted(
 
       userId = newAuthUser.user.id
 
-      // Create user record in public.users table
-      await supabase
+      // Poll for the user record to appear in public.users
+      let userRecord = null
+      for (let i = 0; i < 10; i++) {
+        const { data } = await supabase
+          .from('users')
+          .select('id')
+          .eq('id', userId)
+          .single()
+        if (data) {
+          userRecord = data
+          break
+        }
+        await new Promise((res) => setTimeout(res, 200))
+      }
+
+      if (!userRecord) {
+        console.error(
+          'FATAL: User record in public.users did not appear in time.',
+        )
+        return // Or handle the error more gracefully
+      }
+
+      // The `on_auth_user_created` trigger should have already created a public.users record.
+      // Now, we update it with the Stripe customer ID and plan ID.
+      const { error: updateError } = await supabase
         .from('users')
-        .insert({
-          id: userId,
-          email,
+        .update({
           stripe_customer_id: session.customer as string,
           plan_id: planId,
-          created_at: new Date().toISOString(),
         })
-        .then((result) => {
-          if (result.error) {
-            console.error('Error creating user record:', result.error)
-          }
-        })
+        .eq('id', userId)
+
+      if (updateError) {
+        console.error(
+          'Error updating user record with Stripe info:',
+          updateError,
+        )
+      }
     }
 
     // Create a project for the user
+
     const projectTitle = `Project - ${new Date().toLocaleDateString()}`
-    const projectSlug = `project-${userId.substring(0, 8)}-${Math.random().toString(36).substring(2, 8)}`
+    const projectSlug = `project-${userId.substring(0, 8)}-${Math.random()
+      .toString(36)
+      .substring(2, 8)}`
 
     const { data: newProject, error: projectError } = await supabase
       .from('projects')
@@ -189,9 +218,6 @@ async function handleCheckoutSessionCompleted(
 
     if (existingInvoice) {
       console.log(`Invoice already exists for session ${session.id}`)
-
-      // Still send magic link if user is new
-      await sendMagicLinkToUser(email)
       return
     }
 
@@ -274,18 +300,25 @@ async function handleCheckoutSessionCompleted(
     }
 
     // Send magic link to user
-    await sendMagicLinkToUser(email)
+    await sendMagicLinkToUser(email, projectSlug)
   } catch (error) {
     console.error('Error handling checkout session completed:', error)
   }
 }
 
-async function sendMagicLinkToUser(email: string): Promise<void> {
+async function sendMagicLinkToUser(
+  email: string,
+  projectSlug?: string,
+): Promise<void> {
   try {
+    const redirectUrl = projectSlug
+      ? `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/projects/${projectSlug}/onboarding`
+      : `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`,
+        emailRedirectTo: redirectUrl,
       },
     })
 

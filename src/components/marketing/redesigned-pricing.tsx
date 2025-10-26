@@ -6,6 +6,7 @@ import Image from 'next/image'
 type PricingTab = 'fixed-rate' | 'payment-plan'
 
 interface PricingCardData {
+  planId: string
   title: string
   description: string
   price: string
@@ -18,6 +19,7 @@ interface PricingCardData {
 
 const fixedRatePricingData: PricingCardData[] = [
   {
+    planId: '260df6c8-2cb1-4d3a-b4f5-f3d34276e1ab',
     title: 'Web',
     description: 'Modern 3–5 page website fast.',
     price: '$1,500',
@@ -35,6 +37,7 @@ const fixedRatePricingData: PricingCardData[] = [
     ],
   },
   {
+    planId: '70a7e3a1-dc5d-49f9-9f8a-1d2d694c3fe1',
     title: 'Brand Identity',
     description: 'Brand Identity',
     price: '$2,500',
@@ -51,6 +54,7 @@ const fixedRatePricingData: PricingCardData[] = [
     ],
   },
   {
+    planId: '909f900e-137d-4d49-8715-bb665fb692e8',
     title: 'Complete',
     description: 'Website + branding handled end - to - end.',
     price: '$5,000',
@@ -70,6 +74,7 @@ const fixedRatePricingData: PricingCardData[] = [
 
 const paymentPlanPricingData: PricingCardData[] = [
   {
+    planId: '260df6c8-2cb1-4d3a-b4f5-f3d34276e1ab',
     title: 'Web',
     description: 'Modern 3–5 page website fast.',
     price: '$150',
@@ -89,6 +94,7 @@ const paymentPlanPricingData: PricingCardData[] = [
     ],
   },
   {
+    planId: '70a7e3a1-dc5d-49f9-9f8a-1d2d694c3fe1',
     title: 'Brand Identity',
     description: 'Brand Identity',
     price: '$250',
@@ -107,6 +113,7 @@ const paymentPlanPricingData: PricingCardData[] = [
     ],
   },
   {
+    planId: '909f900e-137d-4d49-8715-bb665fb692e8',
     title: 'Complete',
     description: 'Website + branding handled end - to - end.',
     price: '$500',
@@ -128,6 +135,34 @@ const paymentPlanPricingData: PricingCardData[] = [
 
 export function RedesignedPricing() {
   const [activeTab, setActiveTab] = useState<PricingTab>('fixed-rate')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubscribe = async (planId: string, billingCycle: PricingTab) => {
+    setLoading(true)
+    try {
+      const response = await fetch('/api/checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ planId, billingCycle }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session')
+      }
+
+      const { url } = await response.json()
+      if (url) {
+        window.location.href = url
+      }
+    } catch (error) {
+      console.error(error)
+      // Handle error state here, e.g., show a notification
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const currentPricingData =
     activeTab === 'payment-plan' ? paymentPlanPricingData : fixedRatePricingData
@@ -176,7 +211,13 @@ export function RedesignedPricing() {
         {/* Pricing Cards */}
         <div className='flex w-full flex-col items-start gap-[15px]'>
           {currentPricingData.map((card, index) => (
-            <PricingCard key={index} {...card} />
+            <PricingCard
+              key={index}
+              {...card}
+              billingCycle={activeTab}
+              onSubscribe={handleSubscribe}
+              loading={loading}
+            />
           ))}
         </div>
       </div>
@@ -185,6 +226,7 @@ export function RedesignedPricing() {
 }
 
 function PricingCard({
+  planId,
   title,
   description,
   price,
@@ -193,7 +235,14 @@ function PricingCard({
   totalPrice,
   image,
   features,
-}: PricingCardData) {
+  billingCycle,
+  onSubscribe,
+  loading,
+}: PricingCardData & {
+  billingCycle: PricingTab
+  onSubscribe: (planId: string, billingCycle: PricingTab) => void
+  loading: boolean
+}) {
   return (
     <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[var(--dark-card)] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
       {/* Image */}
@@ -356,10 +405,12 @@ function PricingCard({
         <div className='flex flex-col gap-[7px] sm:flex-row'>
           <button
             type='button'
-            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--orange-accent)] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+            onClick={() => onSubscribe(planId, billingCycle)}
+            disabled={loading}
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--orange-accent)] px-5 transition-transform hover:scale-105 sm:w-[156px] disabled:cursor-not-allowed disabled:opacity-50'
           >
             <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
-              Subscribe
+              {loading ? 'Redirecting...' : 'Subscribe'}
             </span>
           </button>
           <button
