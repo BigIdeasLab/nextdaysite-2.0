@@ -625,7 +625,7 @@ body {
 
 .auth-card {
   width: 100%;
-  background: #1a1a1a;
+  background: var(--dark-card);
   border: 1px solid #343333;
   border-radius: 24px;
   padding: 2.5rem 2rem;
