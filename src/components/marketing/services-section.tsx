@@ -47,8 +47,8 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section className='bg-[#131313]'>
-      <div className='w-full bg-black px-5 py-[106px] rounded-t-[20px] md:rounded-t-[50px] md:px-12 md:py-26 lg:px-52'>
+    <section className='bg-[var(--dark-section)] transition-colors duration-300'>
+      <div className='w-full bg-background px-5 py-[106px] transition-colors duration-300 rounded-t-[20px] md:rounded-t-[50px] md:px-12 md:py-26 lg:px-52'>
         <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-16'>
           <h2 className='text-center font-medium text-[#F7F6FF] text-[clamp(1.75rem,5vw,2.5rem)] leading-tight'>
             Our Services
