@@ -37,7 +37,10 @@ export function EmailConfirmed() {
           </button>
           <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
             Need to sign in again?{' '}
-            <a href='/login' className='text-[var(--orange-primary)] no-underline'>
+            <a
+              href='/login'
+              className='text-[var(--orange-primary)] no-underline'
+            >
               Login
             </a>
           </p>

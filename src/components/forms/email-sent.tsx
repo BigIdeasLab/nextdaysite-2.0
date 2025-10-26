@@ -28,11 +28,17 @@ export function EmailSent() {
         <div className='flex flex-col items-center gap-4'>
           <p className='text-[var(--text-secondary)] text-sm text-center'>
             Didn&apos;t receive the email?{' '}
-            <button className='text-[var(--orange-primary)] no-underline' type='button'>
+            <button
+              className='text-[var(--orange-primary)] no-underline'
+              type='button'
+            >
               Resend
             </button>
           </p>
-          <a href='/login' className='text-[var(--text-secondary)] text-sm no-underline'>
+          <a
+            href='/login'
+            className='text-[var(--text-secondary)] text-sm no-underline'
+          >
             Back to Login
           </a>
         </div>

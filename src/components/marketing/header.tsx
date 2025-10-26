@@ -68,7 +68,9 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-normal transition-colors hover:text-foreground dark:hover:text-white ${
-                  isActive ? 'text-foreground dark:text-white' : 'text-foreground/70 dark:text-white/70'
+                  isActive
+                    ? 'text-foreground dark:text-white'
+                    : 'text-foreground/70 dark:text-white/70'
                 }`}
               >
                 {item.label}
@@ -95,7 +97,10 @@ export function Header() {
             {mobileMenuOpen ? (
               <X className='h-6 w-6 text-[var(--text-muted)]' strokeWidth={2} />
             ) : (
-              <Menu className='h-6 w-6 text-[var(--text-muted)]' strokeWidth={2} />
+              <Menu
+                className='h-6 w-6 text-[var(--text-muted)]'
+                strokeWidth={2}
+              />
             )}
           </button>
         </div>
@@ -115,7 +120,9 @@ export function Header() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-2xl font-medium transition-colors ${
-                    isActive ? 'text-foreground dark:text-white' : 'text-foreground/70 dark:text-white/70'
+                    isActive
+                      ? 'text-foreground dark:text-white'
+                      : 'text-foreground/70 dark:text-white/70'
                   }`}
                 >
                   {item.label}

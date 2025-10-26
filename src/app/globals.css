@@ -23,8 +23,15 @@
 }
 
 /* Smooth theme transitions */
-html, body, body * {
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, fill 200ms ease, stroke 200ms ease;
+html,
+body,
+body * {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    fill 200ms ease,
+    stroke 200ms ease;
 }
 
 @theme inline {
