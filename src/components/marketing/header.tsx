@@ -93,9 +93,9 @@ export function Header() {
             aria-label='Toggle menu'
           >
             {mobileMenuOpen ? (
-              <X className='h-6 w-6 text-[#A6A6A6]' strokeWidth={2} />
+              <X className='h-6 w-6 text-[var(--text-muted)]' strokeWidth={2} />
             ) : (
-              <Menu className='h-6 w-6 text-[#A6A6A6]' strokeWidth={2} />
+              <Menu className='h-6 w-6 text-[var(--text-muted)]' strokeWidth={2} />
             )}
           </button>
         </div>
