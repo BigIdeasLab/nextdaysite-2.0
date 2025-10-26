@@ -757,7 +757,7 @@ body {
 }
 
 .password-requirements {
-  background: #252625;
+  background: var(--dark-section);
   border-radius: 12px;
   padding: 0.8125rem 0.625rem 0.625rem 0.6875rem;
   display: flex;
@@ -957,7 +957,7 @@ body {
 
 .email-info,
 .confirmation-info {
-  background: #252625;
+  background: var(--dark-section);
   border-radius: 12px;
   padding: 1.5rem;
 }
