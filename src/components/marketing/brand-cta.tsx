@@ -49,7 +49,7 @@ export function BrandCta() {
         </svg>
 
         <div className='relative z-10 flex w-full max-w-2xl flex-col items-center gap-8 text-center'>
-          <h2 className='text-balance text-4xl font-medium leading-tight text-white md:text-5xl'>
+          <h2 className='text-balance text-4xl font-medium leading-tight text-[var(--foreground)] md:text-5xl'>
             A Strong Brand Begins With A Bold Identity.
           </h2>
           <p className='text-balance text-lg leading-relaxed text-[#B9B9B9]'>
