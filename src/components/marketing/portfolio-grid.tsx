@@ -82,7 +82,7 @@ export function PortfolioGrid() {
               <h3 className='text-3xl font-medium leading-tight text-[var(--foreground)]'>
                 {project.title}
               </h3>
-              <p className='text-lg leading-6 text-[#9BA1A6]'>
+              <p className='text-lg leading-6 text-[var(--text-secondary)]'>
                 {project.description}
               </p>
             </div>
