@@ -592,7 +592,7 @@ body {
 /* Auth Pages Styles */
 .auth-page {
   min-height: 100vh;
-  background: #000;
+  background: var(--dark-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1009,7 +1009,7 @@ body {
 /* Project Details Page Styles */
 .project-details-page {
   min-height: 100vh;
-  background: #000;
+  background: var(--dark-bg);
   color: var(--foreground);
   padding: 1.5rem;
   font-family:
@@ -1352,7 +1352,7 @@ body {
 }
 
 .status-icon.in-progress {
-  background: #000;
+  background: var(--dark-bg);
   border: 1.5px solid var(--orange-primary);
   position: relative;
 }
@@ -1365,7 +1365,7 @@ body {
 }
 
 .status-icon.pending {
-  background: #000;
+  background: var(--dark-bg);
   border: 1.5px solid #2d2d2d;
 }
 
