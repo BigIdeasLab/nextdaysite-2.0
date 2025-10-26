@@ -103,7 +103,7 @@ export function Header() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className='fixed inset-0 z-40 bg-black/95 lg:hidden'>
+        <div className='fixed inset-0 z-40 bg-background/95 dark:bg-black/95 lg:hidden'>
           <nav className='flex h-full flex-col items-center justify-center gap-8 px-6'>
             {navItems.map((item) => {
               const isActive =
