@@ -213,7 +213,7 @@ function PricingCard({
         <div className='flex flex-col gap-6 md:gap-[25px]'>
           {/* Title and Description */}
           <div className='flex flex-col gap-[15px]'>
-            <h3 className='text-xl font-medium leading-[21px] text-[#F7F6FF]'>
+            <h3 className='text-xl font-medium leading-[21px] text-[var(--foreground)]'>
               {title}
             </h3>
             <p className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
