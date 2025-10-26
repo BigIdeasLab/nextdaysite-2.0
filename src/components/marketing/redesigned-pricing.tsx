@@ -195,7 +195,7 @@ function PricingCard({
   features,
 }: PricingCardData) {
   return (
-    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[#F5F5F5] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
+    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[#161616] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
       {/* Image */}
       <div className='relative h-[250px] w-full flex-shrink-0 overflow-hidden rounded-[10px] md:h-[365px] md:w-[341px]'>
         <Image
@@ -213,7 +213,7 @@ function PricingCard({
         <div className='flex flex-col gap-6 md:gap-[25px]'>
           {/* Title and Description */}
           <div className='flex flex-col gap-[15px]'>
-            <h3 className='text-xl font-medium leading-[21px] text-black'>
+            <h3 className='text-xl font-medium leading-[21px] text-[#F7F6FF]'>
               {title}
             </h3>
             <p className='text-[17px] font-light leading-[22px] text-[#9BA1A6]'>
@@ -224,7 +224,7 @@ function PricingCard({
           {/* Price and Tag */}
           <div className='flex flex-col gap-[15px]'>
             <div className='flex items-center gap-[15px]'>
-              <span className='text-[35px] font-bold leading-[21px] text-black'>
+              <span className='text-[35px] font-bold leading-[21px] text-[#F7F6FF]'>
                 {price}
               </span>
               {priceNote && (
