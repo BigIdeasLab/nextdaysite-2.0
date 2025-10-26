@@ -104,7 +104,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
         />
       </div>
       <div className='flex w-full max-w-md flex-col items-start gap-[10px] pt-[5px]'>
-        <h3 className='text-[24px] font-medium leading-[31.471px] text-[#F7F6FF] md:text-[32px]'>
+        <h3 className='text-[24px] font-medium leading-[31.471px] text-[var(--foreground)] md:text-[32px]'>
           {project.title}
         </h3>
         <p className='text-[16px] leading-[24px] text-[#9BA1A6] md:text-[18px]'>
