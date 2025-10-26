@@ -115,7 +115,7 @@ export function Header() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-2xl font-medium transition-colors ${
-                    isActive ? 'text-white' : 'text-white/70'
+                    isActive ? 'text-foreground dark:text-white' : 'text-foreground/70 dark:text-white/70'
                   }`}
                 >
                   {item.label}
