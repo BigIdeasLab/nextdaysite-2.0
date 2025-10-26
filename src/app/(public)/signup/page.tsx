@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function SignupPage() {
   return (
-    <div className='min-h-screen bg-black flex items-center justify-center py-8 px-4 font-sans'>
+    <div className='min-h-screen bg-background transition-colors duration-300 flex items-center justify-center py-8 px-4 font-sans'>
       <div className='w-full max-w-2xl flex flex-col items-center gap-8'>
         <div className='flex justify-center mb-4'>
           <Image
