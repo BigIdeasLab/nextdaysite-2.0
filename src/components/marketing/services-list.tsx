@@ -112,7 +112,7 @@ export function ServicesList() {
 
               <Link
                 href='#pricing'
-                className='flex items-center justify-center rounded-full border border-white/50 px-6 py-5 text-base font-medium text-white transition-colors hover:border-white/70 hover:bg-white/5'
+                className='flex items-center justify-center rounded-full border border-foreground/50 px-6 py-5 text-base font-medium text-foreground transition-colors hover:border-foreground/70 hover:bg-foreground/5'
               >
                 See Pricing
               </Link>
