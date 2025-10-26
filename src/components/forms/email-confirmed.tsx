@@ -7,7 +7,7 @@ export function EmailConfirmed() {
   const router = useRouter()
 
   return (
-    <div className='w-full bg-[#1a1a1a] border border-[#343333] rounded-3xl p-8'>
+    <div className='w-full bg-[var(--dark-card)] border border-[var(--dark-section)] rounded-3xl p-8'>
       <div className='flex flex-col gap-3 mb-6 text-center'>
         <div className='flex justify-center mb-4 text-[#ff8c00]'>
           <CheckCircle className='w-12 h-12' />
