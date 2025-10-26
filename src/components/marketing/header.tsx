@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X } from 'lucide-react'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 const navItems = [
   { label: 'Home', href: '/' },
