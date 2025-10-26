@@ -102,7 +102,7 @@ export function BrandGrid() {
               <h3 className='text-3xl font-medium leading-tight text-[var(--foreground)]'>
                 {brand.title}
               </h3>
-              <p className='text-lg leading-6 text-[#9BA1A6]'>
+              <p className='text-lg leading-6 text-[var(--text-secondary)]'>
                 {brand.description}
               </p>
             </div>
