@@ -145,13 +145,13 @@ export function RedesignedPricing() {
           </h2>
 
           {/* Toggle Button */}
-          <div className='flex items-center rounded-[30px] border border-[#F5F5F5] bg-[#F5F5F5]'>
+          <div className='flex items-center rounded-[30px] border border-[#3E3E3E] bg-[#161616]'>
             <button
               onClick={() => setActiveTab('fixed-rate')}
               className={`flex h-[42px] items-center justify-center rounded-[30px] border px-5 transition-all ${
                 activeTab === 'fixed-rate'
-                  ? 'border-[#F5F5F5] bg-[#F5F5F5] text-black'
-                  : 'border-transparent bg-transparent text-black'
+                  ? 'border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  : 'border-transparent bg-transparent text-white'
               }`}
             >
               <span className='text-sm font-medium leading-[18.655px]'>
@@ -162,8 +162,8 @@ export function RedesignedPricing() {
               onClick={() => setActiveTab('payment-plan')}
               className={`flex h-[42px] items-center justify-center rounded-[30px] px-6 transition-all ${
                 activeTab === 'payment-plan'
-                  ? 'border border-[#F5F5F5] bg-black text-white'
-                  : 'border-transparent bg-transparent text-black'
+                  ? 'border border-[#F7F6FF] bg-[#F7F6FF] text-black'
+                  : 'border-transparent bg-transparent text-white'
               }`}
             >
               <span className='text-sm font-medium leading-[18.655px]'>
