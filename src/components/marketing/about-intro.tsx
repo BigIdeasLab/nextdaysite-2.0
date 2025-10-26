@@ -14,7 +14,7 @@ export function AboutIntro() {
           />
         </div>
         <div className='flex flex-col gap-6 md:w-2/3'>
-          <h2 className='text-3xl font-medium leading-tight text-[#F7F6FF] md:text-[32px]'>
+          <h2 className='text-3xl font-medium leading-tight text-[var(--foreground)] md:text-[32px]'>
             About Us
           </h2>
           <p className='text-lg leading-relaxed text-[#9BA1A6]'>
