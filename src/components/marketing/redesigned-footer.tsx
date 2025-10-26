@@ -60,7 +60,7 @@ export function RedesignedFooter() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`text-sm text-white transition-colors hover:text-white/80 md:text-base lg:text-lg ${
+                    className={`text-sm text-foreground transition-colors hover:text-foreground/80 dark:text-white dark:hover:text-white/80 md:text-base lg:text-lg ${
                       link.underline ? 'underline' : ''
                     }`}
                   >
