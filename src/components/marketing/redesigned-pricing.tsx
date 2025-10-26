@@ -224,7 +224,7 @@ function PricingCard({
           {/* Price and Tag */}
           <div className='flex flex-col gap-[15px]'>
             <div className='flex items-center gap-[15px]'>
-              <span className='text-[35px] font-bold leading-[21px] text-[#F7F6FF]'>
+              <span className='text-[35px] font-bold leading-[21px] text-[var(--foreground)]'>
                 {price}
               </span>
               {priceNote && (
@@ -358,7 +358,7 @@ function PricingCard({
             type='button'
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
-            <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
+            <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
               Subscribe
             </span>
           </button>
@@ -366,7 +366,7 @@ function PricingCard({
             type='button'
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#161616] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
-            <span className='text-base font-medium leading-5 text-[#F7F6FF]'>
+            <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
               Customize
             </span>
           </button>
