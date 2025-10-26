@@ -59,7 +59,7 @@ export function BrandCta() {
           <div className='flex flex-wrap items-center gap-3'>
             <Link
               href='/checkout'
-              className='flex h-14 items-center justify-center rounded-full bg-[#FF8C00] px-8 text-lg font-medium text-white transition-transform hover:scale-105'
+              className='flex h-14 items-center justify-center rounded-full bg-[var(--orange-primary)] px-8 text-lg font-medium text-[var(--foreground)] transition-transform hover:scale-105'
             >
               Get Started
             </Link>
