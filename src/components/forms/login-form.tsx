@@ -67,7 +67,7 @@ export function LoginForm() {
       <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col gap-5'>
-            <label className='text-white text-base font-normal leading-6'>
+            <label className='text-foreground text-base font-normal leading-6'>
               Email
             </label>
             <div className='flex flex-col gap-2.5'>
@@ -84,7 +84,7 @@ export function LoginForm() {
           </div>
 
           <div className='flex flex-col gap-5'>
-            <label className='text-white text-base font-normal leading-6'>
+            <label className='text-foreground text-base font-normal leading-6'>
               Password
             </label>
             <div className='flex flex-col gap-2.5'>
