@@ -79,7 +79,7 @@ export function FeaturedWorksSection() {
 
         <Link
           href='/portfolio'
-          className='flex h-[48px] items-center justify-center rounded-[30px] border border-[#3E3E3E] px-[26px] text-[20px] font-medium text-white transition-transform hover:scale-105 md:h-[54px] md:text-[23px]'
+          className='flex h-[48px] items-center justify-center rounded-[30px] border border-[var(--pricing-input-label)] px-[26px] text-[20px] font-medium text-white transition-transform hover:scale-105 md:h-[54px] md:text-[23px]'
         >
           See All
         </Link>
