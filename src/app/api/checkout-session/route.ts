@@ -30,8 +30,6 @@ export async function POST(request: NextRequest) {
 
     // Default to monthly and recurring (subscription)
     const resolvedBillingCycle = billingCycle || 'monthly'
-    const paymentType = 'recurring'
-    const includeHosting = false
 
     // Fetch plan details from database
     const { data: plan, error: planError } = await supabase
@@ -47,9 +45,6 @@ export async function POST(request: NextRequest) {
     // Calculate prices
     const basePrice =
       resolvedBillingCycle === 'yearly' ? plan.yearly_price : plan.monthly_price
-
-    const subtotal = basePrice || 0
-    const total = subtotal
 
     // Create Stripe customer without email (Stripe will collect it)
     const customer = await stripe.customers.create({
