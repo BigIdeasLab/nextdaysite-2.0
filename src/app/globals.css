@@ -1294,7 +1294,7 @@ body {
   align-items: flex-start;
   gap: 25px;
   border-radius: 12px;
-  background: #131313;
+  background: var(--dark-section);
   margin-left: -10px;
 }
 
