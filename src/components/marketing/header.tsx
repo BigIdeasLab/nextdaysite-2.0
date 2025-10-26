@@ -67,8 +67,8 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-normal transition-colors hover:text-white ${
-                  isActive ? 'text-white' : 'text-white/70'
+                className={`text-sm font-normal transition-colors hover:text-foreground dark:hover:text-white ${
+                  isActive ? 'text-foreground dark:text-white' : 'text-foreground/70 dark:text-white/70'
                 }`}
               >
                 {item.label}
