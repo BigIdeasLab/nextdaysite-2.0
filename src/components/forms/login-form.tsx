@@ -73,7 +73,7 @@ export function LoginForm() {
             <div className='flex flex-col gap-2.5'>
               <input
                 type='email'
-                className='bg-transparent border-none text-[#9ba1a6] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[#9ba1a6]'
+                className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[var(--text-secondary)]'
                 placeholder='youexample.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -91,7 +91,7 @@ export function LoginForm() {
               <div className='flex items-center justify-between gap-2.5 p-0.5'>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className='bg-transparent border-none text-[#9ba1a6] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[#9ba1a6]'
+                  className='bg-transparent border-none text-[var(--text-secondary)] text-sm font-normal leading-6 p-0.5 outline-none w-full focus:text-white placeholder:text-[var(--text-secondary)]'
                   placeholder='Enter your password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -100,7 +100,7 @@ export function LoginForm() {
                 <button
                   type='button'
                   onClick={() => setShowPassword(!showPassword)}
-                  className='bg-none border-none text-[#9ba1a6] cursor-pointer p-0 flex items-center justify-center flex-shrink-0 hover:text-white'
+                  className='bg-none border-none text-[var(--text-secondary)] cursor-pointer p-0 flex items-center justify-center flex-shrink-0 hover:text-white'
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
@@ -129,7 +129,7 @@ export function LoginForm() {
               onChange={(e) => setRememberMe(e.target.checked)}
               className='w-4 h-4 rounded border border-[#ff8c00] bg-transparent cursor-pointer appearance-none checked:bg-[#ff8c00] checked:relative checked:after:content-["✓"] checked:after:absolute checked:after:text-white checked:after:text-xs checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2'
             />
-            <span className='text-[#9ba1a6] text-sm font-normal leading-6'>
+            <span className='text-[var(--text-secondary)] text-sm font-normal leading-6'>
               Remember me
             </span>
           </label>
@@ -151,7 +151,7 @@ export function LoginForm() {
           >
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
-          <p className='text-[#9ba1a6] text-center text-sm font-normal leading-6'>
+          <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
             Don&apos;t have an account?{' '}
             <a
               href='/signup'
