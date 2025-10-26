@@ -52,7 +52,7 @@ export function BrandCta() {
           <h2 className='text-balance text-4xl font-medium leading-tight text-[var(--foreground)] md:text-5xl'>
             A Strong Brand Begins With A Bold Identity.
           </h2>
-          <p className='text-balance text-lg leading-relaxed text-[#B9B9B9]'>
+          <p className='text-balance text-lg leading-relaxed text-[var(--text-muted)]'>
             From your logo to your message, every detail should tell your story
             with clarity and confidence.
           </p>
