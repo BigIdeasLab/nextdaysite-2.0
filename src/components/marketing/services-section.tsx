@@ -68,7 +68,7 @@ export function ServicesSection() {
 
 function ServiceCard({ service }: { service: (typeof services)[0] }) {
   return (
-    <div className='flex flex-col items-center gap-4 bg-[#161616] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
+    <div className='flex flex-col items-center gap-4 bg-[var(--dark-card)] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
       <div className='relative w-full max-w-[345px] aspect-[345/190]'>
         <div
           className='absolute -rotate-[8.233deg] z-20'
