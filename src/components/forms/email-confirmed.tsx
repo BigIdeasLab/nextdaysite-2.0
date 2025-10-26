@@ -15,7 +15,7 @@ export function EmailConfirmed() {
         <h1 className='text-[var(--foreground)] text-2xl font-bold leading-tight'>
           Email Confirmed!
         </h1>
-        <p className='text-white/70 text-base font-normal leading-5'>
+        <p className='text-foreground/70 text-base font-normal leading-5'>
           Your account has been successfully verified
         </p>
       </div>
