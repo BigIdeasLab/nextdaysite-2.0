@@ -5,11 +5,26 @@
   --foreground: #171717;
   --orange-primary: #ff8c00;
   --orange-border: #ca7207;
+  --dark-bg: #f9fafb;
+  --dark-section: #f3f4f6;
+  --dark-card: #f7f7f9;
+  --text-muted: #6b7280;
+  --text-secondary: #4b5563;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
   --dark-bg: #0a0a0a;
   --dark-section: #131313;
   --dark-card: #161616;
   --text-muted: #b5a29f;
   --text-secondary: #9ba1a6;
+}
+
+/* Smooth theme transitions */
+html, body, body * {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, fill 200ms ease, stroke 200ms ease;
 }
 
 @theme inline {
@@ -20,7 +35,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.dark):not(.light) {
     --background: #0a0a0a;
     --foreground: #ededed;
   }

@@ -6,7 +6,7 @@ import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 
 export default function ContactPage() {
   return (
-    <div className='lg-contact-grid-background min-h-screen bg-black text-foreground'>
+    <div className='lg-contact-grid-background min-h-screen bg-background text-foreground transition-colors duration-300'>
       <Header />
       <main>
         <ContactHero />
