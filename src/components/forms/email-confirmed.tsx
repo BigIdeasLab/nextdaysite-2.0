@@ -22,7 +22,7 @@ export function EmailConfirmed() {
 
       <div className='flex flex-col gap-8 mt-6'>
         <div className='bg-[var(--dark-section)] rounded-xl p-6'>
-          <p className='text-white/70 text-sm leading-relaxed text-center'>
+          <p className='text-foreground/70 text-sm leading-relaxed text-center'>
             You can now access all features of your NextDaySite account.
             Let&apos;s get started!
           </p>
