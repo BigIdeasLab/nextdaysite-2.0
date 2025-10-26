@@ -3,7 +3,7 @@ import Link from 'next/link'
 export function BrandCta() {
   return (
     <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
-      <div className='relative mx-auto flex min-h-[400px] w-full max-w-5xl flex-col items-center justify-center gap-12 overflow-hidden rounded-[50px] bg-[#161616] px-6 py-16'>
+      <div className='relative mx-auto flex min-h-[400px] w-full max-w-5xl flex-col items-center justify-center gap-12 overflow-hidden rounded-[50px] bg-[var(--dark-card)] px-6 py-16 transition-colors duration-300'>
         <svg
           width='1022'
           height='526'
