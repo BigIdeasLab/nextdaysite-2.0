@@ -85,6 +85,8 @@ export function Header() {
             See Pricing
           </Link>
 
+          <ThemeToggle />
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className='flex h-10 w-[35px] items-center justify-center rounded-lg lg:hidden'
