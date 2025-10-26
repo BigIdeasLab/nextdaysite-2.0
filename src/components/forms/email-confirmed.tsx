@@ -31,7 +31,7 @@ export function EmailConfirmed() {
         <div className='flex flex-col items-center gap-4'>
           <button
             onClick={() => router.push('/dashboard')}
-            className='w-full h-10 flex justify-center items-center rounded-full border border-[#ff8c00] bg-[#ff8c00] text-[#f7f6ff] text-center text-sm font-medium leading-6 cursor-pointer transition-opacity duration-200'
+            className='w-full h-10 flex justify-center items-center rounded-full border border-[var(--orange-primary)] bg-[var(--orange-primary)] text-[var(--foreground)] text-center text-sm font-medium leading-6 cursor-pointer transition-opacity duration-200'
           >
             Go to Dashboard
           </button>
