@@ -59,7 +59,7 @@ export function SignupForm() {
             company_name: companyName || null,
             role: 'customer',
           },
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${window.location.origin}/onboarding/new-project`,
         },
       })
 
