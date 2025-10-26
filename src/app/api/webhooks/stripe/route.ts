@@ -312,7 +312,7 @@ async function sendMagicLinkToUser(
 ): Promise<void> {
   try {
     const redirectUrl = projectSlug
-      ? `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/projects/${projectSlug}/onboarding`
+      ? `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/onboarding/${projectSlug}`
       : `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`
 
     const { error } = await supabase.auth.signInWithOtp({
