@@ -36,7 +36,7 @@ export function BrandCta() {
           <g filter='url(#filter0_f_brand)'>
             <path
               d='M511 136L561.912 485.088L911 536L561.912 586.912L511 936L460.088 586.912L111 536L460.088 485.088L511 136Z'
-              fill='#FF7700'
+              style={{ fill: 'var(--orange-primary)' }}
             />
           </g>
           <g filter='url(#filter1_f_brand)'>
