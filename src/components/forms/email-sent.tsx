@@ -12,7 +12,7 @@ export function EmailSent() {
         <h1 className='text-[var(--foreground)] text-2xl font-bold leading-tight'>
           Check Your Email
         </h1>
-        <p className='text-white/70 text-base font-normal leading-5'>
+        <p className='text-foreground/70 text-base font-normal leading-5'>
           We&apos;ve sent you a magic link to sign in to your account
         </p>
       </div>
