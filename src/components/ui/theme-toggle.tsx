@@ -23,9 +23,17 @@ export function ThemeToggle() {
       className='inline-flex h-10 w-10 items-center justify-center text-foreground transition-opacity duration-300 hover:opacity-70'
     >
       {isDark ? (
-        <Sun className='h-[22px] w-[22px]' strokeWidth={1.5} aria-hidden='true' />
+        <Sun
+          className='h-[22px] w-[22px]'
+          strokeWidth={1.5}
+          aria-hidden='true'
+        />
       ) : (
-        <Moon className='h-[22px] w-[22px]' strokeWidth={1.5} aria-hidden='true' />
+        <Moon
+          className='h-[22px] w-[22px]'
+          strokeWidth={1.5}
+          aria-hidden='true'
+        />
       )}
     </button>
   )

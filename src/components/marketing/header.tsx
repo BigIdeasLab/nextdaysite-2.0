@@ -68,9 +68,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-normal leading-5 transition-colors hover:text-foreground ${
-                  isActive
-                    ? 'text-foreground'
-                    : 'text-foreground/70'
+                  isActive ? 'text-foreground' : 'text-foreground/70'
                 }`}
               >
                 {item.label}

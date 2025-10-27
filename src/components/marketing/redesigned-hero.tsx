@@ -13,8 +13,7 @@ export function RedesignedHero() {
         </div>
       </div>
 
-      <div className='flex h-[300px] w-full max-w-[1022px] items-center justify-center rounded-[20px] bg-[#ECECEC] md:h-[450px] md:rounded-[30px] lg:h-[575px]'>
-      </div>
+      <div className='flex h-[300px] w-full max-w-[1022px] items-center justify-center rounded-[20px] bg-[#ECECEC] md:h-[450px] md:rounded-[30px] lg:h-[575px]'></div>
 
       <div className='flex flex-wrap items-center justify-center gap-[10px]'>
         <Link
