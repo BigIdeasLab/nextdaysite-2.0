@@ -21,7 +21,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const files = fs.readdirSync(migrationsDir).filter((f) => f.endsWith('.sql'))
+    const files = fs
+      .readdirSync(migrationsDir)
+      .filter((f) => f.endsWith('.sql'))
     files.sort()
 
     const results = []

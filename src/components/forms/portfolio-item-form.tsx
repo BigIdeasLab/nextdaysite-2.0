@@ -21,15 +21,15 @@ export function PortfolioItemForm({ item, onSubmit }: PortfolioItemFormProps) {
   const [error, setError] = useState<string | null>(null)
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value, type } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]:
-        type === 'checkbox'
-          ? (e.target as HTMLInputElement).checked
-          : value,
+        type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }))
   }
 
@@ -155,7 +155,10 @@ export function PortfolioItemForm({ item, onSubmit }: PortfolioItemFormProps) {
           id='published'
           className='w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500'
         />
-        <label htmlFor='published' className='text-sm font-medium text-foreground'>
+        <label
+          htmlFor='published'
+          className='text-sm font-medium text-foreground'
+        >
           Publish immediately
         </label>
       </div>

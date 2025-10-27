@@ -179,11 +179,7 @@ export async function TestimonialsSection() {
   )
 }
 
-function TestimonialCard({
-  testimonial,
-}: {
-  testimonial: TestimonialRow
-}) {
+function TestimonialCard({ testimonial }: { testimonial: TestimonialRow }) {
   const avatarUrl = testimonial.avatar_url || fallbackTestimonials[0].avatar_url
 
   return (

@@ -24,15 +24,15 @@ export function TestimonialForm({ item, onSubmit }: TestimonialFormProps) {
   const [error, setError] = useState<string | null>(null)
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value, type } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]:
-        type === 'checkbox'
-          ? (e.target as HTMLInputElement).checked
-          : value,
+        type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }))
   }
 
@@ -198,7 +198,10 @@ export function TestimonialForm({ item, onSubmit }: TestimonialFormProps) {
           id='published'
           className='w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500'
         />
-        <label htmlFor='published' className='text-sm font-medium text-foreground'>
+        <label
+          htmlFor='published'
+          className='text-sm font-medium text-foreground'
+        >
           Publish immediately
         </label>
       </div>
@@ -209,7 +212,11 @@ export function TestimonialForm({ item, onSubmit }: TestimonialFormProps) {
           disabled={loading}
           className='px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
         >
-          {loading ? 'Saving...' : item ? 'Update Testimonial' : 'Create Testimonial'}
+          {loading
+            ? 'Saving...'
+            : item
+              ? 'Update Testimonial'
+              : 'Create Testimonial'}
         </button>
         <button
           type='button'

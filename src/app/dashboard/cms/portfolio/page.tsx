@@ -5,7 +5,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 export default function PortfolioPage() {
-  const { data: items, isLoading, error } = usePortfolioItems({
+  const {
+    data: items,
+    isLoading,
+    error,
+  } = usePortfolioItems({
     queryKey: ['portfolio-items-admin'],
   })
   const [filter, setFilter] = useState<'all' | 'published' | 'draft'>('all')
@@ -38,7 +42,9 @@ export default function PortfolioPage() {
     <div className='space-y-6'>
       <div className='flex items-center justify-between'>
         <div>
-          <h1 className='text-3xl font-bold text-foreground'>Portfolio Items</h1>
+          <h1 className='text-3xl font-bold text-foreground'>
+            Portfolio Items
+          </h1>
           <p className='text-gray-600 dark:text-gray-400 mt-1'>
             Manage your featured works
           </p>

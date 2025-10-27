@@ -5,7 +5,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 export default function TestimonialsPage() {
-  const { data: items, isLoading, error } = useTestimonials({
+  const {
+    data: items,
+    isLoading,
+    error,
+  } = useTestimonials({
     queryKey: ['testimonials-admin'],
   })
   const [filter, setFilter] = useState<'all' | 'published' | 'draft'>('all')

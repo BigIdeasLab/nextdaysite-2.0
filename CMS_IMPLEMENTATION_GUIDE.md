@@ -1,11 +1,13 @@
 # NextDaySite CMS Implementation Guide
 
 ## Overview
+
 A complete CMS (Content Management System) has been implemented for your NextDaySite 2.0 website. This guide explains the setup, structure, and how to use it.
 
 ## What's Been Set Up
 
 ### 1. **Database Schema** ✅
+
 Six new Supabase tables have been created to manage your CMS content:
 
 - **portfolio_items** - Featured works/projects (EcoTrack, HomeNest, etc.)
@@ -18,6 +20,7 @@ Six new Supabase tables have been created to manage your CMS content:
 **Location:** `supabase/migrations/20250101000001-20250101000007_*.sql`
 
 ### 2. **API Routes** ✅
+
 RESTful API endpoints for CRUD operations:
 
 ```
@@ -46,6 +49,7 @@ PATCH  /api/cms/settings              - Update CMS setting (requires key + value
 **Location:** `src/app/api/cms/`
 
 ### 3. **Data Fetching Hooks** ✅
+
 React Query hooks for fetching CMS content:
 
 ```typescript
@@ -64,6 +68,7 @@ import {
 **Location:** `src/hooks/use-cms-content.ts`
 
 ### 4. **Updated Components** ✅
+
 Marketing components now fetch from the API instead of hardcoded data:
 
 - `src/components/marketing/featured-works.tsx` - Fetches portfolio items
@@ -75,9 +80,11 @@ Marketing components now fetch from the API instead of hardcoded data:
 ## How to Deploy
 
 ### Step 1: Run Database Migrations
+
 You need to execute the SQL migrations in Supabase. Two options:
 
 **Option A: Via Supabase Dashboard (Easiest)**
+
 1. Go to [Supabase Dashboard](https://app.supabase.com)
 2. Select your project
 3. Go to **SQL Editor**
@@ -87,11 +94,13 @@ You need to execute the SQL migrations in Supabase. Two options:
 7. Repeat for all migration files (01 through 07)
 
 **Option B: Via Supabase CLI**
+
 ```bash
 supabase db push
 ```
 
 ### Step 2: Verify Migration
+
 After running migrations, verify tables exist in Supabase Dashboard > Tables
 
 ## Using the CMS
@@ -99,6 +108,7 @@ After running migrations, verify tables exist in Supabase Dashboard > Tables
 ### As a Content Editor
 
 **Manage Portfolio Items:**
+
 ```bash
 curl -X GET http://localhost:3000/api/cms/portfolio
 
@@ -114,6 +124,7 @@ curl -X POST http://localhost:3000/api/cms/portfolio \
 ```
 
 **Manage Services:**
+
 ```bash
 curl -X GET http://localhost:3000/api/cms/services
 
@@ -129,6 +140,7 @@ curl -X POST http://localhost:3000/api/cms/services \
 ```
 
 **Manage Testimonials:**
+
 ```bash
 curl -X GET http://localhost:3000/api/cms/testimonials
 
@@ -148,6 +160,7 @@ curl -X POST http://localhost:3000/api/cms/testimonials \
 ### As a Developer
 
 **Using in React Components:**
+
 ```typescript
 'use client'
 
@@ -175,7 +188,9 @@ export function PortfolioGrid() {
 ## Next Steps
 
 ### 1. Create Admin Dashboard
+
 Build a protected admin interface for managing content. Example structure:
+
 ```
 src/app/dashboard/
 ├── cms/
@@ -189,7 +204,9 @@ src/app/dashboard/
 ```
 
 ### 2. Add Image Upload
+
 Connect the image upload functionality using your existing `Files` table:
+
 ```typescript
 // In your admin form
 const fileId = await uploadFile(file)
@@ -201,26 +218,27 @@ const newPortfolioItem = await fetch('/api/cms/portfolio', {
     slug: 'slug',
     image_id: fileId, // Link uploaded file
     image_url: fileUrl, // Use preview URL
-    published: true
-  })
+    published: true,
+  }),
 })
 ```
 
 ### 3. Add Role-Based Access Control
+
 Restrict CMS access to authenticated users only. Update API routes:
+
 ```typescript
 // In your API routes
 const user = await auth.getUser()
 if (!user || user.role !== 'admin') {
-  return NextResponse.json(
-    { error: 'Unauthorized' },
-    { status: 401 }
-  )
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 }
 ```
 
 ### 4. Configure Cache Invalidation
+
 When content is updated via API, invalidate Next.js cache:
+
 ```typescript
 // In API route after PATCH/POST
 import { revalidatePath } from 'next/cache'
@@ -228,12 +246,16 @@ revalidatePath('/')
 ```
 
 ### 5. Add SEO Management
+
 Update page titles and meta descriptions from CMS:
+
 ```typescript
 // In app layout or page
 import { useCmsSetting } from '@/hooks/use-cms-content'
 
-const title = await fetch('/api/cms/settings?key=site_title').then(r => r.json())
+const title = await fetch('/api/cms/settings?key=site_title').then((r) =>
+  r.json(),
+)
 ```
 
 ## Architecture Diagram
@@ -281,6 +303,7 @@ A: Next.js caches static pages. Clear cache with `revalidatePath('/')` in your A
 
 **Q: API returns 500 error**
 A: Check:
+
 1. Are the migrations running? Check Supabase dashboard for tables
 2. Is SUPABASE_SERVICE_ROLE_KEY set in environment?
 3. Check browser console and server logs for specific errors
@@ -290,6 +313,7 @@ A: Verify image URLs are correct and accessible. Use the Image component from `n
 
 **Q: Fallback data showing instead of API data**
 A: This means the API endpoint is failing. Check:
+
 1. Network tab in browser DevTools
 2. Server logs for errors
 3. Verify the API route file exists
@@ -332,6 +356,7 @@ A: This means the API endpoint is failing. Check:
 ## Support
 
 For issues with:
+
 - **Supabase:** Visit [supabase.io/docs](https://supabase.io/docs)
 - **Next.js API Routes:** Visit [nextjs.org/docs/app/building-your-application/routing](https://nextjs.org/docs/app/building-your-application/routing)
 - **React Query:** Visit [tanstack.com/query](https://tanstack.com/query)

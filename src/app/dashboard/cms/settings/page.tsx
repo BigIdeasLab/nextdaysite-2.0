@@ -4,7 +4,11 @@ import { useCmsSettings } from '@/hooks/use-cms-content'
 import { useState, useEffect } from 'react'
 
 export default function SettingsPage() {
-  const { data: settings, isLoading, error } = useCmsSettings({
+  const {
+    data: settings,
+    isLoading,
+    error,
+  } = useCmsSettings({
     queryKey: ['cms-settings-admin'],
   })
   const [formData, setFormData] = useState<Record<string, string>>({})
@@ -16,9 +20,10 @@ export default function SettingsPage() {
     if (settings) {
       const data: Record<string, string> = {}
       settings.forEach((setting) => {
-        data[setting.key] = typeof setting.value === 'string'
-          ? setting.value
-          : JSON.stringify(setting.value).replace(/^"|"$/g, '')
+        data[setting.key] =
+          typeof setting.value === 'string'
+            ? setting.value
+            : JSON.stringify(setting.value).replace(/^"|"$/g, '')
       })
       setFormData(data)
     }

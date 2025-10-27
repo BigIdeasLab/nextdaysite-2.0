@@ -5,7 +5,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 export default function ServicesPage() {
-  const { data: items, isLoading, error } = useServices({
+  const {
+    data: items,
+    isLoading,
+    error,
+  } = useServices({
     queryKey: ['services-admin'],
   })
   const [filter, setFilter] = useState<'all' | 'published' | 'draft'>('all')

@@ -17,7 +17,9 @@ export async function GET(request: NextRequest) {
       query = query.eq('published', true)
     }
 
-    const { data, error } = await query.order('order_index', { ascending: true })
+    const { data, error } = await query.order('order_index', {
+      ascending: true,
+    })
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })
