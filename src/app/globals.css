@@ -8,9 +8,9 @@
   --orange-accent: #ff8c00;
   --dark-bg: #f9fafb;
   --dark-section: #f3f4f6;
-  --dark-card: #f7f7f9;
+  --dark-card: #f5f5f5;
   --text-muted: #6b7280;
-  --text-secondary: #4b5563;
+  --text-secondary: #9ba1a6;
   --placeholder-gray: #545454;
   --error-color: #ef4444;
   --success-color: #10b981;
@@ -21,6 +21,11 @@
   --shadow-overlay: rgba(0, 0, 0, 0.09);
   --progress-overlay: rgba(255, 255, 255, 0.1);
   --toast-selection: rgba(240, 77, 35, 0.2);
+  --dark-gray: #e1e1e1;
+  --dark-gray-secondary: #2d2d2d;
+  --light-text: #000000;
+  --pricing-label-text: rgba(0, 0, 0, 0.5);
+  --pricing-input-label: #f5f5f5;
 }
 
 .dark {
