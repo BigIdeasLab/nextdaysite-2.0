@@ -490,6 +490,306 @@ export type Database = {
           },
         ]
       }
+      cms_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value: Json
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'cms_settings_updated_by_fkey'
+            columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      pages: {
+        Row: {
+          content: Json | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          hero_image_id: string | null
+          hero_image_url: string | null
+          hero_subtitle: string | null
+          hero_title: string | null
+          id: string
+          meta_description: string | null
+          meta_title: string | null
+          published: boolean
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hero_image_id?: string | null
+          hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hero_image_id?: string | null
+          hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pages_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pages_hero_image_id_fkey'
+            columns: ['hero_image_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      portfolio_items: {
+        Row: {
+          color: string
+          created_at: string
+          created_by: string | null
+          description: string
+          id: string
+          image_id: string | null
+          image_url: string | null
+          order_index: number
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          created_by?: string | null
+          description: string
+          id?: string
+          image_id?: string | null
+          image_url?: string | null
+          order_index?: number
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          id?: string
+          image_id?: string | null
+          image_url?: string | null
+          order_index?: number
+          published?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'portfolio_items_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'portfolio_items_image_id_fkey'
+            columns: ['image_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      sections: {
+        Row: {
+          content: Json | null
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          order_index: number
+          page_id: string
+          published: boolean
+          section_type: string
+          settings: Json | null
+          updated_at: string
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          order_index?: number
+          page_id: string
+          published?: boolean
+          section_type: string
+          settings?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          order_index?: number
+          page_id?: string
+          published?: boolean
+          section_type?: string
+          settings?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'sections_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'sections_page_id_fkey'
+            columns: ['page_id']
+            isOneToOne: false
+            referencedRelation: 'pages'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      services: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          image1_id: string | null
+          image1_url: string | null
+          image2_id: string | null
+          image2_url: string | null
+          order_index: number
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          image1_id?: string | null
+          image1_url?: string | null
+          image2_id?: string | null
+          image2_url?: string | null
+          order_index?: number
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          image1_id?: string | null
+          image1_url?: string | null
+          image2_id?: string | null
+          image2_url?: string | null
+          order_index?: number
+          published?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'services_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'services_image1_id_fkey'
+            columns: ['image1_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'services_image2_id_fkey'
+            columns: ['image2_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       settings: {
         Row: {
           created_at: string
@@ -519,6 +819,75 @@ export type Database = {
           {
             foreignKeyName: 'settings_updated_by_fkey'
             columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      testimonials: {
+        Row: {
+          avatar_id: string | null
+          avatar_url: string | null
+          bg_color: string
+          border_color: string
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          order_index: number
+          position_class: string
+          published: boolean
+          quote: string
+          rotate_class: string
+          text_color: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_id?: string | null
+          avatar_url?: string | null
+          bg_color?: string
+          border_color?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          order_index?: number
+          position_class?: string
+          published?: boolean
+          quote: string
+          rotate_class?: string
+          text_color?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_id?: string | null
+          avatar_url?: string | null
+          bg_color?: string
+          border_color?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          order_index?: number
+          position_class?: string
+          published?: boolean
+          quote?: string
+          rotate_class?: string
+          text_color?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'testimonials_avatar_id_fkey'
+            columns: ['avatar_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'testimonials_created_by_fkey'
+            columns: ['created_by']
             isOneToOne: false
             referencedRelation: 'users'
             referencedColumns: ['id']
