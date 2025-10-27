@@ -3,6 +3,7 @@
 import { PortfolioItemForm } from '@/components/forms/portfolio-item-form'
 import { usePortfolioItem } from '@/hooks/use-cms-content'
 import { useRouter } from 'next/navigation'
+import { use } from 'react'
 
 export default function EditPortfolioPage({
   params,
@@ -10,7 +11,7 @@ export default function EditPortfolioPage({
   params: Promise<{ id: string }>
 }) {
   const router = useRouter()
-  const { id } = require('next').use(params)
+  const { id } = use(params)
   const { data: item, isLoading } = usePortfolioItem(id)
 
   const handleSubmit = (data: any) => {
