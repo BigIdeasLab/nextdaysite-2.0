@@ -5,15 +5,15 @@ export function AboutSolution() {
     <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
       <div className='mx-auto flex max-w-5xl flex-col gap-10 md:gap-[60px]'>
         <div className='flex flex-col gap-8 md:gap-20'>
-          <h2 className='max-w-[752px] text-[30px] font-medium leading-snug text-[#F7F6FF] sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>
+          <h2 className='max-w-[752px] text-[30px] font-medium leading-snug text-foreground sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>
             Delivering Digital Solutions Fast, Reliable, and Exceptional
           </h2>
 
           <div className='flex w-full flex-col items-start gap-5 md:flex-row md:justify-between md:gap-0'>
-            <h3 className='text-2xl font-medium leading-snug text-[#F7F6FF] md:text-[32px] md:leading-[31.5px]'>
+            <h3 className='text-2xl font-medium leading-snug text-foreground md:text-[32px] md:leading-[31.5px]'>
               Our Solution
             </h3>
-            <p className='max-w-[481px] text-sm leading-normal text-[#9BA1A6] md:text-lg md:leading-6'>
+            <p className='max-w-[481px] text-sm leading-normal text-muted-foreground md:text-lg md:leading-6'>
               At NextDaySite, we take pride in providing high-quality solutions
               through a seamless development process and a proven record of
               timely delivery. With us, you can be confident in getting

@@ -10,18 +10,18 @@ export function AboutPromise() {
     <section className='w-full px-6 py-30 md:px-12 lg:px-52'>
       <div className='mx-auto flex max-w-[1022px] flex-col gap-10 md:gap-[60px]'>
         <div className='flex flex-col gap-8 md:gap-20'>
-          <h2 className='max-w-[752px] text-[30px] font-medium leading-snug text-[#F7F6FF] sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>
+          <h2 className='max-w-[752px] text-[30px] font-medium leading-snug text-foreground sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>
             We promise to work hand in hand with you to deliver results you
             truly deserve.
           </h2>
 
           <div className='flex flex-col justify-center gap-[30px] md:gap-[50px]'>
             <div className='flex flex-col items-start gap-5 md:flex-row md:justify-between md:gap-0'>
-              <h3 className='text-xl font-medium leading-snug text-[#F7F6FF] md:text-[32px] md:leading-[31.5px]'>
+              <h3 className='text-xl font-medium leading-snug text-foreground md:text-[32px] md:leading-[31.5px]'>
                 Who we Are
               </h3>
               <div className='flex flex-col gap-5'>
-                <p className='max-w-[481px] text-sm leading-normal text-[#9BA1A6] md:text-lg md:leading-6'>
+                <p className='max-w-[481px] text-sm leading-normal text-muted-foreground md:text-lg md:leading-6'>
                   Your vision, combined with our expertise in creating excellent
                   web solutions is guaranteed to create an exceptional website
                   or mobile app that suits your brand and business needs. You
@@ -36,10 +36,10 @@ export function AboutPromise() {
                       key={index}
                       className='flex flex-col items-center justify-center gap-2'
                     >
-                      <div className='text-2xl font-medium leading-snug text-[#F7F6FF] md:text-[32px] md:leading-[31.5px]'>
+                      <div className='text-2xl font-medium leading-snug text-foreground md:text-[32px] md:leading-[31.5px]'>
                         {stat.value}
                       </div>
-                      <div className='text-center text-sm leading-normal text-[#9BA1A6] md:text-lg md:leading-6'>
+                      <div className='text-center text-sm leading-normal text-muted-foreground md:text-lg md:leading-6'>
                         {stat.label}
                       </div>
                     </div>
