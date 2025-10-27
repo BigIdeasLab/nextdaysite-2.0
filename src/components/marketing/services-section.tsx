@@ -154,7 +154,10 @@ export async function ServicesSection() {
   )
 }
 
-function ServiceCard({ service }: { service: (typeof services)[0] }) {
+function ServiceCard({ service }: { service: ServiceRow }) {
+  const image1Url = service.image1_url || fallbackServices[0].image1_url || ''
+  const image2Url = service.image2_url || fallbackServices[0].image2_url || ''
+
   return (
     <div className='flex flex-col items-center gap-4 bg-[var(--dark-card)] px-4 py-8 sm:gap-[36px] sm:px-8 sm:py-[50px]'>
       <div className='relative w-full max-w-[345px] aspect-[345/190]'>
@@ -168,7 +171,7 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           }}
         >
           <Image
-            src={service.image1}
+            src={image1Url}
             alt={`${service.title} preview 1`}
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
@@ -185,7 +188,7 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           }}
         >
           <Image
-            src={service.image2}
+            src={image2Url}
             alt={`${service.title} preview 2`}
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
