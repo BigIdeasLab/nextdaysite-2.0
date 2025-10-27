@@ -180,12 +180,12 @@ export function RedesignedPricing() {
           </h2>
 
           {/* Toggle Button */}
-          <div className='flex items-center rounded-[30px] border border-[var(--pricing-input-label)] bg-[var(--dark-card)]'>
+          <div className='flex items-center rounded-[30px] border border-[var(--pricing-input-label)] bg-[var(--pricing-input-label)]'>
             <button
               onClick={() => setActiveTab('fixed-rate')}
               className={`flex h-[42px] items-center justify-center rounded-[30px] border px-5 transition-all ${
                 activeTab === 'fixed-rate'
-                  ? 'border-[var(--light-text)] bg-[var(--light-text)] text-black'
+                  ? 'border-foreground bg-foreground text-[var(--background)]'
                   : 'border-transparent bg-transparent text-foreground'
               }`}
             >
@@ -197,8 +197,8 @@ export function RedesignedPricing() {
               onClick={() => setActiveTab('payment-plan')}
               className={`flex h-[42px] items-center justify-center rounded-[30px] px-6 transition-all ${
                 activeTab === 'payment-plan'
-                  ? 'border border-[var(--light-text)] bg-[var(--light-text)] text-black'
-                  : 'border-transparent bg-transparent text-white'
+                  ? 'border border-foreground bg-foreground text-[var(--background)]'
+                  : 'border-transparent bg-transparent text-foreground'
               }`}
             >
               <span className='text-sm font-medium leading-[18.655px]'>
@@ -244,7 +244,7 @@ function PricingCard({
   loading: boolean
 }) {
   return (
-    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[var(--dark-card)] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
+    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[var(--pricing-input-label)] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
       {/* Image */}
       <div className='relative h-[250px] w-full flex-shrink-0 overflow-hidden rounded-[10px] md:h-[365px] md:w-[341px]'>
         <Image
@@ -262,7 +262,7 @@ function PricingCard({
         <div className='flex flex-col gap-6 md:gap-[25px]'>
           {/* Title and Description */}
           <div className='flex flex-col gap-[15px]'>
-            <h3 className='text-xl font-medium leading-[21px] text-[var(--foreground)]'>
+            <h3 className='text-xl font-medium leading-[21px] text-foreground'>
               {title}
             </h3>
             <p className='text-[17px] font-light leading-[22px] text-[var(--text-secondary)]'>
@@ -273,7 +273,7 @@ function PricingCard({
           {/* Price and Tag */}
           <div className='flex flex-col gap-[15px]'>
             <div className='flex items-center gap-[15px]'>
-              <span className='text-[35px] font-bold leading-[21px] text-[var(--foreground)]'>
+              <span className='text-[35px] font-bold leading-[21px] text-foreground'>
                 {price}
               </span>
               {priceNote && (
@@ -409,15 +409,15 @@ function PricingCard({
             disabled={loading}
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--orange-accent)] px-5 transition-transform hover:scale-105 sm:w-[156px] disabled:cursor-not-allowed disabled:opacity-50'
           >
-            <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
+            <span className='text-base font-medium leading-5 text-[var(--light-text)]'>
               {loading ? 'Redirecting...' : 'Subscribe'}
             </span>
           </button>
           <button
             type='button'
-            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--dark-card)] px-5 transition-transform hover:scale-105 sm:w-[156px]'
+            className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#161616] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
-            <span className='text-base font-medium leading-5 text-[var(--foreground)]'>
+            <span className='text-base font-medium leading-5 text-[var(--light-text)]'>
               Customize
             </span>
           </button>
