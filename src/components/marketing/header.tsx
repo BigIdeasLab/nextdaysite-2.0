@@ -69,8 +69,8 @@ export function Header() {
                 href={item.href}
                 className={`text-sm font-normal transition-colors hover:text-foreground dark:hover:text-white ${
                   isActive
-                    ? 'text-foreground dark:text-white'
-                    : 'text-foreground/70 dark:text-white/70'
+                    ? 'text-black dark:text-white'
+                    : 'text-black/70 dark:text-white/70'
                 }`}
               >
                 {item.label}
@@ -82,7 +82,7 @@ export function Header() {
         <div className='flex items-center gap-2'>
           <Link
             href='/#pricing'
-            className='flex h-12 items-center justify-center bg-[var(--orange-primary)] text-[12px] font-medium text-[var(--foreground)] transition-transform hover:scale-105 rounded-full px-5 lg:text-[16px]'
+            className='flex h-12 items-center justify-center bg-[var(--orange-primary)] text-[12px] font-medium text-white transition-transform hover:scale-105 rounded-full px-5 lg:text-[16px]'
           >
             See Pricing
           </Link>

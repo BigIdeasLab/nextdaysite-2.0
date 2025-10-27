@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 
 export function RedesignedHero() {
@@ -8,13 +7,11 @@ export function RedesignedHero() {
     <section className='relative flex min-h-[700px] w-full flex-col items-center gap-9 px-3 py-16 md:min-h-[1200px] md:gap-[80px] md:px-12 lg:px-52'>
       <div className='flex w-full max-w-[684px] flex-col items-center gap-[30px] md:gap-[50px]'>
         <div className='flex w-full flex-col items-center gap-5'>
-          <Image
-            src='https://api.builder.io/api/v1/image/assets/TEMP/917c003a5d68e225a7b88d8842418e3bf0ce2705?width=1368'
-            alt='Own a Stunning Website Without Lifting a Finger'
-            width={684}
-            height={200}
-            className='h-auto w-full'
-          />
+          <h1 className='text-5xl font-bold leading-tight text-white'>
+            Own a Stunning Website
+            <br />
+            Without Lifting a Finger
+          </h1>
         </div>
 
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
