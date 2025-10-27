@@ -137,7 +137,9 @@ async function getTestimonials() {
   }
 }
 
-export function TestimonialsSection() {
+export async function TestimonialsSection() {
+  const testimonials = await getTestimonials()
+
   return (
     <section className='bg-background transition-colors duration-300'>
       <div className='relative w-full overflow-hidden rounded-t-[20px] bg-[var(--dark-section)] px-5 py-16 md:rounded-t-[50px] md:px-12 md:py-24'>
@@ -165,7 +167,7 @@ export function TestimonialsSection() {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className={`absolute ${testimonial.position} ${testimonial.rotate}`}
+                className={`absolute ${testimonial.position_class} ${testimonial.rotate_class}`}
               >
                 <TestimonialCard testimonial={testimonial} />
               </div>
@@ -180,21 +182,23 @@ export function TestimonialsSection() {
 function TestimonialCard({
   testimonial,
 }: {
-  testimonial: (typeof testimonials)[0]
+  testimonial: TestimonialRow
 }) {
+  const avatarUrl = testimonial.avatar_url || fallbackTestimonials[0].avatar_url
+
   return (
     <div
       className='flex h-auto w-full flex-col items-center gap-6 rounded-[20px] border-[1.2px] p-6 md:h-[356px] md:w-[317px] md:rounded-[28.462px] md:border-[1.779px] md:p-8'
       style={{
-        backgroundColor: testimonial.bgColor,
-        borderColor: testimonial.borderColor,
+        backgroundColor: testimonial.bg_color,
+        borderColor: testimonial.border_color,
       }}
     >
       <div className='flex flex-col items-center gap-[15px]'>
         <div
           className='h-[49px] w-[49px] overflow-hidden rounded-full bg-gray-400'
           style={{
-            backgroundImage: `url(${testimonial.avatar})`,
+            backgroundImage: `url(${avatarUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -206,7 +210,7 @@ function TestimonialCard({
 
       <p
         className='text-center text-[18px] leading-[22px] md:text-[22.236px] md:leading-[24.904px]'
-        style={{ color: testimonial.textColor }}
+        style={{ color: testimonial.text_color }}
       >
         {testimonial.quote}
       </p>
