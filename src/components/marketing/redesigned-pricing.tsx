@@ -175,7 +175,7 @@ export function RedesignedPricing() {
       <div className='mx-auto flex w-full max-w-[1023px] flex-col items-start gap-12 md:gap-[70px]'>
         {/* Header */}
         <div className='flex w-full flex-col items-center gap-5'>
-          <h2 className='text-center text-[32px] font-medium leading-[40px] text-white md:text-[40px] md:leading-[50px]'>
+          <h2 className='text-center text-[32px] font-medium leading-[40px] text-foreground md:text-[40px] md:leading-[50px]'>
             Our Pricing plan
           </h2>
 
@@ -186,7 +186,7 @@ export function RedesignedPricing() {
               className={`flex h-[42px] items-center justify-center rounded-[30px] border px-5 transition-all ${
                 activeTab === 'fixed-rate'
                   ? 'border-[var(--light-text)] bg-[var(--light-text)] text-black'
-                  : 'border-transparent bg-transparent text-white'
+                  : 'border-transparent bg-transparent text-foreground'
               }`}
             >
               <span className='text-sm font-medium leading-[18.655px]'>
@@ -283,7 +283,7 @@ function PricingCard({
               )}
             </div>
             {totalPrice && (
-              <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#FFE8CC] px-[10px] py-2'>
+              <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#FFE8CC] px-[10px]'>
                 <svg
                   width='17'
                   height='17'
@@ -312,13 +312,13 @@ function PricingCard({
                     strokeLinejoin='round'
                   />
                 </svg>
-                <span className='text-[15px] font-normal leading-[52px] text-[var(--orange-accent)]'>
+                <span className='text-[15px] font-normal leading-[40px] text-[var(--orange-accent)]'>
                   {totalPrice}
                 </span>
               </div>
             )}
             {savings && savings !== '' && (
-              <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#FFE8CC] px-[10px] py-2'>
+              <div className='flex w-fit items-center gap-[5px] rounded-[10px] bg-[#FFE8CC] px-[10px] '>
                 <svg
                   width='17'
                   height='17'
@@ -347,7 +347,7 @@ function PricingCard({
                     strokeLinejoin='round'
                   />
                 </svg>
-                <span className='text-[15px] font-normal leading-[52px] text-[var(--orange-accent)]'>
+                <span className='text-[15px] font-normal leading-[40px] text-[var(--orange-accent)]'>
                   {savings}
                 </span>
               </div>
