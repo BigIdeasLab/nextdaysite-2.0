@@ -1,83 +1,141 @@
-const testimonials = [
+import type { TestimonialRow } from '@/types/models'
+
+const fallbackTestimonials: TestimonialRow[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Sarah Chen',
     quote:
       '"NextDaySite delivered our website in 24 hours. The AI-powered design process was incredible!"',
-    avatar:
+    avatar_url:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_470?width=100',
-    bgColor: '#1A1A1A',
-    borderColor: '#2B2B2B',
-    textColor: '#9A9EA2',
-    rotate: '-rotate-[6deg]',
-    position: 'left-0 top-[70px]',
+    bg_color: '#1A1A1A',
+    border_color: '#2B2B2B',
+    text_color: '#9A9EA2',
+    rotate_class: '-rotate-[6deg]',
+    position_class: 'left-0 top-[70px]',
+    order_index: 1,
+    published: true,
+    avatar_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
   },
   {
-    id: 2,
+    id: '2',
     name: 'Marcus Rodriguez',
     quote:
-      'The quality exceeded our expectations. Professional, fast, and exactly what we needed."',
-    avatar:
+      '"The quality exceeded our expectations. Professional, fast, and exactly what we needed."',
+    avatar_url:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_489?width=100',
-    bgColor: '#8181FF',
-    borderColor: '#BFBFFF',
-    textColor: '#FFF',
-    rotate: 'rotate-[2.217deg]',
-    position: 'left-[705px] top-[65px]',
+    bg_color: '#8181FF',
+    border_color: '#BFBFFF',
+    text_color: '#FFF',
+    rotate_class: 'rotate-[2.217deg]',
+    position_class: 'left-[705px] top-[65px]',
+    order_index: 2,
+    published: true,
+    avatar_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
   },
   {
-    id: 3,
+    id: '3',
     name: 'Marcus Rodriguez',
     quote:
-      'From concept to launch in one day. Our sales increased 40% with the new desig',
-    avatar:
+      '"From concept to launch in one day. Our sales increased 40% with the new design."',
+    avatar_url:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_508?width=100',
-    bgColor: '#FF8C00',
-    borderColor: '#FFC175',
-    textColor: '#FFF',
-    rotate: 'rotate-[2.3deg]',
-    position: 'left-[355px] top-0',
+    bg_color: '#FF8C00',
+    border_color: '#FFC175',
+    text_color: '#FFF',
+    rotate_class: 'rotate-[2.3deg]',
+    position_class: 'left-[355px] top-0',
+    order_index: 3,
+    published: true,
+    avatar_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
   },
   {
-    id: 4,
+    id: '4',
     name: 'Lisa Chen',
     quote:
-      'A seamless integration of user feedback led to a 30% boost in engagement.',
-    avatar:
+      '"A seamless integration of user feedback led to a 30% boost in engagement."',
+    avatar_url:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_527?width=100',
-    bgColor: '#8181FF',
-    borderColor: '#BFBFFF',
-    textColor: '#FFF',
-    rotate: 'rotate-[3.32deg]',
-    position: 'left-[19px] top-[484px]',
+    bg_color: '#8181FF',
+    border_color: '#BFBFFF',
+    text_color: '#FFF',
+    rotate_class: 'rotate-[3.32deg]',
+    position_class: 'left-[19px] top-[484px]',
+    order_index: 4,
+    published: true,
+    avatar_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
   },
   {
-    id: 5,
+    id: '5',
     name: 'Eddie Patel',
     quote:
-      'Revamping our UX strategy cut down customer support queries by 25%.',
-    avatar:
+      '"Revamping our UX strategy cut down customer support queries by 25%."',
+    avatar_url:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_546?width=100',
-    bgColor: '#1A1A1A',
-    borderColor: '#2B2B2B',
-    textColor: '#9A9EA2',
-    rotate: '-rotate-[0.18deg]',
-    position: 'left-[378px] top-[441px]',
+    bg_color: '#1A1A1A',
+    border_color: '#2B2B2B',
+    text_color: '#9A9EA2',
+    rotate_class: '-rotate-[0.18deg]',
+    position_class: 'left-[378px] top-[441px]',
+    order_index: 5,
+    published: true,
+    avatar_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
   },
   {
-    id: 6,
+    id: '6',
     name: 'Sofia Gomez',
     quote:
-      'Innovative features introduced last quarter have driven a 50% increase in subscriptions.',
-    avatar:
+      '"Innovative features introduced last quarter have driven a 50% increase in subscriptions."',
+    avatar_url:
       'https://api.builder.io/api/v1/image/assets/TEMP/pattern0_2378_565?width=100',
-    bgColor: '#00A555',
-    borderColor: '#34FF9D',
-    textColor: '#FFF',
-    rotate: '-rotate-[2.43deg]',
-    position: 'left-[719px] top-[524px]',
+    bg_color: '#00A555',
+    border_color: '#34FF9D',
+    text_color: '#FFF',
+    rotate_class: '-rotate-[2.43deg]',
+    position_class: 'left-[719px] top-[524px]',
+    order_index: 6,
+    published: true,
+    avatar_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
   },
 ]
+
+async function getTestimonials() {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/testimonials`,
+      {
+        cache: 'revalidate',
+        next: { revalidate: 60 },
+      },
+    )
+
+    if (!response.ok) {
+      return fallbackTestimonials
+    }
+
+    return await response.json()
+  } catch {
+    return fallbackTestimonials
+  }
+}
 
 export function TestimonialsSection() {
   return (
