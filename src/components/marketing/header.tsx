@@ -67,10 +67,10 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-normal leading-5 transition-colors hover:text-foreground dark:hover:text-white ${
+                className={`text-sm font-normal leading-5 transition-colors hover:text-foreground ${
                   isActive
-                    ? 'text-black dark:text-white'
-                    : 'text-black/70 dark:text-white/70'
+                    ? 'text-foreground'
+                    : 'text-foreground/70'
                 }`}
               >
                 {item.label}
