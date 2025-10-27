@@ -7,7 +7,7 @@ export function RedesignedHero() {
     <section className='relative flex w-full flex-col items-center gap-12 px-6 py-8 md:gap-[70px] md:px-12 md:py-[30px] lg:px-52'>
       <div className='flex w-full max-w-[684px] flex-col items-center gap-12 md:gap-[50px]'>
         <div className='flex w-full flex-col items-center gap-5'>
-          <h1 className='text-center text-[40px] font-medium leading-[1.08] text-black dark:text-white md:text-[60px] md:leading-[64.8px]'>
+          <h1 className='text-center text-[40px] font-medium leading-[1.08] text-foreground md:text-[60px] md:leading-[64.8px]'>
             Own a Stunning Website Without Lifting a Finger
           </h1>
         </div>
