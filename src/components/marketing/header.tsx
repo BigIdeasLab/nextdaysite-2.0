@@ -49,10 +49,10 @@ export function Header() {
       <div className='mx-auto flex max-w-6xl items-center px-6 md:px-16 justify-between gap-8 py-4 lg:py-8'>
         <Link href='/' className='flex-shrink-0'>
           <Image
-            src='https://api.builder.io/api/v1/image/assets/TEMP/7f4ba7b6782f45a1cb95f9f41afb7ed3c8358a89?width=256'
+            src='https://api.builder.io/api/v1/image/assets/TEMP/27cc49b97a9c74f01837ce911b65317dee61528b?width=338'
             alt='NextDaySite Logo'
-            width={128}
-            height={34}
+            width={169}
+            height={45}
             className='h-11 w-auto'
             priority
           />
@@ -67,10 +67,8 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-normal transition-colors hover:text-foreground dark:hover:text-white ${
-                  isActive
-                    ? 'text-foreground dark:text-white'
-                    : 'text-foreground/70 dark:text-white/70'
+                className={`text-sm font-normal leading-5 transition-colors hover:text-foreground ${
+                  isActive ? 'text-foreground' : 'text-foreground/70'
                 }`}
               >
                 {item.label}
@@ -82,7 +80,7 @@ export function Header() {
         <div className='flex items-center gap-2'>
           <Link
             href='/#pricing'
-            className='flex h-12 items-center justify-center bg-[var(--orange-primary)] text-[12px] font-medium text-[var(--foreground)] transition-transform hover:scale-105 rounded-full px-5 lg:text-[16px]'
+            className='flex h-12 items-center justify-center bg-[#FF8C00] text-[16px] font-medium text-[#F7F6FF] leading-5 transition-transform hover:scale-105 rounded-full px-5'
           >
             See Pricing
           </Link>

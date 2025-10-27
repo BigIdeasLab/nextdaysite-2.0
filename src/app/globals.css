@@ -3,9 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --orange-primary: var(--orange-primary);
-  --orange-border: #ca7207;
-  --orange-accent: #f04d23;
+  --orange-primary: #ff8c00;
+  --orange-border: #ff8c00;
+  --orange-accent: #ff8c00;
   --dark-bg: #f9fafb;
   --dark-section: #f3f4f6;
   --dark-card: #f7f7f9;

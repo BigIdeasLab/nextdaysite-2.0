@@ -105,7 +105,7 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           />
         </div>
       </div>
-      <h3 className='text-center font-medium leading-[24px] text-white text-[clamp(1.25rem,5vw,1.4375rem)]'>
+      <h3 className='text-center font-medium leading-[24px] text-foreground text-[clamp(1.25rem,5vw,1.4375rem)]'>
         {service.title}
       </h3>
     </div>

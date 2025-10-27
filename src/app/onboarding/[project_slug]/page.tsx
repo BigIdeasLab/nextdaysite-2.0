@@ -15,7 +15,7 @@ export default async function OnboardingPage({
       <Header />
       <main className='onboarding-page-main'>
         <div className='onboarding-page-container'>
-          <OnboardingForm />
+          <OnboardingForm project_slug={project_slug} />
         </div>
       </main>
       <CtaSection />

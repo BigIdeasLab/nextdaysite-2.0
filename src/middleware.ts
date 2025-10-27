@@ -17,124 +17,24 @@ export async function middleware(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+          request.cookies.set({ name, value, ...options })
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+          response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
+          request.cookies.set({ name, value: '', ...options })
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
+          response.cookies.set({ name, value: '', ...options })
         },
       },
     },
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  const { pathname } = request.nextUrl
-
-  if (user) {
-    const { data: userProfile } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    const userRole = userProfile?.role
-
-    // If the user is an admin and is trying to access a non-admin route,
-    // redirect them to the admin dashboard.
-    if (userRole === 'admin' && !pathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/admin/overview', request.url))
-    }
-
-    // redirect them to their dashboard.
-    if (userRole !== 'admin' && pathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  }
-
-  // Admin route protection
-  if (pathname.startsWith('/admin')) {
-    if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
-
-    // Fetch the user's profile to get the latest role
-    const { data: userProfile } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    const userRole = userProfile?.role
-    if (userRole !== 'admin') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  }
-
-  const protectedRoutes = [
-    '/dashboard',
-    '/account',
-    '/billing',
-    '/idea-vault',
-    '/project',
-  ]
-  const publicOnlyRoutes = ['/login', '/signup']
-  const onboardingRoutes = ['/onboarding']
-
-  // Allow onboarding routes for authenticated users
-  if (user && onboardingRoutes.some((route) => pathname.startsWith(route))) {
-    return response
-  }
-
-  // If user is logged in and tries to access a public-only route, redirect to dashboard.
-  if (user && publicOnlyRoutes.includes(pathname)) {
-    const { data: userProfile } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    const userRole = userProfile?.role
-
-    if (userRole === 'admin') {
-      return NextResponse.redirect(new URL('/admin/overview', request.url))
-    }
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
-
-  // If user is not logged in and tries to access a protected route, redirect to login.
-  if (!user && protectedRoutes.some((route) => pathname.startsWith(route))) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
+  return response
 
   return response
 }
@@ -147,7 +47,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - onboarding (onboarding route)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*?)',
+    '/((?!api|_next/static|_next/image|favicon.ico|onboarding).*)',
   ],
 }
