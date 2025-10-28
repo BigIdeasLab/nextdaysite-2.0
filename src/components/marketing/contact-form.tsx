@@ -202,7 +202,7 @@ export function ContactForm() {
                   name='service'
                   value={formData.service}
                   onChange={handleChange}
-                  className='h-full w-full cursor-pointer appearance-none border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                  className='h-full w-full cursor-pointer appearance-none border-b border-[var(--border-light)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--border-light-focus)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 >
                   <option value=''></option>
                   <option value='web-design'>Web Design</option>
