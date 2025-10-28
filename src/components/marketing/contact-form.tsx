@@ -211,7 +211,7 @@ export function ContactForm() {
                   <option value='cms-integration'>CMS Integration</option>
                 </select>
                 <svg
-                  className='pointer-events-none absolute right-0 top-6 h-4 w-4 md:top-8 lg:top-9 md:h-5 md:w-5 lg:h-6 lg:w-6'
+                  className='pointer-events-none absolute right-0 top-6 h-4 w-4 text-[var(--text-secondary)] md:top-8 lg:top-9 md:h-5 md:w-5 lg:h-6 lg:w-6'
                   viewBox='0 0 24 24'
                   fill='none'
                   xmlns='http://www.w3.org/2000/svg'
@@ -219,7 +219,6 @@ export function ContactForm() {
                   <path
                     d='M18 9L12 15L6 9'
                     stroke='currentColor'
-                    strokeOpacity='0.5'
                     strokeWidth='1.5'
                     strokeLinecap='round'
                     strokeLinejoin='round'
