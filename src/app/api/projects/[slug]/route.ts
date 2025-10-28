@@ -77,7 +77,7 @@ export async function PATCH(
     const { data, error } = await supabase
       .from('projects')
       .update({
-        name: project_title,
+        project_title,
         main_goal,
         target_audience,
         key_features,

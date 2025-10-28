@@ -8,7 +8,7 @@ type SubmissionState = 'idle' | 'submitting' | 'success' | 'error'
 
 export function OnboardingForm({ project_slug }: { project_slug: string }) {
   const router = useRouter()
-  const { session, loading: isAuthLoading } = useAuth()
+  const { session, loading: isAuthLoading, client } = useAuth()
   const [projectTitle, setProjectTitle] = useState('')
   const [mainGoal, setMainGoal] = useState('')
   const [targetAudience, setTargetAudience] = useState('')
@@ -52,6 +52,9 @@ export function OnboardingForm({ project_slug }: { project_slug: string }) {
       }
 
       setSubmissionState('success')
+      if (client) {
+        await client.auth.signOut()
+      }
       router.push('/') // Or a success page
     } catch (error) {
       console.error(error)

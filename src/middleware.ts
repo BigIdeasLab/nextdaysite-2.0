@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
     },
   )
 
-  return response
+  await supabase.auth.getUser()
 
   return response
 }
@@ -49,6 +49,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - onboarding (onboarding route)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|onboarding).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }

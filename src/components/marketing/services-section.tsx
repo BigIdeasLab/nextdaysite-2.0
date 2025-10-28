@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { ServiceRow } from '@/types/models'
+import { createClient } from '@/lib/supabase/server'
 
 const fallbackServices: ServiceRow[] = [
   {
@@ -113,20 +114,20 @@ const fallbackServices: ServiceRow[] = [
 ]
 
 async function getServices() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/services`,
-      {
-        cache: 'revalidate',
-        next: { revalidate: 60 },
-      },
-    )
+  const supabase = await createClient()
 
-    if (!response.ok) {
+  try {
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .eq('published', true)
+      .order('order_index', { ascending: true })
+
+    if (error || !data) {
       return fallbackServices
     }
 
-    return await response.json()
+    return data
   } catch {
     return fallbackServices
   }
@@ -143,7 +144,7 @@ export async function ServicesSection() {
           </h2>
           <div className='w-full overflow-hidden rounded-[20px] bg-[var(--dark-card)] md:rounded-[50px]'>
             <div className='grid grid-cols-1 gap-px bg-[var(--dark-bg)] md:grid-cols-2 lg:grid-cols-3'>
-              {services.map((service) => (
+              {services.map((service: ServiceRow) => (
                 <ServiceCard key={service.title} service={service} />
               ))}
             </div>

@@ -1,4 +1,5 @@
 import type { TestimonialRow } from '@/types/models'
+import { createClient } from '@/lib/supabase/server'
 
 const fallbackTestimonials: TestimonialRow[] = [
   {
@@ -118,27 +119,27 @@ const fallbackTestimonials: TestimonialRow[] = [
 ]
 
 async function getTestimonials() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/testimonials`,
-      {
-        cache: 'revalidate',
-        next: { revalidate: 60 },
-      },
-    )
+  const supabase = await createClient()
 
-    if (!response.ok) {
+  try {
+    const { data, error } = await supabase
+      .from('testimonials')
+      .select('*')
+      .eq('published', true)
+      .order('order_index', { ascending: true })
+
+    if (error || !data) {
       return fallbackTestimonials
     }
 
-    return await response.json()
+    return data
   } catch {
     return fallbackTestimonials
   }
 }
 
 export async function TestimonialsSection() {
-  const testimonials = await getTestimonials()
+  const testimonials: TestimonialRow[] = await getTestimonials()
 
   return (
     <section className='bg-background transition-colors duration-300'>
@@ -150,21 +151,21 @@ export async function TestimonialsSection() {
 
           {/* Mobile: Stacked layout (for screens < md) */}
           <div className='grid grid-cols-1 gap-6 md:hidden'>
-            {testimonials.map((testimonial) => (
+            {testimonials.map((testimonial: TestimonialRow) => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
           </div>
 
           {/* Tablet: 2-column grid (for screens>= md and < lg) */}
           <div className='hidden md:grid md:grid-cols-2 md:gap-8 lg:hidden md:justify-items-center'>
-            {testimonials.map((testimonial) => (
+            {testimonials.map((testimonial: TestimonialRow) => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
           </div>
 
           {/* Desktop: Scattered layout (for screens >= lg) */}
           <div className='relative mx-auto hidden h-[893px] w-full max-w-[1051px] lg:block'>
-            {testimonials.map((testimonial) => (
+            {testimonials.map((testimonial: TestimonialRow) => (
               <div
                 key={testimonial.id}
                 className={`absolute ${testimonial.position_class} ${testimonial.rotate_class}`}

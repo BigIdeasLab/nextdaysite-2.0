@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
@@ -8,7 +8,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 )
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Get migration files from supabase/migrations directory
     const migrationsDir = path.join(process.cwd(), 'supabase', 'migrations')

@@ -44,36 +44,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    async function syncSession() {
-      if (!client) return
-      setLoading(true)
-      const { data, error } = await client.auth.getSession()
-      if (!isMounted) return
+    async function handleMagicLink() {
+      if (
+        typeof window !== 'undefined' &&
+        window.location.hash.includes('access_token')
+      ) {
+        const params = new URLSearchParams(window.location.hash.substring(1))
+        const accessToken = params.get('access_token')
+        const refreshToken = params.get('refresh_token')
 
-      if (error) {
-        setSession(null)
-        setUser(null)
-        setLoading(false)
-        return
+        if (accessToken && refreshToken) {
+          setLoading(true)
+          const { data, error } = await client.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          })
+
+          if (error) {
+            console.error(
+              '[AuthProvider] Error setting session from magic link:',
+              error,
+            )
+          } else {
+            setSession(data.session)
+            setUser(data.session?.user ?? null)
+          }
+          // Clean up the URL
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          )
+          setLoading(false)
+        }
       }
-
-      console.log('[AuthProvider] getSession session:', data.session)
-      setSession(data.session ?? null)
-      setUser(data.session?.user ?? null)
-      setLoading(false)
     }
 
-    void syncSession()
+    void handleMagicLink()
 
     const { data: authListener } = client.auth.onAuthStateChange(
       (_event, nextSession) => {
         if (!isMounted) {
           return
         }
-        console.log('[AuthProvider] onAuthStateChange event:', _event)
-        console.log('[AuthProvider] onAuthStateChange session:', nextSession)
-        setSession(nextSession)
-        setUser(nextSession?.user ?? null)
+        // Only set the session if it's not already set by the magic link handler
+        if (!session) {
+          setSession(nextSession)
+          setUser(nextSession?.user ?? null)
+        }
         setLoading(false)
       },
     )
@@ -82,7 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isMounted = false
       authListener?.subscription.unsubscribe()
     }
-  }, [client])
+  }, [client, session])
 
   const value = useMemo<AuthContextValue>(
     () => ({

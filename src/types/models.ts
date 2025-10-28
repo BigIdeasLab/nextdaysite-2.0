@@ -1,4 +1,4 @@
-import type { Database } from '@/types/database'
+import type { Database, Json } from '@/types/database'
 
 export type PlansRow = Database['public']['Tables']['plans']['Row']
 export type UsersRow = Database['public']['Tables']['users']['Row']
@@ -23,7 +23,11 @@ export type ServiceRow = Database['public']['Tables']['services']['Row']
 export type TestimonialRow = Database['public']['Tables']['testimonials']['Row']
 export type PageRow = Database['public']['Tables']['pages']['Row']
 export type SectionRow = Database['public']['Tables']['sections']['Row']
-export type CmsSettingRow = Database['public']['Tables']['cms_settings']['Row']
+export type CmsSettingRow = {
+  id: string
+  key: string
+  value?: Json | null
+}
 
 export type StartCheckoutResult =
   Database['public']['Functions']['start_checkout']['Returns'][number]

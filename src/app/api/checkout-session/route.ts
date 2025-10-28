@@ -4,8 +4,6 @@ import { createClient } from '@supabase/supabase-js'
 import type Stripe from 'stripe'
 import type { Database } from '@/types/database'
 
-console.log('API route loaded: /api/checkout-session')
-
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
