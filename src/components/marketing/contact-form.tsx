@@ -245,7 +245,7 @@ export function ContactForm() {
             <button
               type='submit'
               onClick={handleSubmit}
-              className='flex h-10 items-center justify-center rounded-full border border-[#FF8C00] bg-[#FF8C00] px-5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 md:h-12 md:px-6 md:text-base lg:h-14 lg:px-7 lg:text-lg xl:h-[54px] xl:rounded-[30px] xl:px-[26px] xl:text-[23px]'
+              className='flex h-10 items-center justify-center rounded-full border border-[var(--orange-primary)] bg-[var(--orange-primary)] px-5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 md:h-12 md:px-6 md:text-base lg:h-14 lg:px-7 lg:text-lg xl:h-[54px] xl:rounded-[30px] xl:px-[26px] xl:text-[23px]'
             >
               Submit
             </button>
