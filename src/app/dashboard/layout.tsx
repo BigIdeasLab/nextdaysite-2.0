@@ -17,6 +17,11 @@ async function checkAuth() {
 }
 
 const menuItems = [
+  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Users', href: '/dashboard/users' },
+  { label: 'Projects', href: '/dashboard/projects' },
+  { label: 'Invoices', href: '/dashboard/invoices' },
+  { label: 'Pricing', href: '/dashboard/pricing' },
   { label: 'Portfolio', href: '/dashboard/cms/portfolio' },
   { label: 'Services', href: '/dashboard/cms/services' },
   { label: 'Testimonials', href: '/dashboard/cms/testimonials' },
@@ -38,9 +43,11 @@ export default async function DashboardLayout({
     <div className='flex h-screen bg-background text-foreground'>
       <aside className='w-64 border-r border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900 p-6'>
         <div className='mb-8'>
-          <h1 className='text-2xl font-bold text-foreground'>CMS Admin</h1>
+          <h1 className='text-2xl font-bold text-foreground'>
+            Admin Dashboard
+          </h1>
           <p className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
-            Manage your website content
+            Manage your application
           </p>
         </div>
 

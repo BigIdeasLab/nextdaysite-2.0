@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { ServiceRow } from '@/types/models'
+import { createClient } from '@supabase/supabase-js'
 
 const fallbackServices: ServiceRow[] = [
   {
@@ -113,19 +114,23 @@ const fallbackServices: ServiceRow[] = [
 ]
 
 async function getServices() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/services`,
-      {
-        next: { revalidate: 60 },
-      },
-    )
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  )
 
-    if (!response.ok) {
+  try {
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .eq('published', true)
+      .order('order_index', { ascending: true })
+
+    if (error || !data) {
       return fallbackServices
     }
 
-    return await response.json()
+    return data
   } catch {
     return fallbackServices
   }

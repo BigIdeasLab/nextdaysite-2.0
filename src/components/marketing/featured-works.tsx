@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { PortfolioItemRow } from '@/types/models'
+import { createClient } from '@supabase/supabase-js'
 
 const fallbackProjects: PortfolioItemRow[] = [
   {
@@ -102,19 +103,23 @@ const fallbackProjects: PortfolioItemRow[] = [
 ]
 
 async function getPortfolioItems() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/portfolio`,
-      {
-        next: { revalidate: 60 },
-      },
-    )
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  )
 
-    if (!response.ok) {
+  try {
+    const { data, error } = await supabase
+      .from('portfolio_items')
+      .select('*')
+      .eq('published', true)
+      .order('order_index', { ascending: true })
+
+    if (error || !data) {
       return fallbackProjects
     }
 
-    return await response.json()
+    return data
   } catch {
     return fallbackProjects
   }

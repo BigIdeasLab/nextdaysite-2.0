@@ -1,4 +1,5 @@
 import type { TestimonialRow } from '@/types/models'
+import { createClient } from '@supabase/supabase-js'
 
 const fallbackTestimonials: TestimonialRow[] = [
   {
@@ -118,19 +119,23 @@ const fallbackTestimonials: TestimonialRow[] = [
 ]
 
 async function getTestimonials() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/testimonials`,
-      {
-        next: { revalidate: 60 },
-      },
-    )
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  )
 
-    if (!response.ok) {
+  try {
+    const { data, error } = await supabase
+      .from('testimonials')
+      .select('*')
+      .eq('published', true)
+      .order('order_index', { ascending: true })
+
+    if (error || !data) {
       return fallbackTestimonials
     }
 
-    return await response.json()
+    return data
   } catch {
     return fallbackTestimonials
   }
