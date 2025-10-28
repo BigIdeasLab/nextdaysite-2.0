@@ -117,7 +117,6 @@ async function getServices() {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/services`,
       {
-        cache: 'no-store',
         next: { revalidate: 60 },
       },
     )

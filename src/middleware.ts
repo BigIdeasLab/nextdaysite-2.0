@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  createServerClient(
+  const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -34,6 +34,8 @@ export async function middleware(request: NextRequest) {
     },
   )
 
+  await supabase.auth.getUser()
+
   return response
 }
 
@@ -47,6 +49,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - onboarding (onboarding route)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|onboarding).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }

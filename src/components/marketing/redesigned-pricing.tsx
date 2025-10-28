@@ -135,10 +135,10 @@ const paymentPlanPricingData: PricingCardData[] = [
 
 export function RedesignedPricing() {
   const [activeTab, setActiveTab] = useState<PricingTab>('fixed-rate')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<string | null>(null)
 
   const handleSubscribe = async (planId: string, billingCycle: PricingTab) => {
-    setLoading(true)
+    setLoading(planId)
     try {
       const response = await fetch('/api/checkout-session', {
         method: 'POST',
@@ -160,7 +160,7 @@ export function RedesignedPricing() {
       console.error(error)
       // Handle error state here, e.g., show a notification
     } finally {
-      setLoading(false)
+      setLoading(null)
     }
   }
 
@@ -216,7 +216,7 @@ export function RedesignedPricing() {
               {...card}
               billingCycle={activeTab}
               onSubscribe={handleSubscribe}
-              loading={loading}
+              loading={loading === card.planId}
             />
           ))}
         </div>
