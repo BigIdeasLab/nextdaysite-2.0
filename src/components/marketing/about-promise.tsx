@@ -21,7 +21,7 @@ export function AboutPromise() {
                 Who we Are
               </h3>
               <div className='flex flex-col gap-5'>
-                <p className='max-w-[481px] text-sm leading-normal text-muted-foreground md:text-lg md:leading-6'>
+                <p className='max-w-[481px] text-sm leading-normal text-[var(--text-secondary)] md:text-lg md:leading-6'>
                   Your vision, combined with our expertise in creating excellent
                   web solutions is guaranteed to create an exceptional website
                   or mobile app that suits your brand and business needs. You
@@ -39,7 +39,7 @@ export function AboutPromise() {
                       <div className='text-2xl font-medium leading-snug text-foreground md:text-[32px] md:leading-[31.5px]'>
                         {stat.value}
                       </div>
-                      <div className='text-center text-sm leading-normal text-muted-foreground md:text-lg md:leading-6'>
+                      <div className='text-center text-sm leading-normal text-[var(--text-secondary)] md:text-lg md:leading-6'>
                         {stat.label}
                       </div>
                     </div>

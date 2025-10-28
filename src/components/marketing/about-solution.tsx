@@ -13,7 +13,7 @@ export function AboutSolution() {
             <h3 className='text-2xl font-medium leading-snug text-foreground md:text-[32px] md:leading-[31.5px]'>
               Our Solution
             </h3>
-            <p className='max-w-[481px] text-sm leading-normal text-muted-foreground md:text-lg md:leading-6'>
+            <p className='max-w-[481px] text-sm leading-normal text-[var(--text-secondary)] md:text-lg md:leading-6'>
               At NextDaySite, we take pride in providing high-quality solutions
               through a seamless development process and a proven record of
               timely delivery. With us, you can be confident in getting
