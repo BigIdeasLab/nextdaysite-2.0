@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-)
+import { createServerSupabaseClient } from '@/lib/api/supabase-server'
 
 async function checkAuth() {
+  const supabase = createServerSupabaseClient()
+  if (!supabase) {
+    return false
+  }
   try {
     const { data } = await supabase.auth.admin.listUsers()
     return !!data?.users?.length

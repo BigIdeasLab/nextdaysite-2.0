@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { PortfolioItemRow } from '@/types/models'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
 
 const fallbackProjects: PortfolioItemRow[] = [
   {
@@ -103,10 +103,7 @@ const fallbackProjects: PortfolioItemRow[] = [
 ]
 
 async function getPortfolioItems() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+  const supabase = await createClient()
 
   try {
     const { data, error } = await supabase

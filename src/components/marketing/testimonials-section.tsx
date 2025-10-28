@@ -1,5 +1,5 @@
 import type { TestimonialRow } from '@/types/models'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
 
 const fallbackTestimonials: TestimonialRow[] = [
   {
@@ -119,10 +119,7 @@ const fallbackTestimonials: TestimonialRow[] = [
 ]
 
 async function getTestimonials() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+  const supabase = await createClient()
 
   try {
     const { data, error } = await supabase
