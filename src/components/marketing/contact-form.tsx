@@ -154,7 +154,7 @@ export function ContactForm() {
               {/* First Name & Last Name */}
               <div className='flex flex-row gap-4'>
                 <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
-                  <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
+                  <label className='absolute left-0 top-0 text-xs font-normal text-[var(--text-secondary)] md:text-sm lg:text-base xl:text-lg'>
                     First Name
                   </label>
                   <input
@@ -166,7 +166,7 @@ export function ContactForm() {
                   />
                 </div>
                 <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
-                  <label className='absolute left-0 top-0 text-xs font-normal text-[#9ba1a6] md:text-sm lg:text-base xl:text-lg'>
+                  <label className='absolute left-0 top-0 text-xs font-normal text-[var(--text-secondary)] md:text-sm lg:text-base xl:text-lg'>
                     Last Name
                   </label>
                   <input
