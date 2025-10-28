@@ -137,7 +137,7 @@ export function ContactForm() {
                   className='flex items-center gap-3 md:gap-4 lg:gap-[15px]'
                 >
                   {item.icon}
-                  <div className='text-sm leading-5 text-white md:text-sm lg:text-base xl:text-lg'>
+                  <div className='text-sm leading-5 text-[var(--foreground)] md:text-sm lg:text-base xl:text-lg'>
                     {item.text}
                   </div>
                 </div>
