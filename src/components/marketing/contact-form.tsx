@@ -162,7 +162,7 @@ export function ContactForm() {
                     name='firstName'
                     value={formData.firstName}
                     onChange={handleChange}
-                    className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                    className='h-full w-full border-b border-[var(--border-light)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--border-light-focus)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                   />
                 </div>
                 <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
@@ -174,7 +174,7 @@ export function ContactForm() {
                     name='lastName'
                     value={formData.lastName}
                     onChange={handleChange}
-                    className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                    className='h-full w-full border-b border-[var(--border-light)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--border-light-focus)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                   />
                 </div>
               </div>
