@@ -4,6 +4,7 @@ import type {
   ServiceRow,
   TestimonialRow,
   CmsSettingRow,
+  PageRow,
 } from '@/types/models'
 
 export function usePortfolioItems(options = {}) {
@@ -73,17 +74,19 @@ export function useTestimonials(options = {}) {
   })
 }
 
-export function useTestimonial(id: string | null, options = {}) {
+export function useTestimonial(id: string) {
   return useQuery<TestimonialRow>({
-    queryKey: ['testimonial', id],
-    queryFn: async () => {
-      const response = await fetch(`/api/cms/testimonials/${id}`)
-      if (!response.ok) throw new Error('Failed to fetch testimonial')
-      return response.json()
-    },
+    queryKey: ['testimonials', id],
+    queryFn: () =>
+      fetch(`/api/cms/testimonials/${id}`).then((res) => res.json()),
     enabled: !!id,
-    staleTime: 60000,
-    ...options,
+  })
+}
+
+export function useSettings() {
+  return useQuery<CmsSettingRow[]>({
+    queryKey: ['settings'],
+    queryFn: () => fetch('/api/cms/settings').then((res) => res.json()),
   })
 }
 
@@ -108,6 +111,33 @@ export function useCmsSettings(options = {}) {
       if (!response.ok) throw new Error('Failed to fetch CMS settings')
       return response.json()
     },
+    staleTime: 60000,
+    ...options,
+  })
+}
+
+export function usePages(options = {}) {
+  return useQuery<PageRow[]>({
+    queryKey: ['pages'],
+    queryFn: async () => {
+      const response = await fetch('/api/cms/pages')
+      if (!response.ok) throw new Error('Failed to fetch pages')
+      return response.json()
+    },
+    staleTime: 60000,
+    ...options,
+  })
+}
+
+export function usePage(id: string | null, options = {}) {
+  return useQuery<PageRow>({
+    queryKey: ['page', id],
+    queryFn: async () => {
+      const response = await fetch(`/api/cms/pages/${id}`)
+      if (!response.ok) throw new Error('Failed to fetch page')
+      return response.json()
+    },
+    enabled: !!id,
     staleTime: 60000,
     ...options,
   })

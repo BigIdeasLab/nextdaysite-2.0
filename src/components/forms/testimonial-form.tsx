@@ -1,14 +1,23 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import type { TestimonialRow } from '@/types/models'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 
 interface TestimonialFormProps {
   item?: TestimonialRow
-  onSubmit?: (data: any) => void
 }
 
-export function TestimonialForm({ item, onSubmit }: TestimonialFormProps) {
+export function TestimonialForm({ item }: TestimonialFormProps) {
+  const router = useRouter()
+  const queryClient = useQueryClient()
   const [formData, setFormData] = useState({
     name: item?.name || '',
     quote: item?.quote || '',
@@ -20,28 +29,9 @@ export function TestimonialForm({ item, onSubmit }: TestimonialFormProps) {
     position_class: item?.position_class || 'left-0 top-[70px]',
     published: item?.published ?? true,
   })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value, type } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
-    }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    try {
+  const mutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
       const method = item ? 'PATCH' : 'POST'
       const url = item
         ? `/api/cms/testimonials/${item.id}`
@@ -50,182 +40,172 @@ export function TestimonialForm({ item, onSubmit }: TestimonialFormProps) {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || 'Failed to save testimonial')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to save testimonial')
       }
 
-      onSubmit?.(await response.json())
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
-    } finally {
-      setLoading(false)
-    }
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
+      }
+      router.push('/dashboard/cms/testimonials')
+    },
+  })
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleCheckedChange = (checked: boolean) => {
+    setFormData((prev) => ({ ...prev, published: checked }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    mutation.mutate(formData)
   }
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-6 max-w-2xl'>
-      {error && (
-        <div className='bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4'>
-          <p className='text-red-700 dark:text-red-100'>{error}</p>
-        </div>
-      )}
+    <Card className='max-w-2xl mx-auto'>
+      <CardHeader>
+        <CardTitle>
+          {item ? 'Edit Testimonial' : 'Create New Testimonial'}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className='space-y-6'>
+          {mutation.error && (
+            <div className='bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/30 rounded-lg p-4'>
+              <p className='text-red-700 dark:text-red-300'>
+                {mutation.error.message}
+              </p>
+            </div>
+          )}
 
-      <div>
-        <label className='block text-sm font-medium text-foreground mb-2'>
-          Name *
-        </label>
-        <input
-          type='text'
-          name='name'
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-          placeholder='John Doe'
-        />
-      </div>
+          <div className='space-y-2'>
+            <Label htmlFor='name'>Name *</Label>
+            <Input
+              id='name'
+              name='name'
+              value={formData.name}
+              onChange={handleChange}
+              required
+              placeholder='John Doe'
+            />
+          </div>
 
-      <div>
-        <label className='block text-sm font-medium text-foreground mb-2'>
-          Quote *
-        </label>
-        <textarea
-          name='quote'
-          value={formData.quote}
-          onChange={handleChange}
-          required
-          rows={4}
-          className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-          placeholder='What did the customer say?'
-        />
-      </div>
+          <div className='space-y-2'>
+            <Label htmlFor='quote'>Quote *</Label>
+            <Textarea
+              id='quote'
+              name='quote'
+              value={formData.quote}
+              onChange={handleChange}
+              required
+              placeholder='What the customer said...'
+            />
+          </div>
 
-      <div>
-        <label className='block text-sm font-medium text-foreground mb-2'>
-          Avatar URL
-        </label>
-        <input
-          type='url'
-          name='avatar_url'
-          value={formData.avatar_url}
-          onChange={handleChange}
-          className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-          placeholder='https://...'
-        />
-      </div>
+          <div className='space-y-2'>
+            <Label htmlFor='avatar_url'>Avatar URL</Label>
+            <Input
+              id='avatar_url'
+              name='avatar_url'
+              type='url'
+              value={formData.avatar_url || ''}
+              onChange={handleChange}
+              placeholder='https://example.com/avatar.png'
+            />
+          </div>
 
-      <div className='grid grid-cols-3 gap-4'>
-        <div>
-          <label className='block text-sm font-medium text-foreground mb-2'>
-            Background Color
-          </label>
-          <input
-            type='text'
-            name='bg_color'
-            value={formData.bg_color}
-            onChange={handleChange}
-            className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-            placeholder='#1A1A1A'
-          />
-        </div>
-        <div>
-          <label className='block text-sm font-medium text-foreground mb-2'>
-            Border Color
-          </label>
-          <input
-            type='text'
-            name='border_color'
-            value={formData.border_color}
-            onChange={handleChange}
-            className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-            placeholder='#2B2B2B'
-          />
-        </div>
-        <div>
-          <label className='block text-sm font-medium text-foreground mb-2'>
-            Text Color
-          </label>
-          <input
-            type='text'
-            name='text_color'
-            value={formData.text_color}
-            onChange={handleChange}
-            className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-            placeholder='#9A9EA2'
-          />
-        </div>
-      </div>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='bg_color'>Background Color</Label>
+              <Input
+                id='bg_color'
+                name='bg_color'
+                value={formData.bg_color || ''}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='space-y-2'>
+              <Label htmlFor='border_color'>Border Color</Label>
+              <Input
+                id='border_color'
+                name='border_color'
+                value={formData.border_color || ''}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='space-y-2'>
+              <Label htmlFor='text_color'>Text Color</Label>
+              <Input
+                id='text_color'
+                name='text_color'
+                value={formData.text_color || ''}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-      <div className='grid grid-cols-2 gap-4'>
-        <div>
-          <label className='block text-sm font-medium text-foreground mb-2'>
-            Rotation Class
-          </label>
-          <input
-            type='text'
-            name='rotate_class'
-            value={formData.rotate_class}
-            onChange={handleChange}
-            className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-            placeholder='-rotate-[6deg]'
-          />
-        </div>
-        <div>
-          <label className='block text-sm font-medium text-foreground mb-2'>
-            Position Class
-          </label>
-          <input
-            type='text'
-            name='position_class'
-            value={formData.position_class}
-            onChange={handleChange}
-            className='w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
-            placeholder='left-0 top-[70px]'
-          />
-        </div>
-      </div>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='rotate_class'>Rotate Class</Label>
+              <Input
+                id='rotate_class'
+                name='rotate_class'
+                value={formData.rotate_class || ''}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='space-y-2'>
+              <Label htmlFor='position_class'>Position Class</Label>
+              <Input
+                id='position_class'
+                name='position_class'
+                value={formData.position_class || ''}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-      <div className='flex items-center gap-3'>
-        <input
-          type='checkbox'
-          name='published'
-          checked={formData.published}
-          onChange={handleChange}
-          id='published'
-          className='w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500'
-        />
-        <label
-          htmlFor='published'
-          className='text-sm font-medium text-foreground'
-        >
-          Publish immediately
-        </label>
-      </div>
+          <div className='flex items-center space-x-2'>
+            <Switch
+              id='published'
+              checked={formData.published}
+              onCheckedChange={handleCheckedChange}
+            />
+            <Label htmlFor='published'>Publish</Label>
+          </div>
 
-      <div className='flex gap-3'>
-        <button
-          type='submit'
-          disabled={loading}
-          className='px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
-        >
-          {loading
-            ? 'Saving...'
-            : item
-              ? 'Update Testimonial'
-              : 'Create Testimonial'}
-        </button>
-        <button
-          type='button'
-          onClick={() => window.history.back()}
-          className='px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-foreground font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+          <div className='flex justify-end gap-4'>
+            <Button
+              type='button'
+              variant='outline'
+              onClick={() => router.back()}
+            >
+              Cancel
+            </Button>
+            <Button type='submit' disabled={mutation.isPending}>
+              {mutation.isPending
+                ? 'Saving...'
+                : item
+                  ? 'Update Testimonial'
+                  : 'Create Testimonial'}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   )
 }

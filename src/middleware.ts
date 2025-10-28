@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  const supabase = createServerClient(
+  createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -33,8 +33,6 @@ export async function middleware(request: NextRequest) {
       },
     },
   )
-
-  return response
 
   return response
 }

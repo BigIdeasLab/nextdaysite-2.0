@@ -117,7 +117,7 @@ async function getServices() {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/services`,
       {
-        cache: 'revalidate',
+        cache: 'no-store',
         next: { revalidate: 60 },
       },
     )
@@ -143,7 +143,7 @@ export async function ServicesSection() {
           </h2>
           <div className='w-full overflow-hidden rounded-[20px] bg-[var(--dark-card)] md:rounded-[50px]'>
             <div className='grid grid-cols-1 gap-px bg-[var(--dark-bg)] md:grid-cols-2 lg:grid-cols-3'>
-              {services.map((service) => (
+              {services.map((service: ServiceRow) => (
                 <ServiceCard key={service.title} service={service} />
               ))}
             </div>

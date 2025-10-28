@@ -106,7 +106,6 @@ async function getPortfolioItems() {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/cms/portfolio`,
       {
-        cache: 'revalidate',
         next: { revalidate: 60 },
       },
     )
@@ -132,7 +131,7 @@ export async function FeaturedWorksSection() {
         </h2>
 
         <div className='grid w-full grid-cols-1 gap-10 md:grid-cols-2 md:gap-x-5 md:gap-y-12'>
-          {projects.map((project, index) => (
+          {projects.map((project: PortfolioItemRow, index: number) => (
             <div
               key={project.id}
               className={`${index % 2 === 1 ? 'md:translate-y-16' : ''}`}
@@ -154,7 +153,9 @@ export async function FeaturedWorksSection() {
 }
 
 function ProjectCard({ project }: { project: PortfolioItemRow }) {
-  const imageUrl = project.image_url || fallbackProjects[0].image_url
+  const imageUrl = project.image_url
+    ? project.image_url
+    : fallbackProjects[0].image_url!
   return (
     <div className='flex flex-col items-center gap-5'>
       <div
