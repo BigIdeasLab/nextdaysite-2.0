@@ -127,7 +127,7 @@ export function ContactForm() {
         <div className='flex flex-col gap-10 md:flex-row md:items-start md:gap-16 lg:gap-16'>
           {/* Contact Info */}
           <div className='flex w-full flex-col gap-8 md:gap-12 lg:w-1/2 lg:gap-[60px]'>
-            <h2 className='text-xl font-medium text-[#F7F6FF] md:text-xl lg:text-2xl xl:text-[32px]'>
+            <h2 className='text-xl font-medium text-[var(--foreground)] md:text-xl lg:text-2xl xl:text-[32px]'>
               We&apos;d Love to Hear From You
             </h2>
             <div className='flex flex-col gap-4 md:gap-6 lg:gap-[30px]'>
