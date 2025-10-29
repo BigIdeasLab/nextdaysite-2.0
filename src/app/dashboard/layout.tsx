@@ -1,15 +1,16 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { createServerSupabaseClient } from '@/lib/api/supabase-server'
+import { createClient } from '@/lib/supabase/server'
+import { LogoutButton } from '@/components/auth/logout-button'
 
 async function checkAuth() {
-  const supabase = createServerSupabaseClient()
+  const supabase = await createClient()
   if (!supabase) {
     return false
   }
   try {
-    const { data } = await supabase.auth.admin.listUsers()
-    return !!data?.users?.length
+    const { data } = await supabase.auth.getUser()
+    return !!data?.user
   } catch {
     return false
   }
@@ -62,13 +63,8 @@ export default async function DashboardLayout({
           ))}
         </nav>
 
-        <div className='absolute bottom-6 left-6 right-6'>
-          <Link
-            href='/dashboard/logout'
-            className='block w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100 hover:bg-red-200 dark:hover:bg-red-800 text-center'
-          >
-            Logout
-          </Link>
+        <div className='mt-auto'>
+          <LogoutButton />
         </div>
       </aside>
 

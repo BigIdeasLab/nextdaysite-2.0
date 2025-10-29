@@ -13,11 +13,11 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // const { data: isAdmin } = await supabase.rpc('is_admin')
+  const { data: isAdmin } = await supabase.rpc('is_admin')
 
-  // if (!isAdmin) {
-  //   return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  // }
+  if (!isAdmin) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
 
   const { data: projects, error } = await supabase.from('projects').select('*')
 
