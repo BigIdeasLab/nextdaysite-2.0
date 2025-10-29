@@ -1,0 +1,1 @@
+ALTER TABLE public.logos ADD COLUMN description TEXT;

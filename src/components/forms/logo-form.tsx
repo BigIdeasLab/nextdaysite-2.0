@@ -6,6 +6,7 @@ import type { LogoRow } from '@/types/models'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
@@ -18,6 +19,7 @@ export function LogoForm({ item }: LogoFormProps) {
   const queryClient = useQueryClient()
   const [formData, setFormData] = useState({
     name: item?.name || '',
+    description: item?.description || '',
     image_url: item?.image_url || '',
     width: item?.width || '',
     height: item?.height || '',
@@ -50,7 +52,9 @@ export function LogoForm({ item }: LogoFormProps) {
     },
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -84,6 +88,17 @@ export function LogoForm({ item }: LogoFormProps) {
               onChange={handleChange}
               required
               placeholder='e.g., Google'
+            />
+          </div>
+
+          <div className='space-y-2'>
+            <Label htmlFor='description'>Description</Label>
+            <Textarea
+              id='description'
+              name='description'
+              value={formData.description}
+              onChange={handleChange}
+              placeholder='e.g., A search engine company.'
             />
           </div>
 

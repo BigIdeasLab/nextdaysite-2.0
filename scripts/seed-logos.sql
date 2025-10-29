@@ -1,0 +1,9 @@
+INSERT INTO logos (name, image_url, description) VALUES
+  ('Frontix', 'https://api.builder.io/api/v1/image/assets/TEMP/3d7405dcabc4b2834386ca40862571ef89da0b9b?width=1304', 'Monitor and optimize environmental impact in real-time through data analytics.'),
+  ('Bitfirst', 'https://api.builder.io/api/v1/image/assets/TEMP/f3853daecf41ae7421da3fb9963284be380a3d20?width=1310', 'Transform any space into a smart home with customizable automation options.'),
+  ('Vernacula', 'https://api.builder.io/api/v1/image/assets/TEMP/a427c717b2d578c04ac63a52598ce725a05877de?width=1368', 'Monitor and optimize environmental impact in real-time through data analytics.'),
+  ('Easedo', 'https://api.builder.io/api/v1/image/assets/TEMP/ab7997ef40116660302a3e537499c5ccd5dd377e?width=1334', 'Transform any space into a smart home with customizable automation options.'),
+  ('Tabitha Properties', 'https://api.builder.io/api/v1/image/assets/TEMP/ed26ae1bd73d6359ddf4105b7a242bff5a666270?width=1576', 'Monitor and optimize environmental impact in real-time through data analytics.'),
+  ('WOW', 'https://api.builder.io/api/v1/image/assets/TEMP/7a4b8168fde60eff6e0e280d7e1134c79b53c27c?width=1598', 'Transform any space into a smart home with customizable automation options.'),
+  ('Jolakin', 'https://api.builder.io/api/v1/image/assets/TEMP/7c17df4df7de17f72702585a75d50d201fa2e5b4?width=1576', 'Monitor and optimize environmental impact in real-time through data analytics.'),
+  ('LordFrank', 'https://api.builder.io/api/v1/image/assets/TEMP/38517cc3338b4d18c4a09991bb55a7c90cef1eb1?width=1598', 'Transform any space into a smart home with customizable automation options.');

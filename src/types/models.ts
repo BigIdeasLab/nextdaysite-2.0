@@ -9,7 +9,9 @@ export type FilesRow = Database['public']['Tables']['files']['Row']
 export type SubscriptionsRow =
   Database['public']['Tables']['subscriptions']['Row']
 
-export type LogoRow = Database['public']['Tables']['logos']['Row']
+export type LogoRow = Database['public']['Tables']['logos']['Row'] & {
+  description: string | null
+}
 export type PortfolioItemRow =
   Database['public']['Tables']['portfolio_items']['Row']
 export type ServiceRow = Database['public']['Tables']['services']['Row']
