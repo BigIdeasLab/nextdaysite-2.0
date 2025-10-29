@@ -3,16 +3,11 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { createBrowserSupabaseClient } from '@/lib/api/supabase-browser'
 import type { Database, Json } from '@/types/database'
 import type {
-  ActivitiesRow,
-  ChatMessagesRow,
   FilesRow,
   InvoicesRow,
-  OnboardingStepsRow,
   PlansRow,
   ProjectsRow,
   UsersRow,
-  ProjectTimelinePhasesRow,
-  ProjectDeliverablesRow,
 } from '@/types/models'
 
 type Client = SupabaseClient<Database>
@@ -50,26 +45,26 @@ export async function fetchPlans(client?: Client | null): Promise<PlansRow[]> {
   return data ?? []
 }
 
-export async function fetchOnboardingSteps(
-  client?: Client | null,
-): Promise<OnboardingStepsRow[]> {
-  const supabase = resolveClient(client)
-  if (!supabase) {
-    return []
-  }
+// export async function fetchOnboardingSteps(
+//   client?: Client | null,
+// ): Promise<OnboardingStepsRow[]> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) {
+//     return []
+//   }
 
-  const { data, error } = await supabase
-    .from('onboarding_steps')
-    .select('*')
-    .order('id', { ascending: true })
+//   const { data, error } = await supabase
+//     .from('onboarding_steps')
+//     .select('*')
+//     .order('id', { ascending: true })
 
-  if (error) {
-    handleError('fetchOnboardingSteps', error)
-    return []
-  }
+//   if (error) {
+//     handleError('fetchOnboardingSteps', error)
+//     return []
+//   }
 
-  return data ?? []
-}
+//   return data ?? []
+// }
 
 export async function fetchUsers(client?: Client | null): Promise<UsersRow[]> {
   const supabase = resolveClient(client)
@@ -174,54 +169,54 @@ export async function fetchFiles(client?: Client | null): Promise<FilesRow[]> {
   return data ?? []
 }
 
-export async function fetchChatMessages(
-  projectId: string,
-  client?: Client | null,
-): Promise<ChatMessagesRow[]> {
-  const supabase = resolveClient(client)
-  if (!supabase) {
-    return []
-  }
+// export async function fetchChatMessages(
+//   projectId: string,
+//   client?: Client | null,
+// ): Promise<ChatMessagesRow[]> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) {
+//     return []
+//   }
 
-  const { data, error } = await supabase
-    .from('chat_messages')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: true })
+//   const { data, error } = await supabase
+//     .from('chat_messages')
+//     .select('*')
+//     .eq('project_id', projectId)
+//     .order('created_at', { ascending: true })
 
-  if (error) {
-    handleError('fetchChatMessages', error)
-    return []
-  }
+//   if (error) {
+//     handleError('fetchChatMessages', error)
+//     return []
+//   }
 
-  return data ?? []
-}
+//   return data ?? []
+// }
 
-export async function fetchActivities(
-  projectId?: string,
-  client?: Client | null,
-): Promise<ActivitiesRow[]> {
-  const supabase = resolveClient(client)
-  if (!supabase) {
-    return []
-  }
+// export async function fetchActivities(
+//   projectId?: string,
+//   client?: Client | null,
+// ): Promise<ActivitiesRow[]> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) {
+//     return []
+//   }
 
-  const baseQuery = supabase
-    .from('activities')
-    .select('*')
-    .order('created_at', { ascending: false })
+//   const baseQuery = supabase
+//     .from('activities')
+//     .select('*')
+//     .order('created_at', { ascending: false })
 
-  const { data, error } = projectId
-    ? await baseQuery.eq('project_id', projectId)
-    : await baseQuery
+//   const { data, error } = projectId
+//     ? await baseQuery.eq('project_id', projectId)
+//     : await baseQuery
 
-  if (error) {
-    handleError('fetchActivities', error)
-    return []
-  }
+//   if (error) {
+//     handleError('fetchActivities', error)
+//     return []
+//   }
 
-  return data ?? []
-}
+//   return data ?? []
+// }
 
 export async function fetchUserById(
   userId: string,
@@ -341,258 +336,258 @@ export async function createProject(
   return data
 }
 
-export async function fetchDeliverables(
-  client: Client | null,
-  projectId: string,
-): Promise<ProjectDeliverablesRow[]> {
-  const supabase = resolveClient(client)
-  if (!supabase) {
-    return []
-  }
+// export async function fetchDeliverables(
+//   client: Client | null,
+//   projectId: string,
+// ): Promise<ProjectDeliverablesRow[]> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) {
+//     return []
+//   }
 
-  const { data, error } = await supabase
-    .from('project_deliverables')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('id', { ascending: true })
+//   const { data, error } = await supabase
+//     .from('project_deliverables')
+//     .select('*')
+//     .eq('project_id', projectId)
+//     .order('id', { ascending: true })
 
-  if (error) {
-    handleError('fetchDeliverables', error)
-    return []
-  }
+//   if (error) {
+//     handleError('fetchDeliverables', error)
+//     return []
+//   }
 
-  return data ?? []
-}
+//   return data ?? []
+// }
 
-export async function fetchTimelinePhases(
-  client: Client | null,
-  projectId: string,
-): Promise<ProjectTimelinePhasesRow[]> {
-  const supabase = resolveClient(client)
-  if (!supabase) {
-    return []
-  }
+// export async function fetchTimelinePhases(
+//   client: Client | null,
+//   projectId: string,
+// ): Promise<ProjectTimelinePhasesRow[]> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) {
+//     return []
+//   }
 
-  const { data, error } = await supabase
-    .from('project_timeline_phases')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('id', { ascending: true })
+//   const { data, error } = await supabase
+//     .from('project_timeline_phases')
+//     .select('*')
+//     .eq('project_id', projectId)
+//     .order('id', { ascending: true })
 
-  if (error) {
-    handleError('fetchTimelinePhases', error)
-    return []
-  }
+//   if (error) {
+//     handleError('fetchTimelinePhases', error)
+//     return []
+//   }
 
-  return data ?? []
-}
+//   return data ?? []
+// }
 
-export async function addTimelinePhase(
-  phase: Omit<ProjectTimelinePhasesRow, 'id' | 'created_at' | 'updated_at'>,
-  client?: Client | null,
-): Promise<ProjectTimelinePhasesRow | null> {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function addTimelinePhase(
+//   phase: Omit<ProjectTimelinePhasesRow, 'id' | 'created_at' | 'updated_at'>,
+//   client?: Client | null,
+// ): Promise<ProjectTimelinePhasesRow | null> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { data, error } = await supabase
-    .from('project_timeline_phases')
-    .insert(phase)
-    .select()
-    .single()
+//   const { data, error } = await supabase
+//     .from('project_timeline_phases')
+//     .insert(phase)
+//     .select()
+//     .single()
 
-  if (error) {
-    handleError('addTimelinePhase', error)
-    return null
-  }
-  return data
-}
+//   if (error) {
+//     handleError('addTimelinePhase', error)
+//     return null
+//   }
+//   return data
+// }
 
-export async function updateTimelinePhase(
-  phaseId: string,
-  updates: Partial<ProjectTimelinePhasesRow>,
-  client?: Client | null,
-): Promise<ProjectTimelinePhasesRow | null> {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function updateTimelinePhase(
+//   phaseId: string,
+//   updates: Partial<ProjectTimelinePhasesRow>,
+//   client?: Client | null,
+// ): Promise<ProjectTimelinePhasesRow | null> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { data, error } = await supabase
-    .from('project_timeline_phases')
-    .update(updates)
-    .eq('id', phaseId)
-    .select()
-    .single()
+//   const { data, error } = await supabase
+//     .from('project_timeline_phases')
+//     .update(updates)
+//     .eq('id', phaseId)
+//     .select()
+//     .single()
 
-  if (error) {
-    handleError('updateTimelinePhase', error)
-    return null
-  }
+//   if (error) {
+//     handleError('updateTimelinePhase', error)
+//     return null
+//   }
 
-  if (data && data.project_id && updates.status) {
-    const project = await fetchProjectById(data.project_id, supabase)
-    if (project) {
-      const message = `Timeline phase "${data.title}" in project "${project.title}" updated to "${updates.status}"`
-      await createActivity(
-        data.project_id,
-        'status_change',
-        { message },
-        supabase,
-      )
-    }
-  }
+//   if (data && data.project_id && updates.status) {
+//     const project = await fetchProjectById(data.project_id, supabase)
+//     if (project) {
+//       const message = `Timeline phase "${data.title}" in project "${project.title}" updated to "${updates.status}"`
+//       await createActivity(
+//         data.project_id,
+//         'status_change',
+//         { message },
+//         supabase,
+//       )
+//     }
+//   }
 
-  return data
-}
+//   return data
+// }
 
-export async function deleteTimelinePhase(
-  phaseId: string,
-  client?: Client | null,
-): Promise<boolean> {
-  const supabase = resolveClient(client)
-  if (!supabase) return false
+// export async function deleteTimelinePhase(
+//   phaseId: string,
+//   client?: Client | null,
+// ): Promise<boolean> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return false
 
-  const { error } = await supabase
-    .from('project_timeline_phases')
-    .delete()
-    .eq('id', phaseId)
+//   const { error } = await supabase
+//     .from('project_timeline_phases')
+//     .delete()
+//     .eq('id', phaseId)
 
-  if (error) {
-    handleError('deleteTimelinePhase', error)
-    return false
-  }
-  return true
-}
+//   if (error) {
+//     handleError('deleteTimelinePhase', error)
+//     return false
+//   }
+//   return true
+// }
 
-export async function addDeliverable(
-  deliverable: Omit<ProjectDeliverablesRow, 'id' | 'created_at' | 'updated_at'>,
-  client?: Client | null,
-): Promise<ProjectDeliverablesRow | null> {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function addDeliverable(
+//   deliverable: Omit<ProjectDeliverablesRow, 'id' | 'created_at' | 'updated_at'>,
+//   client?: Client | null,
+// ): Promise<ProjectDeliverablesRow | null> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { data, error } = await supabase
-    .from('project_deliverables')
-    .insert(deliverable)
-    .select()
-    .single()
+//   const { data, error } = await supabase
+//     .from('project_deliverables')
+//     .insert(deliverable)
+//     .select()
+//     .single()
 
-  if (error) {
-    handleError('addDeliverable', error)
-    return null
-  }
-  return data
-}
+//   if (error) {
+//     handleError('addDeliverable', error)
+//     return null
+//   }
+//   return data
+// }
 
-export async function updateDeliverable(
-  deliverableId: string,
-  updates: Partial<ProjectDeliverablesRow>,
-  client?: Client | null,
-): Promise<ProjectDeliverablesRow | null> {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function updateDeliverable(
+//   deliverableId: string,
+//   updates: Partial<ProjectDeliverablesRow>,
+//   client?: Client | null,
+// ): Promise<ProjectDeliverablesRow | null> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { data, error } = await supabase
-    .from('project_deliverables')
-    .update(updates)
-    .eq('id', deliverableId)
-    .select()
-    .single()
+//   const { data, error } = await supabase
+//     .from('project_deliverables')
+//     .update(updates)
+//     .eq('id', deliverableId)
+//     .select()
+//     .single()
 
-  if (error) {
-    handleError('updateDeliverable', error)
-    return null
-  }
-  return data
-}
+//   if (error) {
+//     handleError('updateDeliverable', error)
+//     return null
+//   }
+//   return data
+// }
 
-export async function deleteDeliverable(
-  deliverableId: string,
-  client?: Client | null,
-): Promise<boolean> {
-  const supabase = resolveClient(client)
-  if (!supabase) return false
+// export async function deleteDeliverable(
+//   deliverableId: string,
+//   client?: Client | null,
+// ): Promise<boolean> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return false
 
-  const { error } = await supabase
-    .from('project_deliverables')
-    .delete()
-    .eq('id', deliverableId)
+//   const { error } = await supabase
+//     .from('project_deliverables')
+//     .delete()
+//     .eq('id', deliverableId)
 
-  if (error) {
-    handleError('deleteDeliverable', error)
-    return false
-  }
-  return true
-}
+//   if (error) {
+//     handleError('deleteDeliverable', error)
+//     return false
+//   }
+//   return true
+// }
 
-export async function createActivity(
-  projectId: string,
-  eventType:
-    | 'status_change'
-    | 'file_uploaded'
-    | 'invoice_sent'
-    | 'note_added'
-    | 'message_posted',
-  metadata: Json,
-  client?: Client | null,
-) {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function createActivity(
+//   projectId: string,
+//   eventType:
+//     | 'status_change'
+//     | 'file_uploaded'
+//     | 'invoice_sent'
+//     | 'note_added'
+//     | 'message_posted',
+//   metadata: Json,
+//   client?: Client | null,
+// ) {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { error } = await supabase
-    .from('activities')
-    .insert({ project_id: projectId, event_type: eventType, metadata })
+//   const { error } = await supabase
+//     .from('activities')
+//     .insert({ project_id: projectId, event_type: eventType, metadata })
 
-  if (error) {
-    handleError('createActivity', error)
-  }
-}
+//   if (error) {
+//     handleError('createActivity', error)
+//   }
+// }
 
-export async function updateProjectStatus(
-  projectId: string,
-  status: Database['public']['Enums']['project_status'],
-  client?: Client | null,
-): Promise<ProjectsRow | null> {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function updateProjectStatus(
+//   projectId: string,
+//   status: Database['public']['Enums']['project_status'],
+//   client?: Client | null,
+// ): Promise<ProjectsRow | null> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { data, error } = await supabase
-    .from('projects')
-    .update({ status })
-    .eq('id', projectId)
-    .select()
-    .single()
+//   const { data, error } = await supabase
+//     .from('projects')
+//     .update({ status })
+//     .eq('id', projectId)
+//     .select()
+//     .single()
 
-  if (error) {
-    handleError('updateProjectStatus', error)
-    return null
-  }
+//   if (error) {
+//     handleError('updateProjectStatus', error)
+//     return null
+//   }
 
-  if (data) {
-    const message = `Project "${data.title}" status updated to "${status}"`
-    await createActivity(projectId, 'status_change', { message }, supabase)
-  }
+//   if (data) {
+//     const message = `Project "${data.title}" status updated to "${status}"`
+//     await createActivity(projectId, 'status_change', { message }, supabase)
+//   }
 
-  return data
-}
+//   return data
+// }
 
-export async function updateProjectDates(
-  projectId: string,
-  startDate: string | null,
-  dueDate: string | null,
-  client?: Client | null,
-): Promise<ProjectsRow | null> {
-  const supabase = resolveClient(client)
-  if (!supabase) return null
+// export async function updateProjectDates(
+//   projectId: string,
+//   startDate: string | null,
+//   dueDate: string | null,
+//   client?: Client | null,
+// ): Promise<ProjectsRow | null> {
+//   const supabase = resolveClient(client)
+//   if (!supabase) return null
 
-  const { data, error } = await supabase
-    .from('projects')
-    .update({ start_date: startDate, due_date: dueDate })
-    .eq('id', projectId)
-    .select()
-    .single()
+//   const { data, error } = await supabase
+//     .from('projects')
+//     .update({ start_date: startDate, due_date: dueDate })
+//     .eq('id', projectId)
+//     .select()
+//     .single()
 
-  if (error) {
-    handleError('updateProjectDates', error)
-    return null
-  }
-  return data
-}
+//   if (error) {
+//     handleError('updateProjectDates', error)
+//     return null
+//   }
+//   return data
+// }

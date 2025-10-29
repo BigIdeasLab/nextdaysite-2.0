@@ -86,12 +86,12 @@ async function getServices() {
 export async function ServicesList() {
   const services = await getServices()
   return (
-    <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
-      <div className='mx-auto flex w-full max-w-5xl flex-col items-start gap-48'>
+    <section className='w-full px-6 py-16 md:px-12 lg:px-24'>
+      <div className='mx-auto flex w-full max-w-5xl flex-col items-center gap-48'>
         {services.map((service, index) => (
           <div
             key={service.id}
-            className={`flex w-full flex-col items-center gap-16 ${
+            className={`flex w-full flex-col items-center gap-16 md:justify-center ${
               index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'
             }`}
           >
@@ -156,7 +156,7 @@ export async function ServicesList() {
 
               <Link
                 href='#pricing'
-                className='flex items-center justify-center rounded-full border border-foreground/50 px-6 py-5 text-base font-medium text-foreground transition-colors hover:border-foreground/70 hover:bg-foreground/5'
+                className='flex items-center justify-center rounded-full border border-foreground/50 px-6 py-3 text-base font-medium text-foreground transition-colors hover:border-foreground/70 hover:bg-foreground/5'
               >
                 See Pricing
               </Link>

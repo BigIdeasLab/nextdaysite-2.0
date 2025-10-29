@@ -162,7 +162,7 @@ function ProjectCard({ project }: { project: PortfolioItemRow }) {
     <div className='flex flex-col items-center gap-5'>
       <div
         className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[30px] md:rounded-[50px]'
-        style={{ backgroundColor: project.color }}
+        style={{ backgroundColor: project.color ?? 'transparent' }}
       >
         <Image
           src={imageUrl}

@@ -5,7 +5,35 @@ import type {
   TestimonialRow,
   CmsSettingRow,
   PageRow,
+  LogoRow,
 } from '@/types/models'
+
+export function useLogos(options = {}) {
+  return useQuery<LogoRow[]>({
+    queryKey: ['logos'],
+    queryFn: async () => {
+      const response = await fetch('/api/cms/logos')
+      if (!response.ok) throw new Error('Failed to fetch logos')
+      return response.json()
+    },
+    staleTime: 60000,
+    ...options,
+  })
+}
+
+export function useLogo(id: string | null, options = {}) {
+  return useQuery<LogoRow>({
+    queryKey: ['logo', id],
+    queryFn: async () => {
+      const response = await fetch(`/api/cms/logos/${id}`)
+      if (!response.ok) throw new Error('Failed to fetch logo')
+      return response.json()
+    },
+    enabled: !!id,
+    staleTime: 60000,
+    ...options,
+  })
+}
 
 export function usePortfolioItems(options = {}) {
   return useQuery<PortfolioItemRow[]>({

@@ -14,89 +14,40 @@ export type Database = {
   }
   public: {
     Tables: {
-      activities: {
+      cms_settings: {
         Row: {
-          actor_id: string | null
           created_at: string
-          event_type: Database['public']['Enums']['activity_type']
+          description: string | null
           id: string
-          metadata: Json | null
-          project_id: string
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
         }
         Insert: {
-          actor_id?: string | null
           created_at?: string
-          event_type: Database['public']['Enums']['activity_type']
+          description?: string | null
           id?: string
-          metadata?: Json | null
-          project_id: string
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value: Json
         }
         Update: {
-          actor_id?: string | null
           created_at?: string
-          event_type?: Database['public']['Enums']['activity_type']
+          description?: string | null
           id?: string
-          metadata?: Json | null
-          project_id?: string
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
         }
         Relationships: [
           {
-            foreignKeyName: 'activities_actor_id_fkey'
-            columns: ['actor_id']
+            foreignKeyName: 'cms_settings_updated_by_fkey'
+            columns: ['updated_by']
             isOneToOne: false
             referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'activities_project_id_fkey'
-            columns: ['project_id']
-            isOneToOne: false
-            referencedRelation: 'projects'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      chat_messages: {
-        Row: {
-          attachments: Json | null
-          author_id: string
-          created_at: string
-          id: string
-          message: string
-          project_id: string
-          role: Database['public']['Enums']['chat_role']
-        }
-        Insert: {
-          attachments?: Json | null
-          author_id: string
-          created_at?: string
-          id?: string
-          message: string
-          project_id: string
-          role: Database['public']['Enums']['chat_role']
-        }
-        Update: {
-          attachments?: Json | null
-          author_id?: string
-          created_at?: string
-          id?: string
-          message?: string
-          project_id?: string
-          role?: Database['public']['Enums']['chat_role']
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'chat_messages_author_id_fkey'
-            columns: ['author_id']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'chat_messages_project_id_fkey'
-            columns: ['project_id']
-            isOneToOne: false
-            referencedRelation: 'projects'
             referencedColumns: ['id']
           },
         ]
@@ -230,35 +181,104 @@ export type Database = {
           },
         ]
       }
-      onboarding_steps: {
+      logos: {
         Row: {
-          id: number
-          is_first_step: boolean | null
-          is_last_step: boolean | null
-          message: string
-          next_step_id: string | null
-          step_id: string
-          stored_key: string | null
+          created_at: string | null
+          height: number | null
+          id: string
+          image_url: string
+          name: string
+          width: number | null
         }
         Insert: {
-          id?: number
-          is_first_step?: boolean | null
-          is_last_step?: boolean | null
-          message: string
-          next_step_id?: string | null
-          step_id: string
-          stored_key?: string | null
+          created_at?: string | null
+          height?: number | null
+          id?: string
+          image_url: string
+          name: string
+          width?: number | null
         }
         Update: {
-          id?: number
-          is_first_step?: boolean | null
-          is_last_step?: boolean | null
-          message?: string
-          next_step_id?: string | null
-          step_id?: string
-          stored_key?: string | null
+          created_at?: string | null
+          height?: number | null
+          id?: string
+          image_url?: string
+          name?: string
+          width?: number | null
         }
         Relationships: []
+      }
+      pages: {
+        Row: {
+          content: Json | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          hero_image_id: string | null
+          hero_image_url: string | null
+          hero_subtitle: string | null
+          hero_title: string | null
+          id: string
+          meta_description: string | null
+          meta_title: string | null
+          published: boolean | null
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hero_image_id?: string | null
+          hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          published?: boolean | null
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hero_image_id?: string | null
+          hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          published?: boolean | null
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pages_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pages_hero_image_id_fkey'
+            columns: ['hero_image_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+        ]
       }
       plans: {
         Row: {
@@ -308,69 +328,62 @@ export type Database = {
         }
         Relationships: []
       }
-      project_deliverables: {
+      portfolio_items: {
         Row: {
-          description: string | null
+          color: string | null
+          created_at: string
+          created_by: string | null
+          description: string
           id: string
-          project_id: string | null
-          status: Database['public']['Enums']['deliverable_status'] | null
+          image_id: string | null
+          image_url: string | null
+          order_index: number | null
+          published: boolean | null
+          slug: string
           title: string
+          updated_at: string
         }
         Insert: {
-          description?: string | null
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description: string
           id?: string
-          project_id?: string | null
-          status?: Database['public']['Enums']['deliverable_status'] | null
+          image_id?: string | null
+          image_url?: string | null
+          order_index?: number | null
+          published?: boolean | null
+          slug: string
           title: string
+          updated_at?: string
         }
         Update: {
-          description?: string | null
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
           id?: string
-          project_id?: string | null
-          status?: Database['public']['Enums']['deliverable_status'] | null
+          image_id?: string | null
+          image_url?: string | null
+          order_index?: number | null
+          published?: boolean | null
+          slug?: string
           title?: string
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'project_deliverables_project_id_fkey'
-            columns: ['project_id']
+            foreignKeyName: 'portfolio_items_created_by_fkey'
+            columns: ['created_by']
             isOneToOne: false
-            referencedRelation: 'projects'
+            referencedRelation: 'users'
             referencedColumns: ['id']
           },
-        ]
-      }
-      project_timeline_phases: {
-        Row: {
-          end_date: string | null
-          id: string
-          project_id: string | null
-          start_date: string | null
-          status: Database['public']['Enums']['timeline_phase_status'] | null
-          title: string
-        }
-        Insert: {
-          end_date?: string | null
-          id?: string
-          project_id?: string | null
-          start_date?: string | null
-          status?: Database['public']['Enums']['timeline_phase_status'] | null
-          title: string
-        }
-        Update: {
-          end_date?: string | null
-          id?: string
-          project_id?: string | null
-          start_date?: string | null
-          status?: Database['public']['Enums']['timeline_phase_status'] | null
-          title?: string
-        }
-        Relationships: [
           {
-            foreignKeyName: 'project_timeline_phases_project_id_fkey'
-            columns: ['project_id']
+            foreignKeyName: 'portfolio_items_image_id_fkey'
+            columns: ['image_id']
             isOneToOne: false
-            referencedRelation: 'projects'
+            referencedRelation: 'files'
             referencedColumns: ['id']
           },
         ]
@@ -388,6 +401,8 @@ export type Database = {
           hosting: string | null
           id: string
           industry: string | null
+          key_features: string | null
+          main_goal: string | null
           owner_id: string
           page_count: string | null
           plan_id: string | null
@@ -397,6 +412,7 @@ export type Database = {
           project_manager_id: string | null
           project_title: string | null
           project_type: string | null
+          reference_websites: string | null
           slug: string
           start_date: string | null
           status: Database['public']['Enums']['project_status']
@@ -418,6 +434,8 @@ export type Database = {
           hosting?: string | null
           id?: string
           industry?: string | null
+          key_features?: string | null
+          main_goal?: string | null
           owner_id: string
           page_count?: string | null
           plan_id?: string | null
@@ -427,6 +445,7 @@ export type Database = {
           project_manager_id?: string | null
           project_title?: string | null
           project_type?: string | null
+          reference_websites?: string | null
           slug: string
           start_date?: string | null
           status?: Database['public']['Enums']['project_status']
@@ -448,6 +467,8 @@ export type Database = {
           hosting?: string | null
           id?: string
           industry?: string | null
+          key_features?: string | null
+          main_goal?: string | null
           owner_id?: string
           page_count?: string | null
           plan_id?: string | null
@@ -457,6 +478,7 @@ export type Database = {
           project_manager_id?: string | null
           project_title?: string | null
           project_type?: string | null
+          reference_websites?: string | null
           slug?: string
           start_date?: string | null
           status?: Database['public']['Enums']['project_status']
@@ -490,176 +512,6 @@ export type Database = {
           },
         ]
       }
-      cms_settings: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          key: string
-          updated_at: string
-          updated_by: string | null
-          value: Json
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          key: string
-          updated_at?: string
-          updated_by?: string | null
-          value: Json
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          key?: string
-          updated_at?: string
-          updated_by?: string | null
-          value?: Json
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'cms_settings_updated_by_fkey'
-            columns: ['updated_by']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      pages: {
-        Row: {
-          content: Json | null
-          created_at: string
-          created_by: string | null
-          description: string | null
-          hero_image_id: string | null
-          hero_image_url: string | null
-          hero_subtitle: string | null
-          hero_title: string | null
-          id: string
-          meta_description: string | null
-          meta_title: string | null
-          published: boolean
-          published_at: string | null
-          slug: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          content?: Json | null
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          hero_image_id?: string | null
-          hero_image_url?: string | null
-          hero_subtitle?: string | null
-          hero_title?: string | null
-          id?: string
-          meta_description?: string | null
-          meta_title?: string | null
-          published?: boolean
-          published_at?: string | null
-          slug: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          content?: Json | null
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          hero_image_id?: string | null
-          hero_image_url?: string | null
-          hero_subtitle?: string | null
-          hero_title?: string | null
-          id?: string
-          meta_description?: string | null
-          meta_title?: string | null
-          published?: boolean
-          published_at?: string | null
-          slug?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'pages_created_by_fkey'
-            columns: ['created_by']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'pages_hero_image_id_fkey'
-            columns: ['hero_image_id']
-            isOneToOne: false
-            referencedRelation: 'files'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      portfolio_items: {
-        Row: {
-          color: string
-          created_at: string
-          created_by: string | null
-          description: string
-          id: string
-          image_id: string | null
-          image_url: string | null
-          order_index: number
-          published: boolean
-          slug: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          color?: string
-          created_at?: string
-          created_by?: string | null
-          description: string
-          id?: string
-          image_id?: string | null
-          image_url?: string | null
-          order_index?: number
-          published?: boolean
-          slug: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          color?: string
-          created_at?: string
-          created_by?: string | null
-          description?: string
-          id?: string
-          image_id?: string | null
-          image_url?: string | null
-          order_index?: number
-          published?: boolean
-          slug?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'portfolio_items_created_by_fkey'
-            columns: ['created_by']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'portfolio_items_image_id_fkey'
-            columns: ['image_id']
-            isOneToOne: false
-            referencedRelation: 'files'
-            referencedColumns: ['id']
-          },
-        ]
-      }
       sections: {
         Row: {
           content: Json | null
@@ -667,9 +519,9 @@ export type Database = {
           created_by: string | null
           id: string
           name: string
-          order_index: number
+          order_index: number | null
           page_id: string
-          published: boolean
+          published: boolean | null
           section_type: string
           settings: Json | null
           updated_at: string
@@ -680,9 +532,9 @@ export type Database = {
           created_by?: string | null
           id?: string
           name: string
-          order_index?: number
+          order_index?: number | null
           page_id: string
-          published?: boolean
+          published?: boolean | null
           section_type: string
           settings?: Json | null
           updated_at?: string
@@ -693,9 +545,9 @@ export type Database = {
           created_by?: string | null
           id?: string
           name?: string
-          order_index?: number
+          order_index?: number | null
           page_id?: string
-          published?: boolean
+          published?: boolean | null
           section_type?: string
           settings?: Json | null
           updated_at?: string
@@ -728,8 +580,8 @@ export type Database = {
           image1_url: string | null
           image2_id: string | null
           image2_url: string | null
-          order_index: number
-          published: boolean
+          order_index: number | null
+          published: boolean | null
           slug: string
           title: string
           updated_at: string
@@ -744,8 +596,8 @@ export type Database = {
           image1_url?: string | null
           image2_id?: string | null
           image2_url?: string | null
-          order_index?: number
-          published?: boolean
+          order_index?: number | null
+          published?: boolean | null
           slug: string
           title: string
           updated_at?: string
@@ -760,8 +612,8 @@ export type Database = {
           image1_url?: string | null
           image2_id?: string | null
           image2_url?: string | null
-          order_index?: number
-          published?: boolean
+          order_index?: number | null
+          published?: boolean | null
           slug?: string
           title?: string
           updated_at?: string
@@ -819,75 +671,6 @@ export type Database = {
           {
             foreignKeyName: 'settings_updated_by_fkey'
             columns: ['updated_by']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      testimonials: {
-        Row: {
-          avatar_id: string | null
-          avatar_url: string | null
-          bg_color: string
-          border_color: string
-          created_at: string
-          created_by: string | null
-          id: string
-          name: string
-          order_index: number
-          position_class: string
-          published: boolean
-          quote: string
-          rotate_class: string
-          text_color: string
-          updated_at: string
-        }
-        Insert: {
-          avatar_id?: string | null
-          avatar_url?: string | null
-          bg_color?: string
-          border_color?: string
-          created_at?: string
-          created_by?: string | null
-          id?: string
-          name: string
-          order_index?: number
-          position_class?: string
-          published?: boolean
-          quote: string
-          rotate_class?: string
-          text_color?: string
-          updated_at?: string
-        }
-        Update: {
-          avatar_id?: string | null
-          avatar_url?: string | null
-          bg_color?: string
-          border_color?: string
-          created_at?: string
-          created_by?: string | null
-          id?: string
-          name?: string
-          order_index?: number
-          position_class?: string
-          published?: boolean
-          quote?: string
-          rotate_class?: string
-          text_color?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'testimonials_avatar_id_fkey'
-            columns: ['avatar_id']
-            isOneToOne: false
-            referencedRelation: 'files'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'testimonials_created_by_fkey'
-            columns: ['created_by']
             isOneToOne: false
             referencedRelation: 'users'
             referencedColumns: ['id']
@@ -1003,6 +786,75 @@ export type Database = {
           },
         ]
       }
+      testimonials: {
+        Row: {
+          avatar_id: string | null
+          avatar_url: string | null
+          bg_color: string | null
+          border_color: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          order_index: number | null
+          position_class: string | null
+          published: boolean | null
+          quote: string
+          rotate_class: string | null
+          text_color: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_id?: string | null
+          avatar_url?: string | null
+          bg_color?: string | null
+          border_color?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          order_index?: number | null
+          position_class?: string | null
+          published?: boolean | null
+          quote: string
+          rotate_class?: string | null
+          text_color?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_id?: string | null
+          avatar_url?: string | null
+          bg_color?: string | null
+          border_color?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          order_index?: number | null
+          position_class?: string | null
+          published?: boolean | null
+          quote?: string
+          rotate_class?: string | null
+          text_color?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'testimonials_avatar_id_fkey'
+            columns: ['avatar_id']
+            isOneToOne: false
+            referencedRelation: 'files'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'testimonials_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -1015,7 +867,7 @@ export type Database = {
           metadata: Json | null
           phone: string | null
           plan_id: string | null
-          role: Database['public']['Enums']['user_role']
+          role: string | null
           stripe_customer_id: string | null
           timezone: string | null
           updated_at: string
@@ -1031,7 +883,7 @@ export type Database = {
           metadata?: Json | null
           phone?: string | null
           plan_id?: string | null
-          role?: Database['public']['Enums']['user_role']
+          role?: string | null
           stripe_customer_id?: string | null
           timezone?: string | null
           updated_at?: string
@@ -1047,7 +899,7 @@ export type Database = {
           metadata?: Json | null
           phone?: string | null
           plan_id?: string | null
-          role?: Database['public']['Enums']['user_role']
+          role?: string | null
           stripe_customer_id?: string | null
           timezone?: string | null
           updated_at?: string
@@ -1067,10 +919,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_admin: { Args: never; Returns: boolean }
       start_checkout: {
         Args: {
           p_billing_cycle: string

@@ -187,8 +187,8 @@ function TestimonialCard({ testimonial }: { testimonial: TestimonialRow }) {
     <div
       className='flex h-auto w-full flex-col items-center gap-6 rounded-[20px] border-[1.2px] p-6 md:h-[356px] md:w-[317px] md:rounded-[28.462px] md:border-[1.779px] md:p-8'
       style={{
-        backgroundColor: testimonial.bg_color,
-        borderColor: testimonial.border_color,
+        backgroundColor: testimonial.bg_color ?? 'transparent',
+        borderColor: testimonial.border_color ?? 'transparent',
       }}
     >
       <div className='flex flex-col items-center gap-[15px]'>
@@ -207,7 +207,7 @@ function TestimonialCard({ testimonial }: { testimonial: TestimonialRow }) {
 
       <p
         className='text-center text-[18px] leading-[22px] md:text-[22.236px] md:leading-[24.904px]'
-        style={{ color: testimonial.text_color }}
+        style={{ color: testimonial.text_color ?? 'inherit' }}
       >
         {testimonial.quote}
       </p>
