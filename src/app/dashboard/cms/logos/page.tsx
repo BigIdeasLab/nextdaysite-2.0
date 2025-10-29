@@ -39,7 +39,6 @@ export default function ManageLogosPage() {
     }
   }
 
-  if (isLoading) return <div>Loading logos...</div>
   if (error) return <div>Error loading logos: {error.message}</div>
 
   return (

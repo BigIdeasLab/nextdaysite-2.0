@@ -1,12 +1,37 @@
 'use client'
 
+import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
+
+function BrandGridSkeleton() {
+  return (
+    <section className='w-full px-6 py-16 md:px-12 lg:px-52'>
+      <div className='mx-auto grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-5 md:gap-y-12'>
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className={`flex flex-col items-center gap-5 ${
+              index % 2 === 1 ? 'md:translate-y-16' : ''
+            }`}
+          >
+            <Skeleton className='h-auto w-full max-w-md rounded-[50px]' />
+            <div className='flex w-full max-w-md flex-col items-start gap-2.5 px-1 pt-1'>
+              <Skeleton className='h-8 w-1/2' />
+              <Skeleton className='h-6 w-full' />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 import { useLogos } from '@/hooks/use-cms-content'
 
 export function BrandGrid() {
   const { data: logos, isLoading, error } = useLogos()
 
-  if (isLoading) return <div>Loading logos...</div>
+  if (isLoading) return <BrandGridSkeleton />
   if (error) return <div>Error loading logos: {error.message}</div>
 
   return (
