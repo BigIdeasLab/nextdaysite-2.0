@@ -35,10 +35,10 @@ export async function PATCH(
   const supabase = createSupabaseServerClient()
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  if (!session) {
+  if (!user) {
     return NextResponse.json({ error: 'Not authorized' }, { status: 401 })
   }
 
@@ -69,7 +69,7 @@ export async function PATCH(
     }
 
     // Check if the authenticated user is the owner of the project
-    if (project.owner_id !== session.user.id) {
+    if (project.owner_id !== user.id) {
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 })
     }
 

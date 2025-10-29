@@ -62,6 +62,8 @@ export async function POST(request: NextRequest) {
         break
 
       case 'invoice.payment_succeeded':
+        await handleInvoicePaymentSucceeded(event.data.object as Stripe.Invoice)
+        break
       case 'payment_intent.succeeded':
       case 'customer.subscription.created':
         // Do nothing. checkout.session.completed is the source of truth.
@@ -375,5 +377,107 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     }
   } catch (error) {
     console.error('Error handling subscription deleted:', error)
+  }
+}
+
+async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
+  try {
+    const customerId =
+      typeof invoice.customer === 'string'
+        ? invoice.customer
+        : invoice.customer?.id
+    if (!customerId) {
+      console.error('No customer ID found in invoice')
+      return
+    }
+
+    const { data: user, error: userError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('stripe_customer_id', customerId)
+      .single()
+
+    if (userError || !user) {
+      console.error(`User not found for customer ID ${customerId}`, userError)
+      return
+    }
+
+    const userId = user.id
+
+    let projectId = null
+    let planId = null
+    let billingCycle: 'monthly' | 'yearly' = 'monthly'
+
+    const subscriptionLine = invoice.lines.data.find(
+      (line) => line.subscription,
+    )
+
+    if (subscriptionLine && subscriptionLine.subscription) {
+      const subscriptionId = subscriptionLine.subscription
+      const { data: subscription, error: subError } = await supabase
+        .from('subscriptions')
+        .select('project_id, plan_id, billing_cycle')
+        .eq('stripe_subscription_id', subscriptionId)
+        .single()
+
+      if (subError || !subscription) {
+        console.error(
+          `Subscription not found for ID ${subscriptionId}`,
+          subError,
+        )
+      } else {
+        projectId = subscription.project_id
+        planId = subscription.plan_id
+        billingCycle =
+          subscription.billing_cycle === 'yearly' ? 'yearly' : 'monthly'
+      }
+    }
+
+    // Check if invoice already exists
+    const { data: existingInvoice } = await supabase
+      .from('invoices')
+      .select('id')
+      .eq('stripe_invoice_id', invoice.id)
+      .maybeSingle()
+
+    if (existingInvoice) {
+      console.log(`Invoice ${invoice.id} already exists.`)
+      return
+    }
+
+    const invoiceData: Omit<InvoicesRow, 'id' | 'created_at'> = {
+      user_id: userId,
+      project_id: projectId,
+      status: 'paid',
+      subtotal: invoice.subtotal / 100,
+      tax: ((invoice as any).tax || 0) / 100,
+      total: (invoice as any).total / 100,
+      currency: invoice.currency.toUpperCase(),
+      issued_at: new Date(invoice.created * 1000).toISOString().split('T')[0],
+      due_date: new Date(invoice.created * 1000).toISOString().split('T')[0],
+      metadata: {
+        plan_id: planId,
+        billing_cycle: billingCycle,
+      },
+      download_url: (invoice as any).invoice_pdf,
+      stripe_invoice_id: invoice.id,
+    }
+
+    const { error: newInvoiceError } = await supabase
+      .from('invoices')
+      .insert(invoiceData)
+
+    if (newInvoiceError) {
+      console.error(
+        'Error creating invoice from invoice.payment_succeeded:',
+        newInvoiceError,
+      )
+    } else {
+      console.log(
+        `Successfully created invoice ${invoice.id} for user ${userId}`,
+      )
+    }
+  } catch (error) {
+    console.error('Error in handleInvoicePaymentSucceeded:', error)
   }
 }
