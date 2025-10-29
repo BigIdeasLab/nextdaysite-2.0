@@ -312,10 +312,10 @@ async function sendMagicLinkToUser(
 ): Promise<void> {
   try {
     const redirectUrl = projectSlug
-      ? `http://localhost:3000/onboarding/${projectSlug}`
-      : `http://localhost:3000/dashboard`
+      ? `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/onboarding/${projectSlug}`
+      : `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`
 
-    const { error } = await supabase.auth.signInWithOtp({
+    const { data, error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: redirectUrl,
@@ -323,12 +323,12 @@ async function sendMagicLinkToUser(
     })
 
     if (error) {
-      console.error('Error sending magic link:', error)
+      console.error('[sendMagicLinkToUser] Error sending magic link:', error)
     } else {
-      console.log(`Magic link sent to ${email}`)
+      console.log(`[sendMagicLinkToUser] Magic link sent to ${email}.`)
     }
   } catch (error) {
-    console.error('Error in sendMagicLinkToUser:', error)
+    console.error('[sendMagicLinkToUser] Caught exception:', error)
   }
 }
 

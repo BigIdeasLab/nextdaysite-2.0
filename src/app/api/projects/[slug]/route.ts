@@ -84,13 +84,15 @@ export async function PATCH(
         reference_websites,
       })
       .eq('slug', slug)
+      .select()
+      .single()
 
     if (error) {
       console.error('Error updating project:', error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ data }, { status: 200 })
+    return NextResponse.json(data, { status: 200 })
   } catch (error) {
     console.error('An unexpected error occurred:', error)
     return NextResponse.json(
