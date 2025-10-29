@@ -136,26 +136,26 @@ async function handleCheckoutSessionCompleted(
 
       userId = newAuthUser.user.id
 
-      // Poll for the user record to appear in public.users
-      let userRecord = null
-      for (let i = 0; i < 10; i++) {
-        const { data } = await supabase
-          .from('users')
-          .select('id')
-          .eq('id', userId)
-          .single()
-        if (data) {
-          userRecord = data
-          break
-        }
-        await new Promise((res) => setTimeout(res, 200))
+      // The on_auth_user_created trigger seems to be missing or slow, so we'll upsert the user record.
+      const { data: userRecord, error: upsertError } = await supabase
+        .from('users')
+        .upsert({
+          id: userId,
+          email: email,
+          full_name: email, // Default full_name to email
+          role: 'customer', // Set default role
+        })
+        .select('id')
+        .single()
+
+      if (upsertError) {
+        console.error('Error upserting user profile:', upsertError)
+        return
       }
 
       if (!userRecord) {
-        console.error(
-          'FATAL: User record in public.users did not appear in time.',
-        )
-        return // Or handle the error more gracefully
+        console.error('Failed to create or find user profile.')
+        return
       }
 
       // The `on_auth_user_created` trigger should have already created a public.users record.
@@ -187,6 +187,7 @@ async function handleCheckoutSessionCompleted(
       .from('projects')
       .insert({
         title: projectTitle,
+        project_title: projectTitle,
         owner_id: userId,
         slug: projectSlug,
         status: 'active',

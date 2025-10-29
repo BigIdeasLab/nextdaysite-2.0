@@ -57,7 +57,7 @@ export async function PATCH(
       .from('projects')
       .select('owner_id')
       .eq('slug', slug)
-      .single()
+      .maybeSingle()
 
     if (fetchError) {
       console.error('Error fetching project:', fetchError)
@@ -85,14 +85,13 @@ export async function PATCH(
       })
       .eq('slug', slug)
       .select()
-      .single()
 
     if (error) {
       console.error('Error updating project:', error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json(data, { status: 200 })
+    return NextResponse.json(data ? data[0] : null, { status: 200 })
   } catch (error) {
     console.error('An unexpected error occurred:', error)
     return NextResponse.json(
