@@ -244,7 +244,7 @@ function PricingCard({
   loading: boolean
 }) {
   return (
-    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[var(--pricing-input-label)] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
+    <div className='flex w-full flex-col gap-6 rounded-[20px] bg-[var(--dark-section)] p-5 md:flex-row md:gap-[25px] md:p-[22px_20px_21px_20px]'>
       {/* Image */}
       <div className='relative h-[250px] w-full flex-shrink-0 overflow-hidden rounded-[10px] md:h-[365px] md:w-[341px]'>
         <Image

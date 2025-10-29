@@ -2,7 +2,7 @@ export function AboutProcess() {
   const steps = [
     {
       number: '1.',
-      title: 'Consulatation',
+      title: 'Consultation',
       description:
         "Our process begins with a free consultation to understand clients' needs and expectations. We also offer advice based on technical expertise at this stage.",
     },

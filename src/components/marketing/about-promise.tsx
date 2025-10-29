@@ -3,7 +3,7 @@ export function AboutPromise() {
   const stats = [
     { value: '100+', label: 'Clients' },
     { value: '250+', label: 'Website Developed' },
-    { value: '95%', label: 'satisfaction rate' },
+    { value: '95%', label: 'Satisfaction Rate' },
   ]
 
   return (

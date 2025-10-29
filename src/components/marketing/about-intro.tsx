@@ -18,7 +18,7 @@ export function AboutIntro() {
             About Us
           </h2>
           <p className='text-lg leading-relaxed text-[var(--text-secondary)]'>
-            Nextsaysite was founded in 1999 with a mission to empower brands
+            Nextdaysite was founded in 1999 with a mission to empower brands
             with functional websites that add significant value to any project.
             In today&apos;s digital age, this is needed to set apart any brand
             from its rivals, while solidifying their digital footprints.

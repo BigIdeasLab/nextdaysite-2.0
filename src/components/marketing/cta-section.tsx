@@ -10,7 +10,6 @@ export function CtaSection() {
           viewBox='0 0 1022 526'
           fill='none'
           className='absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2'
-          style={{ left: '111px', top: '165px' }}
         >
           <defs>
             <filter

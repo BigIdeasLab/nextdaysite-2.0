@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { BrandCta } from '@/components/marketing/brand-cta'
+import { CtaSection } from '@/components/marketing/cta-section'
 import { BrandGrid } from '@/components/marketing/brand-grid'
 import { BrandHero } from '@/components/marketing/brand-hero'
 import { Header } from '@/components/marketing/header'
@@ -19,7 +19,7 @@ export default function BrandIdentityPage() {
       <main>
         <BrandHero />
         <BrandGrid />
-        <BrandCta />
+        <CtaSection />
       </main>
       <RedesignedFooter />
     </div>

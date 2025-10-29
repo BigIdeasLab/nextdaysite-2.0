@@ -162,7 +162,7 @@ export function ContactForm() {
                     name='firstName'
                     value={formData.firstName}
                     onChange={handleChange}
-                    className='h-full w-full border-b border-[var(--border-light)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--border-light-focus)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                    className='h-full w-full border-b border-[var(--foreground)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--orange-primary)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                   />
                 </div>
                 <div className='relative h-11 w-full md:h-14 lg:h-[65px]'>
@@ -174,7 +174,7 @@ export function ContactForm() {
                     name='lastName'
                     value={formData.lastName}
                     onChange={handleChange}
-                    className='h-full w-full border-b border-[var(--border-light)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--border-light-focus)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                    className='h-full w-full border-b border-[var(--foreground)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--orange-primary)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                   />
                 </div>
               </div>
@@ -189,7 +189,7 @@ export function ContactForm() {
                   name='email'
                   value={formData.email}
                   onChange={handleChange}
-                  className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                  className='h-full w-full border-b border-[var(--foreground)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--orange-primary)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 />
               </div>
 
@@ -202,13 +202,36 @@ export function ContactForm() {
                   name='service'
                   value={formData.service}
                   onChange={handleChange}
-                  className='h-full w-full cursor-pointer appearance-none border-b border-[var(--border-light)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--border-light-focus)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                  className='h-full w-full cursor-pointer appearance-none border-b border-[var(--foreground)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--orange-primary)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 >
-                  <option value=''></option>
-                  <option value='web-design'>Web Design</option>
-                  <option value='mobile-app'>Mobile App</option>
-                  <option value='branding'>Branding</option>
-                  <option value='cms-integration'>CMS Integration</option>
+                  <option
+                    className='bg-white dark:bg-[var(--dark-card)] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200'
+                    value=''
+                  ></option>
+                  <option
+                    className='bg-white dark:bg-[var(--dark-card)] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200'
+                    value='web-design'
+                  >
+                    Web Design
+                  </option>
+                  <option
+                    className='bg-white dark:bg-[var(--dark-card)] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200'
+                    value='mobile-app'
+                  >
+                    Mobile App
+                  </option>
+                  <option
+                    className='bg-white dark:bg-[var(--dark-card)] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200'
+                    value='branding'
+                  >
+                    Branding
+                  </option>
+                  <option
+                    className='bg-white dark:bg-[var(--dark-card)] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200'
+                    value='cms-integration'
+                  >
+                    CMS Integration
+                  </option>
                 </select>
                 <svg
                   className='pointer-events-none absolute right-0 top-6 h-4 w-4 text-[var(--text-secondary)] md:top-8 lg:top-9 md:h-5 md:w-5 lg:h-6 lg:w-6'
@@ -236,7 +259,7 @@ export function ContactForm() {
                   name='description'
                   value={formData.description}
                   onChange={handleChange}
-                  className='h-full w-full border-b border-white/50 bg-transparent pt-5 text-xs text-white outline-none focus:border-white/80 md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
+                  className='h-full w-full border-b border-[var(--foreground)] bg-transparent pt-5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--orange-primary)] md:pt-6 md:text-sm lg:pt-7 lg:text-base xl:text-lg'
                 />
               </div>
             </form>

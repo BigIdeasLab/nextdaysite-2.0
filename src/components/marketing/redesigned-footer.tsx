@@ -5,7 +5,7 @@ const footerSections = [
   {
     title: 'Services',
     links: [
-      { label: 'Web Dsign', href: '/services/web-design' },
+      { label: 'Web Design', href: '/services/web-design' },
       { label: 'Mobile App', href: '/services/mobile-app' },
       { label: 'Branding', href: '/services/branding' },
       { label: 'CMS Integration', href: '/services/cms-integration' },
