@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { Database } from '@/types/database'
+import { createClient } from '@/lib/supabase/server'
 
 export async function GET() {
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  )
+  const supabase = await createClient()
 
   const {
     data: { user },
@@ -16,13 +12,13 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { data: isAdmin } = await supabase.rpc('is_admin')
+  // const { data: isAdmin } = await supabase.rpc('is_admin')
 
-  if (!isAdmin) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  }
+  // if (!isAdmin) {
+  //   return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  // }
 
-  const { data: users, error } = await supabase.auth.admin.listUsers()
+  const { data: users, error } = await supabase.from('users').select('*')
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
