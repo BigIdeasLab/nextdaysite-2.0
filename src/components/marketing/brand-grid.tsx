@@ -85,7 +85,10 @@ async function getLogos() {
     }
 
     // Ensure a description field exists for rendering parity
-    return data.map((item) => ({ ...item, description: (item as any).description ?? null })) as (LogoRow & {
+    return data.map((item) => ({
+      ...item,
+      description: (item as any).description ?? null,
+    })) as (LogoRow & {
       description: string | null
     })[]
   } catch {
