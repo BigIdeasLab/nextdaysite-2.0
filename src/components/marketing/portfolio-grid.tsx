@@ -130,7 +130,7 @@ export async function PortfolioGrid() {
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className={`flex flex-col items-center gap-5 ${index % 2 === 1 ? 'md:translate-y-16' : ''}`}
+            className={`flex flex-col items-center gap-5 ${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
           >
             <div
               className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[50px]'

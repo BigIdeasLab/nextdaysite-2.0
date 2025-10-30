@@ -160,15 +160,15 @@ function ServiceCard({ service }: { service: ServiceRow }) {
   const image2Url = service.image2_url || fallbackServices[0].image2_url || ''
 
   return (
-    <div className='flex flex-col items-center gap-9 bg-[#F5F5F5] dark:bg-[var(--dark-card)] px-8 py-[50px]'>
+    <div className='group flex flex-col items-center gap-9 bg-[#F5F5F5] dark:bg-[var(--dark-card)] px-8 py-[50px]'>
       <div className='relative w-[276px] h-[152px]'>
         <div
-          className='absolute'
+          className='absolute flex items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
           style={{
-            width: '156px',
-            height: '117px',
-            left: '0px',
-            top: '5px',
+            width: '150px',
+            height: '150px',
+            left: '14.5px',
+            top: '1px',
             transform: 'rotate(-12.233deg)',
             zIndex: 20,
           }}
@@ -176,8 +176,8 @@ function ServiceCard({ service }: { service: ServiceRow }) {
           <Image
             src={image1Url}
             alt={`${service.title} preview 1`}
-            width={156}
-            height={117}
+            width={150}
+            height={150}
             className='rounded-sm object-cover'
             style={{
               border: '8px solid #393939',
@@ -186,12 +186,12 @@ function ServiceCard({ service }: { service: ServiceRow }) {
           />
         </div>
         <div
-          className='absolute'
+          className='absolute flex items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
           style={{
-            width: '156px',
-            height: '117px',
-            left: '97px',
-            top: '0px',
+            width: '150px',
+            height: '150px',
+            left: '111.5px',
+            top: '-4px',
             transform: 'rotate(14.114deg)',
             zIndex: 10,
           }}
@@ -199,8 +199,8 @@ function ServiceCard({ service }: { service: ServiceRow }) {
           <Image
             src={image2Url}
             alt={`${service.title} preview 2`}
-            width={156}
-            height={117}
+            width={150}
+            height={150}
             className='rounded-sm object-cover'
             style={{
               border: '8px solid #393939',

@@ -95,14 +95,14 @@ export async function ServicesList() {
               index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'
             }`}
           >
-            <div className='relative w-[276px] h-[152px]'>
+            <div className='relative w-[276px] h-[152px] group'>
               <div
-                className='absolute'
+                className='absolute flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
                 style={{
-                  width: '156px',
-                  height: '117px',
-                  left: '0px',
-                  top: '5px',
+                  width: '150px',
+                  height: '150px',
+                  left: '14.5px',
+                  top: '1px',
                   transform: 'rotate(-12.233deg)',
                   zIndex: 20,
                 }}
@@ -110,8 +110,8 @@ export async function ServicesList() {
                 <Image
                   src={service.image1_url!}
                   alt={`${service.title} preview 1`}
-                  width={156}
-                  height={117}
+                  width={150}
+                  height={150}
                   className='rounded-sm object-cover'
                   style={{
                     border: '8px solid #393939',
@@ -120,12 +120,12 @@ export async function ServicesList() {
                 />
               </div>
               <div
-                className='absolute'
+                className='absolute flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
                 style={{
-                  width: '156px',
-                  height: '117px',
-                  left: '97px',
-                  top: '0px',
+                  width: '150px',
+                  height: '150px',
+                  left: '111.5px',
+                  top: '-4px',
                   transform: 'rotate(14.114deg)',
                   zIndex: 10,
                 }}
@@ -133,8 +133,8 @@ export async function ServicesList() {
                 <Image
                   src={service.image2_url!}
                   alt={`${service.title} preview 2`}
-                  width={156}
-                  height={117}
+                  width={150}
+                  height={150}
                   className='rounded-sm object-cover'
                   style={{
                     border: '8px solid #393939',

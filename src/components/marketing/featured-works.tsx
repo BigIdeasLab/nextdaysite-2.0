@@ -126,17 +126,17 @@ export async function FeaturedWorksSection() {
   const projects = await getPortfolioItems()
 
   return (
-    <section className='w-full rounded-t-[20px] bg-[var(--dark-section)] px-5 py-[106px] md:rounded-t-[50px] md:px-12 md:py-30 lg:px-52 transition-colors duration-300'>
-      <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-[60px] md:gap-[180px]'>
+    <section className='w-full rounded-t-[20px] bg-[var(--dark-section)] px-5 py-[60px] md:rounded-t-[50px] md:px-12 md:py-20 lg:px-52 transition-colors duration-300'>
+      <div className='mx-auto flex w-full max-w-[1022px] flex-col items-center gap-[60px] md:gap-[60px]'>
         <h2 className='text-center text-[28px] font-medium leading-[35px] text-[var(--foreground)] md:text-[40px] md:leading-[50px]'>
           Our Featured Work
         </h2>
 
-        <div className='grid w-full grid-cols-1 gap-10 md:grid-cols-2 md:gap-x-5 md:gap-y-12'>
+        <div className='grid w-full grid-cols-1 gap-10 md:grid-cols-2 md:gap-x-8 md:gap-y-12'>
           {projects.map((project: PortfolioItemRow, index: number) => (
             <div
               key={project.id}
-              className={`${index % 2 === 1 ? 'md:translate-y-16' : ''}`}
+              className={`${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
             >
               <ProjectCard project={project} />
             </div>
@@ -145,7 +145,7 @@ export async function FeaturedWorksSection() {
 
         <Link
           href='/portfolio'
-          className='flex h-[48px] items-center justify-center rounded-[30px] border border-[var(--pricing-input-label)] px-[26px] text-[20px] font-medium text-white transition-transform hover:scale-105 md:h-[54px] md:text-[23px]'
+          className='md:mt-[150px] flex h-[48px] items-center justify-center rounded-[30px] border border-[var(--pricing-input-label)] px-[26px] text-[20px] font-medium text-white transition-transform hover:scale-105 md:h-[54px] md:text-[23px]'
         >
           See All
         </Link>
@@ -159,9 +159,9 @@ function ProjectCard({ project }: { project: PortfolioItemRow }) {
     ? project.image_url
     : fallbackProjects[0].image_url!
   return (
-    <div className='flex flex-col items-center gap-5'>
+    <div className='flex w-full flex-col items-center gap-5'>
       <div
-        className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[30px] md:rounded-[50px]'
+        className='flex h-auto w-full items-center justify-center overflow-hidden rounded-[30px] md:rounded-[50px]'
         style={{ backgroundColor: project.color ?? 'transparent' }}
       >
         <Image
@@ -172,7 +172,7 @@ function ProjectCard({ project }: { project: PortfolioItemRow }) {
           className='h-auto w-full object-cover'
         />
       </div>
-      <div className='flex w-full max-w-md flex-col items-start gap-[10px] pt-[5px]'>
+      <div className='flex w-full flex-col items-start gap-[10px] pt-[5px]'>
         <h3 className='text-[24px] font-medium leading-[31.471px] text-[var(--foreground)] md:text-[32px]'>
           {project.title}
         </h3>
