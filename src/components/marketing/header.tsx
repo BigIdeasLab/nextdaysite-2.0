@@ -151,15 +151,8 @@ export function Header() {
           </div>
 
           <div className='mobile-cta w-full pt-4 border-t border-[var(--dark-section)]/40 mt-auto flex flex-col gap-4 pb-8'>
-            <Link
-              href='/#pricing'
-              className='mobile-cta-button mx-4 flex w-auto items-center justify-center bg-[#FF8C00] text-[16px] font-medium text-[#F7F6FF] leading-5 transition-transform hover:scale-105 rounded-full px-6 py-3'
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              See Pricing
-            </Link>
-
-            <div className='mobile-theme-toggle mx-4'>
+            <div className='mobile-theme-toggle mx-4 flex items-center gap-3'>
+              <span className='text-sm text-foreground/70'>Theme:</span>
               <ThemeToggle />
             </div>
           </div>
