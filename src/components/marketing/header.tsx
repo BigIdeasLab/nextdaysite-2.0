@@ -46,7 +46,7 @@ export function Header() {
         show || mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
       } ${addBackground ? 'bg-background dark:bg-[var(--dark-section)]' : 'bg-transparent'}`}
     >
-      <div className='header-inner mx-auto flex max-w-6xl items-center px-6 md:px-16 justify-between gap-8 py-4 lg:py-8'>
+      <div className='header-inner mx-auto flex max-w-6xl items-center px-6 md:px-16 justify-between gap-2 py-4 lg:py-8'>
         <Link href='/' className='brand-link flex-shrink-0'>
           <Image
             src='https://api.builder.io/api/v1/image/assets/TEMP/27cc49b97a9c74f01837ce911b65317dee61528b?width=338'
@@ -77,29 +77,31 @@ export function Header() {
           })}
         </nav>
 
-        <div className='actions-desktop hidden lg:flex items-center gap-2'>
+        <div className='header-actions flex items-center gap-2'>
           <Link
             href='/#pricing'
-            className='cta-pricing flex h-12 items-center justify-center bg-[#FF8C00] text-[16px] font-medium text-[#F7F6FF] leading-5 transition-transform hover:scale-105 rounded-full px-5'
+            className='cta-pricing flex h-9 lg:h-12 items-center justify-center bg-[#FF8C00] text-[11px] lg:text-[16px] font-medium text-[#F7F6FF] leading-5 transition-transform hover:scale-105 rounded-full px-4 lg:px-5'
           >
             See Pricing
           </Link>
 
-          <ThemeToggle />
-        </div>
+          <div className='hidden lg:block'>
+            <ThemeToggle />
+          </div>
 
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className='mobile-toggle-btn flex h-10 w-[35px] items-center justify-center rounded-lg lg:hidden'
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileMenuOpen}
-        >
-          {!mobileMenuOpen ? (
-            <Menu className='h-6 w-6 text-foreground' strokeWidth={2} />
-          ) : (
-            <X className='h-6 w-6 text-foreground' strokeWidth={2} />
-          )}
-        </button>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className='mobile-toggle-btn flex h-10 w-[35px] items-center justify-center rounded-lg lg:hidden'
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+          >
+            {!mobileMenuOpen ? (
+              <Menu className='h-6 w-6 text-foreground' strokeWidth={2} />
+            ) : (
+              <X className='h-6 w-6 text-foreground' strokeWidth={2} />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}
