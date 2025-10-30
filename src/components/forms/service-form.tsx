@@ -26,8 +26,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
     slug: item?.slug || '',
     image1_url: item?.image1_url || '',
     image2_url: item?.image2_url || '',
-    icon: item?.icon || '',
-    published: item?.published ?? true,
   })
 
   const updateImage1UrlMutation = useMutation({
@@ -383,26 +381,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
                 </Button>
               </div>
             )}
-          </div>
-
-          <div className='space-y-2'>
-            <Label htmlFor='icon'>Icon</Label>
-            <Input
-              id='icon'
-              name='icon'
-              value={formData.icon || ''}
-              onChange={handleChange}
-              placeholder='Icon name or SVG code'
-            />
-          </div>
-
-          <div className='flex items-center space-x-2'>
-            <Switch
-              id='published'
-              checked={formData.published}
-              onCheckedChange={handleCheckedChange}
-            />
-            <Label htmlFor='published'>Publish</Label>
           </div>
 
           <div className='flex justify-end gap-4'>

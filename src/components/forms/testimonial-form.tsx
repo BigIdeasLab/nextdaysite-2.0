@@ -21,15 +21,10 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [formData, setFormData] = useState({
+    logo_url: item?.logo_url || '',
     name: item?.name || '',
     quote: item?.quote || '',
     avatar_url: item?.avatar_url || '',
-    bg_color: item?.bg_color || '#1A1A1A',
-    border_color: item?.border_color || '#2B2B2B',
-    text_color: item?.text_color || '#9A9EA2',
-    rotate_class: item?.rotate_class || '-rotate-[6deg]',
-    position_class: item?.position_class || 'left-0 top-[70px]',
-    published: item?.published ?? true,
   })
 
   const updateAvatarUrlMutation = useMutation({
@@ -86,6 +81,61 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
       }
       setFormData((prev) => ({ ...prev, avatar_url: '' })) // Clear local state
       console.log('Avatar URL cleared from form data and DB updated.')
+    },
+  })
+
+  const updateLogoUrlMutation = useMutation({
+    mutationFn: async ({
+      itemId,
+      imageUrl,
+    }: {
+      itemId: string
+      imageUrl: string
+    }) => {
+      const response = await fetch(`/api/cms/testimonials/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ logo_url: imageUrl }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update logo URL in DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
+      }
+      console.log('Logo URL updated in form data and DB.')
+    },
+  })
+
+  const deleteLogoMutation = useMutation({
+    mutationFn: async (itemId: string) => {
+      const response = await fetch(`/api/cms/testimonials/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ logo_url: null }), // Set logo_url to null
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete logo URL from DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
+      }
+      setFormData((prev) => ({ ...prev, logo_url: '' })) // Clear local state
+      console.log('Logo URL cleared from form data and DB updated.')
     },
   })
 
@@ -177,6 +227,46 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
     }
   }
 
+  const handleLogoUploadSuccess = (url: string) => {
+    setFormData((prev) => ({ ...prev, logo_url: url }))
+    if (item?.id) {
+      updateLogoUrlMutation.mutate({ itemId: item.id, imageUrl: url })
+    }
+  }
+
+  const handleDeleteLogo = async () => {
+    if (!formData.logo_url || !item?.id) return
+
+    const url = new URL(formData.logo_url)
+    const key = url.pathname.split('/').pop()
+
+    if (!key) {
+      console.error('Could not extract key from logo URL:', formData.logo_url)
+      alert('Could not extract logo key for deletion.')
+      return
+    }
+
+    try {
+      // First, delete from S3
+      const response = await fetch('/api/aws/s3-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete logo from S3')
+      }
+
+      // Then, update the database via the new mutation
+      deleteLogoMutation.mutate(item.id)
+    } catch (error: any) {
+      console.error('Error deleting logo:', error)
+      alert(error.message)
+    }
+  }
+
   return (
     <Card className='max-w-2xl mx-auto'>
       <CardHeader>
@@ -249,64 +339,35 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
             )}
           </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-            <div className='space-y-2'>
-              <Label htmlFor='bg_color'>Background Color</Label>
-              <Input
-                id='bg_color'
-                name='bg_color'
-                value={formData.bg_color || ''}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='space-y-2'>
-              <Label htmlFor='border_color'>Border Color</Label>
-              <Input
-                id='border_color'
-                name='border_color'
-                value={formData.border_color || ''}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='space-y-2'>
-              <Label htmlFor='text_color'>Text Color</Label>
-              <Input
-                id='text_color'
-                name='text_color'
-                value={formData.text_color || ''}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-            <div className='space-y-2'>
-              <Label htmlFor='rotate_class'>Rotate Class</Label>
-              <Input
-                id='rotate_class'
-                name='rotate_class'
-                value={formData.rotate_class || ''}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='space-y-2'>
-              <Label htmlFor='position_class'>Position Class</Label>
-              <Input
-                id='position_class'
-                name='position_class'
-                value={formData.position_class || ''}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className='flex items-center space-x-2'>
-            <Switch
-              id='published'
-              checked={formData.published}
-              onCheckedChange={handleCheckedChange}
-            />
-            <Label htmlFor='published'>Publish</Label>
+          <div className='space-y-2'>
+            <Label htmlFor='logo_url'>Logo</Label>
+            <S3Upload onUploadSuccess={handleLogoUploadSuccess} />
+            {formData.logo_url && (
+              <div className='mt-4 flex items-center space-x-2'>
+                <p className='text-sm text-gray-500'>Uploaded Logo:</p>
+                <a
+                  href={formData.logo_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 hover:underline truncate'
+                >
+                  {formData.logo_url.split('/').pop()}
+                </a>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteLogo()
+                  }}
+                  disabled={mutation.isPending}
+                  className='bg-red-500 text-white hover:bg-red-600'
+                >
+                  Delete
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className='flex justify-end gap-4'>

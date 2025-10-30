@@ -25,8 +25,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
     description: item?.description || '',
     slug: item?.slug || '',
     image_url: item?.image_url || '',
-    color: item?.color || 'var(--placeholder-gray)',
-    published: item?.published ?? true,
   })
 
   const updateImageUrlMutation = useMutation({
@@ -247,26 +245,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
                 </Button>
               </div>
             )}
-          </div>
-
-          <div className='space-y-2'>
-            <Label htmlFor='color'>Color</Label>
-            <Input
-              id='color'
-              name='color'
-              value={formData.color || ''}
-              onChange={handleChange}
-              placeholder='var(--placeholder-gray)'
-            />
-          </div>
-
-          <div className='flex items-center space-x-2'>
-            <Switch
-              id='published'
-              checked={formData.published}
-              onCheckedChange={handleCheckedChange}
-            />
-            <Label htmlFor='published'>Publish</Label>
           </div>
 
           <div className='flex justify-end gap-4'>

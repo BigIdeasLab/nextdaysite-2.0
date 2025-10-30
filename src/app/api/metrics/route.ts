@@ -61,8 +61,8 @@ export async function GET() {
     return new NextResponse(
       JSON.stringify({
         totalRevenue,
-        newUsersCount,
-        activeProjectsCount,
+        newUsers: newUsersCount,
+        activeProjects: activeProjectsCount,
       }),
       {
         status: 200,

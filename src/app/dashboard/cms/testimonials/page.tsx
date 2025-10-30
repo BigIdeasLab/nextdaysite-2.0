@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -56,6 +57,7 @@ export default function ManageTestimonialsPage() {
               <TableHead>Name</TableHead>
               <TableHead>Quote</TableHead>
               <TableHead>Avatar</TableHead>
+              <TableHead>Logo</TableHead>
               <TableHead className='text-right'>Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -66,10 +68,23 @@ export default function ManageTestimonialsPage() {
                 <TableCell>{item.quote}</TableCell>
                 <TableCell>
                   {item.avatar_url && (
-                    <img
+                    <Image
                       src={item.avatar_url}
                       alt={item.name}
+                      width={40}
+                      height={40}
                       className='w-10 h-10 rounded-full object-cover'
+                    />
+                  )}
+                </TableCell>
+                <TableCell>
+                  {item.logo_url && (
+                    <Image
+                      src={item.logo_url}
+                      alt={`${item.name} logo`}
+                      width={40}
+                      height={40}
+                      className='w-10 h-10 object-contain'
                     />
                   )}
                 </TableCell>

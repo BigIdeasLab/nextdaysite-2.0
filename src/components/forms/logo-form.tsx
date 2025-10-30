@@ -23,12 +23,99 @@ export function LogoForm({ item }: LogoFormProps) {
     name: item?.name || '',
     description: item?.description || '',
     image_url: item?.image_url || '',
-    width: item?.width || '',
-    height: item?.height || '',
   })
 
+  const updateImageUrlMutation = useMutation({
+    mutationFn: async ({
+      itemId,
+      imageUrl,
+    }: {
+      itemId: string
+      imageUrl: string
+    }) => {
+      const response = await fetch(`/api/cms/logos/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_url: imageUrl }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update image URL in DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['logos'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['logo', item.id] })
+      }
+      console.log('Image URL updated in form data and DB.')
+    },
+  })
+
+  const deleteImageMutation = useMutation({
+    mutationFn: async (itemId: string) => {
+      const response = await fetch(`/api/cms/logos/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_url: null }), // Set image_url to null
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image URL from DB')
+      }
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['logos'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['logo', item.id] })
+      }
+      setFormData((prev) => ({ ...prev, image_url: '' })) // Clear local state
+      console.log('Image URL cleared from form data and DB updated.')
+    },
+  })
   const handleUploadSuccess = (url: string) => {
     setFormData((prev) => ({ ...prev, image_url: url }))
+    if (item?.id) {
+      updateImageUrlMutation.mutate({ itemId: item.id, imageUrl: url })
+    }
+  }
+
+  const handleDeleteImage = async () => {
+    if (!formData.image_url || !item?.id) return
+
+    const url = new URL(formData.image_url)
+    const key = url.pathname.split('/').pop()
+
+    if (!key) {
+      console.error('Could not extract key from image URL:', formData.image_url)
+      alert('Could not extract image key for deletion.')
+      return
+    }
+
+    try {
+      // First, delete from S3
+      const response = await fetch('/api/aws/s3-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image from S3')
+      }
+
+      // Then, update the database via the new mutation
+      deleteImageMutation.mutate(item.id)
+    } catch (error: any) {
+      console.error('Error deleting image:', error)
+      alert(error.message)
+    }
   }
 
   const mutation = useMutation({
@@ -112,43 +199,31 @@ export function LogoForm({ item }: LogoFormProps) {
             <Label htmlFor='image_url'>Image</Label>
             <S3Upload onUploadSuccess={handleUploadSuccess} />
             {formData.image_url && (
-              <div className='mt-4'>
-                <p className='text-sm text-gray-500'>Uploaded Image URL:</p>
+              <div className='mt-4 flex items-center space-x-2'>
+                <p className='text-sm text-gray-500'>Uploaded Image:</p>
                 <a
                   href={formData.image_url}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-blue-500 hover:underline'
+                  className='text-blue-500 hover:underline truncate'
                 >
-                  {formData.image_url}
+                  {formData.image_url.split('/').pop()}
                 </a>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteImage()
+                  }}
+                  disabled={mutation.isPending}
+                  className='bg-red-500 text-white hover:bg-red-600'
+                >
+                  Delete
+                </Button>
               </div>
             )}
-          </div>
-
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='space-y-2'>
-              <Label htmlFor='width'>Width</Label>
-              <Input
-                id='width'
-                name='width'
-                type='number'
-                value={formData.width}
-                onChange={handleChange}
-                placeholder='e.g., 100'
-              />
-            </div>
-            <div className='space-y-2'>
-              <Label htmlFor='height'>Height</Label>
-              <Input
-                id='height'
-                name='height'
-                type='number'
-                value={formData.height}
-                onChange={handleChange}
-                placeholder='e.g., 50'
-              />
-            </div>
           </div>
 
           <div className='flex justify-end gap-4'>
