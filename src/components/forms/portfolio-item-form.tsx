@@ -11,6 +11,8 @@ import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
+import { S3Upload } from './s3-upload'
+
 interface PortfolioItemFormProps {
   item?: PortfolioItemRow
 }
@@ -26,6 +28,43 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
     color: item?.color || 'var(--placeholder-gray)',
     published: item?.published ?? true,
   })
+
+  const updateImageUrlMutation = useMutation({
+    mutationFn: async ({
+      itemId,
+      imageUrl,
+    }: {
+      itemId: string
+      imageUrl: string
+    }) => {
+      const response = await fetch(`/api/cms/portfolio/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_url: imageUrl }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update image URL in DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['portfolio-items'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['portfolio-item', item.id] })
+      }
+      console.log('Image URL updated in form data and DB.')
+    },
+  })
+
+  const handleUploadSuccess = (url: string) => {
+    setFormData((prev) => ({ ...prev, image_url: url }))
+    if (item?.id) {
+      updateImageUrlMutation.mutate({ itemId: item.id, imageUrl: url })
+    }
+  }
 
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
@@ -46,6 +85,7 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
       return response.json()
     },
     onSuccess: () => {
+      console.log('Main mutation onSuccess triggered, navigating...')
       queryClient.invalidateQueries({ queryKey: ['portfolio-items'] })
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['portfolio-item', item.id] })
@@ -63,6 +103,64 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
 
   const handleCheckedChange = (checked: boolean) => {
     setFormData((prev) => ({ ...prev, published: checked }))
+  }
+
+  const deleteImageMutation = useMutation({
+    mutationFn: async (itemId: string) => {
+      const response = await fetch(`/api/cms/portfolio/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_url: null }), // Set image_url to null
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image URL from DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['portfolio-items'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['portfolio-item', item.id] })
+      }
+      setFormData((prev) => ({ ...prev, image_url: '' })) // Clear local state
+      console.log('Image URL cleared from form data and DB updated.')
+    },
+  })
+
+  const handleDeleteImage = async () => {
+    if (!formData.image_url || !item?.id) return
+
+    const url = new URL(formData.image_url)
+    const key = url.pathname.split('/').pop()
+
+    if (!key) {
+      console.error('Could not extract key from image URL:', formData.image_url)
+      alert('Could not extract image key for deletion.')
+      return
+    }
+
+    try {
+      // First, delete from S3
+      const response = await fetch('/api/aws/s3-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image from S3')
+      }
+
+      // Then, update the database via the new mutation
+      deleteImageMutation.mutate(item.id)
+    } catch (error: any) {
+      console.error('Error deleting image:', error)
+      alert(error.message)
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -121,15 +219,30 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='image_url'>Image URL</Label>
-            <Input
-              id='image_url'
-              name='image_url'
-              type='url'
-              value={formData.image_url || ''}
-              onChange={handleChange}
-              placeholder='https://example.com/image.png'
-            />
+            <Label htmlFor='image_url'>Image</Label>
+            <S3Upload onUploadSuccess={handleUploadSuccess} />
+            {formData.image_url && (
+              <div className='mt-4 flex items-center space-x-2'>
+                <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                <a
+                  href={formData.image_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 hover:underline truncate'
+                >
+                  {formData.image_url.split('/').pop()}
+                </a>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={handleDeleteImage}
+                  disabled={mutation.isPending}
+                  className='bg-red-500 text-white hover:bg-red-600'
+                >
+                  Delete
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className='space-y-2'>

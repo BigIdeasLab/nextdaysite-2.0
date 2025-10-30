@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
+import { S3Upload } from './s3-upload'
+
 interface LogoFormProps {
   item?: LogoRow
 }
@@ -24,6 +26,10 @@ export function LogoForm({ item }: LogoFormProps) {
     width: item?.width || '',
     height: item?.height || '',
   })
+
+  const handleUploadSuccess = (url: string) => {
+    setFormData((prev) => ({ ...prev, image_url: url }))
+  }
 
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
@@ -103,16 +109,21 @@ export function LogoForm({ item }: LogoFormProps) {
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='image_url'>Image URL *</Label>
-            <Input
-              id='image_url'
-              name='image_url'
-              type='url'
-              value={formData.image_url}
-              onChange={handleChange}
-              required
-              placeholder='https://example.com/logo.png'
-            />
+            <Label htmlFor='image_url'>Image</Label>
+            <S3Upload onUploadSuccess={handleUploadSuccess} />
+            {formData.image_url && (
+              <div className='mt-4'>
+                <p className='text-sm text-gray-500'>Uploaded Image URL:</p>
+                <a
+                  href={formData.image_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 hover:underline'
+                >
+                  {formData.image_url}
+                </a>
+              </div>
+            )}
           </div>
 
           <div className='grid grid-cols-2 gap-4'>

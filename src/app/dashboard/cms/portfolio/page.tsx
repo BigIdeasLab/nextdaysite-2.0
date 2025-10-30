@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export default function ManagePortfolioPage() {
@@ -53,6 +54,7 @@ export default function ManagePortfolioPage() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Image</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Description</TableHead>
               <TableHead className='text-right'>Actions</TableHead>
@@ -61,6 +63,17 @@ export default function ManagePortfolioPage() {
           <TableBody>
             {items?.map((item) => (
               <TableRow key={item.id}>
+                <TableCell>
+                  {item.image_url && (
+                    <Image
+                      src={item.image_url}
+                      alt={item.title}
+                      width={64}
+                      height={64}
+                      className='object-cover rounded-md'
+                    />
+                  )}
+                </TableCell>
                 <TableCell className='font-medium'>{item.title}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell className='text-right'>

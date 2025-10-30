@@ -11,6 +11,8 @@ import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
+import { S3Upload } from './s3-upload'
+
 interface ServiceFormProps {
   item?: ServiceRow
 }
@@ -27,6 +29,14 @@ export function ServiceForm({ item }: ServiceFormProps) {
     icon: item?.icon || '',
     published: item?.published ?? true,
   })
+
+  const handleUpload1Success = (url: string) => {
+    setFormData((prev) => ({ ...prev, image1_url: url }))
+  }
+
+  const handleUpload2Success = (url: string) => {
+    setFormData((prev) => ({ ...prev, image2_url: url }))
+  }
 
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
@@ -122,27 +132,39 @@ export function ServiceForm({ item }: ServiceFormProps) {
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='image1_url'>Image 1 URL</Label>
-            <Input
-              id='image1_url'
-              name='image1_url'
-              type='url'
-              value={formData.image1_url || ''}
-              onChange={handleChange}
-              placeholder='https://example.com/image1.png'
-            />
+            <Label htmlFor='image1_url'>Image 1</Label>
+            <S3Upload onUploadSuccess={handleUpload1Success} />
+            {formData.image1_url && (
+              <div className='mt-4'>
+                <p className='text-sm text-gray-500'>Uploaded Image URL:</p>
+                <a
+                  href={formData.image1_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 hover:underline'
+                >
+                  {formData.image1_url}
+                </a>
+              </div>
+            )}
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='image2_url'>Image 2 URL</Label>
-            <Input
-              id='image2_url'
-              name='image2_url'
-              type='url'
-              value={formData.image2_url || ''}
-              onChange={handleChange}
-              placeholder='https://example.com/image2.png'
-            />
+            <Label htmlFor='image2_url'>Image 2</Label>
+            <S3Upload onUploadSuccess={handleUpload2Success} />
+            {formData.image2_url && (
+              <div className='mt-4'>
+                <p className='text-sm text-gray-500'>Uploaded Image URL:</p>
+                <a
+                  href={formData.image2_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 hover:underline'
+                >
+                  {formData.image2_url}
+                </a>
+              </div>
+            )}
           </div>
 
           <div className='space-y-2'>
