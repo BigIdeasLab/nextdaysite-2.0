@@ -11,6 +11,8 @@ import { Switch } from '@/components/ui/switch'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
+import { S3Upload } from './s3-upload'
+
 interface TestimonialFormProps {
   item?: TestimonialRow
 }
@@ -28,6 +30,63 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
     rotate_class: item?.rotate_class || '-rotate-[6deg]',
     position_class: item?.position_class || 'left-0 top-[70px]',
     published: item?.published ?? true,
+  })
+
+  const updateAvatarUrlMutation = useMutation({
+    mutationFn: async ({
+      itemId,
+      imageUrl,
+    }: {
+      itemId: string
+      imageUrl: string
+    }) => {
+      const response = await fetch(`/api/cms/testimonials/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar_url: imageUrl }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update avatar URL in DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
+      }
+      console.log('Avatar URL updated in form data and DB.')
+    },
+  })
+
+  const deleteAvatarMutation = useMutation({
+    mutationFn: async (itemId: string) => {
+      const response = await fetch(`/api/cms/testimonials/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar_url: null }), // Set avatar_url to null
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(
+          errorData.error || 'Failed to delete avatar URL from DB',
+        )
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
+      }
+      setFormData((prev) => ({ ...prev, avatar_url: '' })) // Clear local state
+      console.log('Avatar URL cleared from form data and DB updated.')
+    },
   })
 
   const mutation = useMutation({
@@ -75,6 +134,49 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
     mutation.mutate(formData)
   }
 
+  const handleUploadSuccess = (url: string) => {
+    setFormData((prev) => ({ ...prev, avatar_url: url }))
+    if (item?.id) {
+      updateAvatarUrlMutation.mutate({ itemId: item.id, imageUrl: url })
+    }
+  }
+
+  const handleDeleteAvatar = async () => {
+    if (!formData.avatar_url || !item?.id) return
+
+    const url = new URL(formData.avatar_url)
+    const key = url.pathname.split('/').pop()
+
+    if (!key) {
+      console.error(
+        'Could not extract key from avatar URL:',
+        formData.avatar_url,
+      )
+      alert('Could not extract avatar key for deletion.')
+      return
+    }
+
+    try {
+      // First, delete from S3
+      const response = await fetch('/api/aws/s3-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete avatar from S3')
+      }
+
+      // Then, update the database via the new mutation
+      deleteAvatarMutation.mutate(item.id)
+    } catch (error: any) {
+      console.error('Error deleting avatar:', error)
+      alert(error.message)
+    }
+  }
+
   return (
     <Card className='max-w-2xl mx-auto'>
       <CardHeader>
@@ -117,15 +219,34 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='avatar_url'>Avatar URL</Label>
-            <Input
-              id='avatar_url'
-              name='avatar_url'
-              type='url'
-              value={formData.avatar_url || ''}
-              onChange={handleChange}
-              placeholder='https://example.com/avatar.png'
-            />
+            <Label htmlFor='avatar_url'>Avatar</Label>
+            <S3Upload onUploadSuccess={handleUploadSuccess} />
+            {formData.avatar_url && (
+              <div className='mt-4 flex items-center space-x-2'>
+                <p className='text-sm text-gray-500'>Uploaded Avatar:</p>
+                <a
+                  href={formData.avatar_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-500 hover:underline truncate'
+                >
+                  {formData.avatar_url.split('/').pop()}
+                </a>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteAvatar()
+                  }}
+                  disabled={mutation.isPending}
+                  className='bg-red-500 text-white hover:bg-red-600'
+                >
+                  Delete
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>

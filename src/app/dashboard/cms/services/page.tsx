@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export default function ManageServicesPage() {
@@ -53,6 +54,8 @@ export default function ManageServicesPage() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Image</TableHead>
+              <TableHead>Image 2</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Description</TableHead>
               <TableHead className='text-right'>Actions</TableHead>
@@ -61,6 +64,28 @@ export default function ManageServicesPage() {
           <TableBody>
             {services?.map((service) => (
               <TableRow key={service.id}>
+                <TableCell>
+                  {service.image1_url && (
+                    <Image
+                      src={service.image1_url}
+                      alt={service.title}
+                      width={64}
+                      height={64}
+                      className='object-cover rounded-md'
+                    />
+                  )}
+                </TableCell>
+                <TableCell>
+                  {service.image2_url && (
+                    <Image
+                      src={service.image2_url}
+                      alt={service.title}
+                      width={64}
+                      height={64}
+                      className='object-cover rounded-md'
+                    />
+                  )}
+                </TableCell>
                 <TableCell className='font-medium'>{service.title}</TableCell>
                 <TableCell>{service.description}</TableCell>
                 <TableCell className='text-right'>

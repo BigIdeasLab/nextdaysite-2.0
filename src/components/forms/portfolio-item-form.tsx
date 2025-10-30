@@ -235,7 +235,11 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
                 <Button
                   variant='destructive'
                   size='sm'
-                  onClick={handleDeleteImage}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteImage()
+                  }}
                   disabled={mutation.isPending}
                   className='bg-red-500 text-white hover:bg-red-600'
                 >

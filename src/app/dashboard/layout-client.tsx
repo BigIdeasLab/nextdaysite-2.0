@@ -14,11 +14,11 @@ const dashboardMenuItems = [
 
 const cmsMenuItems = [
   { label: 'BACK', href: '/dashboard' },
-  { label: 'CMS', href: '/dashboard/cms' },
+  { label: 'Logos', href: '/dashboard/cms/logos' },
   { label: 'Portfolio', href: '/dashboard/cms/portfolio' },
   { label: 'Services', href: '/dashboard/cms/services' },
   { label: 'Testimonials', href: '/dashboard/cms/testimonials' },
-  { label: 'Settings', href: '/dashboard/cms/settings' },
+  // { label: 'Settings', href: '/dashboard/cms/settings' },
 ]
 
 export function DashboardLayoutClient({

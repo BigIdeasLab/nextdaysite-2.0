@@ -55,6 +55,7 @@ export default function ManageTestimonialsPage() {
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Quote</TableHead>
+              <TableHead>Avatar</TableHead>
               <TableHead className='text-right'>Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -63,6 +64,15 @@ export default function ManageTestimonialsPage() {
               <TableRow key={item.id}>
                 <TableCell className='font-medium'>{item.name}</TableCell>
                 <TableCell>{item.quote}</TableCell>
+                <TableCell>
+                  {item.avatar_url && (
+                    <img
+                      src={item.avatar_url}
+                      alt={item.name}
+                      className='w-10 h-10 rounded-full object-cover'
+                    />
+                  )}
+                </TableCell>
                 <TableCell className='text-right'>
                   <Link href={`/dashboard/cms/testimonials/edit/${item.id}`}>
                     <Button variant='outline' size='sm' className='mr-2'>

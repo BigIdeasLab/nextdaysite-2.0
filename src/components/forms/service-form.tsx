@@ -30,13 +30,133 @@ export function ServiceForm({ item }: ServiceFormProps) {
     published: item?.published ?? true,
   })
 
+  const updateImage1UrlMutation = useMutation({
+    mutationFn: async ({
+      itemId,
+      imageUrl,
+    }: {
+      itemId: string
+      imageUrl: string
+    }) => {
+      const response = await fetch(`/api/cms/services/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image1_url: imageUrl }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update image1 URL in DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['services'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['service', item.id] })
+      }
+      console.log('Image1 URL updated in form data and DB.')
+    },
+  })
+
+  const deleteImage1Mutation = useMutation({
+    mutationFn: async (itemId: string) => {
+      const response = await fetch(`/api/cms/services/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image1_url: null }), // Set image1_url to null
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(
+          errorData.error || 'Failed to delete image1 URL from DB',
+        )
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['services'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['service', item.id] })
+      }
+      setFormData((prev) => ({ ...prev, image1_url: '' })) // Clear local state
+      console.log('Image1 URL cleared from form data and DB updated.')
+    },
+  })
+
   const handleUpload1Success = (url: string) => {
     setFormData((prev) => ({ ...prev, image1_url: url }))
+    if (item?.id) {
+      updateImage1UrlMutation.mutate({ itemId: item.id, imageUrl: url })
+    }
   }
 
   const handleUpload2Success = (url: string) => {
     setFormData((prev) => ({ ...prev, image2_url: url }))
+    if (item?.id) {
+      updateImage2UrlMutation.mutate({ itemId: item.id, imageUrl: url })
+    }
   }
+
+  const updateImage2UrlMutation = useMutation({
+    mutationFn: async ({
+      itemId,
+      imageUrl,
+    }: {
+      itemId: string
+      imageUrl: string
+    }) => {
+      const response = await fetch(`/api/cms/services/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image2_url: imageUrl }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update image2 URL in DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['services'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['service', item.id] })
+      }
+      console.log('Image2 URL updated in form data and DB.')
+    },
+  })
+
+  const deleteImage2Mutation = useMutation({
+    mutationFn: async (itemId: string) => {
+      const response = await fetch(`/api/cms/services/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image2_url: null }), // Set image2_url to null
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(
+          errorData.error || 'Failed to delete image2 URL from DB',
+        )
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['services'] })
+      if (item) {
+        queryClient.invalidateQueries({ queryKey: ['service', item.id] })
+      }
+      setFormData((prev) => ({ ...prev, image2_url: '' })) // Clear local state
+      console.log('Image2 URL cleared from form data and DB updated.')
+    },
+  })
 
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
@@ -79,6 +199,78 @@ export function ServiceForm({ item }: ServiceFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     mutation.mutate(formData)
+  }
+
+  const handleDeleteImage1 = async () => {
+    if (!formData.image1_url || !item?.id) return
+
+    const url = new URL(formData.image1_url)
+    const key = url.pathname.split('/').pop()
+
+    if (!key) {
+      console.error(
+        'Could not extract key from image URL:',
+        formData.image1_url,
+      )
+      alert('Could not extract image key for deletion.')
+      return
+    }
+
+    try {
+      // First, delete from S3
+      const response = await fetch('/api/aws/s3-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image from S3')
+      }
+
+      // Then, update the database via the new mutation
+      deleteImage1Mutation.mutate(item.id)
+    } catch (error: any) {
+      console.error('Error deleting image:', error)
+      alert(error.message)
+    }
+  }
+
+  const handleDeleteImage2 = async () => {
+    if (!formData.image2_url || !item?.id) return
+
+    const url = new URL(formData.image2_url)
+    const key = url.pathname.split('/').pop()
+
+    if (!key) {
+      console.error(
+        'Could not extract key from image URL:',
+        formData.image2_url,
+      )
+      alert('Could not extract image key for deletion.')
+      return
+    }
+
+    try {
+      // First, delete from S3
+      const response = await fetch('/api/aws/s3-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image from S3')
+      }
+
+      // Then, update the database via the new mutation
+      deleteImage2Mutation.mutate(item.id)
+    } catch (error: any) {
+      console.error('Error deleting image:', error)
+      alert(error.message)
+    }
   }
 
   return (
@@ -135,16 +327,29 @@ export function ServiceForm({ item }: ServiceFormProps) {
             <Label htmlFor='image1_url'>Image 1</Label>
             <S3Upload onUploadSuccess={handleUpload1Success} />
             {formData.image1_url && (
-              <div className='mt-4'>
-                <p className='text-sm text-gray-500'>Uploaded Image URL:</p>
+              <div className='mt-4 flex items-center space-x-2'>
+                <p className='text-sm text-gray-500'>Uploaded Image:</p>
                 <a
                   href={formData.image1_url}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-blue-500 hover:underline'
+                  className='text-blue-500 hover:underline truncate'
                 >
-                  {formData.image1_url}
+                  {formData.image1_url.split('/').pop()}
                 </a>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteImage1()
+                  }}
+                  disabled={mutation.isPending}
+                  className='bg-red-500 text-white hover:bg-red-600'
+                >
+                  Delete
+                </Button>
               </div>
             )}
           </div>
@@ -153,16 +358,29 @@ export function ServiceForm({ item }: ServiceFormProps) {
             <Label htmlFor='image2_url'>Image 2</Label>
             <S3Upload onUploadSuccess={handleUpload2Success} />
             {formData.image2_url && (
-              <div className='mt-4'>
-                <p className='text-sm text-gray-500'>Uploaded Image URL:</p>
+              <div className='mt-4 flex items-center space-x-2'>
+                <p className='text-sm text-gray-500'>Uploaded Image:</p>
                 <a
                   href={formData.image2_url}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-blue-500 hover:underline'
+                  className='text-blue-500 hover:underline truncate'
                 >
-                  {formData.image2_url}
+                  {formData.image2_url.split('/').pop()}
                 </a>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteImage2()
+                  }}
+                  disabled={mutation.isPending}
+                  className='bg-red-500 text-white hover:bg-600'
+                >
+                  Delete
+                </Button>
               </div>
             )}
           </div>
