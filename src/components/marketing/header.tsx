@@ -77,7 +77,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className='actions-desktop flex items-center gap-2'>
+        <div className='actions-desktop hidden lg:flex items-center gap-2'>
           <Link
             href='/#pricing'
             className='cta-pricing flex h-12 items-center justify-center bg-[#FF8C00] text-[16px] font-medium text-[#F7F6FF] leading-5 transition-transform hover:scale-105 rounded-full px-5'
