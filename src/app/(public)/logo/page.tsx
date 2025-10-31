@@ -3,8 +3,6 @@ import type { Metadata } from 'next'
 import { CtaSection } from '@/components/marketing/cta-section'
 import { BrandGrid } from '@/components/marketing/brand-grid'
 import { BrandHero } from '@/components/marketing/brand-hero'
-import { Header } from '@/components/marketing/header'
-import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 
 export const metadata: Metadata = {
   title: 'Brand Identity - NextDaySite 2.0',
@@ -15,13 +13,11 @@ export const metadata: Metadata = {
 export default function BrandIdentityPage() {
   return (
     <div className='lg-portfolio-grid-background min-h-screen bg-background text-foreground transition-colors duration-300'>
-      <Header />
-      <main>
+      <main className='pt-24 lg:pt-32'>
         <BrandHero />
         <BrandGrid />
         <CtaSection />
       </main>
-      <RedesignedFooter />
     </div>
   )
 }

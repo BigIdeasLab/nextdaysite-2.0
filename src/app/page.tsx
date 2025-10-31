@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 
 import { CtaSection } from '@/components/marketing/cta-section'
 import { FeaturedWorksSection } from '@/components/marketing/featured-works'
-import { Header } from '@/components/marketing/header'
-import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 import { RedesignedHero } from '@/components/marketing/redesigned-hero'
 import { RedesignedPricing } from '@/components/marketing/redesigned-pricing'
 import { ServicesSection } from '@/components/marketing/services-section'
@@ -18,8 +16,7 @@ export const metadata: Metadata = {
 export default async function MarketingHomePage() {
   return (
     <div className='bg-background text-foreground transition-colors duration-300 lg-grid-background'>
-      <Header />
-      <main>
+      <main className='pt-24 lg:pt-32'>
         <RedesignedHero />
         <FeaturedWorksSection />
         <ServicesSection />
@@ -27,7 +24,6 @@ export default async function MarketingHomePage() {
         <RedesignedPricing />
         <CtaSection />
       </main>
-      <RedesignedFooter />
     </div>
   )
 }

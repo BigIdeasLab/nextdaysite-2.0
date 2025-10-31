@@ -1,8 +1,5 @@
 import type { Metadata } from 'next'
-
 import { CtaSection } from '@/components/marketing/cta-section'
-import { Header } from '@/components/marketing/header'
-import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 import { ServicesHero } from '@/components/marketing/services-hero'
 import { ServicesList } from '@/components/marketing/services-list'
 
@@ -15,13 +12,11 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <div className='lg-service-grid-background min-h-screen bg-background text-foreground transition-colors duration-300'>
-      <Header />
-      <main>
+      <main className='pt-24 lg:pt-32'>
         <ServicesHero />
         <ServicesList />
         <CtaSection />
       </main>
-      <RedesignedFooter />
     </div>
   )
 }

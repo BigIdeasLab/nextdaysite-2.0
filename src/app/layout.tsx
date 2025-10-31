@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 
 import { AppProviders } from '@/lib/providers/app-providers'
+import { MainLayout } from '@/components/marketing/main-layout'
 
 import './globals.css'
 
@@ -37,7 +38,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background text-foreground transition-colors duration-300`}
       >
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          <MainLayout>{children}</MainLayout>
+        </AppProviders>
       </body>
     </html>
   )
