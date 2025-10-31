@@ -11,9 +11,42 @@ export function ContactForm() {
     description: '',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    setLoading(true)
+    setError(null)
+    setSuccess(false)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send message.')
+      }
+
+      setSuccess(true)
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        service: '',
+        description: '',
+      })
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (
@@ -268,10 +301,21 @@ export function ContactForm() {
             <button
               type='submit'
               onClick={handleSubmit}
+              disabled={loading}
               className='flex h-10 items-center justify-center rounded-full border border-[var(--orange-primary)] bg-[var(--orange-primary)] px-5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 md:h-12 md:px-6 md:text-base lg:h-14 lg:px-7 lg:text-lg xl:h-[54px] xl:rounded-[30px] xl:px-[26px] xl:text-[23px]'
             >
-              Submit
+              {loading ? 'Sending...' : 'Submit'}
             </button>
+
+            {success && (
+              <p className='text-green-500 text-center'>
+                Your message has been sent successfully!
+              </p>
+            )}
+
+            {error && (
+              <p className='text-red-500 text-center'>Error: {error}</p>
+            )}
           </div>
         </div>
       </div>
