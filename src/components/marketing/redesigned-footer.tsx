@@ -17,7 +17,7 @@ const footerSections = [
     links: [
       { label: 'hello@nextdaysite.com', href: 'mailto:hello@nextdaysite.com' },
       { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Linkendin', href: 'https://linkedin.com' },
+      { label: 'LinkedIn', href: 'https://linkedin.com' },
       { label: 'Twitter', href: 'https://twitter.com' },
       { label: 'Discord', href: 'https://discord.com' },
       { label: 'Telegram', href: 'https://telegram.org' },

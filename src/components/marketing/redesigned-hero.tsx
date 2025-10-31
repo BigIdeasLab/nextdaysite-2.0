@@ -14,7 +14,14 @@ export function RedesignedHero() {
       </div>
 
       <div className='w-full flex flex-col items-center gap-12'>
-        <div className='flex h-[300px] w-full max-w-[1022px] items-center justify-center rounded-[20px] bg-[#ECECEC] md:h-[450px] md:rounded-[30px] lg:h-[575px]'></div>
+        <video
+          src='/Scene-1.mp4'
+          autoPlay
+          loop
+          muted
+          playsInline
+          className='w-full max-w-[1022px] h-auto rounded-[20px] md:rounded-[30px]'
+        />
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
           <Link
             href='/checkout'

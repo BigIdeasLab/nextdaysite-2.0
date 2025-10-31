@@ -10,7 +10,14 @@ export function ServicesHero() {
         </h1>
       </div>
 
-      <div className='h-[575px] w-full max-w-5xl overflow-hidden rounded-[30px] bg-[var(--testimonial-bg)]' />
+      <video
+        src='/Scene-1.mp4'
+        autoPlay
+        loop
+        muted
+        playsInline
+        className='h-auto w-full max-w-5xl rounded-[30px]'
+      />
     </section>
   )
 }
