@@ -1,13 +1,9 @@
 import Link from 'next/link'
-import { Header } from '@/components/marketing/header'
-import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 import { X } from 'lucide-react'
 
 export default function CheckoutCancelPage() {
   return (
     <div className='min-h-screen w-full bg-background transition-colors duration-300'>
-      <Header />
-
       <main className='w-full px-4 py-12 md:px-8 md:py-16 lg:py-20'>
         <div className='mx-auto flex max-w-6xl flex-col items-center'>
           <div className='mb-12 flex w-full max-w-3xl flex-col items-center gap-5 text-center md:mb-16'>
@@ -226,8 +222,6 @@ export default function CheckoutCancelPage() {
           </div>
         </div>
       </main>
-
-      <RedesignedFooter />
     </div>
   )
 }

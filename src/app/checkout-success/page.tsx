@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { Header } from '@/components/marketing/header'
-import { RedesignedFooter } from '@/components/marketing/redesigned-footer'
 
 export default async function CheckoutSuccessPage({
   searchParams,
@@ -11,8 +9,6 @@ export default async function CheckoutSuccessPage({
 
   return (
     <div className='min-h-screen w-full bg-background transition-colors duration-300'>
-      <Header />
-
       <main className='w-full px-4 py-12 md:px-8 md:py-16 lg:py-20'>
         <div className='mx-auto flex max-w-6xl flex-col items-center'>
           {/* Title Section */}
@@ -21,8 +17,8 @@ export default async function CheckoutSuccessPage({
               Payment successful!
             </h1>
             <p className='max-w-md text-base text-[var(--text-secondary)] md:text-lg lg:text-xl'>
-              We're excited to start building your project. Choose how you'd
-              like to begin.
+              We&apos;re excited to start building your project. Choose how
+              you&apos;d like to begin.
             </p>
           </div>
 
@@ -236,8 +232,6 @@ export default async function CheckoutSuccessPage({
           )}
         </div>
       </main>
-
-      <RedesignedFooter />
     </div>
   )
 }
