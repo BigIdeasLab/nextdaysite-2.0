@@ -1,21 +1,7 @@
-'use client'
-
 import Link from 'next/link'
-import { useShowreels } from '@/hooks/use-cms-content'
+import { Showreel } from './showreel'
 
-export function RedesignedHero() {
-  const { data: showreels, isLoading, isError } = useShowreels()
-
-  if (isLoading) {
-    return <div>Loading showreel...</div>
-  }
-
-  if (isError) {
-    return <div>Error loading showreel.</div>
-  }
-
-  const activeShowreel = showreels?.find((showreel) => showreel.is_active)
-
+export async function RedesignedHero() {
   return (
     <section className='relative flex w-full flex-col items-center gap-12 px-6 py-8 md:px-12 md:py-[50px] md:gap-20 lg:px-52'>
       <div className='flex w-full max-w-[684px] flex-col items-center gap-14 md:gap-[50px]'>
@@ -27,20 +13,7 @@ export function RedesignedHero() {
       </div>
 
       <div className='w-full flex flex-col items-center gap-12'>
-        {activeShowreel ? (
-          <video
-            src={activeShowreel.url}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className='w-full max-w-[1022px] h-auto rounded-[20px] md:rounded-[30px]'
-          />
-        ) : (
-          <div className='w-full max-w-[1022px] h-auto rounded-[20px] md:rounded-[30px] bg-gray-200 flex items-center justify-center text-gray-500'>
-            No active showreel available.
-          </div>
-        )}
+        <Showreel />
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
           <Link
             href='/checkout'
