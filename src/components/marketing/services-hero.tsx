@@ -1,3 +1,7 @@
+import { Suspense } from 'react'
+import { Showreel } from './showreel'
+import { ShowreelSkeleton } from './showreel-skeleton'
+
 export function ServicesHero() {
   return (
     <section className='relative flex min-h-[600px] w-full flex-col items-center gap-[90px] px-6 py-14 md:px-12 lg:px-52'>
@@ -10,14 +14,9 @@ export function ServicesHero() {
         </h1>
       </div>
 
-      <video
-        src='/Scene-1.mp4'
-        autoPlay
-        loop
-        muted
-        playsInline
-        className='h-auto w-full max-w-5xl rounded-[30px]'
-      />
+      <Suspense fallback={<ShowreelSkeleton />}>
+        <Showreel />
+      </Suspense>
     </section>
   )
 }

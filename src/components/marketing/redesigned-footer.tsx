@@ -9,7 +9,7 @@ const footerSections = [
       { label: 'Mobile App', href: '/services/mobile-app' },
       { label: 'Branding', href: '/services/branding' },
       { label: 'CMS Integration', href: '/services/cms-integration' },
-      { label: 'UI Kit', href: '/services/ui-kit', underline: true },
+      { label: 'UI Kit', href: '/services/ui-kit', underline: false },
     ],
   },
   {
