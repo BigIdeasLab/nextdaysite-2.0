@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 
+import { ThankYouMessage } from './thank-you-message'
+
 export function ContactForm() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -14,6 +16,10 @@ export function ContactForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+
+  const handleCloseSuccess = () => {
+    setSuccess(false)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -307,11 +313,7 @@ export function ContactForm() {
               {loading ? 'Sending...' : 'Submit'}
             </button>
 
-            {success && (
-              <p className='text-green-500 text-center'>
-                Your message has been sent successfully!
-              </p>
-            )}
+            {success && <ThankYouMessage onClose={handleCloseSuccess} />}
 
             {error && (
               <p className='text-red-500 text-center'>Error: {error}</p>

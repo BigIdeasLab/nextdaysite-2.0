@@ -2,8 +2,8 @@ import { CheckCircle } from 'lucide-react'
 
 export function ThankYouMessage({ onClose }: { onClose: () => void }) {
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-      <div className='bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-sm mx-auto'>
+    <div className='fixed inset-0 flex items-center justify-center backdrop-blur-sm'>
+      <div className='p-8 rounded-lg shadow-lg text-center max-w-sm mx-auto'>
         <CheckCircle className='w-16 h-16 text-green-500 mx-auto mb-4' />
         <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
           Thank You!

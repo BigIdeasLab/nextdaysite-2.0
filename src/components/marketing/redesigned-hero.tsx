@@ -1,5 +1,7 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { Showreel } from './showreel'
+import { ShowreelSkeleton } from './showreel-skeleton'
 
 export async function RedesignedHero() {
   return (
@@ -13,7 +15,9 @@ export async function RedesignedHero() {
       </div>
 
       <div className='w-full flex flex-col items-center gap-12'>
-        <Showreel />
+        <Suspense fallback={<ShowreelSkeleton />}>
+          <Showreel />
+        </Suspense>
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
           <Link
             href='/checkout'
