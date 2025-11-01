@@ -38,9 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background text-foreground transition-colors duration-300`}
       >
-        <AppProviders>
-          <MainLayout>{children}</MainLayout>
-        </AppProviders>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   )
