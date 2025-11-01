@@ -15,9 +15,7 @@ export async function RedesignedHero() {
       </div>
 
       <div className='w-full flex flex-col items-center gap-8'>
-        <Suspense fallback={<ShowreelSkeleton />}>
-          <Showreel />
-        </Suspense>
+        <Showreel />
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
           <Link
             href='/checkout'
