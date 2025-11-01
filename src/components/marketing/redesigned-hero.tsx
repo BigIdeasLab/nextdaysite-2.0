@@ -14,7 +14,7 @@ export async function RedesignedHero() {
         </div>
       </div>
 
-      <div className='w-full flex flex-col items-center gap-12'>
+      <div className='w-full flex flex-col items-center gap-8'>
         <Suspense fallback={<ShowreelSkeleton />}>
           <Showreel />
         </Suspense>
