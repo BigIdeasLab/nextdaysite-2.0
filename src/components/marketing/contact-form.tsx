@@ -128,7 +128,7 @@ export function ContactForm() {
           />
         </svg>
       ),
-      text: 'wow@nextday.site',
+      text: 'wow@nextdaysite.com',
     },
     {
       icon: (

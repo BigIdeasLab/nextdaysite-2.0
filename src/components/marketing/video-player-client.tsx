@@ -75,7 +75,7 @@ export function VideoPlayerClient({ src }: VideoPlayerClientProps) {
   return (
     <>
       {!videoLoaded && (
-        <div className='w-full max-w-[1022px] h-[550px] bg-gray-300 dark:bg-gray-700 rounded-[20px] md:rounded-[30px] animate-pulse flex items-center justify-center text-gray-500'></div>
+        <div className='w-full max-w-[1022px] aspect-video bg-gray-300 dark:bg-gray-700 rounded-[20px] md:rounded-[30px] animate-pulse flex items-center justify-center text-gray-500'></div>
       )}
       <video
         src={videoToPlay}
