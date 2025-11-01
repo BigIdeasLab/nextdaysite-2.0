@@ -578,57 +578,63 @@ export function AboutPageContentForm({
           )}
         />
 
-        <div>
-          <FormLabel>Process Steps</FormLabel>
-          {fields.map((field, index) => (
-            <div key={field.id} className='flex space-x-2 mb-4'>
-              <FormField
-                control={form.control}
-                name={`process_steps.${index}.title`}
-                render={({ field }) => (
-                  <FormItem className='flex-1'>
-                    <FormLabel>Step {index + 1} Title</FormLabel>
-                    <FormControl>
-                      <Input {...field} value={field.value ?? ''} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`process_steps.${index}.description`}
-                render={({ field }) => (
-                  <FormItem className='flex-1'>
-                    <FormLabel>Step {index + 1} Description</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type='button'
-                variant='destructive'
-                onClick={() => remove(index)}
-                className='self-end'
-              >
-                Remove
-              </Button>
-            </div>
-          ))}
-          <Button
-            type='button'
-            variant='outline'
-            onClick={() => append({ title: '', description: '' })}
-          >
-            Add Process Step
-          </Button>
-          <FormMessage>
-            {form.formState.errors.process_steps?.message}
-          </FormMessage>
-        </div>
+        <FormField
+          control={form.control}
+          name='process_steps'
+          render={() => (
+            <FormItem>
+              <FormLabel>Process Steps</FormLabel>
+              <div>
+                {fields.map((field, index) => (
+                  <div key={field.id} className='flex space-x-2 mb-4'>
+                    <FormField
+                      control={form.control}
+                      name={`process_steps.${index}.title`}
+                      render={({ field }) => (
+                        <FormItem className='flex-1'>
+                          <FormLabel>Step {index + 1} Title</FormLabel>
+                          <FormControl>
+                            <Input {...field} value={field.value ?? ''} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`process_steps.${index}.description`}
+                      render={({ field }) => (
+                        <FormItem className='flex-1'>
+                          <FormLabel>Step {index + 1} Description</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      onClick={() => remove(index)}
+                      className='self-end'
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={() => append({ title: '', description: '' })}
+                >
+                  Add Process Step
+                </Button>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button type='submit' disabled={mutation.isPending}>
           {mutation.isPending ? 'Saving...' : 'Save Changes'}
