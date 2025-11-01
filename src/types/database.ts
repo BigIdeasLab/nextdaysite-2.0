@@ -52,6 +52,36 @@ export type Database = {
           },
         ]
       }
+      contact_submissions: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          service: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          service?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          service?: string | null
+        }
+        Relationships: []
+      }
       files: {
         Row: {
           bucket_path: string
@@ -184,6 +214,7 @@ export type Database = {
       logos: {
         Row: {
           created_at: string | null
+          description: string | null
           height: number | null
           id: string
           image_url: string
@@ -192,6 +223,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          description?: string | null
           height?: number | null
           id?: string
           image_url: string
@@ -200,6 +232,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          description?: string | null
           height?: number | null
           id?: string
           image_url?: string
@@ -676,6 +709,30 @@ export type Database = {
             referencedColumns: ['id']
           },
         ]
+      }
+      showreels: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          title: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          title?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          title?: string | null
+          url?: string
+        }
+        Relationships: []
       }
       stripe_events: {
         Row: {

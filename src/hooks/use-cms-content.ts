@@ -6,6 +6,7 @@ import type {
   CmsSettingRow,
   PageRow,
   LogoRow,
+  ShowreelRow,
 } from '@/types/models'
 
 export function useLogos(options = {}) {
@@ -166,6 +167,19 @@ export function usePage(id: string | null, options = {}) {
       return response.json()
     },
     enabled: !!id,
+    staleTime: 60000,
+    ...options,
+  })
+}
+
+export function useShowreels(options = {}) {
+  return useQuery<ShowreelRow[]>({
+    queryKey: ['showreels'],
+    queryFn: async () => {
+      const response = await fetch('/api/cms/showreels')
+      if (!response.ok) throw new Error('Failed to fetch showreels')
+      return response.json()
+    },
     staleTime: 60000,
     ...options,
   })

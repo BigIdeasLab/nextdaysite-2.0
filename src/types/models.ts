@@ -16,6 +16,7 @@ export type PortfolioItemRow =
   Database['public']['Tables']['portfolio_items']['Row']
 export type ServiceRow = Database['public']['Tables']['services']['Row']
 export type TestimonialRow = Database['public']['Tables']['testimonials']['Row']
+export type ShowreelRow = Database['public']['Tables']['showreels']['Row']
 export type PageRow = Database['public']['Tables']['pages']['Row']
 export type SectionRow = Database['public']['Tables']['sections']['Row']
 export type CmsSettingRow = {

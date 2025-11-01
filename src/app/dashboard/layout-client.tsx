@@ -18,7 +18,7 @@ const cmsMenuItems = [
   { label: 'Portfolio', href: '/dashboard/cms/portfolio' },
   { label: 'Services', href: '/dashboard/cms/services' },
   { label: 'Testimonials', href: '/dashboard/cms/testimonials' },
-  // { label: 'Settings', href: '/dashboard/cms/settings' },
+  { label: 'Showreel', href: '/dashboard/cms/showreels' },
 ]
 
 export function DashboardLayoutClient({
