@@ -13,10 +13,7 @@ export function ServicesHero() {
           Our Services
         </h1>
       </div>
-
-      <Suspense fallback={<ShowreelSkeleton />}>
-        <Showreel />
-      </Suspense>
+      <Showreel />
     </section>
   )
 }

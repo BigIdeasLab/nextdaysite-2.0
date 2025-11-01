@@ -25,5 +25,13 @@ export type CmsSettingRow = {
   value?: Json | null
 }
 
+export type ProcessStep = {
+  title: string
+  description: string
+}
+
+export type AboutPageContent =
+  Database['public']['Tables']['about_page_content']['Row']
+
 export type StartCheckoutResult =
   Database['public']['Functions']['start_checkout']['Returns'][number]

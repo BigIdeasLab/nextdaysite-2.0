@@ -14,6 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
+      about_page_content: {
+        Row: {
+          hero_image_1_alt: string | null
+          hero_image_1_url: string | null
+          hero_image_2_alt: string | null
+          hero_image_2_url: string | null
+          hero_main_headline: string
+          id: string
+          intro_headline: string
+          intro_image_alt: string | null
+          intro_image_url: string | null
+          intro_paragraph: string
+          process_headline: string
+          process_steps: Json
+          promise_clients_label: string
+          promise_clients_value: string
+          promise_description: string
+          promise_image_1_alt: string | null
+          promise_image_1_url: string | null
+          promise_image_2_alt: string | null
+          promise_image_2_url: string | null
+          promise_main_headline: string
+          promise_satisfaction_label: string
+          promise_satisfaction_value: string
+          promise_websites_label: string
+          promise_websites_value: string
+          promise_who_we_are_headline: string
+          solution_image_1_alt: string | null
+          solution_image_1_url: string | null
+          solution_image_2_alt: string | null
+          solution_image_2_url: string | null
+          solution_main_headline: string
+          solution_our_solution_headline: string
+          solution_paragraph: string
+        }
+        Insert: {
+          hero_image_1_alt?: string | null
+          hero_image_1_url?: string | null
+          hero_image_2_alt?: string | null
+          hero_image_2_url?: string | null
+          hero_main_headline: string
+          id?: string
+          intro_headline: string
+          intro_image_alt?: string | null
+          intro_image_url?: string | null
+          intro_paragraph: string
+          process_headline: string
+          process_steps?: Json
+          promise_clients_label: string
+          promise_clients_value: string
+          promise_description: string
+          promise_image_1_alt?: string | null
+          promise_image_1_url?: string | null
+          promise_image_2_alt?: string | null
+          promise_image_2_url?: string | null
+          promise_main_headline: string
+          promise_satisfaction_label: string
+          promise_satisfaction_value: string
+          promise_websites_label: string
+          promise_websites_value: string
+          promise_who_we_are_headline: string
+          solution_image_1_alt?: string | null
+          solution_image_1_url?: string | null
+          solution_image_2_alt?: string | null
+          solution_image_2_url?: string | null
+          solution_main_headline: string
+          solution_our_solution_headline: string
+          solution_paragraph: string
+        }
+        Update: {
+          hero_image_1_alt?: string | null
+          hero_image_1_url?: string | null
+          hero_image_2_alt?: string | null
+          hero_image_2_url?: string | null
+          hero_main_headline?: string
+          id?: string
+          intro_headline?: string
+          intro_image_alt?: string | null
+          intro_image_url?: string | null
+          intro_paragraph?: string
+          process_headline?: string
+          process_steps?: Json
+          promise_clients_label?: string
+          promise_clients_value?: string
+          promise_description?: string
+          promise_image_1_alt?: string | null
+          promise_image_1_url?: string | null
+          promise_image_2_alt?: string | null
+          promise_image_2_url?: string | null
+          promise_main_headline?: string
+          promise_satisfaction_label?: string
+          promise_satisfaction_value?: string
+          promise_websites_label?: string
+          promise_websites_value?: string
+          promise_who_we_are_headline?: string
+          solution_image_1_alt?: string | null
+          solution_image_1_url?: string | null
+          solution_image_2_alt?: string | null
+          solution_image_2_url?: string | null
+          solution_main_headline?: string
+          solution_our_solution_headline?: string
+          solution_paragraph?: string
+        }
+        Relationships: []
+      }
       cms_settings: {
         Row: {
           created_at: string

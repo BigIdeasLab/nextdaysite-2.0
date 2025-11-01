@@ -1,28 +1,44 @@
-export function AboutProcess() {
+export interface AboutProcessProps {
+  step1Title: string
+  step1Description: string
+  step2Title: string
+  step2Description: string
+  step3Title: string
+  step3Description: string
+  step4Title: string
+  step4Description: string
+}
+
+export function AboutProcess({
+  step1Title,
+  step1Description,
+  step2Title,
+  step2Description,
+  step3Title,
+  step3Description,
+  step4Title,
+  step4Description,
+}: AboutProcessProps) {
   const steps = [
     {
       number: '1.',
-      title: 'Consultation',
-      description:
-        "Our process begins with a free consultation to understand clients' needs and expectations. We also offer advice based on technical expertise at this stage.",
+      title: step1Title,
+      description: step1Description,
     },
     {
       number: '2.',
-      title: 'Implementation',
-      description:
-        'We design and execute the demands of our clients in a timely fashion, paying attention to even the smallest details.',
+      title: step2Title,
+      description: step2Description,
     },
     {
       number: '3.',
-      title: 'Development',
-      description:
-        'From 3D graphics to mobile app solutions, we provide the final touches to the requests of the clients. Our primary target here is utter perfection.',
+      title: step3Title,
+      description: step3Description,
     },
     {
       number: '4.',
-      title: 'Delivery',
-      description:
-        'The unveiling stage. We look forward to the smiles and the "Wow!" exclamation our clients give when they see our results.',
+      title: step4Title,
+      description: step4Description,
     },
   ]
 
