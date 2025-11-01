@@ -166,6 +166,34 @@ export function AboutPageContentForm({
     },
   })
 
+  const deleteImageMutation = useMutation({
+    mutationFn: async ({
+      fieldName,
+    }: {
+      fieldName: keyof z.infer<typeof formSchema>
+    }) => {
+      const response = await fetch('/api/cms/about', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [fieldName]: null }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete image URL from DB')
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['about-page-content'] })
+      toast.success('Image URL cleared from database.')
+    },
+    onError: (error) => {
+      toast.error(`Error: ${error.message}`)
+    },
+  })
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     mutation.mutate(values)
   }
@@ -191,15 +219,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='hero_image_1_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hero Image 1 URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'hero_image_1_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Hero Image 1 URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
@@ -217,15 +314,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='hero_image_2_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hero Image 2 URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'hero_image_2_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Hero Image 2 URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
@@ -272,15 +438,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='intro_image_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Intro Image URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'intro_image_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Intro Image URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
@@ -418,15 +653,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='promise_image_1_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Promise Image 1 URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'promise_image_1_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Promise Image 1 URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
@@ -444,15 +748,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='promise_image_2_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Promise Image 2 URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'promise_image_2_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Promise Image 2 URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
@@ -512,15 +885,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='solution_image_1_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Solution Image 1 URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'solution_image_1_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Solution Image 1 URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
@@ -538,15 +980,84 @@ export function AboutPageContentForm({
         <FormField
           control={form.control}
           name='solution_image_2_url'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Solution Image 2 URL</FormLabel>
-              <FormControl>
-                <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const handleDeleteImage = async () => {
+              if (!field.value) return
+
+              const url = new URL(field.value)
+              const key = url.pathname.split('/').pop()
+
+              if (!key) {
+                toast.error(
+                  'Could not extract key from image URL for deletion.',
+                )
+                return
+              }
+
+              try {
+                // First, delete from S3
+                const response = await fetch('/api/aws/s3-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ key }),
+                })
+
+                if (!response.ok) {
+                  const errorData = await response.json()
+                  throw new Error(
+                    errorData.error || 'Failed to delete image from S3',
+                  )
+                }
+
+                // Then, update the database via the new mutation
+                deleteImageMutation.mutate(
+                  { fieldName: 'solution_image_2_url' },
+                  {
+                    onSuccess: () => {
+                      field.onChange(null) // Clear local state
+                    },
+                  },
+                )
+              } catch (error: any) {
+                toast.error(`Error deleting image: ${error.message}`)
+              }
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Solution Image 2 URL</FormLabel>
+                <FormControl>
+                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                </FormControl>
+                {field.value && (
+                  <div className='mt-4 flex items-center space-x-2'>
+                    <p className='text-sm text-gray-500'>Uploaded Image:</p>
+                    <a
+                      href={field.value}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-blue-500 hover:underline truncate'
+                    >
+                      {field.value.split('/').pop()}
+                    </a>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      size='sm'
+                      onClick={handleDeleteImage}
+                      disabled={
+                        mutation.isPending || deleteImageMutation.isPending
+                      }
+                      className='bg-red-500 text-white hover:bg-red-600'
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
         <FormField
           control={form.control}
