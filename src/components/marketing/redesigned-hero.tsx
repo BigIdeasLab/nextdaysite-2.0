@@ -18,7 +18,7 @@ export async function RedesignedHero() {
         <Showreel />
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
           <Link
-            href='/checkout'
+            href='#pricing'
             className='flex h-[48px] items-center justify-center rounded-[30px] border border-[#3E3E3E] bg-[#FF8C00] px-5 text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:text-[18px]'
           >
             Get Started

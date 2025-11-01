@@ -83,13 +83,13 @@ export function CtaSection() {
 
           <div className='flex flex-wrap items-center justify-center gap-2.5'>
             <Link
-              href='/checkout'
+              href='#pricing'
               className='flex h-[48px] items-center justify-center rounded-[30px] border border-[#FF8C00] bg-[#FF8C00] px-[24px] text-[16px] font-medium leading-[24px] text-[#F7F6FF] transition-opacity hover:opacity-90 md:h-[54px] md:px-[30px] md:text-[18px]'
             >
               Get Started
             </Link>
             <Link
-              href='#portfolio'
+              href='/portfolio'
               className='flex h-[48px] items-center justify-center rounded-[30px] bg-[#090808] px-[20px] text-[16px] font-medium leading-[24px] text-[#F7F6FF] transition-opacity hover:opacity-90 md:h-[54px] md:px-[26px] md:text-[18px]'
             >
               View Our Work

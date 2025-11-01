@@ -410,7 +410,7 @@ function PricingCard({
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[var(--orange-accent)] px-5 transition-transform hover:scale-105 sm:w-[156px] disabled:cursor-not-allowed disabled:opacity-50'
           >
             <span className='text-base font-medium leading-5 text-[var(--light-text)]'>
-              {loading ? 'Redirecting...' : 'Subscribe'}
+              {loading ? 'Redirecting...' : 'Pay Now'}
             </span>
           </button>
           <button

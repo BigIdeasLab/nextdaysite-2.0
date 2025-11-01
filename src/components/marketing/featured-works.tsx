@@ -111,6 +111,7 @@ async function getPortfolioItems() {
       .select('*')
       .eq('published', true)
       .order('order_index', { ascending: true })
+      .limit(6)
 
     if (error || !data) {
       return fallbackProjects
