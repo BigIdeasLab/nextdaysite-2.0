@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function ManageTestimonialsPage() {
   const queryClient = useQueryClient()
@@ -23,9 +24,7 @@ export default function ManageTestimonialsPage() {
       const response = await fetch(`/api/cms/testimonials/${itemId}`, {
         method: 'DELETE',
       })
-      if (!response.ok) {
-        throw new Error('Failed to delete item')
-      }
+      if (!response.ok) throw new Error('Failed to delete item')
       return response.json()
     },
     onSuccess: () => {
@@ -43,14 +42,18 @@ export default function ManageTestimonialsPage() {
   if (error) return <div>Error loading items: {error.message}</div>
 
   return (
-    <div className='container mx-auto py-10'>
-      <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-3xl font-bold'>Manage Testimonials</h1>
-        <Link href='/dashboard/cms/testimonials/new'>
-          <Button>Add New Testimonial</Button>
-        </Link>
-      </div>
-      <div className='border rounded-lg'>
+    <div>
+      <PageHeader
+        title='Testimonials'
+        subtitle='Manage what customers are saying'
+        action={
+          <Link href='/dashboard/cms/testimonials/new'>
+            <Button>Add New Testimonial</Button>
+          </Link>
+        }
+      />
+
+      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
         <Table>
           <TableHeader>
             <TableRow>
@@ -65,7 +68,9 @@ export default function ManageTestimonialsPage() {
             {items?.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className='font-medium'>{item.name}</TableCell>
-                <TableCell>{item.quote}</TableCell>
+                <TableCell className='text-sm text-muted-foreground'>
+                  {item.quote}
+                </TableCell>
                 <TableCell>
                   {item.avatar_url && (
                     <Image
@@ -108,6 +113,7 @@ export default function ManageTestimonialsPage() {
           </TableBody>
         </Table>
       </div>
+
       <div className='mt-4'>
         <Link href='/dashboard/cms'>
           <Button variant='outline'>Back to CMS Dashboard</Button>

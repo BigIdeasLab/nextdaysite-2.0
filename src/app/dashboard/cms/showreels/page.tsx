@@ -14,6 +14,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { ShowreelRow } from '@/types/models'
 import { S3Upload } from '@/components/forms/s3-upload'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function ShowreelCmsPage() {
   const queryClient = useQueryClient()
@@ -27,9 +28,7 @@ export default function ShowreelCmsPage() {
     queryKey: ['showreels'],
     queryFn: async () => {
       const response = await fetch('/api/cms/showreels')
-      if (!response.ok) {
-        throw new Error('Failed to fetch showreels')
-      }
+      if (!response.ok) throw new Error('Failed to fetch showreels')
       return response.json()
     },
   })
@@ -38,14 +37,10 @@ export default function ShowreelCmsPage() {
     mutationFn: async (newShowreel: Omit<ShowreelRow, 'id' | 'created_at'>) => {
       const response = await fetch('/api/cms/showreels', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newShowreel),
       })
-      if (!response.ok) {
-        throw new Error('Failed to add showreel')
-      }
+      if (!response.ok) throw new Error('Failed to add showreel')
       return response.json()
     },
     onSuccess: () => {
@@ -54,7 +49,7 @@ export default function ShowreelCmsPage() {
       setTitle('')
       setVideoUrl(null)
     },
-    onError: (err) => {
+    onError: (err: any) => {
       setError(err.message)
     },
   })
@@ -71,22 +66,16 @@ export default function ShowreelCmsPage() {
       setError('Please upload a video and enter a title.')
       return
     }
-
     setError(null)
     setSuccess(null)
-
-    addShowreelMutation.mutate({
-      title,
-      url: videoUrl,
-      is_active: true,
-    })
+    addShowreelMutation.mutate({ title, url: videoUrl, is_active: true })
   }
 
   return (
-    <div className='container mx-auto py-8'>
-      <h1 className='text-3xl font-bold mb-8'>Manage Showreels</h1>
+    <div>
+      <PageHeader title='Showreels' subtitle='Manage your showreel videos' />
 
-      <Card className='mb-8'>
+      <Card className='mb-6'>
         <CardHeader>
           <CardTitle>Upload New Showreel</CardTitle>
           <CardDescription>
@@ -117,7 +106,7 @@ export default function ShowreelCmsPage() {
               {addShowreelMutation.isPending ? 'Adding...' : 'Add Showreel'}
             </Button>
             {error && <p className='text-red-500 text-sm'>{error}</p>}
-            {success && <p className='text-green-500 text-sm'>{success}</p>}
+            {success && <p className='text-green-600 text-sm'>{success}</p>}
           </form>
         </CardContent>
       </Card>
@@ -131,18 +120,18 @@ export default function ShowreelCmsPage() {
           {isLoading ? (
             <div>Loading showreels...</div>
           ) : (
-            <ul className='space-y-4'>
+            <ul className='space-y-3'>
               {showreels?.map((showreel) => (
                 <li
                   key={showreel.id}
-                  className='flex items-center justify-between p-2 border rounded-md'
+                  className='flex items-center justify-between rounded-md border border-gray-200 p-3 dark:border-gray-800'
                 >
                   <span>{showreel.title}</span>
                   <a
                     href={showreel.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='text-blue-500 hover:underline'
+                    className='text-primary hover:underline'
                   >
                     View
                   </a>

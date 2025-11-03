@@ -36,6 +36,7 @@ import {
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { PageRow } from '@/types/models'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function CmsPagesPage() {
   const { data: pages, isLoading, error } = usePages()
@@ -43,14 +44,8 @@ export default function CmsPagesPage() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const columns: ColumnDef<PageRow>[] = [
-    {
-      accessorKey: 'title',
-      header: 'Title',
-    },
-    {
-      accessorKey: 'slug',
-      header: 'Slug',
-    },
+    { accessorKey: 'title', header: 'Title' },
+    { accessorKey: 'slug', header: 'Slug' },
     {
       accessorKey: 'published',
       header: 'Status',
@@ -98,34 +93,36 @@ export default function CmsPagesPage() {
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting,
-      columnFilters,
-    },
+    state: { sorting, columnFilters },
   })
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error loading pages.</div>
 
   return (
-    <div className='container mx-auto py-10'>
-      <div className='flex justify-between items-center mb-4'>
-        <h1 className='text-2xl font-bold'>Manage Pages</h1>
-        <Button asChild>
-          <Link href='/dashboard/cms/pages/new'>Add New Page</Link>
-        </Button>
-      </div>
-      <div className='flex items-center py-4'>
+    <div>
+      <PageHeader
+        title='Pages'
+        subtitle='Create and update your pages'
+        action={
+          <Button asChild>
+            <Link href='/dashboard/cms/pages/new'>Add New Page</Link>
+          </Button>
+        }
+      />
+
+      <div className='flex items-center justify-between gap-2 pb-4'>
         <Input
           placeholder='Filter by title...'
           value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('title')?.setFilterValue(event.target.value)
           }
-          className='max-w-sm'
+          className='max-w-xs'
         />
       </div>
-      <div className='rounded-md border'>
+
+      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -173,7 +170,8 @@ export default function CmsPagesPage() {
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
+
+      <div className='flex items-center justify-end gap-2 py-4'>
         <Button
           variant='outline'
           size='sm'
