@@ -14,6 +14,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { PageHeader } from '@/components/ui/page-header'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function ManageServicesPage() {
   const queryClient = useQueryClient()
@@ -53,66 +54,70 @@ export default function ManageServicesPage() {
         }
       />
 
-      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Image 2</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead className='text-right'>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {services?.map((service) => (
-              <TableRow key={service.id}>
-                <TableCell>
-                  {service.image1_url && (
-                    <Image
-                      src={service.image1_url}
-                      alt={service.title}
-                      width={64}
-                      height={64}
-                      className='object-cover rounded-md'
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  {service.image2_url && (
-                    <Image
-                      src={service.image2_url}
-                      alt={service.title}
-                      width={64}
-                      height={64}
-                      className='object-cover rounded-md'
-                    />
-                  )}
-                </TableCell>
-                <TableCell className='font-medium'>{service.title}</TableCell>
-                <TableCell className='text-sm text-muted-foreground'>
-                  {service.description}
-                </TableCell>
-                <TableCell className='text-right'>
-                  <Link href={`/dashboard/cms/services/edit/${service.id}`}>
-                    <Button variant='outline' size='sm' className='mr-2'>
-                      Edit
-                    </Button>
-                  </Link>
-                  <Button
-                    variant='destructive'
-                    size='sm'
-                    onClick={() => handleDelete(service.id)}
-                    disabled={deleteServiceMutation.isPending}
-                  >
-                    {deleteServiceMutation.isPending ? 'Deleting...' : 'Delete'}
-                  </Button>
-                </TableCell>
+      <Card>
+        <CardContent className='p-0'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Image</TableHead>
+                <TableHead>Image 2</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {services?.map((service) => (
+                <TableRow key={service.id}>
+                  <TableCell>
+                    {service.image1_url && (
+                      <Image
+                        src={service.image1_url}
+                        alt={service.title}
+                        width={64}
+                        height={64}
+                        className='object-cover rounded-md'
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {service.image2_url && (
+                      <Image
+                        src={service.image2_url}
+                        alt={service.title}
+                        width={64}
+                        height={64}
+                        className='object-cover rounded-md'
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell className='font-medium'>{service.title}</TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {service.description}
+                  </TableCell>
+                  <TableCell className='text-right'>
+                    <Link href={`/dashboard/cms/services/edit/${service.id}`}>
+                      <Button variant='outline' size='sm' className='mr-2'>
+                        Edit
+                      </Button>
+                    </Link>
+                    <Button
+                      variant='destructive'
+                      size='sm'
+                      onClick={() => handleDelete(service.id)}
+                      disabled={deleteServiceMutation.isPending}
+                    >
+                      {deleteServiceMutation.isPending
+                        ? 'Deleting...'
+                        : 'Delete'}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
       <div className='mt-4'>
         <Link href='/dashboard/cms'>

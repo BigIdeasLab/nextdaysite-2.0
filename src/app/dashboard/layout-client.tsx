@@ -11,6 +11,8 @@ import {
   Receipt,
   Tags,
   Library,
+  Search,
+  MessageSquare,
 } from 'lucide-react'
 import { Fragment, useMemo, type ComponentType } from 'react'
 
@@ -18,6 +20,7 @@ type MenuItem = { label: string; href: string; icon: ComponentType<any> }
 
 const dashboardMenu: MenuItem[] = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  { label: 'Contacts', href: '/dashboard/contact', icon: MessageSquare },
   { label: 'Users', href: '/dashboard/users', icon: Users },
   { label: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
   { label: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
@@ -33,6 +36,8 @@ const cmsMenu: MenuItem[] = [
   { label: 'Testimonials', href: '/dashboard/cms/testimonials', icon: Users },
   { label: 'Showreel', href: '/dashboard/cms/showreels', icon: Receipt },
   { label: 'About', href: '/dashboard/cms/about', icon: Tags },
+  { label: 'Pages', href: '/dashboard/cms/pages', icon: Library },
+  { label: 'Settings', href: '/dashboard/cms/settings', icon: Receipt },
 ]
 
 export function DashboardLayoutClient({
@@ -54,9 +59,9 @@ export function DashboardLayoutClient({
   return (
     <div className='flex min-h-screen bg-background text-foreground'>
       {/* Sidebar */}
-      <aside className='hidden md:flex md:w-64 md:flex-col md:border-r md:border-gray-200 md:bg-gray-50 md:dark:border-gray-800 md:dark:bg-gray-900'>
-        <div className='px-5 py-5 border-b border-gray-200 dark:border-gray-800'>
-          <div className='text-lg font-semibold'>
+      <aside className='hidden md:flex md:w-64 md:flex-col md:border-r md:border-gray-200 md:bg-gray-50 md:dark:border-gray-800 md:dark:bg-gray-900/60'>
+        <div className='px-5 py-5 border-b border-gray-200/70 dark:border-gray-800/70'>
+          <div className='text-lg font-semibold tracking-tight'>
             {isCms ? 'CMS' : 'Dashboard'}
           </div>
           <p className='text-xs text-muted-foreground/80 mt-1'>
@@ -72,19 +77,22 @@ export function DashboardLayoutClient({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-gray-100 dark:hover:bg-gray-800/80 ${
                   isActive
-                    ? 'bg-gray-100 text-foreground dark:bg-gray-800'
+                    ? 'bg-gray-100 text-foreground dark:bg-gray-800 ring-1 ring-gray-200/70 dark:ring-gray-700'
                     : 'text-foreground/80'
                 }`}
               >
                 <Icon className='h-4 w-4' strokeWidth={1.75} />
                 <span>{item.label}</span>
+                {isActive ? (
+                  <span className='absolute left-0 top-1/2 -translate-y-1/2 h-5 w-0.5 rounded bg-primary' />
+                ) : null}
               </Link>
             )
           })}
         </nav>
-        <div className='mt-auto px-4 py-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between'>
+        <div className='mt-auto px-4 py-4 border-t border-gray-200/70 dark:border-gray-800/70 flex items-center justify-between'>
           <ThemeToggle />
           <LogoutButton />
         </div>
@@ -101,7 +109,7 @@ export function DashboardLayoutClient({
                   className={
                     i === breadcrumbs.length - 1
                       ? 'text-foreground font-medium'
-                      : ''
+                      : 'hover:text-foreground/90'
                   }
                 >
                   {crumb.charAt(0).toUpperCase() + crumb.slice(1)}
@@ -118,10 +126,11 @@ export function DashboardLayoutClient({
           </div>
           <div className='ml-auto hidden md:flex items-center gap-3'>
             <div className='relative'>
+              <Search className='pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60' />
               <input
                 type='search'
                 placeholder='Search...'
-                className='h-9 w-64 rounded-md border border-gray-200 bg-background px-3 text-sm outline-none ring-0 placeholder:text-muted-foreground/60 focus:border-gray-300 dark:border-gray-800'
+                className='h-9 w-64 rounded-md border border-gray-200 bg-background pl-8 pr-3 text-sm outline-none ring-0 placeholder:text-muted-foreground/60 focus:border-gray-300 dark:border-gray-800'
               />
             </div>
             <ThemeToggle />

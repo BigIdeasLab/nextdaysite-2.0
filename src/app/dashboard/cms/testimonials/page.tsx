@@ -14,6 +14,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { PageHeader } from '@/components/ui/page-header'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function ManageTestimonialsPage() {
   const queryClient = useQueryClient()
@@ -53,66 +54,68 @@ export default function ManageTestimonialsPage() {
         }
       />
 
-      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Quote</TableHead>
-              <TableHead>Avatar</TableHead>
-              <TableHead>Logo</TableHead>
-              <TableHead className='text-right'>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {items?.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className='font-medium'>{item.name}</TableCell>
-                <TableCell className='text-sm text-muted-foreground'>
-                  {item.quote}
-                </TableCell>
-                <TableCell>
-                  {item.avatar_url && (
-                    <Image
-                      src={item.avatar_url}
-                      alt={item.name}
-                      width={40}
-                      height={40}
-                      className='w-10 h-10 rounded-full object-cover'
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  {item.logo_url && (
-                    <Image
-                      src={item.logo_url}
-                      alt={`${item.name} logo`}
-                      width={40}
-                      height={40}
-                      className='w-10 h-10 object-contain'
-                    />
-                  )}
-                </TableCell>
-                <TableCell className='text-right'>
-                  <Link href={`/dashboard/cms/testimonials/edit/${item.id}`}>
-                    <Button variant='outline' size='sm' className='mr-2'>
-                      Edit
-                    </Button>
-                  </Link>
-                  <Button
-                    variant='destructive'
-                    size='sm'
-                    onClick={() => handleDelete(item.id)}
-                    disabled={deleteMutation.isPending}
-                  >
-                    {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-                  </Button>
-                </TableCell>
+      <Card>
+        <CardContent className='p-0'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Quote</TableHead>
+                <TableHead>Avatar</TableHead>
+                <TableHead>Logo</TableHead>
+                <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {items?.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className='font-medium'>{item.name}</TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {item.quote}
+                  </TableCell>
+                  <TableCell>
+                    {item.avatar_url && (
+                      <Image
+                        src={item.avatar_url}
+                        alt={item.name}
+                        width={40}
+                        height={40}
+                        className='w-10 h-10 rounded-full object-cover'
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {item.logo_url && (
+                      <Image
+                        src={item.logo_url}
+                        alt={`${item.name} logo`}
+                        width={40}
+                        height={40}
+                        className='w-10 h-10 object-contain'
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell className='text-right'>
+                    <Link href={`/dashboard/cms/testimonials/edit/${item.id}`}>
+                      <Button variant='outline' size='sm' className='mr-2'>
+                        Edit
+                      </Button>
+                    </Link>
+                    <Button
+                      variant='destructive'
+                      size='sm'
+                      onClick={() => handleDelete(item.id)}
+                      disabled={deleteMutation.isPending}
+                    >
+                      {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
       <div className='mt-4'>
         <Link href='/dashboard/cms'>

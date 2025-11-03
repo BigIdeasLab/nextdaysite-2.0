@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table'
 import { PageHeader } from '@/components/ui/page-header'
 import { Database } from '@/types/database'
+import { Card, CardContent } from '@/components/ui/card'
 
 type User = Database['public']['Tables']['users']['Row']
 
@@ -44,30 +45,32 @@ export default function UsersPage() {
   return (
     <div>
       <PageHeader title='Users' subtitle='Manage registered users' />
-      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className='font-mono text-xs'>{user.id}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
-                    {user.role}
-                  </span>
-                </TableCell>
+      <Card>
+        <CardContent className='p-0'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Role</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell className='font-mono text-xs'>{user.id}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
+                      {user.role}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   )
 }

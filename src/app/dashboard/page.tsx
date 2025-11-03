@@ -32,14 +32,33 @@ export default function DashboardPage() {
     fetchMetrics()
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading)
+    return (
+      <div>
+        <PageHeader title='Overview' subtitle='Key metrics at a glance' />
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+          {[0, 1, 2].map((i) => (
+            <Card key={i} className='overflow-hidden'>
+              <CardHeader className='flex flex-row items-center justify-between pb-2'>
+                <div className='h-4 w-24 rounded bg-muted animate-pulse' />
+                <div className='h-4 w-4 rounded bg-muted animate-pulse' />
+              </CardHeader>
+              <CardContent>
+                <div className='h-8 w-28 rounded bg-muted animate-pulse' />
+                <div className='h-3 w-20 mt-2 rounded bg-muted animate-pulse' />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
   if (error) return <div>Error: {error}</div>
 
   return (
     <div>
       <PageHeader title='Overview' subtitle='Key metrics at a glance' />
       <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
-        <Card className='overflow-hidden'>
+        <Card className='overflow-hidden transition-shadow hover:shadow-md'>
           <CardHeader className='flex flex-row items-center justify-between pb-2'>
             <CardTitle className='text-sm font-medium text-muted-foreground'>
               Total Revenue
@@ -54,7 +73,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className='overflow-hidden'>
+        <Card className='overflow-hidden transition-shadow hover:shadow-md'>
           <CardHeader className='flex flex-row items-center justify-between pb-2'>
             <CardTitle className='text-sm font-medium text-muted-foreground'>
               New Users (Month)
@@ -67,7 +86,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className='overflow-hidden'>
+        <Card className='overflow-hidden transition-shadow hover:shadow-md'>
           <CardHeader className='flex flex-row items-center justify-between pb-2'>
             <CardTitle className='text-sm font-medium text-muted-foreground'>
               Active Projects

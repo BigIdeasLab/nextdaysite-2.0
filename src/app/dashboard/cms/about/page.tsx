@@ -3,6 +3,8 @@
 import { useAboutPageContent } from '@/hooks/use-about-content'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { AboutPageContentForm } from '@/components/forms/about-page-content-form'
+import { PageHeader } from '@/components/ui/page-header'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function CmsAboutPage() {
   const { data: aboutContent, isLoading } = useAboutPageContent()
@@ -16,9 +18,13 @@ export default function CmsAboutPage() {
   }
 
   return (
-    <div className='container mx-auto py-8'>
-      <h1 className='text-3xl font-bold mb-6'>Edit About Page Content</h1>
-      <AboutPageContentForm initialData={aboutContent} />
+    <div>
+      <PageHeader title='About' subtitle='Edit About page content' />
+      <Card>
+        <CardContent className='pt-6'>
+          <AboutPageContentForm initialData={aboutContent} />
+        </CardContent>
+      </Card>
     </div>
   )
 }

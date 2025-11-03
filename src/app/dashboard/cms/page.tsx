@@ -64,7 +64,7 @@ export default function CmsDashboardPage() {
           const Icon = item.icon
           return (
             <Link key={item.href} href={item.href} className='group'>
-              <Card className='h-full cursor-pointer transition-colors group-hover:border-gray-300 dark:group-hover:border-gray-700'>
+              <Card className='h-full cursor-pointer transition-all hover:shadow-md'>
                 <CardHeader className='flex items-center gap-3'>
                   <span className='inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-foreground/80 dark:border-gray-800 dark:bg-gray-900'>
                     <Icon className='h-4 w-4' />

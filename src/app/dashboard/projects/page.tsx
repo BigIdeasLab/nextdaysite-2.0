@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table'
 import { PageHeader } from '@/components/ui/page-header'
 import { Database } from '@/types/database'
+import { Card, CardContent } from '@/components/ui/card'
 
 type Project = Database['public']['Tables']['projects']['Row']
 
@@ -44,36 +45,38 @@ export default function ProjectsPage() {
   return (
     <div>
       <PageHeader title='Projects' subtitle='Track active work' />
-      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Owner ID</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {projects.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className='font-mono text-xs'>
-                  {project.id}
-                </TableCell>
-                <TableCell>{project.title}</TableCell>
-                <TableCell>
-                  <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
-                    {project.status}
-                  </span>
-                </TableCell>
-                <TableCell className='font-mono text-xs'>
-                  {project.owner_id}
-                </TableCell>
+      <Card>
+        <CardContent className='p-0'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Owner ID</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {projects.map((project) => (
+                <TableRow key={project.id}>
+                  <TableCell className='font-mono text-xs'>
+                    {project.id}
+                  </TableCell>
+                  <TableCell>{project.title}</TableCell>
+                  <TableCell>
+                    <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
+                      {project.status}
+                    </span>
+                  </TableCell>
+                  <TableCell className='font-mono text-xs'>
+                    {project.owner_id}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   )
 }
