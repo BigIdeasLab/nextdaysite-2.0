@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useLogos } from "@/hooks/use-cms-content"
+import { useLogos } from '@/hooks/use-cms-content'
 import {
   Table,
   TableBody,
@@ -8,12 +8,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import Image from "next/image"
-import { PageHeader } from "@/components/ui/page-header"
+} from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function ManageLogosPage() {
   const queryClient = useQueryClient()
@@ -21,17 +21,19 @@ export default function ManageLogosPage() {
 
   const deleteLogoMutation = useMutation({
     mutationFn: async (logoId: string) => {
-      const response = await fetch(`/api/cms/logos/${logoId}`, { method: "DELETE" })
-      if (!response.ok) throw new Error("Failed to delete logo")
+      const response = await fetch(`/api/cms/logos/${logoId}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) throw new Error('Failed to delete logo')
       return response.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["logos"] })
+      queryClient.invalidateQueries({ queryKey: ['logos'] })
     },
   })
 
   const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this logo?")) {
+    if (confirm('Are you sure you want to delete this logo?')) {
       deleteLogoMutation.mutate(id)
     }
   }
@@ -41,22 +43,22 @@ export default function ManageLogosPage() {
   return (
     <div>
       <PageHeader
-        title="Logos"
-        subtitle="Manage your client and partner logos"
+        title='Logos'
+        subtitle='Manage your client and partner logos'
         action={
-          <Link href="/dashboard/cms/logos/new">
+          <Link href='/dashboard/cms/logos/new'>
             <Button>Add New Logo</Button>
           </Link>
         }
       />
 
-      <div className="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
+      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Image</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className='text-right'>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -68,21 +70,23 @@ export default function ManageLogosPage() {
                     alt={logo.name}
                     width={logo.width || 50}
                     height={logo.height || 50}
-                    className="rounded-md"
+                    className='rounded-md'
                   />
                 </TableCell>
-                <TableCell className="font-medium">{logo.name}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className='font-medium'>{logo.name}</TableCell>
+                <TableCell className='text-right'>
                   <Link href={`/dashboard/cms/logos/edit/${logo.id}`}>
-                    <Button variant="outline" size="sm" className="mr-2">Edit</Button>
+                    <Button variant='outline' size='sm' className='mr-2'>
+                      Edit
+                    </Button>
                   </Link>
                   <Button
-                    variant="destructive"
-                    size="sm"
+                    variant='destructive'
+                    size='sm'
                     onClick={() => handleDelete(logo.id)}
                     disabled={deleteLogoMutation.isPending}
                   >
-                    {deleteLogoMutation.isPending ? "Deleting..." : "Delete"}
+                    {deleteLogoMutation.isPending ? 'Deleting...' : 'Delete'}
                   </Button>
                 </TableCell>
               </TableRow>
@@ -91,9 +95,9 @@ export default function ManageLogosPage() {
         </Table>
       </div>
 
-      <div className="mt-4">
-        <Link href="/dashboard/cms">
-          <Button variant="outline">Back to CMS Dashboard</Button>
+      <div className='mt-4'>
+        <Link href='/dashboard/cms'>
+          <Button variant='outline'>Back to CMS Dashboard</Button>
         </Link>
       </div>
     </div>
