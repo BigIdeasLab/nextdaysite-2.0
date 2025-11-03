@@ -1,88 +1,77 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import Link from 'next/link'
-import { MessageSquare, Newspaper, Image as ImageIcon } from 'lucide-react'
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { PageHeader } from "@/components/ui/page-header"
+import Link from "next/link"
+import { MessageSquare, Newspaper, Image as ImageIcon, FolderKanban, Settings, Layers } from "lucide-react"
 
 export default function CmsDashboardPage() {
+  const items = [
+    {
+      href: "/dashboard/cms/services",
+      title: "Services",
+      description: "Manage the services your business offers.",
+      icon: Layers,
+      cta: "Manage Services",
+    },
+    {
+      href: "/dashboard/cms/portfolio",
+      title: "Portfolio",
+      description: "Manage the projects in your portfolio.",
+      icon: FolderKanban,
+      cta: "Manage Portfolio",
+    },
+    {
+      href: "/dashboard/cms/testimonials",
+      title: "Testimonials",
+      description: "Add, edit, and delete customer quotes.",
+      icon: MessageSquare,
+    },
+    {
+      href: "/dashboard/cms/pages",
+      title: "Pages",
+      description: "Create and update your pages.",
+      icon: Newspaper,
+    },
+    {
+      href: "/dashboard/cms/logos",
+      title: "Logos",
+      description: "Manage client and partner logos.",
+      icon: ImageIcon,
+    },
+    {
+      href: "/dashboard/cms/settings",
+      title: "Settings",
+      description: "Manage global site settings.",
+      icon: Settings,
+      cta: "Manage Settings",
+    },
+  ]
+
   return (
-    <div className='flex flex-col gap-4'>
-      <h1 className='text-2xl font-bold'>CMS Dashboard</h1>
-      <p>Select a content type to manage.</p>
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
-        <Link href='/dashboard/cms/services'>
-          <Card className='cursor-pointer'>
-            <CardHeader>
-              <CardTitle>Services</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className='mb-4'>Manage the services your business offers.</p>
-              <Button>Manage Services</Button>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href='/dashboard/cms/portfolio'>
-          <Card className='cursor-pointer'>
-            <CardHeader>
-              <CardTitle>Portfolio</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className='mb-4'>Manage the projects in your portfolio.</p>
-              <Button>Manage Portfolio</Button>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href='/dashboard/cms/testimonials'>
-          <Card className='cursor-pointer'>
-            <CardHeader className='flex items-center gap-4'>
-              <MessageSquare className='h-6 w-6' />
-              <h3 className='text-lg font-semibold'>Testimonials</h3>
-            </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>
-                Manage your testimonials. Add, edit, and delete customer quotes.
-              </p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href='/dashboard/cms/pages'>
-          <Card className='cursor-pointer'>
-            <CardHeader className='flex items-center gap-4'>
-              <Newspaper className='h-6 w-6' />
-              <h3 className='text-lg font-semibold'>Pages</h3>
-            </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>
-                Manage your pages. Add, edit, and delete pages.
-              </p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href='/dashboard/cms/logos'>
-          <Card className='cursor-pointer'>
-            <CardHeader className='flex items-center gap-4'>
-              <ImageIcon className='h-6 w-6' />
-              <h3 className='text-lg font-semibold'>Logos</h3>
-            </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>
-                Manage your client and partner logos.
-              </p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href='/dashboard/cms/settings'>
-          <Card className='cursor-pointer'>
-            <CardHeader>
-              <CardTitle>Settings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className='mb-4'>Manage global site settings.</p>
-              <Button>Manage Settings</Button>
-            </CardContent>
-          </Card>
-        </Link>
-        {/* Add other content types here later */}
+    <div>
+      <PageHeader title="CMS" subtitle="Select a content type to manage" />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((item) => {
+          const Icon = item.icon
+          return (
+            <Link key={item.href} href={item.href} className="group">
+              <Card className="h-full cursor-pointer transition-colors group-hover:border-gray-300 dark:group-hover:border-gray-700">
+                <CardHeader className="flex items-center gap-3">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-foreground/80 dark:border-gray-800 dark:bg-gray-900">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <h3 className="text-base font-semibold">{item.title}</h3>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
+                  {item.cta ? <Button variant="outline">{item.cta}</Button> : null}
+                </CardContent>
+              </Card>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
