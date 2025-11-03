@@ -163,49 +163,45 @@ function ServiceCard({ service }: { service: ServiceRow }) {
     <div className='group flex flex-col items-center gap-9 bg-[#F5F5F5] dark:bg-[var(--dark-card)] px-8 py-[50px]'>
       <div className='relative w-[276px] h-[152px]'>
         <div
-          className='absolute flex items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
+          className='absolute flex overflow-hidden items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
           style={{
             width: '150px',
-            height: '150px',
+            height: '120px',
             left: '14.5px',
             top: '1px',
             transform: 'rotate(-12.233deg)',
             zIndex: 20,
+            border: '8px solid #393939',
+            boxShadow: '6px 4px 15px 0 rgba(0, 0, 0, 0.25)',
           }}
         >
           <Image
             src={image1Url}
             alt={`${service.title} preview 1`}
             width={150}
-            height={150}
+            height={120}
             className='rounded-sm object-cover'
-            style={{
-              border: '8px solid #393939',
-              boxShadow: '6px 4px 15px 0 rgba(0, 0, 0, 0.25)',
-            }}
           />
         </div>
         <div
-          className='absolute flex items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
+          className='absolute flex overflow-hidden items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
           style={{
             width: '150px',
-            height: '150px',
+            height: '120px',
             left: '111.5px',
             top: '-4px',
             transform: 'rotate(14.114deg)',
             zIndex: 10,
+            border: '8px solid #393939',
+            boxShadow: '0 4px 34px 0 rgba(0, 0, 0, 0.15)',
           }}
         >
           <Image
             src={image2Url}
             alt={`${service.title} preview 2`}
             width={150}
-            height={150}
+            height={120}
             className='rounded-sm object-cover'
-            style={{
-              border: '8px solid #393939',
-              boxShadow: '0 4px 34px 0 rgba(0, 0, 0, 0.15)',
-            }}
           />
         </div>
       </div>

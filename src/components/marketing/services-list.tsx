@@ -97,49 +97,45 @@ export async function ServicesList() {
           >
             <div className='relative w-[276px] h-[152px] group'>
               <div
-                className='absolute flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
+                className='absolute overflow-hidden flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
                 style={{
-                  width: '150px',
+                  width: '170px',
                   height: '150px',
                   left: '14.5px',
                   top: '1px',
                   transform: 'rotate(-12.233deg)',
                   zIndex: 20,
+                  border: '8px solid #393939',
+                  boxShadow: '6px 4px 15px 0 rgba(0, 0, 0, 0.25)',
                 }}
               >
                 <Image
                   src={service.image1_url!}
                   alt={`${service.title} preview 1`}
-                  width={150}
+                  width={170}
                   height={150}
                   className='rounded-sm object-cover'
-                  style={{
-                    border: '8px solid #393939',
-                    boxShadow: '6px 4px 15px 0 rgba(0, 0, 0, 0.25)',
-                  }}
                 />
               </div>
               <div
-                className='absolute flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
+                className='absolute overflow-hidden flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
                 style={{
-                  width: '150px',
+                  width: '170px',
                   height: '150px',
                   left: '111.5px',
                   top: '-4px',
                   transform: 'rotate(14.114deg)',
                   zIndex: 10,
+                  border: '8px solid #393939',
+                  boxShadow: '6px 4px 15px 0 rgba(0, 0, 0, 0.25)',
                 }}
               >
                 <Image
                   src={service.image2_url!}
                   alt={`${service.title} preview 2`}
-                  width={150}
+                  width={170}
                   height={150}
                   className='rounded-sm object-cover'
-                  style={{
-                    border: '8px solid #393939',
-                    boxShadow: '0 4px 34px 0 rgba(0, 0, 0, 0.15)',
-                  }}
                 />
               </div>
             </div>

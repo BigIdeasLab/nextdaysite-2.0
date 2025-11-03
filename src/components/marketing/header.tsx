@@ -46,7 +46,7 @@ export function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProps) {
 
   return (
     <header
-      className={`header-root absolute top-0 z-40 w-full transition-all ${
+      className={`header-root fixed top-0 z-40 w-full transition-all ${
         show || mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
       } ${
         addBackground
