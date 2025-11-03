@@ -12,9 +12,9 @@ import {
   Tags,
   Library,
 } from "lucide-react"
-import { Fragment, useMemo } from "react"
+import { Fragment, useMemo, type ComponentType } from "react"
 
-type MenuItem = { label: string; href: string; icon: React.ComponentType<any> }
+type MenuItem = { label: string; href: string; icon: ComponentType<any> }
 
 const dashboardMenu: MenuItem[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
