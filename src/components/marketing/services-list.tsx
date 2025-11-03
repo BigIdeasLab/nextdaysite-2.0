@@ -90,6 +90,7 @@ export async function ServicesList() {
       <div className='mx-auto flex w-full max-w-5xl flex-col items-center gap-48'>
         {services.map((service, index) => (
           <div
+            id={service.title.toLowerCase().replace(/\s+/g, '-')}
             key={service.id}
             className={`flex w-full flex-col items-center gap-16 md:justify-center ${
               index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'

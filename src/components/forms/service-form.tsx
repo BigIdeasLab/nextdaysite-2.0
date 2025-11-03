@@ -54,7 +54,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['service', item.id] })
       }
-      console.log('Image1 URL updated in form data and DB.')
     },
   })
 
@@ -81,7 +80,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
         queryClient.invalidateQueries({ queryKey: ['service', item.id] })
       }
       setFormData((prev) => ({ ...prev, image1_url: '' })) // Clear local state
-      console.log('Image1 URL cleared from form data and DB updated.')
     },
   })
 
@@ -125,7 +123,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['service', item.id] })
       }
-      console.log('Image2 URL updated in form data and DB.')
     },
   })
 
@@ -152,7 +149,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
         queryClient.invalidateQueries({ queryKey: ['service', item.id] })
       }
       setFormData((prev) => ({ ...prev, image2_url: '' })) // Clear local state
-      console.log('Image2 URL cleared from form data and DB updated.')
     },
   })
 
@@ -206,10 +202,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
     const key = url.pathname.split('/').pop()
 
     if (!key) {
-      console.error(
-        'Could not extract key from image URL:',
-        formData.image1_url,
-      )
       alert('Could not extract image key for deletion.')
       return
     }
@@ -230,7 +222,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
       // Then, update the database via the new mutation
       deleteImage1Mutation.mutate(item.id)
     } catch (error: any) {
-      console.error('Error deleting image:', error)
       alert(error.message)
     }
   }
@@ -242,10 +233,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
     const key = url.pathname.split('/').pop()
 
     if (!key) {
-      console.error(
-        'Could not extract key from image URL:',
-        formData.image2_url,
-      )
       alert('Could not extract image key for deletion.')
       return
     }
@@ -266,7 +253,6 @@ export function ServiceForm({ item }: ServiceFormProps) {
       // Then, update the database via the new mutation
       deleteImage2Mutation.mutate(item.id)
     } catch (error: any) {
-      console.error('Error deleting image:', error)
       alert(error.message)
     }
   }

@@ -53,7 +53,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['portfolio-item', item.id] })
       }
-      console.log('Image URL updated in form data and DB.')
     },
   })
 
@@ -83,7 +82,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
       return response.json()
     },
     onSuccess: () => {
-      console.log('Main mutation onSuccess triggered, navigating...')
       queryClient.invalidateQueries({ queryKey: ['portfolio-items'] })
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['portfolio-item', item.id] })
@@ -124,7 +122,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
         queryClient.invalidateQueries({ queryKey: ['portfolio-item', item.id] })
       }
       setFormData((prev) => ({ ...prev, image_url: '' })) // Clear local state
-      console.log('Image URL cleared from form data and DB updated.')
     },
   })
 
@@ -135,7 +132,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
     const key = url.pathname.split('/').pop()
 
     if (!key) {
-      console.error('Could not extract key from image URL:', formData.image_url)
       alert('Could not extract image key for deletion.')
       return
     }
@@ -156,7 +152,6 @@ export function PortfolioItemForm({ item }: PortfolioItemFormProps) {
       // Then, update the database via the new mutation
       deleteImageMutation.mutate(item.id)
     } catch (error: any) {
-      console.error('Error deleting image:', error)
       alert(error.message)
     }
   }

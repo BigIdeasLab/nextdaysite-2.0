@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/components/ui/page-header'
+import { Database } from '@/types/database'
 import {
   Table,
   TableBody,
@@ -12,15 +13,8 @@ import {
 } from '@/components/ui/table'
 import { Card, CardContent } from '@/components/ui/card'
 
-type ContactSubmission = {
-  id: string
-  first_name: string
-  last_name: string
-  email: string
-  service: string | null
-  description: string | null
-  created_at: string | null
-}
+type ContactSubmission =
+  Database['public']['Tables']['contact_submissions']['Row']
 
 export default function DashboardContactPage() {
   const [submissions, setSubmissions] = useState<ContactSubmission[]>([])
@@ -34,8 +28,10 @@ export default function DashboardContactPage() {
         if (!res.ok) throw new Error('Failed to fetch contact submissions')
         const data = await res.json()
         setSubmissions(data)
-      } catch (err: any) {
-        setError(err.message || 'Unknown error')
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : 'An unknown error occurred',
+        )
       } finally {
         setLoading(false)
       }

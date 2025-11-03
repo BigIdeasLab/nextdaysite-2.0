@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type PricingTab = 'fixed-rate' | 'payment-plan'
 
@@ -413,14 +414,15 @@ function PricingCard({
               {loading ? 'Redirecting...' : 'Pay Now'}
             </span>
           </button>
-          {/* <button
+          <Link
             type='button'
+            href='/contact'
             className='flex h-12 w-full items-center justify-center rounded-[30px] bg-[#161616] px-5 transition-transform hover:scale-105 sm:w-[156px]'
           >
             <span className='text-base font-medium leading-5 text-[var(--light-text)]'>
               Customize
             </span>
-          </button> */}
+          </Link>
         </div>
       </div>
     </div>

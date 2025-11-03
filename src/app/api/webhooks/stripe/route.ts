@@ -34,7 +34,6 @@ export async function POST(request: NextRequest) {
         getStripeWebhookSecret(),
       )
     } catch (err) {
-      console.error('Webhook signature verification failed:', err)
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
     }
 
@@ -46,7 +45,6 @@ export async function POST(request: NextRequest) {
       .maybeSingle()
 
     if (existingEvent) {
-      console.log(`Event ${event.id} already processed`)
       return NextResponse.json({ received: true })
     }
 
@@ -82,12 +80,10 @@ export async function POST(request: NextRequest) {
         break
 
       default:
-        console.log(`Unhandled event type: ${event.type}`)
     }
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error('Webhook error:', error)
     return NextResponse.json(
       { error: 'Webhook processing failed' },
       { status: 500 },
@@ -108,7 +104,6 @@ async function handleCheckoutSessionCompleted(
     // Get email from session
     const email = session.customer_details?.email
     if (!email) {
-      console.error('No email found in checkout session')
       return
     }
 
@@ -132,7 +127,6 @@ async function handleCheckoutSessionCompleted(
         })
 
       if (authError || !newAuthUser.user) {
-        console.error('Error creating user:', authError)
         return
       }
 
@@ -151,12 +145,10 @@ async function handleCheckoutSessionCompleted(
         .single()
 
       if (upsertError) {
-        console.error('Error upserting user profile:', upsertError)
         return
       }
 
       if (!userRecord) {
-        console.error('Failed to create or find user profile.')
         return
       }
 
@@ -171,10 +163,6 @@ async function handleCheckoutSessionCompleted(
         .eq('id', userId)
 
       if (updateError) {
-        console.error(
-          'Error updating user record with Stripe info:',
-          updateError,
-        )
       }
     }
 
@@ -200,7 +188,6 @@ async function handleCheckoutSessionCompleted(
       .single()
 
     if (projectError) {
-      console.error('Error creating project:', projectError)
     }
 
     const projectId = newProject?.id || null
@@ -220,7 +207,6 @@ async function handleCheckoutSessionCompleted(
       .maybeSingle()
 
     if (existingInvoice) {
-      console.log(`Invoice already exists for session ${session.id}`)
       return
     }
 
@@ -257,7 +243,6 @@ async function handleCheckoutSessionCompleted(
       .insert(invoiceData)
 
     if (newInvoiceError) {
-      console.error('Error creating invoice:', newInvoiceError)
     }
 
     // For subscriptions, create subscription record
@@ -298,15 +283,12 @@ async function handleCheckoutSessionCompleted(
         .from('subscriptions')
         .insert(subscriptionData)
       if (subError) {
-        console.error('Error creating subscription:', subError)
       }
     }
 
     // Send magic link to user
     await sendMagicLinkToUser(email, projectSlug)
-  } catch (error) {
-    console.error('Error handling checkout session completed:', error)
-  }
+  } catch (error) {}
 }
 
 async function sendMagicLinkToUser(
@@ -326,13 +308,9 @@ async function sendMagicLinkToUser(
     })
 
     if (error) {
-      console.error('[sendMagicLinkToUser] Error sending magic link:', error)
     } else {
-      console.log(`[sendMagicLinkToUser] Magic link sent to ${email}.`)
     }
-  } catch (error) {
-    console.error('[sendMagicLinkToUser] Caught exception:', error)
-  }
+  } catch (error) {}
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
@@ -356,11 +334,8 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       .eq('stripe_subscription_id', subscription.id)
 
     if (error) {
-      console.error('Error updating subscription:', error)
     }
-  } catch (error) {
-    console.error('Error handling subscription updated:', error)
-  }
+  } catch (error) {}
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
@@ -373,11 +348,8 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
       .eq('stripe_subscription_id', subscription.id)
 
     if (error) {
-      console.error('Error deleting subscription:', error)
     }
-  } catch (error) {
-    console.error('Error handling subscription deleted:', error)
-  }
+  } catch (error) {}
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
@@ -387,7 +359,6 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         ? invoice.customer
         : invoice.customer?.id
     if (!customerId) {
-      console.error('No customer ID found in invoice')
       return
     }
 
@@ -398,7 +369,6 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
       .single()
 
     if (userError || !user) {
-      console.error(`User not found for customer ID ${customerId}`, userError)
       return
     }
 
@@ -421,10 +391,6 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         .single()
 
       if (subError || !subscription) {
-        console.error(
-          `Subscription not found for ID ${subscriptionId}`,
-          subError,
-        )
       } else {
         projectId = subscription.project_id
         planId = subscription.plan_id
@@ -441,7 +407,6 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
       .maybeSingle()
 
     if (existingInvoice) {
-      console.log(`Invoice ${invoice.id} already exists.`)
       return
     }
 
@@ -468,16 +433,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
       .insert(invoiceData)
 
     if (newInvoiceError) {
-      console.error(
-        'Error creating invoice from invoice.payment_succeeded:',
-        newInvoiceError,
-      )
     } else {
-      console.log(
-        `Successfully created invoice ${invoice.id} for user ${userId}`,
-      )
     }
-  } catch (error) {
-    console.error('Error in handleInvoicePaymentSucceeded:', error)
-  }
+  } catch (error) {}
 }

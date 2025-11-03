@@ -53,7 +53,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
       }
-      console.log('Avatar URL updated in form data and DB.')
     },
   })
 
@@ -80,7 +79,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
         queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
       }
       setFormData((prev) => ({ ...prev, avatar_url: '' })) // Clear local state
-      console.log('Avatar URL cleared from form data and DB updated.')
     },
   })
 
@@ -110,7 +108,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
       }
-      console.log('Logo URL updated in form data and DB.')
     },
   })
 
@@ -135,7 +132,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
         queryClient.invalidateQueries({ queryKey: ['testimonial', item.id] })
       }
       setFormData((prev) => ({ ...prev, logo_url: '' })) // Clear local state
-      console.log('Logo URL cleared from form data and DB updated.')
     },
   })
 
@@ -198,10 +194,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
     const key = url.pathname.split('/').pop()
 
     if (!key) {
-      console.error(
-        'Could not extract key from avatar URL:',
-        formData.avatar_url,
-      )
       alert('Could not extract avatar key for deletion.')
       return
     }
@@ -222,7 +214,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
       // Then, update the database via the new mutation
       deleteAvatarMutation.mutate(item.id)
     } catch (error: any) {
-      console.error('Error deleting avatar:', error)
       alert(error.message)
     }
   }
@@ -241,7 +232,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
     const key = url.pathname.split('/').pop()
 
     if (!key) {
-      console.error('Could not extract key from logo URL:', formData.logo_url)
       alert('Could not extract logo key for deletion.')
       return
     }
@@ -262,7 +252,6 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
       // Then, update the database via the new mutation
       deleteLogoMutation.mutate(item.id)
     } catch (error: any) {
-      console.error('Error deleting logo:', error)
       alert(error.message)
     }
   }

@@ -32,9 +32,6 @@ export function VideoPlayerClient({ src }: VideoPlayerClientProps) {
     clearVideoTimeout()
     timeoutRef.current = setTimeout(() => {
       if (!videoLoaded && !isFallbackActive) {
-        console.log(
-          'Video loading timed out, switching to fallback: /Scene-1.mp4',
-        )
         setIsFallbackActive(true)
         setVideoLoaded(false)
       }
@@ -44,25 +41,14 @@ export function VideoPlayerClient({ src }: VideoPlayerClientProps) {
   }, [videoLoaded, isFallbackActive])
 
   const handleCanPlayThrough = () => {
-    console.log('Video can play through')
     clearVideoTimeout()
     setVideoLoaded(true)
   }
 
   const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     const videoElement = e.target as HTMLVideoElement
-    console.error(
-      'Video error:',
-      videoElement.error?.code,
-      videoElement.error?.message,
-      'Network State:',
-      videoElement.networkState,
-      'Ready State:',
-      videoElement.readyState,
-    )
     clearVideoTimeout()
     if (!isFallbackActive) {
-      console.log('Attempting to load fallback video: /Scene-1.mp4')
       setIsFallbackActive(true)
       setVideoLoaded(false)
     } else {

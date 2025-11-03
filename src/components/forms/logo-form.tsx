@@ -51,7 +51,6 @@ export function LogoForm({ item }: LogoFormProps) {
       if (item) {
         queryClient.invalidateQueries({ queryKey: ['logo', item.id] })
       }
-      console.log('Image URL updated in form data and DB.')
     },
   })
 
@@ -75,7 +74,6 @@ export function LogoForm({ item }: LogoFormProps) {
         queryClient.invalidateQueries({ queryKey: ['logo', item.id] })
       }
       setFormData((prev) => ({ ...prev, image_url: '' })) // Clear local state
-      console.log('Image URL cleared from form data and DB updated.')
     },
   })
   const handleUploadSuccess = (url: string) => {
@@ -92,7 +90,6 @@ export function LogoForm({ item }: LogoFormProps) {
     const key = url.pathname.split('/').pop()
 
     if (!key) {
-      console.error('Could not extract key from image URL:', formData.image_url)
       alert('Could not extract image key for deletion.')
       return
     }
@@ -113,7 +110,6 @@ export function LogoForm({ item }: LogoFormProps) {
       // Then, update the database via the new mutation
       deleteImageMutation.mutate(item.id)
     } catch (error: any) {
-      console.error('Error deleting image:', error)
       alert(error.message)
     }
   }

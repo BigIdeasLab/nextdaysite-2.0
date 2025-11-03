@@ -37,9 +37,7 @@ export function S3Upload({ onUploadSuccess }: S3UploadProps) {
 
   const mutation = useMutation({
     mutationFn: async (file: File) => {
-      console.log('mutationFn: Starting S3 upload for file:', file.name)
       if (!s3) {
-        console.error('mutationFn: S3 client not initialized')
         throw new Error('S3 client not initialized')
       }
 
@@ -49,26 +47,21 @@ export function S3Upload({ onUploadSuccess }: S3UploadProps) {
         Body: file,
       }
 
-      console.log('mutationFn: S3 upload parameters:', params)
       const upload = s3.upload(params)
 
       upload.on('httpUploadProgress', (p) => {
         setUploadProgress((p.loaded / p.total) * 100)
-        // console.log('Upload progress:', (p.loaded / p.total) * 100)
       })
 
       const data = await upload.promise()
-      console.log('mutationFn: S3 upload successful, data:', data)
       return data.Location
     },
     onSuccess: (url: string) => {
-      console.log('mutationFn: onSuccess triggered, URL:', url)
       onUploadSuccess(url)
       setFile(null)
       setUploadProgress(0)
     },
     onError: (error) => {
-      console.error('mutationFn: onError triggered, error:', error)
       alert(`Upload failed: ${error.message}`)
     },
   })
@@ -76,17 +69,13 @@ export function S3Upload({ onUploadSuccess }: S3UploadProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0])
-      console.log('File selected:', e.target.files[0].name)
     }
   }
 
   const handleUpload = () => {
-    console.log('Upload button clicked.')
     if (file) {
-      console.log('File exists, initiating upload for:', file.name)
       mutation.mutate(file)
     } else {
-      console.log('No file selected to upload.')
       alert('Please select a file first.')
     }
   }

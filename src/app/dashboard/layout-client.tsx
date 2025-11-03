@@ -19,7 +19,7 @@ import { Fragment, useMemo, type ComponentType } from 'react'
 type MenuItem = { label: string; href: string; icon: ComponentType<any> }
 
 const dashboardMenu: MenuItem[] = [
-  { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  // { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Contacts', href: '/dashboard/contact', icon: MessageSquare },
   { label: 'Users', href: '/dashboard/users', icon: Users },
   { label: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
@@ -29,15 +29,15 @@ const dashboardMenu: MenuItem[] = [
 ]
 
 const cmsMenu: MenuItem[] = [
-  { label: 'Back', href: '/dashboard', icon: LayoutDashboard },
+  // { label: 'Back', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Logos', href: '/dashboard/cms/logos', icon: Tags },
   { label: 'Portfolio', href: '/dashboard/cms/portfolio', icon: FolderKanban },
   { label: 'Services', href: '/dashboard/cms/services', icon: Library },
   { label: 'Testimonials', href: '/dashboard/cms/testimonials', icon: Users },
   { label: 'Showreel', href: '/dashboard/cms/showreels', icon: Receipt },
   { label: 'About', href: '/dashboard/cms/about', icon: Tags },
-  { label: 'Pages', href: '/dashboard/cms/pages', icon: Library },
-  { label: 'Settings', href: '/dashboard/cms/settings', icon: Receipt },
+  // { label: 'Pages', href: '/dashboard/cms/pages', icon: Library },
+  // { label: 'Settings', href: '/dashboard/cms/settings', icon: Receipt },
 ]
 
 export function DashboardLayoutClient({
@@ -105,15 +105,18 @@ export function DashboardLayoutClient({
           <nav className='hidden md:flex items-center gap-2 text-sm text-muted-foreground/80'>
             {breadcrumbs.map((crumb, i) => (
               <Fragment key={`${crumb}-${i}`}>
-                <span
-                  className={
-                    i === breadcrumbs.length - 1
-                      ? 'text-foreground font-medium'
-                      : 'hover:text-foreground/90'
-                  }
-                >
-                  {crumb.charAt(0).toUpperCase() + crumb.slice(1)}
-                </span>
+                {i === breadcrumbs.length - 1 ? (
+                  <span className='text-foreground font-medium'>
+                    {crumb.charAt(0).toUpperCase() + crumb.slice(1)}
+                  </span>
+                ) : (
+                  <Link
+                    href={'/' + breadcrumbs.slice(0, i + 1).join('/')}
+                    className='hover:text-foreground/90'
+                  >
+                    {crumb.charAt(0).toUpperCase() + crumb.slice(1)}
+                  </Link>
+                )}
                 {i < breadcrumbs.length - 1 ? (
                   <span className='text-muted-foreground/50'>/</span>
                 ) : null}

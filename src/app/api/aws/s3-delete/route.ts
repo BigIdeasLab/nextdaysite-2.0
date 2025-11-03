@@ -4,7 +4,6 @@ import AWS from 'aws-sdk'
 export async function POST(req: NextRequest) {
   try {
     const { key } = await req.json()
-    console.log('Attempting to delete object with key:', key)
 
     if (!key) {
       return NextResponse.json({ error: 'Key is required' }, { status: 400 })
@@ -14,9 +13,6 @@ export async function POST(req: NextRequest) {
     const region = process.env.AWS_S3_REGION
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
-
-    console.log('Bucket Name:', bucketName)
-    console.log('Region:', region)
 
     if (!bucketName || !region || !accessKeyId || !secretAccessKey) {
       console.error('AWS S3 credentials not configured')
@@ -41,7 +37,6 @@ export async function POST(req: NextRequest) {
 
     await s3.deleteObject(params).promise()
 
-    console.log('Image deleted successfully:', key)
     return NextResponse.json({ message: 'Image deleted successfully' })
   } catch (error: any) {
     console.error('Error deleting image from S3:', error)

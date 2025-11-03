@@ -11,10 +11,19 @@ import {
   FolderKanban,
   Settings,
   Layers,
+  Info,
+  Film,
 } from 'lucide-react'
 
 export default function CmsDashboardPage() {
   const items = [
+    {
+      href: '/dashboard/cms/about',
+      title: 'About',
+      description: 'Manage the content on your about page.',
+      icon: Info,
+      cta: 'Manage Content',
+    },
     {
       href: '/dashboard/cms/services',
       title: 'Services',
@@ -35,24 +44,31 @@ export default function CmsDashboardPage() {
       description: 'Add, edit, and delete customer quotes.',
       icon: MessageSquare,
     },
-    {
-      href: '/dashboard/cms/pages',
-      title: 'Pages',
-      description: 'Create and update your pages.',
-      icon: Newspaper,
-    },
+    // {
+    //   href: '/dashboard/cms/pages',
+    //   title: 'Pages',
+    //   description: 'Create and update your pages.',
+    //   icon: Newspaper,
+    // },
     {
       href: '/dashboard/cms/logos',
       title: 'Logos',
       description: 'Manage client and partner logos.',
       icon: ImageIcon,
     },
+    // {
+    //   href: '/dashboard/cms/settings',
+    //   title: 'Settings',
+    //   description: 'Manage global site settings.',
+    //   icon: Settings,
+    //   cta: 'Manage Settings',
+    // },
     {
-      href: '/dashboard/cms/settings',
-      title: 'Settings',
-      description: 'Manage global site settings.',
-      icon: Settings,
-      cta: 'Manage Settings',
+      href: '/dashboard/cms/showreels',
+      title: 'Showreels',
+      description: 'Manage your showreel videos.',
+      icon: Film,
+      cta: 'Manage Showreels',
     },
   ]
 

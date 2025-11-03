@@ -1,26 +1,41 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const footerSections = [
   {
     title: 'Services',
     links: [
-      { label: 'Web Design', href: '/services/web-design' },
-      { label: 'Mobile App', href: '/services/mobile-app' },
-      { label: 'Branding', href: '/services/branding' },
-      { label: 'CMS Integration', href: '/services/cms-integration' },
-      { label: 'UI Kit', href: '/services/ui-kit', underline: false },
+      { label: 'Web Dev', href: '/services#website-development' },
+      { label: 'Mobile App', href: '/services#mobile-app' },
+      { label: 'Branding', href: '/services#branding' },
+      { label: 'CMS Integration', href: '/services#cms-integration' },
+      {
+        label: 'Visual Identity',
+        href: '/services#visual-identity-design',
+      },
+      {
+        label: 'Brand Guide',
+        href: '/services#brand-guidelines',
+        underline: false,
+      },
     ],
   },
   {
     title: 'Contact',
     links: [
-      { label: 'hello@nextdaysite.com', href: 'mailto:hello@nextdaysite.com' },
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'LinkedIn', href: 'https://linkedin.com' },
-      { label: 'Twitter', href: 'https://twitter.com' },
-      { label: 'Discord', href: 'https://discord.com' },
-      { label: 'Telegram', href: 'https://telegram.org' },
+      { label: 'wow@nextdaysite.com', href: 'mailto:wow@nextdaysite.com' },
+      // { label: 'Privacy Policy', href: '/privacy' },
+      {
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/company/nextdaysite.com/',
+      },
+      { label: 'Twitter', href: 'https://x.com/Web_Nextdaysite' },
+      // { label: 'Discord', href: 'https://discord.com' },
+      { label: 'Instagram', href: 'https://www.instagram.com/nextdaysite/' },
     ],
   },
   {
@@ -28,14 +43,45 @@ const footerSections = [
     links: [
       { label: 'About', href: '/about' },
       { label: 'Portfolio', href: '/portfolio' },
-      { label: 'Career', href: '/careers' },
+      { label: 'Logo', href: '/logo' },
       { label: 'Contact', href: '/contact' },
-      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Service', href: '/services' },
     ],
   },
 ]
 
 export function RedesignedFooter() {
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const handleScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (href.startsWith('/services#')) {
+      e.preventDefault()
+      const [path, hash] = href.split('#')
+      if (pathname === path) {
+        const element = document.getElementById(hash)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      } else {
+        router.push(href)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (pathname.includes('/services#')) {
+      const hash = pathname.split('#')[1]
+      const element = document.getElementById(hash)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }
+  }, [pathname])
+
   return (
     <footer className='w-full bg-background px-4 py-8 transition-colors duration-300 sm:px-6 md:px-8 lg:px-12'>
       <div className='mx-auto flex w-full max-w-7xl flex-col gap-8 md:flex-row md:items-start md:gap-16 lg:gap-24'>
@@ -60,6 +106,7 @@ export function RedesignedFooter() {
                   <Link
                     key={link.label}
                     href={link.href}
+                    onClick={(e) => handleScroll(e, link.href)}
                     className={`text-sm text-primary transition-colors hover:text-primary/80 md:text-base lg:text-lg ${
                       link.underline ? 'underline' : ''
                     }`}
