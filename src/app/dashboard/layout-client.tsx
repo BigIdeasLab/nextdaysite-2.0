@@ -12,6 +12,7 @@ import {
   Tags,
   Library,
   Search,
+  MessageSquare,
 } from 'lucide-react'
 import { Fragment, useMemo, type ComponentType } from 'react'
 
@@ -19,6 +20,7 @@ type MenuItem = { label: string; href: string; icon: ComponentType<any> }
 
 const dashboardMenu: MenuItem[] = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  { label: 'Contacts', href: '/dashboard/contact', icon: MessageSquare },
   { label: 'Users', href: '/dashboard/users', icon: Users },
   { label: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
   { label: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
