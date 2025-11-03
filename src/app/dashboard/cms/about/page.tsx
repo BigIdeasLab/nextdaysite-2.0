@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useAboutPageContent } from '@/hooks/use-about-content'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
@@ -19,9 +19,9 @@ export default function CmsAboutPage() {
 
   return (
     <div>
-      <PageHeader title="About" subtitle="Edit About page content" />
+      <PageHeader title='About' subtitle='Edit About page content' />
       <Card>
-        <CardContent className="pt-6">
+        <CardContent className='pt-6'>
           <AboutPageContentForm initialData={aboutContent} />
         </CardContent>
       </Card>

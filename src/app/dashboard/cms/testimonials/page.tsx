@@ -1,7 +1,14 @@
-"use client"
+'use client'
 
 import { useTestimonials } from '@/hooks/use-cms-content'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,7 +22,9 @@ export default function ManageTestimonialsPage() {
 
   const deleteMutation = useMutation({
     mutationFn: async (itemId: string) => {
-      const response = await fetch(`/api/cms/testimonials/${itemId}`, { method: 'DELETE' })
+      const response = await fetch(`/api/cms/testimonials/${itemId}`, {
+        method: 'DELETE',
+      })
       if (!response.ok) throw new Error('Failed to delete item')
       return response.json()
     },
@@ -36,17 +45,17 @@ export default function ManageTestimonialsPage() {
   return (
     <div>
       <PageHeader
-        title="Testimonials"
-        subtitle="Manage what customers are saying"
+        title='Testimonials'
+        subtitle='Manage what customers are saying'
         action={
-          <Link href="/dashboard/cms/testimonials/new">
+          <Link href='/dashboard/cms/testimonials/new'>
             <Button>Add New Testimonial</Button>
           </Link>
         }
       />
 
       <Card>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <Table>
             <TableHeader>
               <TableRow>
@@ -54,31 +63,47 @@ export default function ManageTestimonialsPage() {
                 <TableHead>Quote</TableHead>
                 <TableHead>Avatar</TableHead>
                 <TableHead>Logo</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {items?.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{item.quote}</TableCell>
+                  <TableCell className='font-medium'>{item.name}</TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {item.quote}
+                  </TableCell>
                   <TableCell>
                     {item.avatar_url && (
-                      <Image src={item.avatar_url} alt={item.name} width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+                      <Image
+                        src={item.avatar_url}
+                        alt={item.name}
+                        width={40}
+                        height={40}
+                        className='w-10 h-10 rounded-full object-cover'
+                      />
                     )}
                   </TableCell>
                   <TableCell>
                     {item.logo_url && (
-                      <Image src={item.logo_url} alt={`${item.name} logo`} width={40} height={40} className="w-10 h-10 object-contain" />
+                      <Image
+                        src={item.logo_url}
+                        alt={`${item.name} logo`}
+                        width={40}
+                        height={40}
+                        className='w-10 h-10 object-contain'
+                      />
                     )}
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className='text-right'>
                     <Link href={`/dashboard/cms/testimonials/edit/${item.id}`}>
-                      <Button variant="outline" size="sm" className="mr-2">Edit</Button>
+                      <Button variant='outline' size='sm' className='mr-2'>
+                        Edit
+                      </Button>
                     </Link>
                     <Button
-                      variant="destructive"
-                      size="sm"
+                      variant='destructive'
+                      size='sm'
                       onClick={() => handleDelete(item.id)}
                       disabled={deleteMutation.isPending}
                     >
@@ -92,9 +117,9 @@ export default function ManageTestimonialsPage() {
         </CardContent>
       </Card>
 
-      <div className="mt-4">
-        <Link href="/dashboard/cms">
-          <Button variant="outline">Back to CMS Dashboard</Button>
+      <div className='mt-4'>
+        <Link href='/dashboard/cms'>
+          <Button variant='outline'>Back to CMS Dashboard</Button>
         </Link>
       </div>
     </div>

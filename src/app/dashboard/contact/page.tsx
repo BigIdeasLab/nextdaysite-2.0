@@ -1,8 +1,15 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/components/ui/page-header'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Card, CardContent } from '@/components/ui/card'
 
 type ContactSubmission = {
@@ -41,9 +48,9 @@ export default function DashboardContactPage() {
 
   return (
     <div>
-      <PageHeader title="Contacts" subtitle="User contact form submissions" />
+      <PageHeader title='Contacts' subtitle='User contact form submissions' />
       <Card>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <Table>
             <TableHeader>
               <TableRow>
@@ -57,11 +64,19 @@ export default function DashboardContactPage() {
             <TableBody>
               {submissions.map((s) => (
                 <TableRow key={s.id}>
-                  <TableCell className="font-medium">{`${s.first_name} ${s.last_name}`}</TableCell>
+                  <TableCell className='font-medium'>{`${s.first_name} ${s.last_name}`}</TableCell>
                   <TableCell>{s.email}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{s.service || '-'}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground max-w-[400px] truncate">{s.description || '-'}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{s.created_at ? new Date(s.created_at).toLocaleString() : '-'}</TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {s.service || '-'}
+                  </TableCell>
+                  <TableCell className='text-sm text-muted-foreground max-w-[400px] truncate'>
+                    {s.description || '-'}
+                  </TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {s.created_at
+                      ? new Date(s.created_at).toLocaleString()
+                      : '-'}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

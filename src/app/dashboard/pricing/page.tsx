@@ -1,7 +1,14 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { PageHeader } from '@/components/ui/page-header'
 import { Database } from '@/types/database'
 import { Card, CardContent } from '@/components/ui/card'
@@ -21,7 +28,9 @@ export default function PricingPage() {
         const data = await response.json()
         setPlans(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred')
+        setError(
+          err instanceof Error ? err.message : 'An unknown error occurred',
+        )
       } finally {
         setLoading(false)
       }
@@ -35,9 +44,9 @@ export default function PricingPage() {
 
   return (
     <div>
-      <PageHeader title="Pricing" subtitle="Plan configuration" />
+      <PageHeader title='Pricing' subtitle='Plan configuration' />
       <Card>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <Table>
             <TableHeader>
               <TableRow>
@@ -50,10 +59,12 @@ export default function PricingPage() {
             <TableBody>
               {plans.map((plan) => (
                 <TableRow key={plan.id}>
-                  <TableCell className="font-mono text-xs">{plan.id}</TableCell>
+                  <TableCell className='font-mono text-xs'>{plan.id}</TableCell>
                   <TableCell>{plan.name}</TableCell>
                   <TableCell>${plan.monthly_price}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{plan.summary}</TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {plan.summary}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

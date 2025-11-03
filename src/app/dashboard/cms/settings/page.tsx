@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useSettings } from '@/hooks/use-cms-content'
 import { SettingsForm } from '@/components/forms/settings-form'
@@ -13,9 +13,9 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <PageHeader title="Settings" subtitle="Manage global site settings" />
+      <PageHeader title='Settings' subtitle='Manage global site settings' />
       <Card>
-        <CardContent className="pt-6">
+        <CardContent className='pt-6'>
           <SettingsForm initialData={settings || []} />
         </CardContent>
       </Card>

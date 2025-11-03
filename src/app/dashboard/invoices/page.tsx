@@ -1,7 +1,14 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { PageHeader } from '@/components/ui/page-header'
 import { Database } from '@/types/database'
 import { Card, CardContent } from '@/components/ui/card'
@@ -21,7 +28,9 @@ export default function InvoicesPage() {
         const data = await response.json()
         setInvoices(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred')
+        setError(
+          err instanceof Error ? err.message : 'An unknown error occurred',
+        )
       } finally {
         setLoading(false)
       }
@@ -35,9 +44,9 @@ export default function InvoicesPage() {
 
   return (
     <div>
-      <PageHeader title="Invoices" subtitle="Billing and payments" />
+      <PageHeader title='Invoices' subtitle='Billing and payments' />
       <Card>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <Table>
             <TableHeader>
               <TableRow>
@@ -50,14 +59,18 @@ export default function InvoicesPage() {
             <TableBody>
               {invoices.map((invoice) => (
                 <TableRow key={invoice.id}>
-                  <TableCell className="font-mono text-xs">{invoice.id}</TableCell>
+                  <TableCell className='font-mono text-xs'>
+                    {invoice.id}
+                  </TableCell>
                   <TableCell>${invoice.total}</TableCell>
                   <TableCell>
-                    <span className="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800">
+                    <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
                       {invoice.status}
                     </span>
                   </TableCell>
-                  <TableCell className="font-mono text-xs">{invoice.user_id}</TableCell>
+                  <TableCell className='font-mono text-xs'>
+                    {invoice.user_id}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

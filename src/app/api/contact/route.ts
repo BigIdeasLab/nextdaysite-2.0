@@ -39,7 +39,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { firstName, lastName, email, service, description } = await request.json()
+  const { firstName, lastName, email, service, description } =
+    await request.json()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -78,7 +79,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ message: 'Contact submission successful!', data }, { status: 200 })
+    return NextResponse.json(
+      { message: 'Contact submission successful!', data },
+      { status: 200 },
+    )
   } catch (error: any) {
     console.error('Unexpected error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })

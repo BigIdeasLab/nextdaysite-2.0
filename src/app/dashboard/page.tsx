@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -22,7 +22,9 @@ export default function DashboardPage() {
         const data = await response.json()
         setMetrics(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred')
+        setError(
+          err instanceof Error ? err.message : 'An unknown error occurred',
+        )
       } finally {
         setLoading(false)
       }
@@ -33,17 +35,17 @@ export default function DashboardPage() {
   if (loading)
     return (
       <div>
-        <PageHeader title="Overview" subtitle="Key metrics at a glance" />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <PageHeader title='Overview' subtitle='Key metrics at a glance' />
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
           {[0, 1, 2].map((i) => (
-            <Card key={i} className="overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <div className="h-4 w-24 rounded bg-muted animate-pulse" />
-                <div className="h-4 w-4 rounded bg-muted animate-pulse" />
+            <Card key={i} className='overflow-hidden'>
+              <CardHeader className='flex flex-row items-center justify-between pb-2'>
+                <div className='h-4 w-24 rounded bg-muted animate-pulse' />
+                <div className='h-4 w-4 rounded bg-muted animate-pulse' />
               </CardHeader>
               <CardContent>
-                <div className="h-8 w-28 rounded bg-muted animate-pulse" />
-                <div className="h-3 w-20 mt-2 rounded bg-muted animate-pulse" />
+                <div className='h-8 w-28 rounded bg-muted animate-pulse' />
+                <div className='h-3 w-20 mt-2 rounded bg-muted animate-pulse' />
               </CardContent>
             </Card>
           ))}
@@ -54,38 +56,50 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <PageHeader title="Overview" subtitle="Key metrics at a glance" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card className="overflow-hidden transition-shadow hover:shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+      <PageHeader title='Overview' subtitle='Key metrics at a glance' />
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+        <Card className='overflow-hidden transition-shadow hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-sm font-medium text-muted-foreground'>
+              Total Revenue
+            </CardTitle>
+            <DollarSign className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold">${metrics.totalRevenue.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground mt-1">All-time</p>
+            <div className='text-3xl font-semibold'>
+              ${metrics.totalRevenue.toFixed(2)}
+            </div>
+            <p className='text-xs text-muted-foreground mt-1'>All-time</p>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden transition-shadow hover:shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">New Users (Month)</CardTitle>
-            <UsersIcon className="h-4 w-4 text-muted-foreground" />
+        <Card className='overflow-hidden transition-shadow hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-sm font-medium text-muted-foreground'>
+              New Users (Month)
+            </CardTitle>
+            <UsersIcon className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold">{metrics.newUsers}</div>
-            <p className="text-xs text-muted-foreground mt-1">Last 30 days</p>
+            <div className='text-3xl font-semibold'>{metrics.newUsers}</div>
+            <p className='text-xs text-muted-foreground mt-1'>Last 30 days</p>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden transition-shadow hover:shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Active Projects</CardTitle>
-            <FolderKanban className="h-4 w-4 text-muted-foreground" />
+        <Card className='overflow-hidden transition-shadow hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-sm font-medium text-muted-foreground'>
+              Active Projects
+            </CardTitle>
+            <FolderKanban className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold">{metrics.activeProjects}</div>
-            <p className="text-xs text-muted-foreground mt-1">Currently in progress</p>
+            <div className='text-3xl font-semibold'>
+              {metrics.activeProjects}
+            </div>
+            <p className='text-xs text-muted-foreground mt-1'>
+              Currently in progress
+            </p>
           </CardContent>
         </Card>
       </div>

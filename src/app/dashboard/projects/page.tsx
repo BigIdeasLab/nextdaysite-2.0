@@ -1,7 +1,14 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { PageHeader } from '@/components/ui/page-header'
 import { Database } from '@/types/database'
 import { Card, CardContent } from '@/components/ui/card'
@@ -21,7 +28,9 @@ export default function ProjectsPage() {
         const data = await response.json()
         setProjects(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred')
+        setError(
+          err instanceof Error ? err.message : 'An unknown error occurred',
+        )
       } finally {
         setLoading(false)
       }
@@ -35,9 +44,9 @@ export default function ProjectsPage() {
 
   return (
     <div>
-      <PageHeader title="Projects" subtitle="Track active work" />
+      <PageHeader title='Projects' subtitle='Track active work' />
       <Card>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <Table>
             <TableHeader>
               <TableRow>
@@ -50,14 +59,18 @@ export default function ProjectsPage() {
             <TableBody>
               {projects.map((project) => (
                 <TableRow key={project.id}>
-                  <TableCell className="font-mono text-xs">{project.id}</TableCell>
+                  <TableCell className='font-mono text-xs'>
+                    {project.id}
+                  </TableCell>
                   <TableCell>{project.title}</TableCell>
                   <TableCell>
-                    <span className="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800">
+                    <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
                       {project.status}
                     </span>
                   </TableCell>
-                  <TableCell className="font-mono text-xs">{project.owner_id}</TableCell>
+                  <TableCell className='font-mono text-xs'>
+                    {project.owner_id}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

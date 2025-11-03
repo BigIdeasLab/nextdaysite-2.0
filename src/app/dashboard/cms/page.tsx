@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -58,22 +58,26 @@ export default function CmsDashboardPage() {
 
   return (
     <div>
-      <PageHeader title="CMS" subtitle="Select a content type to manage" />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <PageHeader title='CMS' subtitle='Select a content type to manage' />
+      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
         {items.map((item) => {
           const Icon = item.icon
           return (
-            <Link key={item.href} href={item.href} className="group">
-              <Card className="h-full cursor-pointer transition-all hover:shadow-md">
-                <CardHeader className="flex items-center gap-3">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-foreground/80 dark:border-gray-800 dark:bg-gray-900">
-                    <Icon className="h-4 w-4" />
+            <Link key={item.href} href={item.href} className='group'>
+              <Card className='h-full cursor-pointer transition-all hover:shadow-md'>
+                <CardHeader className='flex items-center gap-3'>
+                  <span className='inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-foreground/80 dark:border-gray-800 dark:bg-gray-900'>
+                    <Icon className='h-4 w-4' />
                   </span>
-                  <h3 className="text-base font-semibold">{item.title}</h3>
+                  <h3 className='text-base font-semibold'>{item.title}</h3>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
-                  {item.cta ? <Button variant="outline">{item.cta}</Button> : null}
+                  <p className='text-sm text-muted-foreground mb-4'>
+                    {item.description}
+                  </p>
+                  {item.cta ? (
+                    <Button variant='outline'>{item.cta}</Button>
+                  ) : null}
                 </CardContent>
               </Card>
             </Link>
