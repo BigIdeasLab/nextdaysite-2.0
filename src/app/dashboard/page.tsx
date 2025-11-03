@@ -1,7 +1,9 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useEffect, useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { PageHeader } from "@/components/ui/page-header"
+import { DollarSign, Users as UsersIcon, FolderKanban } from "lucide-react"
 
 export default function DashboardPage() {
   const [metrics, setMetrics] = useState({
@@ -15,60 +17,56 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const response = await fetch('/api/metrics')
-        if (!response.ok) {
-          throw new Error('Failed to fetch metrics')
-        }
+        const response = await fetch("/api/metrics")
+        if (!response.ok) throw new Error("Failed to fetch metrics")
         const data = await response.json()
         setMetrics(data)
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'An unknown error occurred',
-        )
+        setError(err instanceof Error ? err.message : "An unknown error occurred")
       } finally {
         setLoading(false)
       }
     }
-
     fetchMetrics()
   }, [])
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>
-  }
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
 
   return (
     <div>
-      <h1 className='text-3xl font-bold mb-8'>Dashboard</h1>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Revenue</CardTitle>
+      <PageHeader title="Overview" subtitle="Key metrics at a glance" />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card className="overflow-hidden">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <p className='text-4xl font-bold'>
-              ${metrics.totalRevenue.toFixed(2)}
-            </p>
+            <div className="text-3xl font-semibold">${metrics.totalRevenue.toFixed(2)}</div>
+            <p className="text-xs text-muted-foreground mt-1">All-time</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>New Users (Month)</CardTitle>
+
+        <Card className="overflow-hidden">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">New Users (Month)</CardTitle>
+            <UsersIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <p className='text-4xl font-bold'>{metrics.newUsers}</p>
+            <div className="text-3xl font-semibold">{metrics.newUsers}</div>
+            <p className="text-xs text-muted-foreground mt-1">Last 30 days</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Active Projects</CardTitle>
+
+        <Card className="overflow-hidden">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Active Projects</CardTitle>
+            <FolderKanban className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <p className='text-4xl font-bold'>{metrics.activeProjects}</p>
+            <div className="text-3xl font-semibold">{metrics.activeProjects}</div>
+            <p className="text-xs text-muted-foreground mt-1">Currently in progress</p>
           </CardContent>
         </Card>
       </div>
