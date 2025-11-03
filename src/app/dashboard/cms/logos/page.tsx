@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function ManageLogosPage() {
   const queryClient = useQueryClient()
@@ -23,9 +24,7 @@ export default function ManageLogosPage() {
       const response = await fetch(`/api/cms/logos/${logoId}`, {
         method: 'DELETE',
       })
-      if (!response.ok) {
-        throw new Error('Failed to delete logo')
-      }
+      if (!response.ok) throw new Error('Failed to delete logo')
       return response.json()
     },
     onSuccess: () => {
@@ -42,14 +41,18 @@ export default function ManageLogosPage() {
   if (error) return <div>Error loading logos: {error.message}</div>
 
   return (
-    <div className='container mx-auto py-10'>
-      <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-3xl font-bold'>Manage Logos</h1>
-        <Link href='/dashboard/cms/logos/new'>
-          <Button>Add New Logo</Button>
-        </Link>
-      </div>
-      <div className='border rounded-lg'>
+    <div>
+      <PageHeader
+        title='Logos'
+        subtitle='Manage your client and partner logos'
+        action={
+          <Link href='/dashboard/cms/logos/new'>
+            <Button>Add New Logo</Button>
+          </Link>
+        }
+      />
+
+      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
         <Table>
           <TableHeader>
             <TableRow>
@@ -91,6 +94,7 @@ export default function ManageLogosPage() {
           </TableBody>
         </Table>
       </div>
+
       <div className='mt-4'>
         <Link href='/dashboard/cms'>
           <Button variant='outline'>Back to CMS Dashboard</Button>

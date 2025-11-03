@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { PageHeader } from '@/components/ui/page-header'
 import { Database } from '@/types/database'
 
 type Project = Database['public']['Tables']['projects']['Row']
@@ -22,9 +23,7 @@ export default function ProjectsPage() {
     const fetchProjects = async () => {
       try {
         const response = await fetch('/api/projects')
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects')
-        }
+        if (!response.ok) throw new Error('Failed to fetch projects')
         const data = await response.json()
         setProjects(data)
       } catch (err) {
@@ -39,37 +38,42 @@ export default function ProjectsPage() {
     fetchProjects()
   }, [])
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>
-  }
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
 
   return (
     <div>
-      <h1 className='text-3xl font-bold mb-8'>Project Management</h1>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Owner ID</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {projects.map((project) => (
-            <TableRow key={project.id}>
-              <TableCell>{project.id}</TableCell>
-              <TableCell>{project.title}</TableCell>
-              <TableCell>{project.status}</TableCell>
-              <TableCell>{project.owner_id}</TableCell>
+      <PageHeader title='Projects' subtitle='Track active work' />
+      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Owner ID</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {projects.map((project) => (
+              <TableRow key={project.id}>
+                <TableCell className='font-mono text-xs'>
+                  {project.id}
+                </TableCell>
+                <TableCell>{project.title}</TableCell>
+                <TableCell>
+                  <span className='inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium text-foreground/80 dark:border-gray-800'>
+                    {project.status}
+                  </span>
+                </TableCell>
+                <TableCell className='font-mono text-xs'>
+                  {project.owner_id}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }

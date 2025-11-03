@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function ManageServicesPage() {
   const queryClient = useQueryClient()
@@ -23,9 +24,7 @@ export default function ManageServicesPage() {
       const response = await fetch(`/api/cms/services/${serviceId}`, {
         method: 'DELETE',
       })
-      if (!response.ok) {
-        throw new Error('Failed to delete service')
-      }
+      if (!response.ok) throw new Error('Failed to delete service')
       return response.json()
     },
     onSuccess: () => {
@@ -43,14 +42,18 @@ export default function ManageServicesPage() {
   if (error) return <div>Error loading services: {error.message}</div>
 
   return (
-    <div className='container mx-auto py-10'>
-      <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-3xl font-bold'>Manage Services</h1>
-        <Link href='/dashboard/cms/services/new'>
-          <Button>Add New Service</Button>
-        </Link>
-      </div>
-      <div className='border rounded-lg'>
+    <div>
+      <PageHeader
+        title='Services'
+        subtitle='Manage the services your business offers'
+        action={
+          <Link href='/dashboard/cms/services/new'>
+            <Button>Add New Service</Button>
+          </Link>
+        }
+      />
+
+      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
         <Table>
           <TableHeader>
             <TableRow>
@@ -87,7 +90,9 @@ export default function ManageServicesPage() {
                   )}
                 </TableCell>
                 <TableCell className='font-medium'>{service.title}</TableCell>
-                <TableCell>{service.description}</TableCell>
+                <TableCell className='text-sm text-muted-foreground'>
+                  {service.description}
+                </TableCell>
                 <TableCell className='text-right'>
                   <Link href={`/dashboard/cms/services/edit/${service.id}`}>
                     <Button variant='outline' size='sm' className='mr-2'>
@@ -108,6 +113,7 @@ export default function ManageServicesPage() {
           </TableBody>
         </Table>
       </div>
+
       <div className='mt-4'>
         <Link href='/dashboard/cms'>
           <Button variant='outline'>Back to CMS Dashboard</Button>
