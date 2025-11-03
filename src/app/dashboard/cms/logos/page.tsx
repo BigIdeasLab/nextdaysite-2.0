@@ -1,19 +1,13 @@
-'use client'
+"use client"
 
 import { useLogos } from '@/hooks/use-cms-content'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { PageHeader } from '@/components/ui/page-header'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function ManageLogosPage() {
   const queryClient = useQueryClient()
@@ -21,9 +15,7 @@ export default function ManageLogosPage() {
 
   const deleteLogoMutation = useMutation({
     mutationFn: async (logoId: string) => {
-      const response = await fetch(`/api/cms/logos/${logoId}`, {
-        method: 'DELETE',
-      })
+      const response = await fetch(`/api/cms/logos/${logoId}`, { method: 'DELETE' })
       if (!response.ok) throw new Error('Failed to delete logo')
       return response.json()
     },
@@ -43,61 +35,55 @@ export default function ManageLogosPage() {
   return (
     <div>
       <PageHeader
-        title='Logos'
-        subtitle='Manage your client and partner logos'
+        title="Logos"
+        subtitle="Manage your client and partner logos"
         action={
-          <Link href='/dashboard/cms/logos/new'>
+          <Link href="/dashboard/cms/logos/new">
             <Button>Add New Logo</Button>
           </Link>
         }
       />
 
-      <div className='rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead className='text-right'>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {logos?.map((logo) => (
-              <TableRow key={logo.id}>
-                <TableCell>
-                  <Image
-                    src={logo.image_url}
-                    alt={logo.name}
-                    width={logo.width || 50}
-                    height={logo.height || 50}
-                    className='rounded-md'
-                  />
-                </TableCell>
-                <TableCell className='font-medium'>{logo.name}</TableCell>
-                <TableCell className='text-right'>
-                  <Link href={`/dashboard/cms/logos/edit/${logo.id}`}>
-                    <Button variant='outline' size='sm' className='mr-2'>
-                      Edit
-                    </Button>
-                  </Link>
-                  <Button
-                    variant='destructive'
-                    size='sm'
-                    onClick={() => handleDelete(logo.id)}
-                    disabled={deleteLogoMutation.isPending}
-                  >
-                    {deleteLogoMutation.isPending ? 'Deleting...' : 'Delete'}
-                  </Button>
-                </TableCell>
+      <Card>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Image</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {logos?.map((logo) => (
+                <TableRow key={logo.id}>
+                  <TableCell>
+                    <Image src={logo.image_url} alt={logo.name} width={logo.width || 50} height={logo.height || 50} className="rounded-md" />
+                  </TableCell>
+                  <TableCell className="font-medium">{logo.name}</TableCell>
+                  <TableCell className="text-right">
+                    <Link href={`/dashboard/cms/logos/edit/${logo.id}`}>
+                      <Button variant="outline" size="sm" className="mr-2">Edit</Button>
+                    </Link>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(logo.id)}
+                      disabled={deleteLogoMutation.isPending}
+                    >
+                      {deleteLogoMutation.isPending ? 'Deleting...' : 'Delete'}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
-      <div className='mt-4'>
-        <Link href='/dashboard/cms'>
-          <Button variant='outline'>Back to CMS Dashboard</Button>
+      <div className="mt-4">
+        <Link href="/dashboard/cms">
+          <Button variant="outline">Back to CMS Dashboard</Button>
         </Link>
       </div>
     </div>

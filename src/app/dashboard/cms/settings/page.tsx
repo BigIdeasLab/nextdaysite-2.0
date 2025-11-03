@@ -1,7 +1,9 @@
-'use client'
+"use client"
 
 import { useSettings } from '@/hooks/use-cms-content'
 import { SettingsForm } from '@/components/forms/settings-form'
+import { PageHeader } from '@/components/ui/page-header'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function SettingsPage() {
   const { data: settings, isLoading, error } = useSettings()
@@ -10,9 +12,13 @@ export default function SettingsPage() {
   if (error) return <div>Error loading settings.</div>
 
   return (
-    <div className='container mx-auto py-10'>
-      <h1 className='text-2xl font-bold mb-4'>Manage Settings</h1>
-      <SettingsForm initialData={settings || []} />
+    <div>
+      <PageHeader title="Settings" subtitle="Manage global site settings" />
+      <Card>
+        <CardContent className="pt-6">
+          <SettingsForm initialData={settings || []} />
+        </CardContent>
+      </Card>
     </div>
   )
 }

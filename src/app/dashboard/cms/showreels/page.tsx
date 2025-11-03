@@ -1,16 +1,10 @@
-'use client'
+"use client"
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { ShowreelRow } from '@/types/models'
 import { S3Upload } from '@/components/forms/s3-upload'
@@ -73,40 +67,28 @@ export default function ShowreelCmsPage() {
 
   return (
     <div>
-      <PageHeader title='Showreels' subtitle='Manage your showreel videos' />
+      <PageHeader title="Showreels" subtitle="Manage your showreel videos" />
 
-      <Card className='mb-6'>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Upload New Showreel</CardTitle>
-          <CardDescription>
-            Add a new showreel video to your collection.
-          </CardDescription>
+          <CardDescription>Add a new showreel video to your collection.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className='space-y-4'>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor='title'>Title</Label>
-              <Input
-                id='title'
-                type='text'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder='Enter showreel title'
-                required
-              />
+              <Label htmlFor="title">Title</Label>
+              <Input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter showreel title" required />
             </div>
             <div>
               <Label>Video File</Label>
               <S3Upload onUploadSuccess={handleUploadSuccess} />
             </div>
-            <Button
-              type='submit'
-              disabled={addShowreelMutation.isPending || !videoUrl || !title}
-            >
+            <Button type="submit" disabled={addShowreelMutation.isPending || !videoUrl || !title}>
               {addShowreelMutation.isPending ? 'Adding...' : 'Add Showreel'}
             </Button>
-            {error && <p className='text-red-500 text-sm'>{error}</p>}
-            {success && <p className='text-green-600 text-sm'>{success}</p>}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {success && <p className="text-green-600 text-sm">{success}</p>}
           </form>
         </CardContent>
       </Card>
@@ -120,28 +102,18 @@ export default function ShowreelCmsPage() {
           {isLoading ? (
             <div>Loading showreels...</div>
           ) : (
-            <ul className='space-y-3'>
+            <ul className="space-y-3">
               {showreels?.map((showreel) => (
-                <li
-                  key={showreel.id}
-                  className='flex items-center justify-between rounded-md border border-gray-200 p-3 dark:border-gray-800'
-                >
+                <li key={showreel.id} className="flex items-center justify-between rounded-md border border-gray-200 p-3 dark:border-gray-800">
                   <span>{showreel.title}</span>
-                  <a
-                    href={showreel.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='text-primary hover:underline'
-                  >
+                  <a href={showreel.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                     View
                   </a>
                 </li>
               ))}
             </ul>
           )}
-          {!isLoading && showreels?.length === 0 && (
-            <p>No showreels uploaded yet.</p>
-          )}
+          {!isLoading && showreels?.length === 0 && <p>No showreels uploaded yet.</p>}
         </CardContent>
       </Card>
     </div>
