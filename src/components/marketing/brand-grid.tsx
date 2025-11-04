@@ -11,6 +11,7 @@ const fallbackLogos: (LogoRow & { description: string | null })[] = [
     width: 788,
     height: 591,
     created_at: null,
+    updated_at: null,
     description:
       'Monitor and optimize environmental impact in real-time through data analytics.',
   },
@@ -22,6 +23,7 @@ const fallbackLogos: (LogoRow & { description: string | null })[] = [
     width: 788,
     height: 591,
     created_at: null,
+    updated_at: null,
     description:
       'Monitor and optimize environmental impact in real-time through data analytics.',
   },
@@ -33,6 +35,7 @@ const fallbackLogos: (LogoRow & { description: string | null })[] = [
     width: 788,
     height: 591,
     created_at: null,
+    updated_at: null,
     description:
       'Monitor and optimize environmental impact in real-time through data analytics.',
   },
@@ -44,6 +47,7 @@ const fallbackLogos: (LogoRow & { description: string | null })[] = [
     width: 788,
     height: 591,
     created_at: null,
+    updated_at: null,
     description:
       'Monitor and optimize environmental impact in real-time through data analytics.',
   },
@@ -55,6 +59,7 @@ const fallbackLogos: (LogoRow & { description: string | null })[] = [
     width: 788,
     height: 591,
     created_at: null,
+    updated_at: null,
     description:
       'Monitor and optimize environmental impact in real-time through data analytics.',
   },
@@ -66,6 +71,7 @@ const fallbackLogos: (LogoRow & { description: string | null })[] = [
     width: 788,
     height: 591,
     created_at: null,
+    updated_at: null,
     description:
       'Monitor and optimize environmental impact in real-time through data analytics.',
   },
