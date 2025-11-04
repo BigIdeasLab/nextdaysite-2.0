@@ -324,6 +324,7 @@ export type Database = {
           id: string
           image_url: string
           name: string
+          updated_at: string | null
           width: number | null
         }
         Insert: {
@@ -333,6 +334,7 @@ export type Database = {
           id?: string
           image_url: string
           name: string
+          updated_at?: string | null
           width?: number | null
         }
         Update: {
@@ -342,6 +344,7 @@ export type Database = {
           id?: string
           image_url?: string
           name?: string
+          updated_at?: string | null
           width?: number | null
         }
         Relationships: []
