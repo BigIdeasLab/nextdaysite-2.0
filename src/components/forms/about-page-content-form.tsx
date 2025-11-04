@@ -19,6 +19,7 @@ import { AboutPageContent, ProcessStep } from '@/types/models'
 import { S3Upload } from '@/components/forms/s3-upload'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface AboutPageContentFormProps {
   initialData: AboutPageContent
@@ -127,6 +128,7 @@ export function AboutPageContentForm({
   initialData,
 }: AboutPageContentFormProps) {
   const queryClient = useQueryClient()
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -160,6 +162,7 @@ export function AboutPageContentForm({
     onSuccess: () => {
       toast.success('About page content updated successfully!')
       queryClient.invalidateQueries({ queryKey: ['about-page-content'] })
+      router.push('/dashboard/cms/about')
     },
     onError: (error) => {
       toast.error(`Error: ${error.message}`)

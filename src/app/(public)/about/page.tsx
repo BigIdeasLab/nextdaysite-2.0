@@ -84,9 +84,10 @@ const fallbackAboutContent: AboutPageContent = {
 }
 
 export default function AboutPage() {
-  const { data: aboutContent, isLoading } = useAboutPageContent()
+  const { data: aboutContent, isLoading, isError } = useAboutPageContent()
 
-  const contentToDisplay = isLoading ? fallbackAboutContent : aboutContent
+  const contentToDisplay =
+    isLoading || isError ? fallbackAboutContent : aboutContent
 
   if (!contentToDisplay) {
     return <div>Error: Could not load about page content.</div>
