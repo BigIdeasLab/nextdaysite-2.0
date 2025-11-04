@@ -10,9 +10,10 @@ import AWS from 'aws-sdk'
 
 interface S3UploadProps {
   onUploadSuccess: (url: string) => void
+  category: string
 }
 
-export function S3Upload({ onUploadSuccess }: S3UploadProps) {
+export function S3Upload({ onUploadSuccess, category }: S3UploadProps) {
   const [file, setFile] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [s3, setS3] = useState<AWS.S3 | null>(null)
@@ -43,7 +44,7 @@ export function S3Upload({ onUploadSuccess }: S3UploadProps) {
 
       const params = {
         Bucket: s3.config.params!.Bucket,
-        Key: file.name,
+        Key: `${category}/${file.name}`,
         Body: file,
       }
 

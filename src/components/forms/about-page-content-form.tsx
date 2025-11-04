@@ -266,7 +266,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Hero Image 1 URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>
@@ -361,7 +364,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Hero Image 2 URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>
@@ -485,7 +491,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Intro Image URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>
@@ -700,7 +709,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Promise Image 1 URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>
@@ -795,7 +807,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Promise Image 2 URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>
@@ -932,7 +947,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Solution Image 1 URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>
@@ -1027,7 +1045,10 @@ export function AboutPageContentForm({
               <FormItem>
                 <FormLabel>Solution Image 2 URL</FormLabel>
                 <FormControl>
-                  <S3Upload onUploadSuccess={(url) => field.onChange(url)} />
+                  <S3Upload
+                    onUploadSuccess={(url) => field.onChange(url)}
+                    category='about-page'
+                  />
                 </FormControl>
                 {field.value && (
                   <div className='mt-4 flex items-center space-x-2'>

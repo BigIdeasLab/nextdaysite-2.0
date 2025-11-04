@@ -299,7 +299,10 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
 
           <div className='space-y-2'>
             <Label htmlFor='avatar_url'>Avatar</Label>
-            <S3Upload onUploadSuccess={handleUploadSuccess} />
+            <S3Upload
+              onUploadSuccess={handleUploadSuccess}
+              category='testimonials'
+            />
             {formData.avatar_url && (
               <div className='mt-4 flex items-center space-x-2'>
                 <p className='text-sm text-gray-500'>Uploaded Avatar:</p>
@@ -330,7 +333,10 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
 
           <div className='space-y-2'>
             <Label htmlFor='logo_url'>Logo</Label>
-            <S3Upload onUploadSuccess={handleLogoUploadSuccess} />
+            <S3Upload
+              onUploadSuccess={handleLogoUploadSuccess}
+              category='testimonials'
+            />
             {formData.logo_url && (
               <div className='mt-4 flex items-center space-x-2'>
                 <p className='text-sm text-gray-500'>Uploaded Logo:</p>

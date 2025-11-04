@@ -6,6 +6,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData()
     const file = formData.get('showreel') as File
+    const category = formData.get('category') as string | null // Get category from form data
 
     if (!file) {
       return new NextResponse(JSON.stringify({ error: 'No file uploaded' }), {
@@ -15,7 +16,8 @@ export async function POST(request: Request) {
 
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}.${fileExt}`
-    const filePath = `showreels/${fileName}`
+    const categoryPath = category ? `${category}/` : 'uncategorized/' // Add category to path
+    const filePath = `showreels/${categoryPath}${fileName}`
 
     const { error: uploadError } = await supabase.storage
       .from('public') // Assuming a 'public' bucket for showreels

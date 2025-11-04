@@ -193,7 +193,7 @@ export function LogoForm({ item }: LogoFormProps) {
 
           <div className='space-y-2'>
             <Label htmlFor='image_url'>Image</Label>
-            <S3Upload onUploadSuccess={handleUploadSuccess} />
+            <S3Upload onUploadSuccess={handleUploadSuccess} category='logos' />
             {formData.image_url && (
               <div className='mt-4 flex items-center space-x-2'>
                 <p className='text-sm text-gray-500'>Uploaded Image:</p>

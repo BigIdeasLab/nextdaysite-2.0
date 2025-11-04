@@ -97,7 +97,10 @@ export default function ShowreelCmsPage() {
             </div>
             <div>
               <Label>Video File</Label>
-              <S3Upload onUploadSuccess={handleUploadSuccess} />
+              <S3Upload
+                onUploadSuccess={handleUploadSuccess}
+                category='showreels'
+              />
             </div>
             <Button
               type='submit'
