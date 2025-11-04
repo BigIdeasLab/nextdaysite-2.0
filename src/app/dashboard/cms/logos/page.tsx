@@ -60,6 +60,7 @@ export default function ManageLogosPage() {
               <TableRow>
                 <TableHead>Image</TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -76,6 +77,7 @@ export default function ManageLogosPage() {
                     />
                   </TableCell>
                   <TableCell className='font-medium'>{logo.name}</TableCell>
+                  <TableCell>{logo.description}</TableCell>
                   <TableCell className='text-right'>
                     <Link href={`/dashboard/cms/logos/edit/${logo.id}`}>
                       <Button variant='outline' size='sm' className='mr-2'>
