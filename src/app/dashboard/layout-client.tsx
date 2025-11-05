@@ -15,6 +15,7 @@ import {
   MessageSquare,
 } from 'lucide-react'
 import { Fragment, useMemo, type ComponentType } from 'react'
+import { Toaster } from 'sonner'
 
 type MenuItem = { label: string; href: string; icon: ComponentType<any> }
 
@@ -59,7 +60,7 @@ export function DashboardLayoutClient({
   return (
     <div className='flex min-h-screen bg-background text-foreground'>
       {/* Sidebar */}
-      <aside className='hidden md:flex md:w-64 md:flex-col md:border-r md:border-gray-200 md:bg-gray-50 md:dark:border-gray-800 md:dark:bg-gray-900/60'>
+      <aside className='sticky top-0 h-screen overflow-y-auto hidden md:flex md:w-64 md:flex-col md:border-r md:border-gray-200 md:bg-gray-50 md:dark:border-gray-800 md:dark:bg-gray-900/60'>
         <div className='px-5 py-5 border-b border-gray-200/70 dark:border-gray-800/70'>
           <div className='text-lg font-semibold tracking-tight'>
             {isCms ? 'CMS' : 'Dashboard'}
@@ -79,7 +80,7 @@ export function DashboardLayoutClient({
                 href={item.href}
                 className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-gray-100 dark:hover:bg-gray-800/80 ${
                   isActive
-                    ? 'bg-gray-100 text-foreground dark:bg-gray-800 ring-1 ring-gray-200/70 dark:ring-gray-700'
+                    ? 'bg-gray-100 dark:bg-gray-800 ring-1 ring-gray-200/70 dark:ring-gray-700 text-white'
                     : 'text-foreground/80'
                 }`}
               >
@@ -92,16 +93,12 @@ export function DashboardLayoutClient({
             )
           })}
         </nav>
-        <div className='mt-auto px-4 py-4 border-t border-gray-200/70 dark:border-gray-800/70 flex items-center justify-between'>
-          <ThemeToggle />
-          <LogoutButton />
-        </div>
       </aside>
 
       {/* Content */}
       <div className='flex-1 flex flex-col'>
         {/* Topbar */}
-        <header className='sticky top-0 z-20 flex items-center gap-3 border-b border-gray-200 bg-background/80 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-gray-800'>
+        <header className='sticky top-0 z-20 flex items-center gap-3 border-b border-gray-200 bg-background/80 px-4 py-6 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-gray-800'>
           <nav className='hidden md:flex items-center gap-2 text-sm text-muted-foreground/80'>
             {breadcrumbs.map((crumb, i) => (
               <Fragment key={`${crumb}-${i}`}>
@@ -147,6 +144,7 @@ export function DashboardLayoutClient({
           </div>
         </main>
       </div>
+      <Toaster />
     </div>
   )
 }

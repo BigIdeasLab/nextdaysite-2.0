@@ -180,7 +180,7 @@ function ServiceCard({ service }: { service: ServiceRow }) {
             alt={`${service.title} preview 1`}
             width={150}
             height={120}
-            className='rounded-sm object-cover'
+            className='rounded-sm object-cover W-[150px] h-[120px]'
           />
         </div>
         <div
@@ -201,7 +201,7 @@ function ServiceCard({ service }: { service: ServiceRow }) {
             alt={`${service.title} preview 2`}
             width={150}
             height={120}
-            className='rounded-sm object-cover'
+            className='rounded-sm object-cover W-[150px] h-[120px]'
           />
         </div>
       </div>

@@ -61,6 +61,63 @@ const fallbackServices: ServiceRow[] = [
     updated_at: '',
     created_by: null,
   },
+  {
+    id: '4',
+    title: 'CMS Integration',
+    description:
+      'We partner with you to develop a seamless CMS integration that empowers you to manage your content effortlessly and deliver personalized experiences to your audience.',
+    image1_url:
+      'https://api.builder.io/api/v1/image/assets/TEMP/9ab5e5d77b41e35cf9091e50917c7ffb4058fcb8?width=312',
+    image2_url:
+      'https://api.builder.io/api/v1/image/assets/TEMP/8e11b2eaa65a2cf310bcb003a7cd69c85d4f3c5e?width=312',
+    slug: 'cms-integration',
+    icon: null,
+    order_index: 4,
+    published: true,
+    image1_id: null,
+    image2_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
+  },
+  {
+    id: '5',
+    title: 'Visual Identity',
+    description:
+      'We partner with you to develop a captivating visual identity that reflects your brand values, resonates with your audience, and leaves a lasting impression.',
+    image1_url:
+      'https://api.builder.io/api/v1/image/assets/TEMP/7d4f9e5f13a36b302965c547ffaf171661e13229?width=312',
+    image2_url:
+      'https://api.builder.io/api/v1/image/assets/TEMP/51b3a5a6e99f53003dfdb2b807f69e2206f87e25?width=312',
+    slug: 'visual-identity',
+    icon: null,
+    order_index: 5,
+    published: true,
+    image1_id: null,
+    image2_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
+  },
+  {
+    id: '6',
+    title: 'Brand Guidelines',
+    description:
+      'We partner with you to develop comprehensive brand guidelines that ensure consistency across all touchpoints, maintain brand integrity, and strengthen brand recognition.',
+    image1_url:
+      'https://api.builder.io/api/v1/image/assets/TEMP/3b71bfb836cc5f13f285e1521e5642a9782ce3f1?width=312',
+    image2_url:
+      'https://api.builder.io/api/v1/image/assets/TEMP/6710db3b02c4e51393a8d37e7f6632a21c45a647?width=312',
+    slug: 'brand-guidelines',
+    icon: null,
+    order_index: 6,
+    published: true,
+    image1_id: null,
+    image2_id: null,
+    created_at: '',
+    updated_at: '',
+    created_by: null,
+  },
 ]
 
 async function getServices() {
@@ -115,7 +172,7 @@ export async function ServicesList() {
                   alt={`${service.title} preview 1`}
                   width={170}
                   height={150}
-                  className='rounded-sm object-cover'
+                  className='rounded-sm object-cover w-[170px] h-[150px]'
                 />
               </div>
               <div
@@ -136,7 +193,7 @@ export async function ServicesList() {
                   alt={`${service.title} preview 2`}
                   width={170}
                   height={150}
-                  className='rounded-sm object-cover'
+                  className='rounded-sm object-cover w-[170px] h-[150px]'
                 />
               </div>
             </div>

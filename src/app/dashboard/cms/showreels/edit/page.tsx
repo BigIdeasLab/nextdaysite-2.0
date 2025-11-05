@@ -26,8 +26,6 @@ function ShowreelForm({ showreel }: { showreel: ShowreelRow | null }) {
   const [editedVideoUrl, setEditedVideoUrl] = useState<string | null>(
     showreel?.url || null,
   )
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
 
   const upsertShowreelMutation = useMutation({
     mutationFn: async (
@@ -44,28 +42,26 @@ function ShowreelForm({ showreel }: { showreel: ShowreelRow | null }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['showreels'] })
       queryClient.invalidateQueries({ queryKey: ['showreel'] })
-      setSuccess('Showreel saved successfully!')
+      toast.success('Showreel saved successfully!')
       router.push('/dashboard/cms/showreels')
     },
     onError: (err: any) => {
-      setError(err.message)
+      toast.error(`Error saving showreel: ${err.message}`)
     },
   })
 
   const handleUploadSuccess = (url: string) => {
     setEditedVideoUrl(url)
-    setError(null)
-    setSuccess(null)
+    toast.success('Video uploaded to S3 successfully!')
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (!editedVideoUrl || !editedTitle) {
-      setError('Please upload a video and enter a title.')
+      toast.error('Please upload a video and enter a title.')
       return
     }
     setError(null)
-    setSuccess(null)
 
     upsertShowreelMutation.mutate({
       title: editedTitle,
@@ -138,9 +134,6 @@ function ShowreelForm({ showreel }: { showreel: ShowreelRow | null }) {
               Cancel
             </Button>
           </div>
-
-          {error && <p className='text-red-500 text-sm'>{error}</p>}
-          {success && <p className='text-green-600 text-sm'>{success}</p>}
         </form>
       </CardContent>
     </Card>
