@@ -213,10 +213,10 @@ export function LogoForm({ item }: LogoFormProps) {
                     e.stopPropagation()
                     handleDeleteImage()
                   }}
-                  disabled={mutation.isPending}
+                  disabled={deleteImageMutation.isPending}
                   className='bg-red-500 text-white hover:bg-red-600'
                 >
-                  Delete
+                  {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                 </Button>
               </div>
             )}

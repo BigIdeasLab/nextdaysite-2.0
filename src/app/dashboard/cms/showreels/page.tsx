@@ -88,15 +88,12 @@ export default function ShowreelCmsPage() {
               <Label htmlFor='title'>Title</Label>
               <Input
                 id='title'
-                type='text'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder='Enter showreel title'
-                required
               />
             </div>
             <div>
-              <Label>Video File</Label>
               <S3Upload
                 onUploadSuccess={handleUploadSuccess}
                 category='showreels'

@@ -93,6 +93,7 @@ export function S3Upload({ onUploadSuccess, category }: S3UploadProps) {
             type='button'
             onClick={handleUpload}
             disabled={mutation.isPending}
+            className='bg-blue-500 hover:bg-blue-600'
           >
             {mutation.isPending ? 'Uploading...' : 'Upload'}
           </Button>

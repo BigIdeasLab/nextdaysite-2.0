@@ -332,10 +332,10 @@ export function ServiceForm({ item }: ServiceFormProps) {
                     e.stopPropagation()
                     handleDeleteImage1()
                   }}
-                  disabled={mutation.isPending}
+                  disabled={deleteImage1Mutation.isPending}
                   className='bg-red-500 text-white hover:bg-red-600'
                 >
-                  Delete
+                  {deleteImage1Mutation.isPending ? 'Deleting...' : 'Delete'}
                 </Button>
               </div>
             )}
@@ -366,10 +366,10 @@ export function ServiceForm({ item }: ServiceFormProps) {
                     e.stopPropagation()
                     handleDeleteImage2()
                   }}
-                  disabled={mutation.isPending}
+                  disabled={deleteImage2Mutation.isPending}
                   className='bg-red-500 text-white hover:bg-600'
                 >
-                  Delete
+                  {deleteImage2Mutation.isPending ? 'Deleting...' : 'Delete'}
                 </Button>
               </div>
             )}

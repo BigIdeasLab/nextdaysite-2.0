@@ -295,7 +295,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}
@@ -393,7 +393,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}
@@ -520,7 +520,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}
@@ -738,7 +738,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}
@@ -836,7 +836,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}
@@ -976,7 +976,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}
@@ -1074,7 +1074,7 @@ export function AboutPageContentForm({
                       }
                       className='bg-red-500 text-white hover:bg-red-600'
                     >
-                      Delete
+                      {deleteImageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 )}

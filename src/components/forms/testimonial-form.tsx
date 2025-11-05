@@ -322,10 +322,10 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
                     e.stopPropagation()
                     handleDeleteAvatar()
                   }}
-                  disabled={mutation.isPending}
+                  disabled={deleteAvatarMutation.isPending}
                   className='bg-red-500 text-white hover:bg-red-600'
                 >
-                  Delete
+                  {deleteAvatarMutation.isPending ? 'Deleting...' : 'Delete'}
                 </Button>
               </div>
             )}
@@ -356,10 +356,10 @@ export function TestimonialForm({ item }: TestimonialFormProps) {
                     e.stopPropagation()
                     handleDeleteLogo()
                   }}
-                  disabled={mutation.isPending}
+                  disabled={deleteLogoMutation.isPending}
                   className='bg-red-500 text-white hover:bg-red-600'
                 >
-                  Delete
+                  {deleteLogoMutation.isPending ? 'Deleting...' : 'Delete'}
                 </Button>
               </div>
             )}
