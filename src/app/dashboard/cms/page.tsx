@@ -82,7 +82,7 @@ export default function CmsDashboardPage() {
             <Link key={item.href} href={item.href} className='group'>
               <Card className='h-full cursor-pointer transition-all hover:shadow-md'>
                 <CardHeader className='flex items-center gap-3'>
-                  <span className='inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-foreground/80 dark:border-gray-800 dark:bg-gray-900'>
+                  <span className='inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400'>
                     <Icon className='h-4 w-4' />
                   </span>
                   <h3 className='text-base font-semibold'>{item.title}</h3>
