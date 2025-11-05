@@ -10,8 +10,8 @@ ALTER TABLE public.showreels ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Public showreels are viewable by everyone." ON public.showreels FOR SELECT USING (TRUE);
 
-CREATE POLICY "Authenticated users can insert showreels." ON public.showreels FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Admins can insert showreels." ON public.showreels FOR INSERT WITH CHECK (is_admin());
 
-CREATE POLICY "Authenticated users can update their own showreels." ON public.showreels FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Admins can update showreels." ON public.showreels FOR UPDATE USING (is_admin());
 
-CREATE POLICY "Authenticated users can delete their own showreels." ON public.showreels FOR DELETE USING (auth.uid() = id);
+CREATE POLICY "Admins can delete showreels." ON public.showreels FOR DELETE USING (is_admin());
