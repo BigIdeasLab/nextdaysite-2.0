@@ -121,26 +121,6 @@ export function LoginForm() {
           </p>
         )}
 
-        {/* <div className='flex items-center justify-between gap-4'>
-          <label className='flex items-center gap-2.5 cursor-pointer'>
-            <input
-              type='checkbox'
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className='w-4 h-4 rounded border border-[var(--orange-accent)] bg-transparent cursor-pointer appearance-none checked:bg-[var(--orange-accent)] checked:relative checked:after:content-["✓"] checked:after:absolute checked:after:text-white checked:after:text-xs checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2'
-            />
-            <span className='text-[var(--text-secondary)] text-sm font-normal leading-6'>
-              Remember me
-            </span>
-          </label>
-          <a
-            href='/forgot-password'
-            className='text-[var(--orange-accent)] text-right text-sm font-normal leading-6 no-underline hover:underline'
-          >
-            Forgot Password?
-          </a>
-        </div> */}
-
         <div className='flex flex-col items-center gap-4'>
           <button
             type='submit'
@@ -151,15 +131,6 @@ export function LoginForm() {
           >
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
-          {/* <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
-            Don&apos;t have an account?{' '}
-            <a
-              href='/signup'
-              className='text-[var(--orange-accent)] no-underline hover:underline'
-            >
-              Sign Up
-            </a>
-          </p> */}
         </div>
       </form>
     </div>
