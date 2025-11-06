@@ -42,26 +42,22 @@ function ShowreelForm({ showreel }: { showreel: ShowreelRow | null }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['showreels'] })
       queryClient.invalidateQueries({ queryKey: ['showreel'] })
-      toast.success('Showreel saved successfully!')
       router.push('/dashboard/cms/showreels')
     },
     onError: (err: any) => {
-      toast.error(`Error saving showreel: ${err.message}`)
+      console.error(`Error saving showreel: ${err.message}`)
     },
   })
 
   const handleUploadSuccess = (url: string) => {
     setEditedVideoUrl(url)
-    toast.success('Video uploaded to S3 successfully!')
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (!editedVideoUrl || !editedTitle) {
-      toast.error('Please upload a video and enter a title.')
       return
     }
-    setError(null)
 
     upsertShowreelMutation.mutate({
       title: editedTitle,

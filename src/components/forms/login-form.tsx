@@ -121,7 +121,7 @@ export function LoginForm() {
           </p>
         )}
 
-        <div className='flex items-center justify-between gap-4'>
+        {/* <div className='flex items-center justify-between gap-4'>
           <label className='flex items-center gap-2.5 cursor-pointer'>
             <input
               type='checkbox'
@@ -139,7 +139,7 @@ export function LoginForm() {
           >
             Forgot Password?
           </a>
-        </div>
+        </div> */}
 
         <div className='flex flex-col items-center gap-4'>
           <button
@@ -151,7 +151,7 @@ export function LoginForm() {
           >
             {submissionState === 'submitting' ? 'Signing in...' : 'Sign In'}
           </button>
-          <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
+          {/* <p className='text-[var(--text-secondary)] text-center text-sm font-normal leading-6'>
             Don&apos;t have an account?{' '}
             <a
               href='/signup'
@@ -159,7 +159,7 @@ export function LoginForm() {
             >
               Sign Up
             </a>
-          </p>
+          </p> */}
         </div>
       </form>
     </div>
