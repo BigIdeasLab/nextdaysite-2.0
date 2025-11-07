@@ -8,7 +8,10 @@ const supabase = createClient(
 
 export async function GET(request: NextRequest) {
   try {
-    const { data, error } = await supabase.from('logos').select('*')
+    const { data, error } = await supabase
+      .from('logos')
+      .select('*')
+      .order('updated_at', { ascending: true })
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })
