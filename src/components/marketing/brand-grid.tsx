@@ -113,7 +113,7 @@ export async function BrandGrid() {
             key={logo.id}
             className={`flex flex-col items-center gap-5 ${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
           >
-            <div className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[50px]'>
+            <div className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[50px] border border-gray-200 shadow-md'>
               <Image
                 src={logo.image_url}
                 alt={logo.name}
