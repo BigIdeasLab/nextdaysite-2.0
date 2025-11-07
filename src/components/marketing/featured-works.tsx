@@ -146,7 +146,7 @@ export async function FeaturedWorksSection() {
 
         <Link
           href='/portfolio'
-          className='md:mt-[150px] flex h-[48px] items-center justify-center rounded-[30px] border border-[var(--pricing-input-label)] px-[26px] text-[20px] font-medium text-white transition-transform hover:scale-105 md:h-[54px] md:text-[23px]'
+          className='md:mt-[150px] flex h-[48px] items-center justify-center rounded-[30px] border px-[26px] text-[20px] font-medium text-[var(--foreground)] transition-transform hover:scale-105 md:h-[54px] md:text-[23px]'
         >
           See All
         </Link>
