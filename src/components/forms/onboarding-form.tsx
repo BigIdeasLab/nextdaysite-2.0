@@ -55,7 +55,7 @@ export function OnboardingForm({ project_slug }: { project_slug: string }) {
       if (client) {
         await client.auth.signOut()
       }
-      router.push('/') // Or a success page
+      router.push('/')
     } catch (error) {
       console.error(error)
       setSubmissionState('error')
@@ -70,73 +70,73 @@ export function OnboardingForm({ project_slug }: { project_slug: string }) {
   }
 
   return (
-    <div className='w-full max-w-lg flex flex-col gap-12'>
-      <h1 className='text-foreground text-center text-3xl md:text-5xl lg:text-6xl font-medium leading-tight capitalize'>
+    <div className='w-full max-w-[482px] flex flex-col items-center justify-center gap-[72px]'>
+      <h1 className='text-foreground text-center text-[40px] md:text-[60px] font-medium leading-[1.08] capitalize max-w-[752px]'>
         Tell us about your project we&apos;ll turn them into a clear action
         plan.
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className='flex flex-col items-center gap-12'
+        className='flex flex-col items-center justify-center gap-[50px] w-full'
       >
         <div className='flex flex-col gap-10 w-full'>
-          <div className='flex flex-col gap-0 w-full relative'>
+          <div className='flex flex-col justify-center items-start gap-0 w-full relative h-[65px]'>
             <input
               type='text'
-              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
-              placeholder='Project Title'
+              className='bg-transparent border-none text-[#9BA1A6] text-lg font-normal leading-6 outline-none w-full font-sans focus:text-foreground placeholder:text-[#9BA1A6]'
+              placeholder='Project Title '
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
               required
             />
-            <div className='w-full h-px bg-white/50' />
+            <div className='absolute bottom-0 left-0 w-full h-[1px] bg-[#9BA1A6]' />
           </div>
 
-          <div className='flex flex-col gap-0 w-full relative'>
+          <div className='flex flex-col justify-center items-start gap-0 w-full relative h-[65px]'>
             <input
               type='text'
-              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
-              placeholder="What's your main goal for this project?"
+              className='bg-transparent border-none text-[#9BA1A6] text-lg font-normal leading-6 outline-none w-full font-sans focus:text-foreground placeholder:text-[#9BA1A6]'
+              placeholder="What's your main goal for this project? "
               value={mainGoal}
               onChange={(e) => setMainGoal(e.target.value)}
               required
             />
-            <div className='w-full h-px bg-white/50' />
+            <div className='absolute bottom-0 left-0 w-full h-[1px] bg-[#9BA1A6]' />
           </div>
 
-          <div className='flex flex-col gap-0 w-full relative'>
+          <div className='flex flex-col justify-center items-start gap-0 w-full relative h-[65px]'>
             <input
               type='text'
-              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
+              className='bg-transparent border-none text-[#9BA1A6] text-lg font-normal leading-6 outline-none w-full font-sans focus:text-foreground placeholder:text-[#9BA1A6]'
               placeholder="Who's it for? (optional)"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
             />
-            <div className='w-full h-px bg-white/50' />
+            <div className='absolute bottom-0 left-0 w-full h-[1px] bg-[#9BA1A6]' />
           </div>
 
-          <div className='flex flex-col gap-0 w-full relative'>
+          <div className='flex flex-col justify-center items-start gap-0 w-full relative h-[65px]'>
             <input
               type='text'
-              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
+              className='bg-transparent border-none text-[#9BA1A6] text-lg font-normal leading-6 outline-none w-full font-sans focus:text-foreground placeholder:text-[#9BA1A6]'
               placeholder='Key features or ideas you want included'
               value={keyFeatures}
               onChange={(e) => setKeyFeatures(e.target.value)}
               required
             />
-            <div className='w-full h-px bg-white/50' />
+            <div className='absolute bottom-0 left-0 w-full h-[1px] bg-[#9BA1A6]' />
           </div>
 
-          <div className='flex flex-col gap-0 w-full relative'>
+          <div className='flex flex-col justify-center items-start gap-0 w-full relative h-[65px]'>
             <input
               type='text'
-              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
+              className='bg-transparent border-none text-[#9BA1A6] text-lg font-normal leading-6 outline-none w-full font-sans focus:text-foreground placeholder:text-[#9BA1A6]'
               placeholder='reference websites or inspiration?'
               value={referenceWebsites}
               onChange={(e) => setReferenceWebsites(e.target.value)}
             />
-            <div className='w-full h-px bg-white/50' />
+            <div className='absolute bottom-0 left-0 w-full h-[1px] bg-[#9BA1A6]' />
           </div>
         </div>
 
@@ -153,7 +153,7 @@ export function OnboardingForm({ project_slug }: { project_slug: string }) {
             submissionState === 'submitting' ||
             submissionState === 'success'
           }
-          className='flex h-14 px-6 justify-center items-center rounded-full border border-orange-primary bg-orange-primary text-light-text text-center text-2xl font-medium leading-6 cursor-pointer transition-opacity duration-200 font-sans hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed'
+          className='flex h-[54px] px-[26px] justify-center items-center rounded-[30px] border border-[#FF8C00] bg-[#FF8C00] text-[#F7F6FF] text-center text-[23px] font-medium leading-6 cursor-pointer transition-opacity duration-200 font-sans hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed'
         >
           {isAuthLoading
             ? 'Verifying...'
