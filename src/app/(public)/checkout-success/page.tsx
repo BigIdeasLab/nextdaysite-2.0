@@ -22,11 +22,11 @@ export default async function CheckoutSuccessPage({
             </p>
           </div>
 
-          {resolvedSearchParams.session_id && (
+          {/* {resolvedSearchParams.session_id && (
             <p className='mt-8 text-xs text-foreground/50'>
               Session ID: {resolvedSearchParams.session_id}
             </p>
-          )}
+          )} */}
         </div>
       </main>
     </div>
