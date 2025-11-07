@@ -70,75 +70,80 @@ export function OnboardingForm({ project_slug }: { project_slug: string }) {
   }
 
   return (
-    <div className='onboarding-form-container'>
-      <h1 className='onboarding-form-title'>
+    <div className='w-full max-w-lg flex flex-col gap-12'>
+      <h1 className='text-foreground text-center text-3xl md:text-5xl lg:text-6xl font-medium leading-tight capitalize'>
         Tell us about your project we&apos;ll turn them into a clear action
         plan.
       </h1>
 
-      <form onSubmit={handleSubmit} className='onboarding-form'>
-        <div className='onboarding-form-fields'>
-          <div className='onboarding-form-field'>
+      <form
+        onSubmit={handleSubmit}
+        className='flex flex-col items-center gap-12'
+      >
+        <div className='flex flex-col gap-10 w-full'>
+          <div className='flex flex-col gap-0 w-full relative'>
             <input
               type='text'
-              className='onboarding-input'
+              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
               placeholder='Project Title'
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
               required
             />
-            <div className='onboarding-input-underline' />
+            <div className='w-full h-px bg-white/50' />
           </div>
 
-          <div className='onboarding-form-field'>
+          <div className='flex flex-col gap-0 w-full relative'>
             <input
               type='text'
-              className='onboarding-input'
+              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
               placeholder="What's your main goal for this project?"
               value={mainGoal}
               onChange={(e) => setMainGoal(e.target.value)}
               required
             />
-            <div className='onboarding-input-underline' />
+            <div className='w-full h-px bg-white/50' />
           </div>
 
-          <div className='onboarding-form-field'>
+          <div className='flex flex-col gap-0 w-full relative'>
             <input
               type='text'
-              className='onboarding-input'
+              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
               placeholder="Who's it for? (optional)"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
             />
-            <div className='onboarding-input-underline' />
+            <div className='w-full h-px bg-white/50' />
           </div>
 
-          <div className='onboarding-form-field'>
+          <div className='flex flex-col gap-0 w-full relative'>
             <input
               type='text'
-              className='onboarding-input'
+              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
               placeholder='Key features or ideas you want included'
               value={keyFeatures}
               onChange={(e) => setKeyFeatures(e.target.value)}
               required
             />
-            <div className='onboarding-input-underline' />
+            <div className='w-full h-px bg-white/50' />
           </div>
 
-          <div className='onboarding-form-field'>
+          <div className='flex flex-col gap-0 w-full relative'>
             <input
               type='text'
-              className='onboarding-input'
+              className='bg-transparent border-none text-text-secondary text-base md:text-lg font-normal leading-6 pb-3 outline-none w-full font-sans focus:text-foreground placeholder:text-text-secondary'
               placeholder='reference websites or inspiration?'
               value={referenceWebsites}
               onChange={(e) => setReferenceWebsites(e.target.value)}
             />
-            <div className='onboarding-input-underline' />
+            <div className='w-full h-px bg-white/50' />
           </div>
         </div>
 
         {errorMessage && (
-          <p className='onboarding-error-message'>{errorMessage}</p>
+          <p className='text-error-color text-sm font-medium text-center'>
+            {errorMessage}
+          </p>
         )}
 
         <button
@@ -148,7 +153,7 @@ export function OnboardingForm({ project_slug }: { project_slug: string }) {
             submissionState === 'submitting' ||
             submissionState === 'success'
           }
-          className='onboarding-submit-button'
+          className='flex h-14 px-6 justify-center items-center rounded-full border border-orange-primary bg-orange-primary text-light-text text-center text-2xl font-medium leading-6 cursor-pointer transition-opacity duration-200 font-sans hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed'
         >
           {isAuthLoading
             ? 'Verifying...'

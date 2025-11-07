@@ -15,21 +15,8 @@ export default function OnboardingPage() {
 
   return (
     <div className='min-h-screen bg-background text-foreground transition-colors duration-300'>
-      <Header
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-      />
-      <main className='onboarding-page-main'>
-        <div className='onboarding-page-container'>
-          <OnboardingForm project_slug={project_slug} />
-        </div>
-      </main>
+      <OnboardingForm project_slug={project_slug} />
       <CtaSection />
-      <MobileMenu
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-      />
-      <RedesignedFooter />
     </div>
   )
 }
