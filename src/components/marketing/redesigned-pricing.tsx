@@ -25,8 +25,7 @@ const fixedRatePricingData: PricingCardData[] = [
     description: 'Modern 3–5 page website fast.',
     price: '$1,500',
     savings: 'Save $300',
-    image:
-      'https://api.builder.io/api/v1/image/assets/TEMP/06425d9733f6cda11821dac6f1e21cfb4b1b479f?width=682',
+    image: '/pricing/1.jpg',
     features: [
       '3–5 pages',
       'Performance & accessibility pass',
@@ -43,8 +42,7 @@ const fixedRatePricingData: PricingCardData[] = [
     description: 'Brand Identity',
     price: '$2,500',
     savings: 'Save $500',
-    image:
-      'https://api.builder.io/api/v1/image/assets/TEMP/4a5be1fa16475440fc28cd6281b77aff9149e73e?width=682',
+    image: '/pricing/2.jpg',
     features: [
       'Logo suite',
       '3 flyer/post templates',
@@ -60,8 +58,7 @@ const fixedRatePricingData: PricingCardData[] = [
     description: 'Website + branding handled end - to - end.',
     price: '$5,000',
     savings: 'Save $1000',
-    image:
-      'https://api.builder.io/api/v1/image/assets/TEMP/83c0293a4b0a380ce136ccd0b0b921feae17c0b5?width=682',
+    image: '/pricing/3.jpg',
     features: [
       'Everything in Web + Identity',
       'Launch checklist',
@@ -82,8 +79,7 @@ const paymentPlanPricingData: PricingCardData[] = [
     priceNote: '/ mo × 12',
     totalPrice: 'Total: $3,000',
     savings: '',
-    image:
-      'https://api.builder.io/api/v1/image/assets/TEMP/06425d9733f6cda11821dac6f1e21cfb4b1b479f?width=682',
+    image: '/pricing/1.jpg',
     features: [
       '3–5 pages',
       'Performance & accessibility pass',
@@ -102,8 +98,7 @@ const paymentPlanPricingData: PricingCardData[] = [
     priceNote: '/ mo × 12',
     totalPrice: 'Total: $3,000',
     savings: '',
-    image:
-      'https://api.builder.io/api/v1/image/assets/TEMP/4a5be1fa16475440fc28cd6281b77aff9149e73e?width=682',
+    image: '/pricing/2.jpg',
     features: [
       'Logo suite',
       '3 flyer/post templates',
@@ -121,8 +116,7 @@ const paymentPlanPricingData: PricingCardData[] = [
     priceNote: '/ mo × 12',
     totalPrice: 'Total: $6,000',
     savings: '',
-    image:
-      'https://api.builder.io/api/v1/image/assets/TEMP/83c0293a4b0a380ce136ccd0b0b921feae17c0b5?width=682',
+    image: '/pricing/3.jpg',
     features: [
       'Everything in Web + Identity',
       'Launch checklist',
