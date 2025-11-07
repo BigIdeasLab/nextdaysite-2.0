@@ -14,7 +14,7 @@ export async function GET() {
       .from('portfolio_items')
       .select('*')
       .eq('published', true)
-      .order('order_index', { ascending: true })
+      .order('updated_at', { ascending: true })
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
