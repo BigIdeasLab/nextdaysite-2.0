@@ -59,7 +59,7 @@ export function LogoForm({ item }: LogoFormProps) {
       const response = await fetch(`/api/cms/logos/${itemId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image_url: null }), // Set image_url to null
+        body: JSON.stringify({ image_url: '' }), // Set image_url to empty string
       })
 
       if (!response.ok) {
