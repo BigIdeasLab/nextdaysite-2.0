@@ -19,7 +19,10 @@ export function FeaturedWorksClient({
   projects,
   fallbackImageUrl,
 }: FeaturedWorksClientProps) {
-  const { ref, isInView } = useInView({ threshold: 0.1, margin: '0px 0px -100px 0px' })
+  const { ref, isInView } = useInView({
+    threshold: 0.1,
+    margin: '0px 0px -100px 0px',
+  })
 
   return (
     <section
@@ -49,7 +52,10 @@ export function FeaturedWorksClient({
               variants={staggerChildVariant}
               className={`${project.id && projects.indexOf(project) % 2 === 1 ? 'md:translate-y-30' : ''}`}
             >
-              <ProjectCard project={project} fallbackImageUrl={fallbackImageUrl} />
+              <ProjectCard
+                project={project}
+                fallbackImageUrl={fallbackImageUrl}
+              />
             </motion.div>
           ))}
         </motion.div>

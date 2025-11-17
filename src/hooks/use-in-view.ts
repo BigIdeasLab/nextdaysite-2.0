@@ -33,7 +33,7 @@ export function useInView(options: UseInViewOptions = {}) {
       {
         threshold,
         rootMargin: margin,
-      }
+      },
     )
 
     if (ref.current) {
