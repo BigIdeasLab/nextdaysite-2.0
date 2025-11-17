@@ -19,7 +19,7 @@ export function FeaturedWorksClient({
   projects,
   fallbackImageUrl,
 }: FeaturedWorksClientProps) {
-  const { ref, isInView } = useInView({
+  const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.1,
     margin: '0px 0px -100px 0px',
   })
@@ -101,7 +101,7 @@ function ProjectCard({
         />
       </div>
       <div className='flex w-full flex-col items-start gap-[10px] pt-[5px]'>
-        <h3 className='text-[24px] font-medium leading-[31.471px] text-[var(--foreground)] md:text-[32px]'>
+        <h3 className='text-[22px] font-medium leading-[31.471px] text-[var(--foreground)] md:text-[24px]'>
           {project.title}
         </h3>
         <p className='text-[16px] leading-[24px] text-[var(--text-secondary)] md:text-[18px]'>

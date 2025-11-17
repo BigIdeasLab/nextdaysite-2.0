@@ -12,9 +12,11 @@ interface UseInViewOptions {
  * Hook to detect when an element enters the viewport
  * Respects prefers-reduced-motion accessibility preference
  */
-export function useInView(options: UseInViewOptions = {}) {
+export function useInView<T extends HTMLElement>(
+  options: UseInViewOptions = {},
+) {
   const { threshold = 0.1, margin = '0px', once = true } = options
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<T>(null)
   const [isInView, setIsInView] = useState(false)
   const [hasAnimated, setHasAnimated] = useState(false)
 

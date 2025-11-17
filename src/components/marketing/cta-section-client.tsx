@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useInView } from '@/hooks/use-in-view'
 
 export function CtaSectionClient() {
-  const { ref, isInView } = useInView({
+  const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.2,
     margin: '0px 0px -80px 0px',
   })
