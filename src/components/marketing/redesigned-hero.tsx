@@ -15,17 +15,19 @@ export async function RedesignedHero() {
       </div>
 
       <div className='w-full flex flex-col items-center gap-8'>
-        <Showreel />
+        <Suspense fallback={<ShowreelSkeleton />}>
+          <Showreel />
+        </Suspense>
         <div className='flex flex-wrap items-center justify-center gap-[10px]'>
           <Link
             href='#pricing'
-            className='flex h-[48px] items-center justify-center rounded-[30px] border border-[#3E3E3E] bg-[#FF8C00] px-5 text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:text-[18px]'
+            className='flex h-[48px] items-center justify-center rounded-[30px] bg-[#FF8C00] px-5 text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:text-[18px]'
           >
             Get Started
           </Link>
           <Link
             href='#pricing'
-            className='flex h-[48px] items-center justify-center rounded-[30px] border border-[#3E3E3E] bg-[#090808] px-[22px] text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:px-[26px] md:text-[18px]'
+            className='flex h-[48px] items-center justify-center rounded-[30px] bg-[#090808] px-[22px] text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:px-[26px] md:text-[18px]'
           >
             See Pricing
           </Link>
