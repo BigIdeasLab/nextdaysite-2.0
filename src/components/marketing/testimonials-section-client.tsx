@@ -16,7 +16,7 @@ interface TestimonialsSectionClientProps {
 export function TestimonialsSectionClient({
   testimonials,
 }: TestimonialsSectionClientProps) {
-  const { ref, isInView } = useInView({
+  const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.15,
     margin: '0px 0px -80px 0px',
   })

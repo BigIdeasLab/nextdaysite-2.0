@@ -220,7 +220,7 @@ export function RedesignedPricingClient() {
 
         {/* Pricing Cards */}
         <motion.div
-          className='flex w-full flex-col items-start gap-[15px]'
+          className='grid w-full grid-cols-1 items-start gap-[15px]'
           variants={fadeUpContainerVariant}
           initial='hidden'
           animate={isInView ? 'visible' : 'hidden'}

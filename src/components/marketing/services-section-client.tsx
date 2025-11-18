@@ -65,10 +65,10 @@ function ServiceCard({ service }: { service: ServiceRow }) {
   const image2Url = service.image2_url || fallbackImage2
 
   return (
-    <div className='group flex flex-col items-center gap-9 bg-[#F5F5F5] dark:bg-[var(--dark-card)] px-8 py-[50px]'>
+    <div className='flex flex-col items-center gap-9 bg-[#F5F5F5] dark:bg-[var(--dark-card)] px-8 py-[50px]'>
       <div className='relative w-[276px] h-[152px]'>
         <motion.div
-          className='absolute flex overflow-hidden items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:-translate-x-5'
+          className='absolute flex overflow-hidden items-center justify-center transition-transform duration-700 ease-in-out'
           style={{
             width: '150px',
             height: '120px',
@@ -79,7 +79,6 @@ function ServiceCard({ service }: { service: ServiceRow }) {
             border: '8px solid #393939',
             boxShadow: '6px 4px 15px 0 rgba(0, 0, 0, 0.25)',
           }}
-          whileHover={{ y: -5, x: -5 }}
           transition={{ duration: 0.3 }}
         >
           <Image
@@ -91,7 +90,7 @@ function ServiceCard({ service }: { service: ServiceRow }) {
           />
         </motion.div>
         <motion.div
-          className='absolute flex overflow-hidden items-center justify-center transition-transform duration-700 ease-in-out group-hover:-translate-y-5 group-hover:translate-x-5'
+          className='absolute flex overflow-hidden items-center justify-center transition-transform duration-700 ease-in-out'
           style={{
             width: '150px',
             height: '120px',
@@ -102,7 +101,6 @@ function ServiceCard({ service }: { service: ServiceRow }) {
             border: '8px solid #393939',
             boxShadow: '0 4px 34px 0 rgba(0, 0, 0, 0.15)',
           }}
-          whileHover={{ y: -5, x: 5 }}
           transition={{ duration: 0.3 }}
         >
           <Image
