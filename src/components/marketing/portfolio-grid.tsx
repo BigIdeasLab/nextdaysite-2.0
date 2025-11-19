@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import type { PortfolioItemRow } from '@/types/models'
 import { createClient } from '@/lib/supabase/server'
+import { PortfolioGridClient } from './portfolio-grid-client'
 
 const fallbackProjects: PortfolioItemRow[] = [
   {
