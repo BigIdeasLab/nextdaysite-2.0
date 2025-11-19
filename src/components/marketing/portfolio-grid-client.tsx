@@ -11,17 +11,10 @@ import {
 
 interface PortfolioGridClientProps {
   projects: PortfolioItemRow[]
-  fallbackImageUrl: string
 }
 
-function ProjectCard({
-  project,
-  fallbackImageUrl,
-}: {
-  project: PortfolioItemRow
-  fallbackImageUrl: string
-}) {
-  const imageUrl = project.image_url ?? fallbackImageUrl
+function ProjectCard({ project }: { project: PortfolioItemRow }) {
+  const imageUrl = project.image_url
 
   return (
     <div className='flex w-full flex-col items-center gap-5'>
