@@ -1,8 +1,17 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useInView } from '@/hooks/use-in-view'
+import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
 
 export function PortfolioHero() {
+  const { ref, isInView } = useInView<HTMLDivElement>({
+    threshold: 0.2,
+  })
+
   return (
-    <section className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'>
+    <section ref={ref} className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'>
       <div className='absolute left-[179px] -top-[6px] hidden lg:block'>
         <Image
           src='https://api.builder.io/api/v1/image/assets/TEMP/9cca8bfc73a13a685e861bc869aaa5e2f645c9f4?width=398'
@@ -13,14 +22,25 @@ export function PortfolioHero() {
         />
       </div>
 
-      <div className='z-10 flex w-full max-w-[684px] flex-col items-center gap-2.5'>
-        <p className='text-balance text-center text-[16px] leading-[24px] text-[#9BA1A6] md:text-[18px] md:leading-[26px] lg:text-[20px] lg:leading-[28px]'>
+      <motion.div
+        className='z-10 flex w-full max-w-[684px] flex-col items-center gap-2.5'
+        variants={fadeUpContainerVariant}
+        initial='hidden'
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+        <motion.p
+          className='text-balance text-center text-[16px] leading-[24px] text-[#9BA1A6] md:text-[18px] md:leading-[26px] lg:text-[20px] lg:leading-[28px]'
+          variants={staggerChildVariant}
+        >
           See What We&apos;ve Built for Our Clients
-        </p>
-        <h1 className='text-balance text-center text-[40px] font-normal leading-[1.08] text-[#000] dark:text-[var(--foreground)] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>
+        </motion.p>
+        <motion.h1
+          className='text-balance text-center text-[40px] font-normal leading-[1.08] text-[#000] dark:text-[var(--foreground)] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'
+          variants={staggerChildVariant}
+        >
           Our Works
-        </h1>
-      </div>
+        </motion.h1>
+      </motion.div>
     </section>
   )
 }
