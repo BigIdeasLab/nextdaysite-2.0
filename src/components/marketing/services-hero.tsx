@@ -8,10 +8,9 @@ import {
   staggerChildVariant,
   fadeUpVariant,
 } from '@/lib/animation-variants'
-import { Showreel } from './showreel'
 import { ShowreelSkeleton } from './showreel-skeleton'
 
-export function ServicesHero() {
+export function ServicesHero({ children }: { children: React.ReactNode }) {
   const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.2,
   })
@@ -45,9 +44,7 @@ export function ServicesHero() {
         initial='hidden'
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <Suspense fallback={<ShowreelSkeleton />}>
-          <Showreel />
-        </Suspense>
+        <Suspense fallback={<ShowreelSkeleton />}>{children}</Suspense>
       </motion.div>
     </section>
   )
