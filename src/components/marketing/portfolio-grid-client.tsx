@@ -60,7 +60,7 @@ export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
           <motion.div
             key={project.id}
             variants={staggerChildVariant}
-            className={`${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
+            className={`flex flex-col items-center gap-5 max-w-md mx-auto w-full ${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
           >
             <ProjectCard project={project} />
           </motion.div>
