@@ -3,7 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 
 interface AboutHeroProps {
   headline: string
@@ -17,7 +20,10 @@ export function AboutHero({ headline, image1, image2 }: AboutHeroProps) {
   })
 
   return (
-    <section ref={ref} className='relative flex min-h-[400px] w-full flex-col items-center gap-8 px-6 py-12 md:px-12 lg:px-52'>
+    <section
+      ref={ref}
+      className='relative flex min-h-[400px] w-full flex-col items-center gap-8 px-6 py-12 md:px-12 lg:px-52'
+    >
       <motion.div
         className='z-10 flex w-full max-w-[752px] flex-col items-center gap-2.5'
         variants={fadeUpContainerVariant}
@@ -38,7 +44,10 @@ export function AboutHero({ headline, image1, image2 }: AboutHeroProps) {
         initial='hidden'
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div className='flex w-full max-w-[501px] flex-col items-center gap-5' variants={staggerChildVariant}>
+        <motion.div
+          className='flex w-full max-w-[501px] flex-col items-center gap-5'
+          variants={staggerChildVariant}
+        >
           <div className='flex h-auto w-full items-center justify-center overflow-hidden rounded-[20px] bg-[#545454] md:rounded-[50px]'>
             <Image
               src={image1}
@@ -49,7 +58,10 @@ export function AboutHero({ headline, image1, image2 }: AboutHeroProps) {
             />
           </div>
         </motion.div>
-        <motion.div className='flex w-full max-w-[501px] flex-col items-center gap-5 md:mt-[130px]' variants={staggerChildVariant}>
+        <motion.div
+          className='flex w-full max-w-[501px] flex-col items-center gap-5 md:mt-[130px]'
+          variants={staggerChildVariant}
+        >
           <div className='flex h-auto w-full items-center justify-center overflow-hidden rounded-[20px] bg-[#545454] md:rounded-[50px]'>
             <Image
               src={image2}

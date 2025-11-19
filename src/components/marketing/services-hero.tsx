@@ -3,7 +3,11 @@
 import { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant, fadeUpVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+  fadeUpVariant,
+} from '@/lib/animation-variants'
 import { Showreel } from './showreel'
 import { ShowreelSkeleton } from './showreel-skeleton'
 
@@ -13,7 +17,10 @@ export function ServicesHero() {
   })
 
   return (
-    <section ref={ref} className='relative flex min-h-[600px] w-full flex-col items-center gap-[90px] px-6 py-14 md:px-12 lg:px-52'>
+    <section
+      ref={ref}
+      className='relative flex min-h-[600px] w-full flex-col items-center gap-[90px] px-6 py-14 md:px-12 lg:px-52'
+    >
       <motion.div
         className='z-10 flex w-full max-w-[684px] flex-col items-center gap-2.5'
         variants={fadeUpContainerVariant}

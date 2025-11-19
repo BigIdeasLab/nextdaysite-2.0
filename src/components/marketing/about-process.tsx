@@ -2,7 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 
 export interface AboutProcessProps {
   step1Title: string
@@ -53,7 +56,10 @@ export function AboutProcess({
   ]
 
   return (
-    <section ref={ref} className='w-full rounded-t-[50px] bg-[var(--dark-section)] px-6 py-20 md:px-12 lg:px-24'>
+    <section
+      ref={ref}
+      className='w-full rounded-t-[50px] bg-[var(--dark-section)] px-6 py-20 md:px-12 lg:px-24'
+    >
       <motion.div
         className='mx-auto flex max-w-5xl flex-col gap-12 md:gap-16'
         variants={fadeUpContainerVariant}
@@ -74,7 +80,11 @@ export function AboutProcess({
           animate={isInView ? 'visible' : 'hidden'}
         >
           {steps.map((step, index) => (
-            <motion.div key={index} className='flex flex-col gap-6 md:gap-8' variants={staggerChildVariant}>
+            <motion.div
+              key={index}
+              className='flex flex-col gap-6 md:gap-8'
+              variants={staggerChildVariant}
+            >
               <div className='flex flex-col items-start gap-4 md:flex-row md:items-start md:justify-between'>
                 <h3 className='text-2xl font-medium leading-tight text-foreground md:text-3xl'>
                   {step.number} {step.title}

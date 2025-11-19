@@ -4,7 +4,10 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 import type { ServiceRow } from '@/types/models'
 
 interface ServicesListClientProps {

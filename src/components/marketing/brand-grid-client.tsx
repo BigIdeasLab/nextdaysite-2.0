@@ -3,7 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 import type { LogoRow } from '@/types/models'
 
 interface BrandGridClientProps {

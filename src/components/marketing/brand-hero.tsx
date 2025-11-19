@@ -2,7 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 
 export function BrandHero() {
   const { ref, isInView } = useInView<HTMLDivElement>({
@@ -10,7 +13,10 @@ export function BrandHero() {
   })
 
   return (
-    <section ref={ref} className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'>
+    <section
+      ref={ref}
+      className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'
+    >
       <motion.div
         className='z-10 flex w-full max-w-[684px] flex-col items-center gap-2.5'
         variants={fadeUpContainerVariant}

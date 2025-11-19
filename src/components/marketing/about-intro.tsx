@@ -3,7 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 
 interface AboutIntroProps {
   headline: string
@@ -17,14 +20,20 @@ export function AboutIntro({ headline, body, image }: AboutIntroProps) {
   })
 
   return (
-    <section ref={ref} className='relative w-full px-6 py-[110px] md:px-12 lg:px-52'>
+    <section
+      ref={ref}
+      className='relative w-full px-6 py-[110px] md:px-12 lg:px-52'
+    >
       <motion.div
         className='mx-auto flex max-w-5xl flex-col items-start gap-8 md:flex-row md:items-center md:justify-between'
         variants={fadeUpContainerVariant}
         initial='hidden'
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div className='relative hidden items-center justify-center md:flex md:w-1/3' variants={staggerChildVariant}>
+        <motion.div
+          className='relative hidden items-center justify-center md:flex md:w-1/3'
+          variants={staggerChildVariant}
+        >
           <Image
             src={image}
             alt='About NextDaySite'
@@ -33,7 +42,10 @@ export function AboutIntro({ headline, body, image }: AboutIntroProps) {
             className='h-auto w-full max-w-[300px]'
           />
         </motion.div>
-        <motion.div className='flex flex-col gap-6 md:w-2/3' variants={staggerChildVariant}>
+        <motion.div
+          className='flex flex-col gap-6 md:w-2/3'
+          variants={staggerChildVariant}
+        >
           <h2 className='text-3xl font-medium leading-tight text-[var(--foreground)] md:text-[32px]'>
             {headline}
           </h2>

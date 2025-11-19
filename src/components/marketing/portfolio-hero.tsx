@@ -3,7 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 
 export function PortfolioHero() {
   const { ref, isInView } = useInView<HTMLDivElement>({
@@ -11,7 +14,10 @@ export function PortfolioHero() {
   })
 
   return (
-    <section ref={ref} className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'>
+    <section
+      ref={ref}
+      className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'
+    >
       <div className='absolute left-[179px] -top-[6px] hidden lg:block'>
         <Image
           src='https://api.builder.io/api/v1/image/assets/TEMP/9cca8bfc73a13a685e861bc869aaa5e2f645c9f4?width=398'

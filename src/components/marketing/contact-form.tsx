@@ -3,7 +3,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 import { ThankYouMessage } from './thank-you-message'
 
 export function ContactForm() {
@@ -167,7 +170,10 @@ export function ContactForm() {
   ]
 
   return (
-    <section ref={ref} className='w-full px-6 pb-8 md:px-12 md:pb-[210px] lg:px-52'>
+    <section
+      ref={ref}
+      className='w-full px-6 pb-8 md:px-12 md:pb-[210px] lg:px-52'
+    >
       <motion.div
         className='mx-auto max-w-[1002px]'
         variants={fadeUpContainerVariant}

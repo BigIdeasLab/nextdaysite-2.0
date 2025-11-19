@@ -2,7 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/use-in-view'
-import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
+import {
+  fadeUpContainerVariant,
+  staggerChildVariant,
+} from '@/lib/animation-variants'
 
 export function ContactHero() {
   const { ref, isInView } = useInView<HTMLDivElement>({
