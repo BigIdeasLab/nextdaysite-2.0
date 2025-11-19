@@ -13,39 +13,9 @@ interface PortfolioGridClientProps {
   projects: PortfolioItemRow[]
 }
 
-function ProjectCard({ project }: { project: PortfolioItemRow }) {
-  const imageUrl = project.image_url
-
-  return (
-    <div className='flex w-full flex-col items-center gap-5'>
-      <div
-        className='flex h-auto w-full items-center justify-center overflow-hidden rounded-[30px] md:rounded-[50px]'
-        style={{ backgroundColor: project.color ?? 'var(--placeholder-gray)' }}
-      >
-        <Image
-          src={imageUrl}
-          alt={project.title}
-          width={788}
-          height={591}
-          className='h-auto w-full object-cover'
-        />
-      </div>
-      <div className='flex w-full flex-col items-start gap-2.5 pt-1'>
-        <h3 className='text-3xl font-medium leading-tight text-[var(--foreground)]'>
-          {project.title}
-        </h3>
-        <p className='text-lg leading-6 text-[var(--text-secondary)]'>
-          {project.description}
-        </p>
-      </div>
-    </div>
-  )
-}
-
 export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
   const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.1,
-    margin: '0px 0px -100px 0px',
   })
 
   return (
@@ -59,10 +29,29 @@ export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
+            className={`flex flex-col items-center gap-5 ${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
             variants={staggerChildVariant}
-            className={`flex flex-col items-center gap-5 max-w-md mx-auto w-full ${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
           >
-            <ProjectCard project={project} />
+            <div
+              className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[50px]'
+              style={{ backgroundColor: project.color }}
+            >
+              <Image
+                src={project.image_url}
+                alt={project.title}
+                width={788}
+                height={591}
+                className='h-auto w-full object-cover'
+              />
+            </div>
+            <div className='flex w-full max-w-md flex-col items-start gap-2.5 px-1 pt-1'>
+              <h3 className='text-3xl font-medium leading-tight text-[var(--foreground)]'>
+                {project.title}
+              </h3>
+              <p className='text-lg leading-6 text-[var(--text-secondary)]'>
+                {project.description}
+              </p>
+            </div>
           </motion.div>
         ))}
       </motion.div>
