@@ -12,7 +12,7 @@ import { ShowreelSkeleton } from './showreel-skeleton'
 
 export function ServicesHero({ children }: { children: React.ReactNode }) {
   const { ref, isInView } = useInView<HTMLDivElement>({
-    threshold: 0.2,
+    threshold: 0,
   })
 
   return (
@@ -39,13 +39,7 @@ export function ServicesHero({ children }: { children: React.ReactNode }) {
           Our Services
         </motion.h1>
       </motion.div>
-      <motion.div
-        variants={fadeUpVariant}
-        initial='hidden'
-        animate={isInView ? 'visible' : 'hidden'}
-      >
-        <Suspense fallback={<ShowreelSkeleton />}>{children}</Suspense>
-      </motion.div>
+      {children}
     </section>
   )
 }

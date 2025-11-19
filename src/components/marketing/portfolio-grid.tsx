@@ -125,6 +125,9 @@ export async function PortfolioGrid() {
   const projects = await getPortfolioItems()
 
   return (
-    <PortfolioGridClient projects={projects} fallbackImageUrl='/Grid.png' />
+    <PortfolioGridClient
+      projects={projects}
+      fallbackImageUrl={projects[0].image_url!}
+    />
   )
 }
