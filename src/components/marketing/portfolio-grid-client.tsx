@@ -11,9 +11,13 @@ import {
 
 interface PortfolioGridClientProps {
   projects: PortfolioItemRow[]
+  fallbackImageUrl: string
 }
 
-export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
+export function PortfolioGridClient({
+  projects,
+  fallbackImageUrl,
+}: PortfolioGridClientProps) {
   const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.1,
   })
@@ -34,10 +38,12 @@ export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
           >
             <div
               className='flex h-auto w-full max-w-md items-center justify-center overflow-hidden rounded-[50px]'
-              style={{ backgroundColor: project.color }}
+              style={{
+                backgroundColor: project.color ?? 'var(--placeholder-gray)',
+              }}
             >
               <Image
-                src={project.image_url}
+                src={project.image_url ?? fallbackImageUrl}
                 alt={project.title}
                 width={788}
                 height={591}
