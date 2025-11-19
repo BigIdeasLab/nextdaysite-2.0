@@ -62,10 +62,7 @@ export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
             variants={staggerChildVariant}
             className={`${index % 2 === 1 ? 'md:translate-y-30' : ''}`}
           >
-            <ProjectCard
-              project={project}
-              fallbackImageUrl={fallbackImageUrl}
-            />
+            <ProjectCard project={project} />
           </motion.div>
         ))}
       </motion.div>
