@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-
+import { motion } from 'framer-motion'
+import { useInView } from '@/hooks/use-in-view'
+import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
 import { ThankYouMessage } from './thank-you-message'
 
 export function ContactForm() {
