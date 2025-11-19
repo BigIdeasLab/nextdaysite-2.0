@@ -7,6 +7,10 @@ import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-var
 import { ThankYouMessage } from './thank-you-message'
 
 export function ContactForm() {
+  const { ref, isInView } = useInView<HTMLDivElement>({
+    threshold: 0.2,
+  })
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
