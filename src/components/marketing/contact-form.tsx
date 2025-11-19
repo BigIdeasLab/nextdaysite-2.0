@@ -167,9 +167,19 @@ export function ContactForm() {
   ]
 
   return (
-    <section className='w-full px-6 pb-8 md:px-12 md:pb-[210px] lg:px-52'>
-      <div className='mx-auto max-w-[1002px]'>
-        <div className='flex flex-col gap-10 md:flex-row md:items-start md:gap-16 lg:gap-16'>
+    <section ref={ref} className='w-full px-6 pb-8 md:px-12 md:pb-[210px] lg:px-52'>
+      <motion.div
+        className='mx-auto max-w-[1002px]'
+        variants={fadeUpContainerVariant}
+        initial='hidden'
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+        <motion.div
+          className='flex flex-col gap-10 md:flex-row md:items-start md:gap-16 lg:gap-16'
+          variants={fadeUpContainerVariant}
+          initial='hidden'
+          animate={isInView ? 'visible' : 'hidden'}
+        >
           {/* Contact Info */}
           <div className='flex w-full flex-col gap-8 md:gap-12 lg:w-1/2 lg:gap-[60px]'>
             <h2 className='text-xl font-medium text-[var(--foreground)] md:text-xl lg:text-2xl xl:text-[32px]'>
@@ -325,8 +335,8 @@ export function ContactForm() {
               <p className='text-red-500 text-center'>Error: {error}</p>
             )}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }
