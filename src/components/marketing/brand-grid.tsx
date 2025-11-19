@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import type { LogoRow } from '@/types/models'
 import { createClient } from '@/lib/supabase/server'
+import { BrandGridClient } from './brand-grid-client'
 
 const fallbackLogos: (LogoRow & { description: string | null })[] = [
   {
