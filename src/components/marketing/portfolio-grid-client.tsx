@@ -42,10 +42,7 @@ function ProjectCard({ project }: { project: PortfolioItemRow }) {
   )
 }
 
-export function PortfolioGridClient({
-  projects,
-  fallbackImageUrl,
-}: PortfolioGridClientProps) {
+export function PortfolioGridClient({ projects }: PortfolioGridClientProps) {
   const { ref, isInView } = useInView<HTMLDivElement>({
     threshold: 0.1,
     margin: '0px 0px -100px 0px',
