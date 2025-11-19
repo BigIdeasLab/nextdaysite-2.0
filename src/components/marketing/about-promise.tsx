@@ -1,4 +1,9 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useInView } from '@/hooks/use-in-view'
+import { fadeUpContainerVariant, staggerChildVariant } from '@/lib/animation-variants'
 
 interface AboutPromiseProps {
   headline: string
@@ -21,6 +26,10 @@ export function AboutPromise({
   image1,
   image2,
 }: AboutPromiseProps) {
+  const { ref, isInView } = useInView<HTMLDivElement>({
+    threshold: 0.2,
+  })
+
   const stats = [
     { value: clients, label: 'Clients' },
     { value: websites, label: 'Website Developed' },
@@ -28,14 +37,25 @@ export function AboutPromise({
   ]
 
   return (
-    <section className='w-full px-6 py-30 md:px-12 lg:px-52'>
-      <div className='mx-auto flex max-w-[1022px] flex-col gap-10 md:gap-[60px]'>
+    <section ref={ref} className='w-full px-6 py-30 md:px-12 lg:px-52'>
+      <motion.div
+        className='mx-auto flex max-w-[1022px] flex-col gap-10 md:gap-[60px]'
+        variants={fadeUpContainerVariant}
+        initial='hidden'
+        animate={isInView ? 'visible' : 'hidden'}
+      >
         <div className='flex flex-col gap-8 md:gap-20'>
-          <h2 className='max-w-[752px] text-[30px] font-medium leading-snug text-foreground sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'>
+          <motion.h2
+            className='max-w-[752px] text-[30px] font-medium leading-snug text-foreground sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[64.8px]'
+            variants={staggerChildVariant}
+          >
             {headline}
-          </h2>
+          </motion.h2>
 
-          <div className='flex flex-col justify-center gap-[30px] md:gap-[50px]'>
+          <motion.div
+            className='flex flex-col justify-center gap-[30px] md:gap-[50px]'
+            variants={staggerChildVariant}
+          >
             <div className='flex flex-col items-start gap-5 md:flex-row md:justify-between md:gap-0'>
               <h3 className='text-xl font-medium leading-snug text-foreground md:text-[32px] md:leading-[31.5px]'>
                 {subHeadline}
@@ -61,9 +81,12 @@ export function AboutPromise({
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className='mt-8 flex w-full max-w-[1022px] flex-col items-center gap-5 md:flex-row md:items-start md:gap-[21px]'>
+          <motion.div
+            className='mt-8 flex w-full max-w-[1022px] flex-col items-center gap-5 md:flex-row md:items-start md:gap-[21px]'
+            variants={staggerChildVariant}
+          >
             <div className='flex w-full max-w-[501px] flex-col items-center gap-5'>
               <div className='flex h-auto w-full items-center justify-center overflow-hidden rounded-[20px] bg-[#545454] md:rounded-[50px]'>
                 <Image
@@ -86,9 +109,9 @@ export function AboutPromise({
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
