@@ -1,7 +1,6 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import type { ServiceRow } from '@/types/models'
 import { createClient } from '@/lib/supabase/server'
+import { ServicesListClient } from './services-list-client'
 
 const fallbackServices: ServiceRow[] = [
   {
