@@ -18,7 +18,7 @@ export function PortfolioHero() {
       ref={ref}
       className='relative flex w-full flex-col items-center gap-8 px-6 py-16 md:px-12 lg:px-52'
     >
-      <div className='absolute left-[179px] -top-[6px] hidden lg:block'>
+      <div className='absolute left-[179px] -top-[20px] hidden lg:block'>
         <Image
           src='https://api.builder.io/api/v1/image/assets/TEMP/9cca8bfc73a13a685e861bc869aaa5e2f645c9f4?width=398'
           alt=''

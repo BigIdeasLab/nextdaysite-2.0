@@ -95,7 +95,7 @@ export default function AboutPage() {
 
   return (
     <div className='lg-about-grid-background min-h-screen bg-background text-foreground transition-colors duration-300'>
-      <main className='pt-24 lg:pt-32'>
+      <main className='pt-24 lg:pt-28'>
         <AboutHero
           headline={contentToDisplay.hero_main_headline}
           image1={contentToDisplay.hero_image_1_url || ''}

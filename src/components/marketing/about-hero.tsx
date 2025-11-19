@@ -22,7 +22,7 @@ export function AboutHero({ headline, image1, image2 }: AboutHeroProps) {
   return (
     <section
       ref={ref}
-      className='relative flex min-h-[400px] w-full flex-col items-center gap-8 px-6 py-12 md:px-12 lg:px-52'
+      className='relative flex min-h-[400px] w-full flex-col items-center gap-8 px-6 pt-16 pb-38 md:px-12 lg:px-52'
     >
       <motion.div
         className='z-10 flex w-full max-w-[752px] flex-col items-center gap-2.5'
@@ -39,7 +39,7 @@ export function AboutHero({ headline, image1, image2 }: AboutHeroProps) {
       </motion.div>
 
       <motion.div
-        className='mt-8 flex w-full max-w-[1022px] flex-col items-center gap-5 md:flex-row md:items-start md:gap-[21px]'
+        className='mt-12 flex w-full max-w-[1022px] flex-col items-center gap-5 md:flex-row md:items-start md:gap-[21px]'
         variants={fadeUpContainerVariant}
         initial='hidden'
         animate={isInView ? 'visible' : 'hidden'}

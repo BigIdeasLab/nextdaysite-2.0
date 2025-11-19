@@ -35,7 +35,7 @@ export function VideoPlayerClient({ src }: VideoPlayerClientProps) {
         setIsFallbackActive(true)
         setVideoLoaded(false)
       }
-    }, 5000)
+    }, 1000)
 
     return () => clearVideoTimeout()
   }, [videoLoaded, isFallbackActive])

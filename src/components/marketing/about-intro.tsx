@@ -22,7 +22,7 @@ export function AboutIntro({ headline, body, image }: AboutIntroProps) {
   return (
     <section
       ref={ref}
-      className='relative w-full px-6 py-[110px] md:px-12 lg:px-52'
+      className='relative w-full px-6 md:py-[110px] md:px-12 lg:px-52'
     >
       <motion.div
         className='mx-auto flex max-w-5xl flex-col items-start gap-8 md:flex-row md:items-center md:justify-between'

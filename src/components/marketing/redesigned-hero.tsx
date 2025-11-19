@@ -32,7 +32,7 @@ export function RedesignedHero({ children }: { children: ReactNode }) {
   return (
     <section
       ref={ref}
-      className='relative flex w-full flex-col items-center gap-12 px-6 py-8 md:px-12 md:py-[50px] md:gap-20 lg:px-52'
+      className='relative flex w-full flex-col items-center gap-12 px-6 py-8 md:px-12 md:py-[50px] md:gap-18 lg:px-52'
     >
       <motion.div
         className='flex w-full max-w-[684px] flex-col items-center gap-14 md:gap-[50px]'
@@ -65,7 +65,7 @@ export function RedesignedHero({ children }: { children: ReactNode }) {
         </Link>
         <Link
           href='#pricing'
-          className='flex h-[48px] items-center justify-center rounded-[30px] bg-[#090808] px-[22px] text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:px-[26px] md:text-[18px]'
+          className='flex h-[48px] border border-gray-400 items-center justify-center rounded-[30px] bg-[#090808] px-[22px] text-[16px] font-medium leading-6 text-[#F7F6FF] transition-transform hover:scale-105 md:h-[54px] md:px-[26px] md:text-[18px]'
         >
           See Pricing
         </Link>
