@@ -6,6 +6,9 @@ import { RedesignedHero } from '@/components/marketing/redesigned-hero'
 import { RedesignedPricing } from '@/components/marketing/redesigned-pricing'
 import { ServicesSection } from '@/components/marketing/services-section'
 import { TestimonialsSection } from '@/components/marketing/testimonials-section'
+import { Showreel } from '@/components/marketing/showreel'
+import { Suspense } from 'react'
+import { ShowreelSkeleton } from '@/components/marketing/showreel-skeleton'
 
 export const metadata: Metadata = {
   title: 'NextDaySite 2.0',
@@ -17,7 +20,11 @@ export default async function MarketingHomePage() {
   return (
     <div className='bg-background text-foreground transition-colors duration-300 lg-grid-background'>
       <main className='pt-24 lg:pt-32'>
-        <RedesignedHero />
+        <RedesignedHero>
+          <Suspense fallback={<ShowreelSkeleton />}>
+            <Showreel />
+          </Suspense>
+        </RedesignedHero>
         <FeaturedWorksSection />
         <ServicesSection />
         <TestimonialsSection />
